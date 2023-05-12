@@ -1,4 +1,5 @@
 import { Colors } from "../../../Constants/colors";
+import { HEADER_SIZE } from "../../../Constants/sizes";
 
 
 export const styles = {
@@ -10,7 +11,7 @@ export const styles = {
         width: "100%",
         position: "fixed",
         zIndex: 1,
-        height: 60,
+        height: HEADER_SIZE,
     },
     menu1: {
         display: 'flex',
