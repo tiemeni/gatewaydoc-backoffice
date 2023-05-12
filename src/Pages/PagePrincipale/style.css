@@ -1,0 +1,10 @@
+.custom-checkbox-root .MuiSvgIcon-root{
+    width: 20px;
+    height: 20px;
+  }
+
+  .aside{
+    box-shadow: 4px 1px 7px -3px rgba(97,87,87,0.78);
+-webkit-box-shadow: 4px 1px 7px -3px rgba(97,87,87,0.78);
+-moz-box-shadow: 4px 1px 7px -3px rgba(97,87,87,0.78);
+  }

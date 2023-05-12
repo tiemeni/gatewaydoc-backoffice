@@ -8,6 +8,8 @@ export const styles = {
         justifyContent: "space-between",
         alignItem: "center",
         width: "100%",
+        position: "fixed",
+        zIndex: 1,
         height: 60,
     },
     menu1: {

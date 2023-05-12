@@ -1,5 +1,5 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import AuthWrapper from "../AuthWrapper";
+import AuthWrapper from "../Components/AuthWrapper";
 import ContentRouter from "./ContentRouter";
 
 
@@ -9,7 +9,7 @@ const Routeur = () => {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<AuthWrapper />} />
-                <Route path="/content" element={<ContentRouter />} />
+                <Route path="/content/*" element={<ContentRouter />} />
             </Routes>
         </BrowserRouter>
     )

@@ -1,23 +1,18 @@
 import { Box, TextField } from "@mui/material";
-import Header from "../authers/Header";
 import { styles } from "./style";
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
 import { Colors } from "../../Constants/colors";
-import DemoApp from "../authers/FullCalendar";
+import DemoApp from "../../Components/authers/FullCalendar";
 import "./style.css"
-import AddIcon from '@mui/icons-material/Add';
-import ListItem from "../authers/ListItem";
+import ListItem from "../../Components/authers/ListItem";
 
 
 const FackContainer = () => {
     return (
-        <Box>
-            <Box>
-                <Header />
-            </Box>
+        <Box overflowY={"hidden"}>
             <Box style={styles.container}>
-                <Box style={{ ...styles.aside }}>
-                    <Box padding={2} marginBottom={3} marginTop={3}>
+                <Box style={{ ...styles.aside, position : "fixed", paddingRight: 20, }} className='aside'>
+                    <Box padding={2} marginBottom={3} marginTop={10} >
                         <TextField
                             className='text-field-input'
                             InputProps={{
@@ -48,7 +43,7 @@ const FackContainer = () => {
                         }
                     </Box>
                 </Box>
-                <Box style={styles.planning}>
+                <Box style={{...styles.planning, marginLeft: "22%", height: 700, overflowY: "scroll", paddingRight: 5}}>
                     <DemoApp />
                 </Box>
             </Box>
