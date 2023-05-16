@@ -32,6 +32,28 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div style="margin: 0; padding: 0;" id="root"></div>
+    <div style="margin: 0; padding: 0; overflow-y: hidden" id="root"></div>
+    <style>
+      ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+
+      /* Track */
+      ::-webkit-scrollbar-track {
+        background: var(--lightestgrey);
+      }
+
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: #333;
+        border-radius: 5px;
+      }
+
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #333;
+      }
+    </style>
   </body>
 </html>

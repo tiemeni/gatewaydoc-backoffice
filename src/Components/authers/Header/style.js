@@ -1,4 +1,5 @@
 import { Colors } from "../../../Constants/colors";
+import { HEADER_SIZE } from "../../../Constants/sizes";
 
 
 export const styles = {
@@ -8,7 +9,9 @@ export const styles = {
         justifyContent: "space-between",
         alignItem: "center",
         width: "100%",
-        height: 60,
+        position: "fixed",
+        zIndex: 1,
+        height: HEADER_SIZE,
     },
     menu1: {
         display: 'flex',
