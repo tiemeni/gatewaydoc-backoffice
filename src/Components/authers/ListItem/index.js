@@ -6,7 +6,8 @@ import { Colors } from '../../../Constants/colors';
 
 function ListItem() {
     return (
-        <Box height={25} ml={2} display={'flex'} flexDirection={'row'} justifyContent={'space-between'} borderBottom={"1px solid " + Colors.primary}>
+        <Box>
+            <Box height={25} ml={2} display={'flex'} flexDirection={'row'} justifyContent={'space-between'} borderBottom={"1px solid " + Colors.primary}>
             <Box display={'flex'} flexDirection={'row'}>
                 {/* <Checkbox classes={{ root: 'custom-checkbox-root' }} {...label} defaultChecked /> */}
                 <Box><input style={{ accentColor: Colors.primary, mixBlendMode: "multiply", }} type="checkbox" /></Box>
@@ -15,6 +16,8 @@ function ListItem() {
             <Box>
                 <AddIcon style={{ height: 20, width: 20 }} />
             </Box>
+        </Box>
+        <Box></Box>
         </Box>
     )
 }
