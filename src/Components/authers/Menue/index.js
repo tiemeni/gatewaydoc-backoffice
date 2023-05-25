@@ -115,37 +115,37 @@ export default function MenuListComposition({ IconName, styles }) {
                                             aria-labelledby="composition-button"
                                             onKeyDown={handleListKeyDown}
                                         >
-                                            <Link to={{ pathname: 'users' }}>
+                                            <Link to={{ pathname: 'patients' }}>
                                                 <MenuItem onClick={handleClose} style={style.menuItem}>Compte Patient</MenuItem>
                                             </Link>
-                                            <Link to={{ pathname: 'users' }}>
+                                            <Link to={{ pathname: 'structure' }}>
                                                 <MenuItem onClick={handleClose} style={style.menuItem}>Gestion de la structure</MenuItem>
                                             </Link>
-                                            <Link to={{ pathname: 'users' }}>
+                                            <Link to={{ pathname: 'lieux' }}>
                                                 <MenuItem onClick={handleClose} style={style.menuItem}>Lieux</MenuItem>
                                             </Link>
-                                            <Link to={{ pathname: 'users' }}>
+                                            <Link to={{ pathname: 'activites' }}>
                                                 <MenuItem onClick={handleClose} style={style.menuItem}>Activités</MenuItem>
                                             </Link>
                                             <Link to={{ pathname: 'motifs' }}>
                                                 <MenuItem onClick={handleClose} style={style.menuItem}>Motifs de Rendez-vous</MenuItem>
                                             </Link>
-                                            <Link to={{ pathname: 'users' }}>
+                                            <Link to={{ pathname: 'specialites' }}>
                                                 <MenuItem onClick={handleClose} style={style.menuItem}>Spécialités</MenuItem>
                                             </Link>
-                                            <Link to={{ pathname: 'users' }}>
+                                            <Link to={{ pathname: 'typepatients' }}>
                                                 <MenuItem onClick={handleClose} style={style.menuItem}>Types Patients</MenuItem>
                                             </Link>
                                             <Link to={{ pathname: 'users' }}>
                                                 <MenuItem onClick={handleClose} style={style.menuItem}>Utilisateurs</MenuItem>
                                             </Link>
-                                            <Link to={{ pathname: 'users' }}>
+                                            <Link to={{ pathname: 'groupe_droits' }}>
                                                 <MenuItem onClick={handleClose} style={style.menuItem}>Groupes et droits</MenuItem>
                                             </Link>
-                                            <Link to={{ pathname: 'users' }}>
+                                            <Link to={{ pathname: 'praticiens' }}>
                                                 <MenuItem onClick={handleClose} style={style.menuItem}>Fiches praticiens</MenuItem>
                                             </Link>
-                                            <Link to={{ pathname: 'users' }}>
+                                            <Link to={{ pathname: 'advancedOptions' }}>
                                                 <MenuItem onClick={handleClose} style={style.menuItem}>Options avancées</MenuItem>
                                             </Link>
                                         </MenuList>
