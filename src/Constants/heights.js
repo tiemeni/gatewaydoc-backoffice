@@ -1,0 +1,1 @@
+export const HEIGHT_OF_HEADER = 60
