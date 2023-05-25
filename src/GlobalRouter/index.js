@@ -1,5 +1,5 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import AuthWrapper from "../Components/AuthWrapper";
+import AuthWrapper from "../Pages/AuthWrapperPages";
 import ContentRouter from "./ContentRouter";
 
 
