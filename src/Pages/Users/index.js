@@ -1,114 +1,95 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styles from './style.js'
-import { Button, Accordion, AccordionDetails, AccordionSummary, Box, Grid, MenuItem, Select, TextField, Typography, TableContainer, TableHead, TableRow, TableCell, TableBody, IconButton } from '@mui/material'
-import { Search, AddCircle, ExpandCircleDown } from '@mui/icons-material'
+import { Button, Box, Grid, Typography, TableContainer, TableHead, TableRow, TableCell, TableBody, Popper, CircularProgress } from '@mui/material'
+import { Link } from 'react-router-dom'
+import { AddCircle, MoreVert } from '@mui/icons-material'
 import { Table } from 'react-bootstrap'
-import { users } from '../../helpers/defautData.js'
+import SearchAccordion from '../../Components/authers/SearchAccordion'
+import { getUsers } from '../../services/users/index'
+import { useDispatch, useSelector } from 'react-redux'
+import { saveUsers } from '../../REDUX/users/actions'
 
 export default function Users() {
+  const [isLoading, setIsLoading] = React.useState(false);
+  const usersList = useSelector((state) => state.Users.users)
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    async function fetchData() {
+      setIsLoading(true);
+      const response = await getUsers();
+
+      if (response.status !== true) {
+        setIsLoading(false);
+        return;
+      }
+
+      setIsLoading(false);
+      console.log(response)
+      dispatch(saveUsers(response.data))
+    }
+    fetchData()
+  }, [])
+
   return (
     <Grid style={styles.container}>
       <Grid item xs={12} style={styles.titleBox}>
         <Typography sx={styles.title}>Gestion des utilisateurs</Typography>
       </Grid>
       <Grid item xs={12} px={2}>
-        <Accordion>
-          <AccordionSummary expandIcon={<ExpandCircleDown sx={styles.expandDown} />} style={styles.summary}>
-            <Typography fontSize={14}>Rechercher un utilisateur</Typography>
-          </AccordionSummary>
-          <AccordionDetails style={styles.details}>
-            <Box sx={styles.box}>
-              <Typography style={styles.label}>Profession:</Typography>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                size='small'
-                fullWidth
-              >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </Box>
-            <Box sx={styles.box}>
-              <Typography style={styles.label}>Nom:</Typography>
-              <TextField sx={styles.input} size='small' id="outlined-basic" variant="outlined" fullWidth />
-            </Box>
-            <Box sx={styles.box}>
-              <Typography style={styles.label}>Prénom:</Typography>
-              <TextField sx={styles.input} size='small' id="outlined-basic" variant="outlined" fullWidth />
-            </Box>
-            <Box sx={styles.box}>
-              <Typography style={styles.label}>Email:</Typography>
-              <TextField sx={styles.input} size='small' id="outlined-basic" variant="outlined" fullWidth />
-            </Box>
-            <Box sx={styles.box}>
-              <Typography style={styles.label}>Type interpro:</Typography>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                size='small'
-                fullWidth
-              >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </Box>
-
-            <Grid container spacing={1} mt={2}>
-              <Grid item xs={6} style={styles.btnChild}>
-                <Button variant='contained'>Annuler</Button>
-              </Grid>
-              <Grid item xs={6}>
-                <Button variant='contained' startIcon={<Search />}>Rechercher</Button>
-              </Grid>
-            </Grid>
-          </AccordionDetails>
-        </Accordion>
+        <SearchAccordion />
       </Grid>
       <Grid item xs={12} px={2} mt={3}>
         <Typography sx={styles.fs14}><b>8 utilisateurs</b> correspondent à votre recherche</Typography>
       </Grid>
       <Grid item xs={12} px={2} mt={3}>
-        <TableContainer>
-          <Button variant='contained' startIcon={ <AddCircle sx={styles.expandDown} />}>Créer un utilisateur</Button>
-          <Box style={styles.sectionTitle} mt={2}>
-            <Typography fontSize={14}>Gestion des utilisateurs</Typography>
-          </Box>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell sx={styles.fs14} >Profession</TableCell>
-                <TableCell sx={styles.fs14} >Fonction</TableCell>
-                <TableCell sx={styles.fs14} >Initial</TableCell>
-                <TableCell sx={styles.fs14} >Nom</TableCell>
-                <TableCell sx={styles.fs14} >Prénom</TableCell>
-                <TableCell sx={styles.fs14} >Email</TableCell>
-                <TableCell sx={styles.fs14} >Groupe</TableCell>
-                <TableCell sx={styles.fs14} >Lieu affecté</TableCell>
-                <TableCell sx={styles.fs14} >Activités</TableCell>
-                <TableCell sx={styles.fs14} >Action</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {users.map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell sx={styles.fs14}>{user.profession}</TableCell>
-                  <TableCell sx={styles.fs14}>{user.fonction}</TableCell>
-                  <TableCell sx={styles.fs14}>{user.initial}</TableCell>
-                  <TableCell sx={styles.fs14}>{user.nom}</TableCell>
-                  <TableCell sx={styles.fs14}>{user.prenom}</TableCell>
-                  <TableCell sx={styles.fs14}>{user.email}</TableCell>
-                  <TableCell sx={styles.fs14}>{user.groupe}</TableCell>
-                  <TableCell sx={styles.fs14}>{user.lieu}</TableCell>
-                  <TableCell sx={styles.fs14}>{user.activite}</TableCell>
-                  <TableCell sx={styles.fs14}>some actions</TableCell>
+        {!isLoading ?
+          <TableContainer>
+            <Button variant='contained' startIcon={<AddCircle sx={styles.expandDown} />}>Créer un utilisateur</Button>
+            <Box style={styles.sectionTitle} mt={2}>
+              <Typography fontSize={14}>Gestion des utilisateurs</Typography>
+            </Box>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={[styles.fs14, styles.tabHead]} >Profession</TableCell>
+                  <TableCell sx={[styles.fs14, styles.tabHead]} align="right">Fonction</TableCell>
+                  <TableCell sx={[styles.fs14, styles.tabHead]} align="right">Initial</TableCell>
+                  <TableCell sx={[styles.fs14, styles.tabHead]} align="right">Nom</TableCell>
+                  <TableCell sx={[styles.fs14, styles.tabHead]} align="right">Prénom</TableCell>
+                  <TableCell sx={[styles.fs14, styles.tabHead]} align="right">Email</TableCell>
+                  <TableCell sx={[styles.fs14, styles.tabHead]} align="right">Groupe</TableCell>
+                  <TableCell sx={[styles.fs14, styles.tabHead]} align="right">Lieu affecté</TableCell>
+                  <TableCell sx={[styles.fs14, styles.tabHead]} align="right">Activités</TableCell>
+                  <TableCell sx={[styles.fs14, styles.tabHead]} align="right">Action</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {usersList.map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell sx={styles.fs14}>{user.profession}</TableCell>
+                    <TableCell sx={styles.fs14} align="right">{user.fonction}</TableCell>
+                    <TableCell sx={styles.fs14} align="right">{user.initial}</TableCell>
+                    <TableCell sx={styles.fs14} align="right">{user.nom}</TableCell>
+                    <TableCell sx={styles.fs14} align="right">{user.prenom}</TableCell>
+                    <TableCell sx={styles.fs14} align="right">{user.email}</TableCell>
+                    <TableCell sx={styles.fs14} align="right">{user.groupe}</TableCell>
+                    <TableCell sx={styles.fs14} align="right">{user.lieu}</TableCell>
+                    <TableCell sx={styles.fs14} align="right">{user.activite}</TableCell>
+                    <TableCell sx={styles.fs14} align="right">
+                      <Link href="#">
+                        <MoreVert />
+                      </Link>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          :
+          <Box sx={styles.loaderContainer}>
+            <CircularProgress />
+          </Box>}
       </Grid>
     </Grid >
   )
