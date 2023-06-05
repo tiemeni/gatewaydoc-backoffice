@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Box, TextField} from '@mui/material'
+import {Box, TextField, Button} from '@mui/material'
 import PersonIcon from '@mui/icons-material/Person';
 import { styled } from '@mui/system';
 import gatewayDocLogo from '../../../gatewaydoc.png'
@@ -13,10 +13,10 @@ const LoginPage = () => {
 
   return (
     <div style={{ position: "relative" }}>
-        <Box style={{ textAlign:"center", marginLeft:'auto', marginRight:'auto', width:'65vh', height: '100vh', paddingTop: "50px" }}>
-            <img src={gatewayDocLogo} style={{marginLeft:'auto', marginRight:'auto', minWidth:"150px", height:'auto', width:"20vw", marginTop:"50px" }} /> 
+        <Box style={{ textAlign:"center", marginLeft:'auto', marginRight:'auto', width:'65vh', height: '100vh', paddingTop: "0px" }}>
+            <img src={gatewayDocLogo} style={{marginLeft:'auto', marginRight:'auto', minWidth:"150px", height:'auto', width:"10vw", marginTop:"50px" }} /> 
 
-            <p style={{ fontSize: "14px", textAlign: "center", marginTop:"40px" }}>CONNECTEZ-VOUS A VOTRE COMPTE</p>
+            <p style={{ fontSize: "14px", textAlign: "center", marginTop:"20px" }}>CONNECTEZ-VOUS A VOTRE COMPTE</p>
             <div style={{ backgroundColor: "gray", width: "100px", height:"100px", borderRadius: "200px",
                 marginLeft:'auto', marginRight:'auto', marginTop:"20px" }}>
                     <PersonIcon  sx={{ fontSize: 100, color:"white" }}/>
@@ -36,6 +36,8 @@ const LoginPage = () => {
                     defaultValue=""
                     style={{ width: "80%", marginLeft:'auto', marginRight:'auto' }}
                 />
+                <Button style={{ width: "80%", marginLeft:'auto', marginRight:'auto', paddingTop: '10px',
+                 paddingBottom: "10px", background: '#66CDAA', color: "white", fontSize: '12px', fontWeight:'bold' }} >Se connecter</Button>
 
             </Box> 
 
