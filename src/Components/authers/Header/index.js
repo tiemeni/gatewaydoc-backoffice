@@ -28,23 +28,7 @@ function Header() {
                     </Box>
                 </Box>
                 <Box style={{ width: "30%", display: "flex", justifyContent: "center", }}>
-                    <TextField
-                        className='text-field-input'
-                        InputProps={{
-                            sx: {
-                                borderRadius: 20,
-                                fontSize: 15,
-                                height: 25,
-                                backgroundColor: "white"
-                            }
-                        }}
-                        name='name'
-                        type='text'
-                        variant='outlined'
-                        placeholder='Rechercher un patient'
-                        fullWidth
-                    // helperText={errors.nameError}
-                    />
+                   <input type={"text"} style={{borderRadius: 5, height: 30, width: 200}} placeholder="rechercher" />
                 </Box>
                 <Box style={{ width: "40%", display: "flex", justifyContent: "space-around" }}>
                     <PersonOutlinedIcon titleAccess='comptes patients' style={styles.icon} />
