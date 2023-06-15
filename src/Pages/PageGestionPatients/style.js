@@ -71,6 +71,9 @@ const styles = createStyles({
         color: colors.white,
         fontSize: '2rem'
     },
+    tabHead: {
+        fontWeight: 'bold'
+    },
     fs14: {
         fontSize: 14
     }

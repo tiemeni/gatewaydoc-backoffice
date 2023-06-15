@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './style'
 import { Button, Accordion, AccordionDetails, AccordionSummary, Box, Grid, MenuItem, Select, TextField, Typography } from '@mui/material'
 import { Search, ExpandCircleDown } from '@mui/icons-material';
+import { Colors } from '../../../Constants/colors';
 
 const SearchAccordion = () => {
   return (
@@ -72,10 +73,10 @@ const SearchAccordion = () => {
 
         <Grid container spacing={1} mt={2}>
           <Grid item xs={6} style={styles.btnChild}>
-            <Button variant="contained">Annuler</Button>
+            <Button variant="contained" style={styles.btn}>Annuler</Button>
           </Grid>
           <Grid item xs={6}>
-            <Button variant="contained" startIcon={<Search />}>
+            <Button variant="contained" style={styles.btn} startIcon={<Search />}>
               Rechercher
             </Button>
           </Grid>

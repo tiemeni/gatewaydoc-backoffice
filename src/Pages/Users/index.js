@@ -1,6 +1,17 @@
 import React from 'react'
 import styles from './style.js'
-import { Button, Box, Grid, Typography, TableContainer, TableHead, TableRow, TableCell, TableBody, Popper, CircularProgress } from '@mui/material'
+import {
+  Button,
+  Box,
+  Grid,
+  Typography,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  CircularProgress
+} from '@mui/material'
 import { Link } from 'react-router-dom'
 import { AddCircle, MoreVert } from '@mui/icons-material'
 import { Table } from 'react-bootstrap'
@@ -8,6 +19,7 @@ import SearchAccordion from '../../Components/authers/SearchAccordion'
 import { getUsers } from '../../services/users/index'
 import { useDispatch, useSelector } from 'react-redux'
 import { saveUsers } from '../../REDUX/users/actions'
+import { Colors } from '../../Constants/colors.js'
 
 export default function Users() {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -36,7 +48,7 @@ export default function Users() {
       <Grid item xs={12} style={styles.titleBox}>
         <Typography sx={styles.title}>Gestion des utilisateurs</Typography>
       </Grid>
-      <Grid item xs={12} px={2}>
+      <Grid item xs={12} mt={5} px={2}>
         <SearchAccordion />
       </Grid>
       <Grid item xs={12} px={2} mt={3}>
@@ -45,7 +57,7 @@ export default function Users() {
       <Grid item xs={12} px={2} mt={3}>
         {!isLoading ?
           <TableContainer>
-            <Button variant='contained' startIcon={<AddCircle sx={styles.expandDown} />}>Créer un utilisateur</Button>
+            <Button variant='contained' style={{backgroundColor: Colors.primary, fontSize: 13}} startIcon={<AddCircle sx={styles.expandDown} />}>Créer un utilisateur</Button>
             <Box style={styles.sectionTitle} mt={2}>
               <Typography fontSize={14}>Gestion des utilisateurs</Typography>
             </Box>

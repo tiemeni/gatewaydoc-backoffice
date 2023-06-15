@@ -1,5 +1,5 @@
 import { createStyles } from "@mui/material";
-import { Colors as colors } from "../../../Constants/colors";
+import { Colors, Colors as colors } from "../../../Constants/colors";
 
 const styles = createStyles({
   summary: {
@@ -11,6 +11,10 @@ const styles = createStyles({
     color: colors.white,
     flexDirection: "row-reverse",
     gap: 5,
+  },
+  btn: {
+    backgroundColor: Colors.primary,
+    fontSize: 13
   },
   details: {
     display: "flex",
