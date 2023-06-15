@@ -28,7 +28,7 @@ function Header() {
                     </Box>
                 </Box>
                 <Box style={{ width: "30%", display: "flex", justifyContent: "center", }}>
-                   <input type={"text"} style={{borderRadius: 5, height: 30, width: 200}} placeholder="rechercher" />
+                   <input type={"text"} style={{borderRadius: 7, height: 35, width: 200, paddingLeft: 10}} placeholder="RECHERCHER" />
                 </Box>
                 <Box style={{ width: "40%", display: "flex", justifyContent: "space-around" }}>
                     <PersonOutlinedIcon titleAccess='comptes patients' style={styles.icon} />
@@ -42,7 +42,7 @@ function Header() {
                 <Box></Box>
                 <Box style={{ display: "flex", flexDirection: 'row' }}>
                     <PersonOutlinedIcon titleAccess='comptes patients' style={styles.icon} />
-                    <p style={{ color: Colors.white, fontSize: 17 }}>Tiemeni hapi</p>
+                    <p style={{ color: Colors.white, fontSize: 17, marginLeft: 10, marginRight: 10, marginTop: 5 }}>Tiemeni hapi</p>
                     <ArrowDropDownOutlinedIcon titleAccess='' style={styles.icon} />
                 </Box>
             </Box>

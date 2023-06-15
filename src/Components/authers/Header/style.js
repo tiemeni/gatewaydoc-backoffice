@@ -21,9 +21,12 @@ export const styles = {
         width: "50%"
     },
     icon: {
-        height: 25, 
-        width: 25, 
+        height: 35, 
+        width: 35, 
         color: Colors.white, 
-        cursor: "pointer"
+        cursor: "pointer",
+        border: "1px solid white",
+        borderRadius: "50%",
+        padding: 5
     }
 }
