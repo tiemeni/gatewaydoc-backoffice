@@ -11,7 +11,7 @@ const FackContainer = () => {
     return (
         <Box overflowY={"hidden"}>
             <Box style={styles.container}>
-                <Box style={{ ...styles.aside, position : "fixed", paddingRight: 20, }} className='aside'>
+                <Box style={{ ...styles.aside, position: "fixed", paddingRight: 20 }} className='aside'>
                     <Box padding={2} marginBottom={3} marginTop={10} >
                         <TextField
                             className='text-field-input'
@@ -38,12 +38,12 @@ const FackContainer = () => {
                     </Box>
                     <Box>
                         {
-                            [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                            [ 6, 7, 8, 9]
                                 .map((e, i) => <ListItem key={i} />)
                         }
                     </Box>
                 </Box>
-                <Box style={{...styles.planning, marginLeft: "22%", height: 700, overflowY: "scroll", paddingRight: 5}}>
+                <Box style={{ ...styles.planning, marginLeft: "22%", height: 700, overflowY: "scroll", paddingRight: 5 }}>
                     <DemoApp />
                 </Box>
             </Box>

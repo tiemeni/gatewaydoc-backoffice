@@ -25,9 +25,10 @@ const schema = yup.object().shape({
   nom: yup.string().required(errorMsg),
   prenom: yup.string().required(errorMsg),
   email: yup.string().email("Email invalide").required(errorMsg),
+  lieu: yup.string().required(errorMsg),
 });
 
-const NewUser = () => {
+const AddPraticien = () => {
   const {
     register,
     handleSubmit,
@@ -41,9 +42,14 @@ const NewUser = () => {
   const handleChange = (e) => setIsActif(e.target.value);
 
   return (
-    <UsersLayout>
+    <UsersLayout title={"Fiche praticien"}>
       <Grid item xs={12} px={2} py={5}>
         <form onSubmit={handleSubmit(onSubmit)} style={styles.form}>
+          <CustomInput
+            label={"Id module externe"}
+            register={{ ...register("initiales") }}
+          />
+
           <MySelect
             label={"Civilité"}
             register={{ ...register("civilite") }}
@@ -80,6 +86,12 @@ const NewUser = () => {
           />
 
           <CustomInput
+            label={"Téléphone*"}
+            register={{ ...register("phone") }}
+            error={errors.prenom}
+          />
+
+          <CustomInput
             label={"Photo"}
             register={{ ...register("photo") }}
             type="file"
@@ -112,24 +124,46 @@ const NewUser = () => {
           </Box>
 
           <CustomInput
-            label={"Filtre sur les praticiens visibles"}
-            register={{ ...register("filtrePraticien") }}
+            label={"Date de fin d'activité"}
+            register={{ ...register("dateFin") }}
+            type="date"
           />
 
+          <Box sx={styles.inputContainer}>
+            <Typography sx={styles.label}>Est chirurgien*</Typography>
+            <RadioGroup
+              name="chirurgien"
+              value={isActif}
+              onChange={handleChange}
+              row
+            >
+              <FormControlLabel value="oui" control={<Radio />} label="Oui" />
+              <FormControlLabel value="non" control={<Radio />} label="Non" />
+            </RadioGroup>
+          </Box>
+
           <CustomInput
-            label={"Lieu affecté"}
+            label={"Lieu affecté*"}
             register={{ ...register("lieu") }}
           />
 
           <CustomInput
-            label={"Filtre sur les motifs"}
+            label={"Filtre sur les motifs de rdv"}
             register={{ ...register("filtreMotif") }}
+          />
+
+          <CustomInput
+            label={"Prix défaut"}
+            register={{ ...register("defaultPrice") }}
           />
 
           <Box sx={styles.inputContainer} mt={2}>
             <Box sx={{ width: 250, background: "red" }}></Box>
             <Button type="submit" variant="contained">
-              Enregistrer
+              Valider
+            </Button>
+            <Button type="submit" variant="contained">
+              Annuler
             </Button>
           </Box>
         </form>
@@ -138,4 +172,4 @@ const NewUser = () => {
   );
 };
 
-export default NewUser;
+export default AddPraticien;

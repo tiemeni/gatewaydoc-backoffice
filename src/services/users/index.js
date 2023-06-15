@@ -11,18 +11,20 @@ export const getUsers = async () => {
   }
 };
 
-export const createUser = (payload) => {
-  const formData = new FormData()
+export const createUser = async (payload) => {
+  const keys = Object.keys(payload);
+  const formData = new FormData();
+  for (const key of keys) {
+    formData.append(key, payload[key]);
+  }
 
-  fetch(BASE_URL + "/users/signin", {
-    method: 'POST',
-    body: formData
-  })
-  .then(res => {
-    console.log(res)
-  })
-  .catch(err => {
+  try {
+    const res = await fetch(BASE_URL + "/users/register", {
+      method: 'POST',
+      body: formData,
+    })
+  } catch (err) {
     console.error(err)
     return { status: false, error: err }
-  })
+  }
 }

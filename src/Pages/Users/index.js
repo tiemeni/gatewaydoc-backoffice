@@ -1,8 +1,8 @@
 import React from 'react'
 import styles from './style.js'
-import { Button, Box, Grid, Typography, TableContainer, TableHead, TableRow, TableCell, TableBody, Popper, CircularProgress } from '@mui/material'
+import { Button, Box, Grid, Typography, TableContainer, TableHead, TableRow, TableCell, TableBody, Popper, CircularProgress, MenuItem, Select, TextField, Fade, Paper } from '@mui/material'
 import { Link } from 'react-router-dom'
-import { AddCircle, MoreVert } from '@mui/icons-material'
+import { AddCircle, MoreVert, Search } from '@mui/icons-material'
 import { Table } from 'react-bootstrap'
 import SearchAccordion from '../../Components/authers/SearchAccordion'
 import { getUsers } from '../../services/users/index'
@@ -15,6 +15,14 @@ export default function Users() {
   const usersList = useSelector((state) => state.Users.users)
   const dispatch = useDispatch();
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    setOpen(!open);
+  };
+
   React.useEffect(() => {
     async function fetchData() {
       setIsLoading(true);
@@ -26,16 +34,83 @@ export default function Users() {
       }
 
       setIsLoading(false);
-      console.log(response)
       dispatch(saveUsers(response.data))
     }
     fetchData()
   }, [])
 
   return (
-    <UsersLayout>
+    <UsersLayout title={"Gestion des utilisateurs"}>
       <Grid item xs={12} px={2}>
-        <SearchAccordion />
+        <SearchAccordion title={"Rechercher un utilisateur"}>
+          <Box sx={styles.box}>
+            <Typography style={styles.label}>Profession:</Typography>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              size="small"
+              fullWidth
+            >
+              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem>
+            </Select>
+          </Box>
+          <Box sx={styles.box}>
+            <Typography style={styles.label}>Nom:</Typography>
+            <TextField
+              sx={styles.input}
+              size="small"
+              id="outlined-basic"
+              variant="outlined"
+              fullWidth
+            />
+          </Box>
+          <Box sx={styles.box}>
+            <Typography style={styles.label}>Prénom:</Typography>
+            <TextField
+              sx={styles.input}
+              size="small"
+              id="outlined-basic"
+              variant="outlined"
+              fullWidth
+            />
+          </Box>
+          <Box sx={styles.box}>
+            <Typography style={styles.label}>Email:</Typography>
+            <TextField
+              sx={styles.input}
+              size="small"
+              id="outlined-basic"
+              variant="outlined"
+              fullWidth
+            />
+          </Box>
+          <Box sx={styles.box}>
+            <Typography style={styles.label}>Type interpro:</Typography>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              size="small"
+              fullWidth
+            >
+              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem>
+            </Select>
+          </Box>
+
+          <Grid container spacing={1} mt={2}>
+            <Grid item xs={6} style={styles.btnChild}>
+              <Button variant="contained">Annuler</Button>
+            </Grid>
+            <Grid item xs={6}>
+              <Button variant="contained" startIcon={<Search />}>
+                Rechercher
+              </Button>
+            </Grid>
+          </Grid>
+        </SearchAccordion>
       </Grid>
       <Grid item xs={12} px={2} mt={3}>
         <Typography sx={styles.fs14}><b>8 utilisateurs</b> correspondent à votre recherche</Typography>
@@ -74,10 +149,19 @@ export default function Users() {
                   <TableCell sx={styles.fs14} align="right">{user.groupe}</TableCell>
                   <TableCell sx={styles.fs14} align="right">{user.lieu}</TableCell>
                   <TableCell sx={styles.fs14} align="right">{user.activite}</TableCell>
-                  <TableCell sx={styles.fs14} align="right">
-                    <Link href="#">
+                  <TableCell sx={styles.fs14} align='right'>
+                    <Link href="#" onClick={handleClick}>
                       <MoreVert />
                     </Link>
+                    <Popper open={open} anchorEl={anchorEl} placement='bottom-end' transition>
+                      {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                          <Paper key={1}>
+                            <Typography sx={{ p: 2 }}>Modifier</Typography>
+                          </Paper>
+                        </Fade>
+                      )}
+                    </Popper>
                   </TableCell>
                 </TableRow>
               ))}
