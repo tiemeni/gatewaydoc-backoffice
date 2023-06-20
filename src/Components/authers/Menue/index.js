@@ -111,6 +111,7 @@ export default function MenuListComposition({ IconName, styles }) {
                                     >
                                         <MenuList
                                             autoFocusItem={open}
+                                            style={{ outline: "none" }}
                                             id="composition-menu"
                                             aria-labelledby="composition-button"
                                             onKeyDown={handleListKeyDown}

@@ -76,7 +76,14 @@ const styles = createStyles({
     },
     fs14: {
         fontSize: 14
-    }
+    },
+    loaderContainer: {
+        display: 'flex',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: "100%"
+    },
 })
 
 export default styles

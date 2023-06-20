@@ -1,12 +1,11 @@
 import { Box } from '@mui/material'
 import React from 'react'
+import GestionLayout from '../../Components/authers/GestionLayout'
 import { styles } from './style'
 
 function PageGestionLieux() {
     return (
-        <Box style={styles.container}>
-            hello the world !
-        </Box>
+        <GestionLayout />
     )
 }
 
