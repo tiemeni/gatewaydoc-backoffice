@@ -1,12 +1,19 @@
-import { Box } from '@mui/material'
 import React from 'react'
-import { styles } from './style'
-
+import GestionLayout from '../../Components/authers/GestionLayout';
+import { SearchLieuxFormComponent } from '../../Components/authers/SearchLieuxFormComponent';
+import {DATA_TABLE_SPECIALITE_COLONNE} from "../../Constants/dataFields"
+import Header from '../../Components/authers/Header';
 function PageGestionSpecialites() {
     return (
-        <Box style={styles.container}>
-            hello the world !
-        </Box>
+        <>
+        <Header/>
+        <GestionLayout
+            title={"Gestion des spéciliatés"}
+            object={"spéciliatés"}
+            dataField={DATA_TABLE_SPECIALITE_COLONNE}
+            dataInfo={{user1: ["Ophthalmologie", "oui", "oui", "oui"]}}
+        />
+        </>
     )
 }
 

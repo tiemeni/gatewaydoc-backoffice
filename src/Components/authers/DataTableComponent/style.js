@@ -1,0 +1,20 @@
+import { Colors } from "../../../Constants/colors";
+
+export const styles = {
+    fs14: {
+        fontSize: 14
+    },
+    sectionTitle: {
+        display: 'flex',
+        alignItems: 'center',
+        padding: '0 1.5rem',
+        gap: 5,
+        height: 35,
+        backgroundColor: Colors.black,
+        borderRadius: 5,
+        color: Colors.white
+    },
+    tabHead: {
+        fontWeight: 'bold'
+    },
+}

@@ -1,8 +1,8 @@
-import { SAVE_USER } from "../users/actions"
+import { SHOW_PRDV } from "./types"
 
-export const saveUser = (user) => {
+export const showPRDV = (data) => {
     return {
-        type : SAVE_USER,
-        user
+        type: SHOW_PRDV,
+        data
     }
 }

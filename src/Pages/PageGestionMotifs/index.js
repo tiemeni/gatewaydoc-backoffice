@@ -1,12 +1,9 @@
-import { Box } from '@mui/material'
 import React from 'react'
-import { styles } from './style'
+import GestionLayout from '../../Components/authers/GestionLayout'
 
 function GestionMotifs() {
   return (
-    <Box style={styles.container}>
-      hello the world !
-    </Box>
+    <GestionLayout />
   )
 }
 

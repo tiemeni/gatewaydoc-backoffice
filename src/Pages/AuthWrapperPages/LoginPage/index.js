@@ -3,6 +3,7 @@ import {Box, TextField, Button} from '@mui/material'
 import PersonIcon from '@mui/icons-material/Person';
 import { styled } from '@mui/system';
 import gatewayDocLogo from '../../../gatewaydoc.png'
+import { Colors } from '../../../Constants/colors';
 
 
 const LoginPage = () => {
@@ -27,7 +28,7 @@ const LoginPage = () => {
                     id="outlined-required"
                     label="Login"
                     defaultValue=""
-                    style={{ width: "80%", marginLeft:'auto', marginRight:'auto' }}
+                    style={{ width: "80%", marginLeft:'auto', marginRight:'auto'}}
                 />
                 <TextField
                     required
@@ -37,7 +38,7 @@ const LoginPage = () => {
                     style={{ width: "80%", marginLeft:'auto', marginRight:'auto' }}
                 />
                 <Button style={{ width: "80%", marginLeft:'auto', marginRight:'auto', paddingTop: '10px',
-                 paddingBottom: "10px", background: '#66CDAA', color: "white", fontSize: '12px', fontWeight:'bold' }} >Se connecter</Button>
+                 paddingBottom: "10px", background: Colors.primary, color: "white", fontSize: '12px', fontWeight:'bold' }} >Se connecter</Button>
 
             </Box> 
 

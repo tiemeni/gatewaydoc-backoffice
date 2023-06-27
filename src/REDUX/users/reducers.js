@@ -1,4 +1,4 @@
-import { SAVE_USER } from "./types";
+import * as types from "./types";
 
 const initalState = {
     users: []
@@ -6,12 +6,10 @@ const initalState = {
 
 const UserReducers = (state = initalState, action) => {
     switch (action.type) {
-        case SAVE_USER:
-            let users = state.users;
-            users.push(action.user)
+        case types.SAVE_USERS:
             return {
                 ...state,
-                users: [...users]
+                users: [...action.payload]
             }
         default:
             return state;

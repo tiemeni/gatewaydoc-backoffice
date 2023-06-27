@@ -9,8 +9,12 @@ import { Colors } from '../../../Constants/colors.js';
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
 import MenuListComposition from '../Menue';
 import { Link } from 'react-router-dom';
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import { useDispatch } from 'react-redux';
+import { showPRDV } from '../../../REDUX/commons/actions';
 
 function Header() {
+    const dispatch = useDispatch()
 
     return (
         <Box
@@ -28,29 +32,14 @@ function Header() {
                     </Box>
                 </Box>
                 <Box style={{ width: "30%", display: "flex", justifyContent: "center", }}>
-                    <TextField
-                        className='text-field-input'
-                        InputProps={{
-                            sx: {
-                                borderRadius: 20,
-                                fontSize: 15,
-                                height: 25,
-                                backgroundColor: "white"
-                            }
-                        }}
-                        name='name'
-                        type='text'
-                        variant='outlined'
-                        placeholder='Rechercher un patient'
-                        fullWidth
-                    // helperText={errors.nameError}
-                    />
+                    <input type={"text"} style={{ borderRadius: 7, height: 35, width: 200, paddingLeft: 10 }} placeholder="RECHERCHER" />
                 </Box>
                 <Box style={{ width: "40%", display: "flex", justifyContent: "space-around" }}>
                     <PersonOutlinedIcon titleAccess='comptes patients' style={styles.icon} />
                     <MailOutlinedIcon titleAccess='Messagerie' style={styles.icon} />
                     <MenuListComposition IconName={"mail"} styles={styles.icon} />
                     <FlashOnOutlinedIcon titleAccess='Raccourcis' style={styles.icon} />
+                    <AddOutlinedIcon onClick={() => dispatch(showPRDV(true))} titleAccess='Prendre un rdv' style={styles.icon} />
                 </Box>
             </Box>
             <Box style={{ ...styles.menu1, float: "right" }}>
@@ -58,7 +47,7 @@ function Header() {
                 <Box></Box>
                 <Box style={{ display: "flex", flexDirection: 'row' }}>
                     <PersonOutlinedIcon titleAccess='comptes patients' style={styles.icon} />
-                    <p style={{ color: Colors.white, fontSize: 17 }}>Tiemeni hapi</p>
+                    <p style={{ color: Colors.white, fontSize: 17, marginLeft: 10, marginRight: 10, marginTop: 5 }}>Tiemeni hapi</p>
                     <ArrowDropDownOutlinedIcon titleAccess='' style={styles.icon} />
                 </Box>
             </Box>

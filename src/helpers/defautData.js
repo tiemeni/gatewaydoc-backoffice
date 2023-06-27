@@ -71,16 +71,4 @@ export const users = [
         lieu: 'Centre Ophtalmologique AXEVISION',
         activite: 10
     },
-    {
-        id: 7,
-        profession: 'Cardiologue',
-        fonction: 'Médecin',
-        nom: 'Monkey D',
-        initial: 'MDL',
-        prenom: 'Luffy',
-        email: 'test@email.com',
-        groupe: 'Administrateur de structure',
-        lieu: 'Centre Ophtalmologique AXEVISION',
-        activite: 10
-    },
 ];

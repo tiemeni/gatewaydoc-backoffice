@@ -5,12 +5,26 @@ import { Colors } from "../../Constants/colors";
 import DemoApp from "../../Components/authers/FullCalendar";
 import "./style.css"
 import ListItem from "../../Components/authers/ListItem";
+import ModalComponent from "../../Components/authers/ModalComponent";
+import PriseRdvComponent from "../../Components/authers/PriseRdvComponentWrapper";
+import { useDispatch, useSelector } from "react-redux";
+import { showPRDV } from "../../REDUX/commons/actions";
 
 
 const FackContainer = () => {
+    const dispatch = useDispatch()
+    const showRDV = useSelector(state => state.Common.showPRDV)
     return (
         <Box overflowY={"hidden"}>
             <Box style={styles.container}>
+                {/* prise de rdv */}
+                {showRDV &&
+                    <ModalComponent
+                        title={"Prise de Rendez-vous"}
+                        contentComponent={<PriseRdvComponent />}
+                        onClose={() => dispatch(showPRDV(false))}
+                    />}
+                {/* ******************* */}
                 <Box style={{ ...styles.aside, position: "fixed", paddingRight: 20 }} className='aside'>
                     <Box padding={2} marginBottom={3} marginTop={10} >
                         <TextField
@@ -38,7 +52,7 @@ const FackContainer = () => {
                     </Box>
                     <Box>
                         {
-                            [ 6, 7, 8, 9]
+                            [6, 7, 8, 9]
                                 .map((e, i) => <ListItem key={i} />)
                         }
                     </Box>
