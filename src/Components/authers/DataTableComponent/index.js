@@ -46,7 +46,7 @@ export const DataTable = ({ object, dataField, dataInfo }) => {
                     </TableHead>
                     <TableBody>
                         <TableRow >
-                            <TableCell sx={styles.fs14}>
+                            {/* <TableCell sx={styles.fs14}>
                                 <Link href="#" onClick={handleClick}>
                                     <MoreVert />
                                 </Link>
@@ -59,7 +59,7 @@ export const DataTable = ({ object, dataField, dataInfo }) => {
                                         </Fade>
                                     )}
                                 </Popper>
-                            </TableCell>
+                            </TableCell> */}
                             {(dataInfo["user1"]?.length > 0) && dataInfo["user1"]?.map((e, i) => {
                                 return (
                                     <TableCell key={i} sx={styles.fs14} align="right">{e}</TableCell>

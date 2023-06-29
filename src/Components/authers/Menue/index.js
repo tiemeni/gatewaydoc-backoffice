@@ -125,9 +125,9 @@ export default function MenuListComposition({ IconName, styles }) {
                                             <Link to={{ pathname: 'lieux' }}>
                                                 <MenuItem onClick={handleClose} style={style.menuItem}>Lieux</MenuItem>
                                             </Link>
-                                            <Link to={{ pathname: 'activites' }}>
+                                            {/* <Link to={{ pathname: 'activites' }}>
                                                 <MenuItem onClick={handleClose} style={style.menuItem}>Activités</MenuItem>
-                                            </Link>
+                                            </Link> */}
                                             <Link to={{ pathname: 'motifs' }}>
                                                 <MenuItem onClick={handleClose} style={style.menuItem}>Motifs de Rendez-vous</MenuItem>
                                             </Link>
@@ -146,9 +146,9 @@ export default function MenuListComposition({ IconName, styles }) {
                                             <Link to={{ pathname: 'praticiens' }}>
                                                 <MenuItem onClick={handleClose} style={style.menuItem}>Fiches praticiens</MenuItem>
                                             </Link>
-                                            <Link to={{ pathname: 'advancedOptions' }}>
+                                            {/* <Link to={{ pathname: 'advancedOptions' }}>
                                                 <MenuItem onClick={handleClose} style={style.menuItem}>Options avancées</MenuItem>
-                                            </Link>
+                                            </Link> */}
                                         </MenuList>
                                     </Menu>
                                 </ClickAwayListener>
