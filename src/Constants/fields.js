@@ -219,7 +219,7 @@ export const practitionerFields = {
             id: 14,
             label: "Lieu affecté",
             name: "affectation",
-            type: fieldTypes.TEXT,
+            type: fieldTypes.AUTO_COMPLETE,
             required: false,
             placeholder: ""
         },
@@ -227,7 +227,7 @@ export const practitionerFields = {
             id: 15,
             label: "Filtre sur les motifs de rdv",
             name: "motifFilter",
-            type: fieldTypes.TEXT,
+            type: fieldTypes.AUTO_COMPLETE,
             required: false,
             placeholder: ""
         },

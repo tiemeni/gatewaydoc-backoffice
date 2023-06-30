@@ -9,11 +9,16 @@ import CustomInput from "../CustomInput";
 import MySelect from "../MySelect";
 import styles from "./style";
 import CustomRadio from "../CustomRadio";
+import AutoComplete from "../AutoComplete";
 
 const FormGenerator = ({ fields, title }) => {
   const errorMsg = "Ce champ est obligatoire";
   const mySchema = {};
   fields.fields.forEach((field) => {
+    if (field.type === fieldTypes.AUTO_COMPLETE) {
+      //   mySchema[field.name] = yup.object();
+      return;
+    }
     mySchema[field.name] = field.required
       ? yup.string().required(errorMsg)
       : yup.string();
@@ -23,8 +28,9 @@ const FormGenerator = ({ fields, title }) => {
     register,
     handleSubmit,
     control,
+    setValue,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) });
+  } = useForm({ resolver: yupResolver(schema)});
 
   const onSubmit = (data) => {
     console.log("data", data);
@@ -68,6 +74,17 @@ const FormGenerator = ({ fields, title }) => {
                   control={control}
                   label={field.label}
                   name={field.name}
+                />
+              );
+            }
+            if (field.type === fieldTypes.AUTO_COMPLETE) {
+              return (
+                <AutoComplete
+                  key={field.id}
+                  label={field.label}
+                  register={{ ...register(field.name) }}
+                  error={errors[field.name]}
+                  onChange={(event, value) => setValue(field.name, value)}
                 />
               );
             }
