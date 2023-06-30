@@ -30,6 +30,7 @@ export default function Users() {
       }
 
       setIsLoading(false);
+      console.log(response.data)
       dispatch(saveUsers(response.data))
     }
     fetchData()

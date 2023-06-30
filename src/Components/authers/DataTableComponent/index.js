@@ -5,7 +5,6 @@ import {
 } from "@mui/icons-material"
 import {
     Fade,
-    Link,
     Paper,
     Popper,
     Table,
@@ -19,6 +18,7 @@ import {
 import { Box } from "@mui/system"
 import React from "react"
 import { styles } from "./style"
+import { Link } from "react-router-dom"
 
 
 export const DataTable = ({ object, dataField, dataInfo }) => {
@@ -66,7 +66,7 @@ export const DataTable = ({ object, dataField, dataInfo }) => {
                                 )
                             })}
                             <TableCell sx={styles.fs14} align="right">
-                                <Link href="#">
+                                <Link to={'add'}>
                                     <Create fontSize='large' />
                                 </Link>
                                 <Link href="#" style={{ marginLeft: 10 }}>
