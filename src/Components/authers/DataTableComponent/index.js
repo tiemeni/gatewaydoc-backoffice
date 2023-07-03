@@ -44,41 +44,30 @@ export const DataTable = ({ object, dataField, dataInfo }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        <TableRow >
-                            {/* <TableCell sx={styles.fs14}>
-                                <Link href="#" onClick={handleClick}>
-                                    <MoreVert />
-                                </Link>
-                                <Popper open={open} anchorEl={anchorEl} placement='bottom-end' transition>
-                                    {({ TransitionProps }) => (
-                                        <Fade {...TransitionProps} timeout={350}>
-                                            <Paper>
-                                                <Typography sx={{ p: 2 }}>The content of the Popper.</Typography>
-                                            </Paper>
-                                        </Fade>
-                                    )}
-                                </Popper>
-                            </TableCell> */}
-                            {(dataInfo.length > 0) && dataInfo?.map((info, i) => {
-                                return dataField.map((column, index) => {
-                                    return (<>
-                                        {column.label === "Actions" ?
-                                            <TableCell sx={styles.fs14}>
-                                                <Link to={'add'}>
-                                                    <Create fontSize='large' />
-                                                </Link>
-                                                <Link href="#" style={{ marginLeft: 10 }}>
-                                                    <HighlightOff fontSize='large' color='error' />
-                                                </Link>
-                                            </TableCell>
-                                            :
-                                            <TableCell key={column.label} sx={styles.fs14} align="left">{info[column.name]}</TableCell>
-                                        }
-                                    </>
-                                    )
-                                })
-                            })}
-                        </TableRow>
+                        {(dataInfo.length > 0) && dataInfo?.map((info, i) => {
+                            return (
+                                <TableRow key={info._id}>
+                                    {dataField.map((column, index) => {
+                                        return (
+                                            <>
+                                                {column.label === "Actions" ?
+                                                    <TableCell sx={styles.fs14}>
+                                                        <Link to={'add'}>
+                                                            <Create fontSize='large' />
+                                                        </Link>
+                                                        <Link href="#" style={{ marginLeft: 10 }}>
+                                                            <HighlightOff fontSize='large' color='error' />
+                                                        </Link>
+                                                    </TableCell>
+                                                    :
+                                                    <TableCell key={column.label} sx={styles.fs14} align="left">{info[column.name]}</TableCell>
+                                                }
+                                            </>
+                                        )
+                                    })}
+                                </TableRow>
+                            )
+                        })}
                     </TableBody>
                 </Table>}
         </TableContainer>
