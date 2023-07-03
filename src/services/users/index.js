@@ -2,12 +2,11 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const getUsers = async () => {
   try {
-    const res = await fetch(BASE_URL + "/users/getUsers");
+    const res = await fetch(BASE_URL + "/users/");
     const data = await res.json()
-    return { status: true, data: data };
+    return data;
   } catch (err) {
-    console.error(err);
-    return { status: false, error: err };
+    return err;
   }
 };
 
@@ -23,6 +22,7 @@ export const createUser = async (payload) => {
       method: 'POST',
       body: formData,
     })
+    console.log(res)
   } catch (err) {
     console.error(err)
     return { status: false, error: err }
