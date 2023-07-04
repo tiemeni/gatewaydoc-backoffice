@@ -19,8 +19,8 @@ const CustomRadio = ({ control, label, name }) => {
         render={({ field }) => {
           return (
             <RadioGroup row {...field}>
-              <FormControlLabel value="oui" checked control={<Radio />} label="Oui" />
-              <FormControlLabel value="non" control={<Radio />} label="Non" />
+              <FormControlLabel value={true} control={<Radio />} label="Oui" />
+              <FormControlLabel value={false} control={<Radio />} label="Non" />
             </RadioGroup>
           );
         }}

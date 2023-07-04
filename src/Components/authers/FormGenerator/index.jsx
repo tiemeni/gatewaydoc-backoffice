@@ -10,15 +10,20 @@ import MySelect from "../MySelect";
 import styles from "./style";
 import CustomRadio from "../CustomRadio";
 import AutoComplete from "../AutoComplete";
+import generatePassword from "../../../helpers/passwordGenerator";
+import { createUser } from "../../../services/users";
+import { Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const FormGenerator = ({ fields, title }) => {
+const FormGenerator = ({ fields, title, dataId }) => {
+  const usersList = useSelector((state) => state.Users.users);
+  let toUpdate = undefined;
+
+  const [redirect, setRedirect] = React.useState(false);
   const errorMsg = "Ce champ est obligatoire";
   const mySchema = {};
   fields.fields.forEach((field) => {
-    if (field.type === fieldTypes.AUTO_COMPLETE) {
-      //   mySchema[field.name] = yup.object();
-      return;
-    }
+    if (field.type === fieldTypes.AUTO_COMPLETE) return;
     mySchema[field.name] = field.required
       ? yup.string().required(errorMsg)
       : yup.string();
@@ -30,11 +35,26 @@ const FormGenerator = ({ fields, title }) => {
     control,
     setValue,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema)});
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      name: "Donald",
+    },
+  });
 
-  const onSubmit = (data) => {
-    console.log("data", data);
+  const onSubmit = async (data) => {
+    const payload = { ...data, password: generatePassword() };
+    const result = await createUser(payload);
+    if (result.success !== true) return;
+    setRedirect("/content/users");
   };
+
+  console.log("userId", dataId);
+
+  if (dataId !== undefined) {
+    toUpdate = usersList.find((user) => user._id === dataId);
+    console.log(toUpdate);
+  }
 
   return (
     <UsersLayout title={title}>
@@ -50,7 +70,11 @@ const FormGenerator = ({ fields, title }) => {
                 <CustomInput
                   key={field.id}
                   label={field.label}
-                  register={{ ...register(field.name) }}
+                  register={{
+                    ...register(field.name, {
+                      defaultValue: toUpdate ? toUpdate[field.name] : undefined,
+                    }),
+                  }}
                   error={errors[field.name]}
                   type={field.type}
                   placeholder={field.placeholder}
@@ -62,8 +86,13 @@ const FormGenerator = ({ fields, title }) => {
                 <MySelect
                   key={field.id}
                   label={field.label}
-                  register={{ ...register(field.name) }}
+                  register={{
+                    ...register(field.name, {
+                      defaultValue: toUpdate ? toUpdate[field.name] : undefined,
+                    }),
+                  }}
                   error={errors[field.name]}
+                  fieldData={field.data}
                 />
               );
             }
@@ -82,7 +111,11 @@ const FormGenerator = ({ fields, title }) => {
                 <AutoComplete
                   key={field.id}
                   label={field.label}
-                  register={{ ...register(field.name) }}
+                  register={{
+                    ...register(field.name, {
+                      defaultValue: toUpdate ? toUpdate[field.name] : undefined,
+                    }),
+                  }}
                   error={errors[field.name]}
                   onChange={(event, value) => setValue(field.name, value)}
                 />
@@ -96,6 +129,7 @@ const FormGenerator = ({ fields, title }) => {
             </Button>
           </Box>
         </form>
+        {redirect && <Navigate to={redirect} />}
       </Grid>
     </UsersLayout>
   );

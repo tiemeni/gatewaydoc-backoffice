@@ -23,7 +23,7 @@ export default function Users() {
     async function fetchData() {
       setIsLoading(true);
       const response = await getUsers();
-      
+
       if (response.success !== true) {
         setIsLoading(false);
         return;
@@ -36,16 +36,12 @@ export default function Users() {
   }, [])
 
   return (
-    <>
-      {usersList !== [] && (
-        <GestionLayout
-          searchForm={<SearchPraticienFormComponent />}
-          title={"Gestion des utilisateurs"}
-          object={"utilisateur"}
-          dataField={DATA_TABLE_USERS_COLONNE}
-          dataInfo={usersList}
-        />
-      )}
-    </>
+    <GestionLayout
+      searchForm={<SearchPraticienFormComponent />}
+      title={"Gestion des utilisateurs"}
+      object={"utilisateur"}
+      dataField={DATA_TABLE_USERS_COLONNE}
+      dataInfo={usersList}
+    />
   )
 }

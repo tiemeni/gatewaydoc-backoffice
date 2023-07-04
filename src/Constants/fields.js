@@ -29,7 +29,7 @@ export const userFields = {
         {
             id: 3,
             label: "Initiales",
-            name: "initial",
+            name: "initiales",
             type: fieldTypes.TEXT,
             required: false,
             placeholder: "Initiales"
@@ -69,7 +69,7 @@ export const userFields = {
         {
             id: 8,
             label: "Le groupe*",
-            name: "group",
+            name: "groups",
             type: fieldTypes.SELECT,
             required: true,
             placeholder: ""
@@ -138,7 +138,7 @@ export const practitionerFields = {
         {
             id: 4,
             label: "Initiales",
-            name: "initial",
+            name: "initiales",
             type: fieldTypes.TEXT,
             required: false,
             placeholder: "Initiales"
