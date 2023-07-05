@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Box,
   FormHelperText,
@@ -7,7 +8,8 @@ import {
 } from "@mui/material";
 import styles from "./style";
 
-const MySelect = ({ error, register, label, fieldData = [] }) => {
+const MySelect = ({ error, register, label, fieldData = [], value }) => {
+  const [val, setVal] = React.useState(value)
   return (
     <Box sx={styles.inputContainer}>
       <Typography sx={styles.label}>{label}</Typography>
@@ -16,6 +18,8 @@ const MySelect = ({ error, register, label, fieldData = [] }) => {
           {...register}
           error={error ? true : false}
           size="small"
+          value={val}
+          onChange={(e) => setVal(e.target.value)}
           fullWidth
         >
           {fieldData?.map((d) => (
