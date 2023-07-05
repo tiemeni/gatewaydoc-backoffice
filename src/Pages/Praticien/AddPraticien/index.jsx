@@ -1,6 +1,6 @@
 import React from "react";
-import UsersLayout from "../../layout/usersLayout";
-import { createUser } from "../../services/users/index";
+import UsersLayout from "../../../layout/usersLayout";
+import { createUser } from "../../../services/users/index";
 import {
   Box,
   Button,
@@ -14,8 +14,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import styles from "./style";
-import MySelect from "../../Components/authers/MySelect";
-import CustomInput from "../../Components/authers/CustomInput";
+import MySelect from "../../../Components/authers/MySelect";
+import CustomInput from "../../../Components/authers/CustomInput";
 
 const errorMsg = "Ce champ est obligatoire";
 const schema = yup.object().shape({

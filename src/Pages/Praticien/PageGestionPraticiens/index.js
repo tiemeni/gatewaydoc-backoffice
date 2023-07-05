@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import GestionLayout from '../../Components/authers/GestionLayout'
-import { SearchPraticienFormComponent } from '../../Components/authers/SearchPraticienFormComponent';
-import { DATA_TABLE_PRATICIEN_COLONNE } from '../../Constants/dataFields';
+import GestionLayout from '../../../Components/authers/GestionLayout'
+import { SearchPraticienFormComponent } from '../../../Components/authers/SearchPraticienFormComponent';
+import { DATA_TABLE_PRATICIEN_COLONNE } from '../../../Constants/dataFields';
 import styles from './style';
 
 function PageGestionPraticiens() {

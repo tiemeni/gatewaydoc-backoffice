@@ -12,7 +12,8 @@ import PageGestionActivites from "../../Pages/PageGestionActivites";
 import PageGestionSpecialites from "../../Pages/PageGestionSpecialites";
 import PageGestionTypePatients from "../../Pages/PageGestionTypePatients";
 import PageGestionGroupesDroits from "../../Pages/PageGestionGroupesDroits";
-import PageGestionPraticiens from "../../Pages/PageGestionPraticiens";
+import PageGestionPraticiens from "../../Pages/Praticien/PageGestionPraticiens";
+import PageDetailPraticien from "../../Pages/Praticien/PageDetailPraticien";
 import PageGestionOptionsAvancees from "../../Pages/PageGestionOptionsAvancees";
 // import AddPraticien from "../../Pages/AddPraticien";
 import FormGenerator from "../../Components/authers/FormGenerator";
@@ -45,6 +46,7 @@ const ContentRouter = () => {
                 <Route path="/groupe_droits" element={<PageGestionGroupesDroits />} />
                 <Route path="/praticiens" element={<PageGestionPraticiens />} />
                 <Route path="/praticiens/add" element={<FormGenerator fields={practitionerFields} title={"Fiche praticien"} />} />
+                <Route path="/praticiens/:userId" element={<PageDetailPraticien />} />
                 <Route path="/advancedOptions" element={<PageGestionOptionsAvancees />} />
             </Routes>
         </>
