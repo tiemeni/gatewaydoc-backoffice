@@ -1,4 +1,4 @@
-import { RESET_APP, SHOW_PRDV } from "./types"
+import { RESET_APP, SHOW_PRDV, VALID_TOKEN } from "./types"
 
 const initialState = {}
 
@@ -13,6 +13,12 @@ const CommonReducer = (state = initialState, action) => {
                 ...state,
                 showPRDV: action.data
             }
+            case VALID_TOKEN:
+                console.log(action.token)
+                return {
+                    ...state,
+                    isValidToken: action.payload
+                }
         default:
             return state;
     }

@@ -11,6 +11,23 @@ export const getUsers = async () => {
   }
 };
 
+export const signUserIn = async (payload) => {
+  try {
+    const res = await fetch(BASE_URL + "/users/signin", {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+    const data = await res.json()
+    return { status: true, data: data };
+  } catch (err) {
+    console.error(err);
+    return { status: false, error: err };
+  }
+};
+
 export const createUser = async (payload) => {
   const keys = Object.keys(payload);
   const formData = new FormData();
@@ -26,5 +43,24 @@ export const createUser = async (payload) => {
   } catch (err) {
     console.error(err)
     return { status: false, error: err }
+  }
+}
+
+
+export const isValidToken = async (token) => {
+  try {
+    const res = await fetch(BASE_URL + "/verifyToken", {
+      method: "POST",
+      body: JSON.stringify(token),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await res.json()
+    return data.success
+  } catch (err) {
+    console.error("------------",err);
+    window.location = "/"
+    return false
   }
 }

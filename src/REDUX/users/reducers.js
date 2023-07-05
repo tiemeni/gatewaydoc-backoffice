@@ -1,7 +1,8 @@
 import * as types from "./types";
 
 const initalState = {
-    users: []
+    users: [],
+    connected_user: null,
 }
 
 const UserReducers = (state = initalState, action) => {
@@ -10,6 +11,12 @@ const UserReducers = (state = initalState, action) => {
             return {
                 ...state,
                 users: [...action.payload]
+            }
+        case types.SIGNIN:
+            console.log(action.payload)
+            return {
+                ...state,
+                connected_user: action.payload
             }
         default:
             return state;

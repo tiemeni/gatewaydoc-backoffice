@@ -31,6 +31,7 @@ export default function Users() {
 
       setIsLoading(false);
       dispatch(saveUsers(response.data))
+      console.log("----------------", response.data)
     }
     fetchData()
   }, [])
