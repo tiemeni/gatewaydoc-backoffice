@@ -1,8 +1,13 @@
-import { SAVE_USER } from "../users/actions"
+import * as types from "./types"
 
-export const saveUser = (user) => {
+export const showPRDV = (data) => {
     return {
-        type : SAVE_USER,
-        user
+        type: types.SHOW_PRDV,
+        data
     }
 }
+
+export const getCivilities = payload => ({
+    type: types.GET_CIVILITIES,
+    payload
+})

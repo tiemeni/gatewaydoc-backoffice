@@ -1,12 +1,24 @@
-import { RESET_APP } from "./types"
+import * as types from "./types"
 
-const initialState = {}
+const initialState = {
+    civilities: []
+}
 
 const CommonReducer = (state = initialState, action) => {
     switch (action.type) {
-        case RESET_APP:
+        case types.RESET_APP:
             return {
                 ...state
+            }
+        case types.SHOW_PRDV:
+            return {
+                ...state,
+                showPRDV: action.data
+            }
+        case types.GET_CIVILITIES:
+            return {
+                ...state,
+                civilities: [...action.payload]
             }
         default:
             return state;
