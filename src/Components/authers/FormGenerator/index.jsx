@@ -10,25 +10,34 @@ import MySelect from "../MySelect";
 import styles from "./style";
 import CustomRadio from "../CustomRadio";
 import AutoComplete from "../AutoComplete";
-import generatePassword from "../../../helpers/passwordGenerator";
-import { createUser } from "../../../services/users";
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { getValueFromReducer } from "../../../helpers/formGenerator";
 
-const FormGenerator = ({ fields, title, dataId }) => {
-  const usersList = useSelector((state) => state.Users.users);
-  let toUpdate = undefined;
+const errorMsg = "Ce champ est obligatoire";
 
-  const [redirect, setRedirect] = React.useState(false);
-  const errorMsg = "Ce champ est obligatoire";
+const FormGenerator = ({ fields, title, dataId, type, redirect, onSubmit }) => {
+  const store = useSelector((state) => state);
+  const toUpdate = getValueFromReducer(store, type, dataId);
   const mySchema = {};
+  let defaultValues = {};
+
+  // schema de validation et valeur par defaut
   fields.fields.forEach((field) => {
+    const value =
+      toUpdate &&
+      (field.type === fieldTypes.SELECT
+        ? toUpdate[field.name]?._id
+        : toUpdate[field.name]);
+    defaultValues[field.name] = value || undefined;
+
     if (field.type === fieldTypes.AUTO_COMPLETE) return;
     mySchema[field.name] = field.required
       ? yup.string().required(errorMsg)
       : yup.string();
   });
   const schema = yup.object().shape({ ...mySchema });
+
   const {
     register,
     handleSubmit,
@@ -37,24 +46,8 @@ const FormGenerator = ({ fields, title, dataId }) => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: {
-      name: "Donald",
-    },
+    defaultValues: { ...defaultValues },
   });
-
-  const onSubmit = async (data) => {
-    const payload = { ...data, password: generatePassword() };
-    const result = await createUser(payload);
-    if (result.success !== true) return;
-    setRedirect("/content/users");
-  };
-
-  console.log("userId", dataId);
-
-  if (dataId !== undefined) {
-    toUpdate = usersList.find((user) => user._id === dataId);
-    console.log(toUpdate);
-  }
 
   return (
     <UsersLayout title={title}>
@@ -71,13 +64,13 @@ const FormGenerator = ({ fields, title, dataId }) => {
                   key={field.id}
                   label={field.label}
                   register={{
-                    ...register(field.name, {
-                      defaultValue: toUpdate ? toUpdate[field.name] : undefined,
-                    }),
+                    ...register(field.name),
                   }}
                   error={errors[field.name]}
                   type={field.type}
                   placeholder={field.placeholder}
+                  value={defaultValues[field.name]}
+                  onChange={(value) => setValue(field.name, value)}
                 />
               );
             }
@@ -87,12 +80,11 @@ const FormGenerator = ({ fields, title, dataId }) => {
                   key={field.id}
                   label={field.label}
                   register={{
-                    ...register(field.name, {
-                      defaultValue: toUpdate ? toUpdate[field.name] : undefined,
-                    }),
+                    ...register(field.name),
                   }}
                   error={errors[field.name]}
                   fieldData={field.data}
+                  value={defaultValues[field.name]}
                 />
               );
             }
@@ -103,6 +95,7 @@ const FormGenerator = ({ fields, title, dataId }) => {
                   control={control}
                   label={field.label}
                   name={field.name}
+                  value={defaultValues[field.name]}
                 />
               );
             }
@@ -112,12 +105,11 @@ const FormGenerator = ({ fields, title, dataId }) => {
                   key={field.id}
                   label={field.label}
                   register={{
-                    ...register(field.name, {
-                      defaultValue: toUpdate ? toUpdate[field.name] : undefined,
-                    }),
+                    ...register(field.name),
                   }}
                   error={errors[field.name]}
                   onChange={(event, value) => setValue(field.name, value)}
+                  value={defaultValues[field.name]}
                 />
               );
             }
