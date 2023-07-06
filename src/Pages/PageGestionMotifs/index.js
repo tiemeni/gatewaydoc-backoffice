@@ -12,21 +12,20 @@ function GestionMotifs( { data, loading, error } ) {
   
   useEffect(()=>{
     dispatch( getAllMotif() );
-    alert(data)
   }, [])
-    return (<>
-            {JSON.stringify(data)}
-          <GestionLayout
-          searchForm={<SearchPraticienFormComponent />}
-          title={"Gestion des motifs"}
-          object={"motif"}
-          dataField={DATA_TABLE_MOTIF_COLONNE}
-          // dataInfo={{ user1: ["Consultation", "Consultation", "15 minutes", "bleu", "reff_4554454", "yes"] }}
-          dataInfo={data.data}
-        />
-    </>
 
-    )
+  return (<>
+        <GestionLayout
+        searchForm={<SearchPraticienFormComponent />}
+        title={"Gestion des motifs"}
+        object={"motif"}
+        dataField={DATA_TABLE_MOTIF_COLONNE}
+        // dataInfo={{ user1: ["Consultation", "Consultation", "15 minutes", "bleu", "reff_4554454", "yes"] }}
+        dataInfo={data?.data}
+      />
+  </>
+
+  )
 
 }
 
