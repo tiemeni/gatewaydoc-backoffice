@@ -4,7 +4,7 @@ import styles from "./style";
 const MySelect = ({ error, register, label }) => {
     return (
       <Box sx={styles.inputContainer}>
-        <Typography sx={styles.label}>{label}*</Typography>
+        <Typography sx={styles.label}>{label}</Typography>
         <Box sx={styles.input}>
           <Select
             {...register}

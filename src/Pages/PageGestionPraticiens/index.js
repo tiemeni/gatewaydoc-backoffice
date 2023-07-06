@@ -21,7 +21,7 @@ function PageGestionPraticiens() {
             title={"Gestion des praticiens"}
             object={"praticien"}
             dataField={DATA_TABLE_PRATICIEN_COLONNE}
-            dataInfo={{user1: ["Lorem", "DD", "Oncologue", "Dongmo", "Donald", "Non", "04/03/2023", "Oui", "Administrateur", "Cabinet 12", "2.500"]}}
+            dataInfo={{ user1: ["M", "Oncologue", "Dongmo", "Donald", "q5s4q54sq5s4q54", "Non", "04/03/2023", "Oui", "Administrateur", "Cabinet 12", "2.500"] }}
         />
     )
 }

@@ -1,24 +1,18 @@
-import { Box } from '@mui/material'
 import React from 'react'
-import GestionLayout from '../../Components/authers/GestionLayout'
-import { styles } from './style'
-import { SearchDroitGroupeComponent } from '../../Components/authers/SearchDroitGroupeComponent';
-import Header from '../../Components/authers/Header';
-import {DATA_TABLE_DROIT_GROUPE_COLONNE} from '../../Constants/dataFields';
+import GestionLayout from '../../Components/authers/GestionLayout/index.js'
+import { SearchPraticienFormComponent } from '../../Components/authers/SearchPraticienFormComponent/index.js'
+import { DATA_TABLE_GROUPE_COLONNE } from '../../Constants/dataFields.js'
+// import { styles } from './style.js'
 
 function PageGestionGroupesDroits() {
-    return (<>
-        <Header/>
-    
+    return (
         <GestionLayout
-            searchForm={<SearchDroitGroupeComponent/>} 
-            title={'Gestion des droits et groupes'}
-            object={"droits et groupes"}
-            dataField={DATA_TABLE_DROIT_GROUPE_COLONNE}
-            dataInfo={{user1: ["Administrateur de structure"]}}
-
+            searchForm={<SearchPraticienFormComponent />}
+            title={"Gestion des groupes"}
+            object={"groupe"}
+            dataField={DATA_TABLE_GROUPE_COLONNE}
+            dataInfo={{ user1: ["Administrateur de structure", "Utilisateur ayant le plus grand nombre de droit d'action"] }}
         />
-    </>
     )
 }
 

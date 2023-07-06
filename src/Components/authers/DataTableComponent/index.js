@@ -5,7 +5,6 @@ import {
 } from "@mui/icons-material"
 import {
     Fade,
-    Link,
     Paper,
     Popper,
     Table,
@@ -19,10 +18,10 @@ import {
 import { Box } from "@mui/system"
 import React from "react"
 import { styles } from "./style"
+import { Link } from "react-router-dom"
 
 
 export const DataTable = ({ object, dataField, dataInfo }) => {
-
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [open, setOpen] = React.useState(false);
     const handleClick = (event) => {
@@ -41,39 +40,34 @@ export const DataTable = ({ object, dataField, dataInfo }) => {
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            {dataField?.map((e, i) => <TableCell key={i} sx={[styles.fs14, styles.tabHead]}>{e}</TableCell>)}
+                            {dataField?.map((column, i) => <TableCell key={i} sx={[styles.fs14, styles.tabHead]} align="right">{column.label}</TableCell>)}
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        <TableRow >
-                            <TableCell sx={styles.fs14}>
-                                <Link href="#" onClick={handleClick}>
-                                    <MoreVert />
-                                </Link>
-                                <Popper open={open} anchorEl={anchorEl} placement='bottom-end' transition>
-                                    {({ TransitionProps }) => (
-                                        <Fade {...TransitionProps} timeout={350}>
-                                            <Paper>
-                                                <Typography sx={{ p: 2 }}>The content of the Popper.</Typography>
-                                            </Paper>
-                                        </Fade>
-                                    )}
-                                </Popper>
-                            </TableCell>
-                            {(dataInfo["user1"]?.length > 0) && dataInfo["user1"]?.map((e, i) => {
-                                return (
-                                    <TableCell key={i} sx={styles.fs14} align="right">{e}</TableCell>
-                                )
-                            })}
-                            <TableCell sx={styles.fs14} align="right">
-                                <Link href="#">
-                                    <Create fontSize='large' />
-                                </Link>
-                                <Link href="#" style={{ marginLeft: 10 }}>
-                                    <HighlightOff fontSize='large' color='error' />
-                                </Link>
-                            </TableCell>
-                        </TableRow>
+                        {(dataInfo.length > 0) && dataInfo?.map((info, i) => {
+                            return (
+                                <TableRow key={info._id}>
+                                    {dataField.map((column, index) => {
+                                        return (
+                                            <>
+                                                {column.label === "Actions" ?
+                                                    <TableCell sx={styles.fs14}>
+                                                        <Link to={'add'}>
+                                                            <Create fontSize='large' />
+                                                        </Link>
+                                                        <Link href="#" style={{ marginLeft: 10 }}>
+                                                            <HighlightOff fontSize='large' color='error' />
+                                                        </Link>
+                                                    </TableCell>
+                                                    :
+                                                    <TableCell key={column.label} sx={styles.fs14} align="left">{info[column.name]}</TableCell>
+                                                }
+                                            </>
+                                        )
+                                    })}
+                                </TableRow>
+                            )
+                        })}
                     </TableBody>
                 </Table>}
         </TableContainer>
