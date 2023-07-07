@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import GestionLayout from '../../Components/authers/GestionLayout'
 import { SearchPraticienFormComponent } from '../../Components/authers/SearchPraticienFormComponent'
 import { DATA_TABLE_PATIENT_COLONNE, DATA_TABLE_PRATICIEN_COLONNE } from '../../Constants/dataFields'
@@ -25,7 +25,7 @@ function PageGestionPatients() {
       
       dispatch(savePatients(response.data))
     }
-    fetchData()
+    fetchData();
   }, [])
 
     return (

@@ -1,5 +1,5 @@
 export const DATA_TABLE_PRATICIEN_COLONNE = ["Civilité", "Profession", "Nom", "Prenom", "Initials", "Actif", "Date de fin d'activité", "Est chirurgien", "Le groupe", "Lieu", "Prix defaut", "Actions"]
-export const DATA_TABLE_PATIENT_COLONNE = ["Civilité", "Nom", "Prénom", "Date de naissance", "Téléphone", "Email", "Mot de Passe", "Initials", "Photo", "Actif", "Droits", "Actions"]
+
 export const DATA_TABLE_LIEU_COLONNE = ["Label", "Ville", "Région", "Code Postal", "Réference", "Initials", "Coordonées geographique", "Actif", "Actions"]
 export const DATA_TABLE_MOTIF_COLONNE = ["Label", "Nom", "Temps par défaut", "Couleur Motif", "Reference", "Actif", "Actions"]
 export const DATA_TABLE_SPECIALITE_COLONNE = ["Label", "Nom", "Reference", "Actif", "Alerte web", "Alerte secretaire", "Actions"]
@@ -48,5 +48,5 @@ export const DATA_TABLE_USERS_COLONNE = [
         label: "Actions"
     }
 ]
-
+export const DATA_TABLE_PATIENT_COLONNE = [ { label: "Civilité", name: "civility"}, { label: "Nom", name: "name" }, { label: "Prénom"}, { label:  "Date de naissance", name: "birthdate"}, { label: "Téléphone", name: "telephone" }, { label: "Email", name: "email" }, { label: "Mot de Passe"}, { label: "Initials" }, { label: "Photo" }, { label: "Actif" }, { label: "Droits" }, { label: "Actions", name: "active"} ]
 export const DATA_TABLE_GROUPE_COLONNE = ["Nom du groupe", "Description", "Actions"]

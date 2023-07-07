@@ -16,4 +16,4 @@ const PatientReducers = (state = initalState, action) => {
     }
 }
 
-export default PatientReducers
+export default PatientReducers;
