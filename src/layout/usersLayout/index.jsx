@@ -1,6 +1,6 @@
 import React from "react";
-import { Grid, Typography } from "@mui/material"
-import styles from './style'
+import { Grid, Typography } from "@mui/material";
+import styles from './style';
 
 const UsersLayout = ({children, title}) => {
   return (
