@@ -241,3 +241,81 @@ export const practitionerFields = {
         },
     ]
 }
+
+export const patientFields = {
+    fields: [
+        {
+            id: 0,
+            label: "Civilite*",
+            name: "civility",
+            type: fieldTypes.SELECT,
+            required: true,
+            placeholder: ""
+        },
+        {
+            id: 3,
+            label: "Initiales",
+            name: "initiales",
+            type: fieldTypes.TEXT,
+            required: false,
+            placeholder: "Initiales"
+        },
+        {
+            id: 4,
+            label: "Nom*",
+            name: "name",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: "NOM"
+        },
+        {
+            id: 5,
+            label: "Prenom*",
+            name: "surname",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: "Prenom"
+        },
+        {
+            id: 6,
+            label: "Email*",
+            name: "email",
+            type: fieldTypes.EMAIL,
+            required: true,
+            placeholder: "Email"
+        },
+        {
+            id: 9,
+            label: "Actif*",
+            name: "active",
+            type: fieldTypes.RADIO,
+            required: true,
+            placeholder: ""
+        },
+        
+        {
+            id: 10,
+            label: "Telephone*",
+            name: "telephone",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: ""
+        },
+        {
+            id: 11,
+            label: "Birthdate*",
+            name: "birthdate",
+            type: fieldTypes.DATE,
+            required: true,
+            placeholder: ""
+        },
+        {
+            id: 12,
+            label: "Password*",
+            name: "password",
+            type: fieldTypes.PASSWORD,
+            required: true,
+            placeholder: ""
+        }
+    ]
+}

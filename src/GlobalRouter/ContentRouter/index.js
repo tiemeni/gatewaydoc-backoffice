@@ -5,6 +5,7 @@ import GestionMotifs from "../../Pages/PageGestionMotifs";
 import Users from "../../Pages/Users";
 import FackContainer from "../../Pages/PagePrincipale";
 import NewUser from "../../Pages/NewUser";
+import NewPatient from "../../Pages/NewPatient";
 import PageGestionPatients from "../../Pages/PageGestionPatients";
 import PageGestionStructure from "../../Pages/PageGestionStructure";
 import PageGestionLieux from "../../Pages/PageGestionLieux";
@@ -37,6 +38,8 @@ const ContentRouter = () => {
                 <Route path="/users/add/:userId" element={<NewUser />} />
 
                 <Route path="/patients" element={<PageGestionPatients />} />
+                <Route path="/patients/add" element={<NewPatient />} />
+                
                 <Route path="/structure" element={<PageGestionStructure />} />
                 <Route path="/lieux" element={<PageGestionLieux />} />
                 <Route path="/activites" element={<PageGestionActivites />} />
@@ -45,6 +48,7 @@ const ContentRouter = () => {
                 <Route path="/typepatients" element={<PageGestionTypePatients />} />
                 <Route path="/groupe_droits" element={<PageGestionGroupesDroits />} />
                 <Route path="/praticiens" element={<PageGestionPraticiens />} />
+                
                 <Route path="/praticiens/add" element={<FormGenerator fields={practitionerFields} title={"Fiche praticien"} />} />
                 <Route path="/praticiens/:userId" element={<PageDetailPraticien />} />
                 <Route path="/advancedOptions" element={<PageGestionOptionsAvancees />} />

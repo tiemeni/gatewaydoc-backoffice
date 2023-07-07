@@ -18,7 +18,7 @@ export const createPatient = async (payload) => {
   // }
 
   try {
-    const res = await fetch(BASE_URL + "/users/register", {
+    const res = await fetch(BASE_URL + "/patients/register", {
       method: 'POST',
       body: JSON.stringify(payload),
       headers: {
@@ -33,9 +33,9 @@ export const createPatient = async (payload) => {
   }
 }
 
-export const updateUser = async (payload, id) => {
+export const updatePatient = async (payload, id) => {
   try {
-    const res = await fetch(BASE_URL + "/users/" + id, {
+    const res = await fetch(BASE_URL + "/patients/" + id, {
       method: 'PATCH',
       body: JSON.stringify(payload),
       headers: {
