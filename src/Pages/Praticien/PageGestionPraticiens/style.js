@@ -1,5 +1,5 @@
 import { createStyles } from "@mui/material";
-import { Colors as colors } from "../../Constants/colors";
+import { Colors as colors } from "../../../Constants/colors";
 
 const styles = createStyles({
     sectionTitle: {
