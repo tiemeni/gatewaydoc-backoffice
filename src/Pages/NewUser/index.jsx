@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { saveGroups } from "../../REDUX/groups/actions";
 import { getCivilities } from "../../REDUX/commons/actions";
 import { useParams } from "react-router-dom";
+import generatePassword from "../../helpers/passwordGenerator";
+import { createUser, updateUser } from "../../services/users";
 
 const NewUser = () => {
   const { fields } = userFields;
@@ -14,6 +16,8 @@ const NewUser = () => {
   const groupList = useSelector((state) => state.Groups.groups);
   const civList = useSelector((state) => state.Common.civilities);
   const { userId } = useParams();
+
+  const [redirect, setRedirect] = React.useState(false);
 
   const getGroups = async () => {
     const groups = await getAllGroup();
@@ -27,6 +31,7 @@ const NewUser = () => {
     dispatch(getCivilities(civilities.data));
   };
 
+  // recuperer les valeurs des champs de selection
   const getRelatedValues = async () => {
     fields.map((field) => {
       switch (field.name) {
@@ -52,11 +57,28 @@ const NewUser = () => {
     if (field.name === "civility") field.data = civList;
   });
 
+  const onSubmit = async (data) => {
+    if (!userId) {
+      const payload = { ...data, password: generatePassword() };
+      const result = await createUser(payload);
+      if (result.success !== true) return;
+      setRedirect("/content/users");
+    } else {
+      //update user
+      const result = await updateUser(data, userId);
+      if (result.success !== true) return;
+      setRedirect("/content/users");
+    }
+  };
+
   return (
     <FormGenerator
       fields={userFields}
       title={"Gestion des utilisateurs"}
       dataId={userId}
+      type={"user"}
+      redirect={redirect}
+      onSubmit={onSubmit}
     />
   );
 };

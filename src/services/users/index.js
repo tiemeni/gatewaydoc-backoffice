@@ -68,3 +68,19 @@ export const isValidToken = async (token) => {
     return false
   }
 }
+export const updateUser = async (payload, id) => {
+  try {
+    const res = await fetch(BASE_URL + "/users/" + id, {
+      method: 'PATCH',
+      body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    const data = await res.json();
+    return data
+  } catch (err) {
+    console.error(err)
+    return { status: false, error: err }
+  }
+}

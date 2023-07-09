@@ -11,14 +11,6 @@ export default function Users() {
   const usersList = useSelector((state) => state.Users.users)
   const dispatch = useDispatch();
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [open, setOpen] = React.useState(false);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-    setOpen(!open);
-  };
-
   React.useEffect(() => {
     async function fetchData() {
       setIsLoading(true);
