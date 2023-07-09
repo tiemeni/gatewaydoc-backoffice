@@ -3,7 +3,7 @@ import { Colors } from "../../../Constants/colors";
 export const styles = {
     fs14: {
         fontSize: 15,
-        textAlign: "center"
+        textAlign: "center",
     },
     sectionTitle: {
         display: 'flex',
@@ -17,6 +17,6 @@ export const styles = {
     },
     tabHead: {
         fontWeight: 'bold',
-        textAlign: 'right'
+        textAlign: 'center'
     },
 }

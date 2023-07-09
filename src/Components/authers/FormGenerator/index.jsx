@@ -29,7 +29,7 @@ const FormGenerator = ({ fields, title, dataId, type, redirect, onSubmit }) => {
       (field.type === fieldTypes.SELECT
         ? toUpdate[field.name]?._id
         : toUpdate[field.name]);
-    defaultValues[field.name] = value || undefined;
+    defaultValues[field.name] = value?.toString() || undefined;
 
     if (field.type === fieldTypes.AUTO_COMPLETE) return;
     mySchema[field.name] = field.required

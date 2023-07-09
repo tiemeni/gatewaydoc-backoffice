@@ -241,3 +241,40 @@ export const practitionerFields = {
         },
     ]
 }
+
+export const specialityFields = {
+    fields: [
+        {
+            id: 0,
+            label: "Label de la spécialité*",
+            name: "title",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: ""
+        },
+        {
+            id: 1,
+            label: "Alertes web*",
+            name: "webAlert",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: ""
+        },
+        {
+            id: 2,
+            label: "Alertes secretaire*",
+            name: "secretaryAlert",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: ""
+        },
+        {
+            id: 3,
+            label: "active*",
+            name: "active",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: ""
+        },
+    ]
+}

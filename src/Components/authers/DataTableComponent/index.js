@@ -19,7 +19,7 @@ import { Link } from "react-router-dom"
 
 
 export const DataTable = ({ object, dataField, dataInfo }) => {
-
+    console.log(dataInfo, dataField)
     return (
         <TableContainer>
             <Box style={styles.sectionTitle} mt={2}>
@@ -31,7 +31,7 @@ export const DataTable = ({ object, dataField, dataInfo }) => {
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            {dataField?.map((column, i) => <TableCell key={i} sx={[styles.fs14, styles.tabHead]} align="left">{column.label}</TableCell>)}
+                            {dataField?.map((column, i) => <TableCell key={i} sx={[styles.fs14, styles.tabHead]} align="center">{column.label}</TableCell>)}
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -42,7 +42,7 @@ export const DataTable = ({ object, dataField, dataInfo }) => {
                                         return (
                                             <>
                                                 {column.label === "Actions" ?
-                                                    <TableCell sx={styles.fs14} align='right'>
+                                                    <TableCell sx={styles.fs14} align='center'>
                                                         <Link to={`add/${info._id}`}>
                                                             <Create fontSize='large' />
                                                         </Link>
@@ -51,8 +51,8 @@ export const DataTable = ({ object, dataField, dataInfo }) => {
                                                         </Link>
                                                     </TableCell>
                                                     :
-                                                    <TableCell key={column.label} sx={{ ...styles.fs14, textAlign: 'right' }} align="right">
-                                                        {(column.name === 'groups' || column.name === 'civility') ? info[column.name].label || info[column.name].title : info[column.name]}
+                                                    <TableCell key={column.label} sx={{ ...styles.fs14, textAlign: 'center' }} align="center">
+                                                        {(column.name === 'groups' || column.name === 'civility') ? info[column.name].label || info[column.name].title : info[column.name]?.toString()}
                                                     </TableCell>
                                                 }
                                             </>
