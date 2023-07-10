@@ -2,11 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import AuthWrapper from "../Pages/AuthWrapperPages";
-import { setIsConnected } from "../REDUX/commons/actions";
-import { isValidToken } from "../services/users";
 import ContentRouter from "./ContentRouter";
-
-
 
 
 const Routeur = () => {

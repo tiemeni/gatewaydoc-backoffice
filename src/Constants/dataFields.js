@@ -1,5 +1,3 @@
-export const DATA_TABLE_LIEU_COLONNE = ["Label", "Ville", "Région", "Code Postal", "Réference", "Initials", "Coordonées geographique", "Actif", "Actions"]
-export const DATA_TABLE_MOTIF_COLONNE = ["Label", "Nom", "Temps par défaut", "Couleur Motif", "Reference", "Actif", "Actions"]
 export const DATA_TABLE_SPECIALITE_COLONNE = [
     {
         label: "Label de la spécialité",
@@ -21,6 +19,10 @@ export const DATA_TABLE_SPECIALITE_COLONNE = [
         label: "Actions"
     }
 ]
+export const DATA_TABLE_LIEU_COLONNE = 
+[ { label:"active", name:"active"}, { label:"codePostal", name:"codePostal"}, { label:"initiales", name:"initiales"}, { label:"label", name:"label"}, { label:"reference", name:"reference"}, { label:"region", name:"region"}, { label:"ville", name:"ville"}, { label:"Actions", name:"Actions"} ]
+export const DATA_TABLE_MOTIF_COLONNE = 
+[ { label:"couleur", name:"couleur"},{ label:"nom", name:"nom"}, { label:"Actions", name:"Actions"}]
 export const DATA_TABLE_USERS_COLONNE = [
     {
         label: "Profession",

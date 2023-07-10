@@ -19,6 +19,7 @@ import FormGenerator from "../../Components/authers/FormGenerator";
 import { practitionerFields } from "../../Constants/fields";
 import PatientRouter from "./PatientRouter";
 import SpecialitiesRouter from "./SpecialitiesRouter";
+import NewLieux from "../../Pages/PageGestionLieux/NewLieux";
 
 const ContentRouter = () => {
     return (
@@ -36,6 +37,7 @@ const ContentRouter = () => {
                 <Route path="/users" element={<Users />} />
                 <Route path="/users/add" element={<NewUser />} />
                 <Route path="/users/add/:userId" element={<NewUser />} />
+                <Route path="/lieux/add" element={<NewLieux />} />
 
                 <Route path="/patients/*" element={<PatientRouter />} />
                 <Route path="/patients" element={<PageGestionPatients />} />
