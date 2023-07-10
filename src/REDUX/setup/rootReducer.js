@@ -4,6 +4,8 @@ import UserReducers from "../users/reducers";
 import GroupReducers from "../groups/reducer";
 import specialitiesReducers from "../specialites/reducers";
 import PatientReducers from "../patients/reducer";
+import PraticiensReducer from "../praticiens/reducer";
+
 
 
 const rootReducer = combineReducers({
@@ -11,7 +13,8 @@ const rootReducer = combineReducers({
     Users: UserReducers,
     Groups: GroupReducers,
     Specialities: specialitiesReducers,
-    Patients: PatientReducers
+    Patients: PatientReducers,
+    Praticiens: PraticiensReducer,
 })
 
 export default rootReducer;
