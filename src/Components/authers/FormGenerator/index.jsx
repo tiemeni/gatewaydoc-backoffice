@@ -10,31 +10,44 @@ import MySelect from "../MySelect";
 import styles from "./style";
 import CustomRadio from "../CustomRadio";
 import AutoComplete from "../AutoComplete";
+import { Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getValueFromReducer } from "../../../helpers/formGenerator";
 
-const FormGenerator = ({ fields, title }) => {
-  const errorMsg = "Ce champ est obligatoire";
+const errorMsg = "Ce champ est obligatoire";
+
+const FormGenerator = ({ fields, title, dataId, type, redirect, onSubmit }) => {
+  const store = useSelector((state) => state);
+  const toUpdate = getValueFromReducer(store, type, dataId);
   const mySchema = {};
+  let defaultValues = {};
+
+  // schema de validation et valeur par defaut
   fields.fields.forEach((field) => {
-    if (field.type === fieldTypes.AUTO_COMPLETE) {
-      //   mySchema[field.name] = yup.object();
-      return;
-    }
+    const value =
+      toUpdate &&
+      (field.type === fieldTypes.SELECT
+        ? toUpdate[field.name]?._id
+        : toUpdate[field.name]);
+    defaultValues[field.name] = value || undefined;
+
+    if (field.type === fieldTypes.AUTO_COMPLETE) return;
     mySchema[field.name] = field.required
       ? yup.string().required(errorMsg)
       : yup.string();
   });
   const schema = yup.object().shape({ ...mySchema });
+
   const {
     register,
     handleSubmit,
     control,
     setValue,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema)});
-
-  const onSubmit = (data) => {
-    console.log("data", data);
-  };
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: { ...defaultValues },
+  });
 
   return (
     <UsersLayout title={title}>
@@ -50,10 +63,14 @@ const FormGenerator = ({ fields, title }) => {
                 <CustomInput
                   key={field.id}
                   label={field.label}
-                  register={{ ...register(field.name) }}
+                  register={{
+                    ...register(field.name),
+                  }}
                   error={errors[field.name]}
                   type={field.type}
                   placeholder={field.placeholder}
+                  value={defaultValues[field.name]}
+                  onChange={(value) => setValue(field.name, value)}
                 />
               );
             }
@@ -62,8 +79,12 @@ const FormGenerator = ({ fields, title }) => {
                 <MySelect
                   key={field.id}
                   label={field.label}
-                  register={{ ...register(field.name) }}
+                  register={{
+                    ...register(field.name),
+                  }}
                   error={errors[field.name]}
+                  fieldData={field.data}
+                  value={defaultValues[field.name]}
                 />
               );
             }
@@ -74,6 +95,7 @@ const FormGenerator = ({ fields, title }) => {
                   control={control}
                   label={field.label}
                   name={field.name}
+                  value={defaultValues[field.name]}
                 />
               );
             }
@@ -82,9 +104,12 @@ const FormGenerator = ({ fields, title }) => {
                 <AutoComplete
                   key={field.id}
                   label={field.label}
-                  register={{ ...register(field.name) }}
+                  register={{
+                    ...register(field.name),
+                  }}
                   error={errors[field.name]}
                   onChange={(event, value) => setValue(field.name, value)}
+                  value={defaultValues[field.name]}
                 />
               );
             }
@@ -96,6 +121,7 @@ const FormGenerator = ({ fields, title }) => {
             </Button>
           </Box>
         </form>
+        {redirect && <Navigate to={redirect} />}
       </Grid>
     </UsersLayout>
   );

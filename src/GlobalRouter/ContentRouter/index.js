@@ -4,7 +4,7 @@ import Header from "../../Components/authers/Header";
 import GestionMotifs from "../../Pages/PageGestionMotifs";
 import Users from "../../Pages/Users";
 import FackContainer from "../../Pages/PagePrincipale";
-// import NewUser from "../../Pages/NewUser";
+import NewUser from "../../Pages/NewUser";
 import PageGestionPatients from "../../Pages/PageGestionPatients";
 import PageGestionStructure from "../../Pages/PageGestionStructure";
 import PageGestionLieux from "../../Pages/PageGestionLieux";
@@ -17,6 +17,7 @@ import PageGestionOptionsAvancees from "../../Pages/PageGestionOptionsAvancees";
 // import AddPraticien from "../../Pages/AddPraticien";
 import FormGenerator from "../../Components/authers/FormGenerator";
 import { practitionerFields, userFields } from "../../Constants/fields";
+import NewLieux from "../../Pages/PageGestionLieux/NewLieux";
 
 const ContentRouter = () => {
     return (
@@ -30,8 +31,12 @@ const ContentRouter = () => {
             <Routes>
                 {/* ici ajouter les routes internes ... */}
                 <Route path="/" element={<FackContainer />} />
+
                 <Route path="/users" element={<Users />} />
-                <Route path="/users/add" element={<FormGenerator fields={userFields} title={"Gestion des utilisateurs"} />} />
+                <Route path="/users/add" element={<NewUser />} />
+                <Route path="/users/add/:userId" element={<NewUser />} />
+                <Route path="/lieux/add" element={<NewLieux />} />
+
                 <Route path="/patients" element={<PageGestionPatients />} />
                 <Route path="/structure" element={<PageGestionStructure />} />
                 <Route path="/lieux" element={<PageGestionLieux />} />

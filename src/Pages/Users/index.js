@@ -11,19 +11,11 @@ export default function Users() {
   const usersList = useSelector((state) => state.Users.users)
   const dispatch = useDispatch();
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [open, setOpen] = React.useState(false);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-    setOpen(!open);
-  };
-
   React.useEffect(() => {
     async function fetchData() {
       setIsLoading(true);
       const response = await getUsers();
-      
+
       if (response.success !== true) {
         setIsLoading(false);
         return;
@@ -36,16 +28,12 @@ export default function Users() {
   }, [])
 
   return (
-    <>
-      {usersList !== [] && (
-        <GestionLayout
-          searchForm={<SearchPraticienFormComponent />}
-          title={"Gestion des utilisateurs"}
-          object={"utilisateur"}
-          dataField={DATA_TABLE_USERS_COLONNE}
-          dataInfo={usersList}
-        />
-      )}
-    </>
+    <GestionLayout
+      searchForm={<SearchPraticienFormComponent />}
+      title={"Gestion des utilisateurs"}
+      object={"utilisateur"}
+      dataField={DATA_TABLE_USERS_COLONNE}
+      dataInfo={usersList}
+    />
   )
 }

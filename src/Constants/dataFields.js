@@ -11,10 +11,6 @@ export const DATA_TABLE_USERS_COLONNE = [
         name: 'job'
     },
     {
-        label: "Fonction",
-        name: 'role'
-    },
-    {
         label: "Initiales",
         name: 'initiales'
     },
@@ -35,16 +31,20 @@ export const DATA_TABLE_USERS_COLONNE = [
         name: 'email'
     },
     {
+        label: "Le groupe",
+        name: 'groups'
+    },
+    {
+        label: "Lieu affecté",
+        name: 'affectations'
+    },
+    {
         label: "Mot de Passe",
         name: 'password'
     },
     {
         label: "Actif",
         name: 'active'
-    },
-    {
-        label: "Droits",
-        name: 'rights'
     },
     {
         label: "Actions"

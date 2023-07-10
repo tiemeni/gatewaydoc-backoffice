@@ -16,6 +16,7 @@ export const styles = {
         color: Colors.white
     },
     tabHead: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        textAlign: 'right'
     },
 }

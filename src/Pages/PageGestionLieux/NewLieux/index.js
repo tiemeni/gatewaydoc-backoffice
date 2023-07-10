@@ -1,17 +1,17 @@
 import React from "react";
-import FormGenerator from "../../Components/authers/FormGenerator";
-import { userFields } from "../../Constants/fields";
-import { getAllGroup } from "../../services/groups";
-import { getAllCivilities } from "../../services/commons";
+import FormGenerator from "../../../Components/authers/FormGenerator";
+import { lieuxFields } from "../../../Constants/fields";
+import { getAllGroup } from "../../../services/groups";
+import { getAllCivilities } from "../../../services/commons";
 import { useDispatch, useSelector } from "react-redux";
-import { saveGroups } from "../../REDUX/groups/actions";
-import { getCivilities } from "../../REDUX/commons/actions";
+import { saveGroups } from "../../../REDUX/groups/actions";
+import { getCivilities } from "../../../REDUX/commons/actions";
 import { useParams } from "react-router-dom";
-import generatePassword from "../../helpers/passwordGenerator";
-import { createUser, updateUser } from "../../services/users";
+import generatePassword from "../../../helpers/passwordGenerator";
+import { createUser, updateUser } from "../../../services/users";
 
-const NewUser = () => {
-  const { fields } = userFields;
+const NewLieux = () => {
+  const { fields } = lieuxFields;
   const dispatch = useDispatch();
   const groupList = useSelector((state) => state.Groups.groups);
   const civList = useSelector((state) => state.Common.civilities);
@@ -52,7 +52,7 @@ const NewUser = () => {
   }, []);
 
   // Attribuer les valeurs récupérées
-  userFields.fields.forEach((field) => {
+  lieuxFields.fields.forEach((field) => {
     if (field.name === "groups") field.data = groupList;
     if (field.name === "civility") field.data = civList;
   });
@@ -73,8 +73,8 @@ const NewUser = () => {
 
   return (
     <FormGenerator
-      fields={userFields}
-      title={"Gestion des utilisateurs"}
+      fields={lieuxFields}
+      title={"Gestion des lieux"}
       dataId={userId}
       type={"user"}
       redirect={redirect}
@@ -83,4 +83,4 @@ const NewUser = () => {
   );
 };
 
-export default NewUser;
+export default NewLieux;
