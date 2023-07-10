@@ -5,6 +5,8 @@ import GestionMotifs from "../../Pages/PageGestionMotifs";
 import Users from "../../Pages/Users";
 import FackContainer from "../../Pages/PagePrincipale";
 import NewUser from "../../Pages/NewUser";
+import NewPatient from "../../Pages/NewPatient";
+import PageGestionPatients from "../../Pages/PageGestionPatients";
 import PageGestionStructure from "../../Pages/PageGestionStructure";
 import PageGestionLieux from "../../Pages/PageGestionLieux";
 import PageGestionActivites from "../../Pages/PageGestionActivites";
@@ -36,6 +38,8 @@ const ContentRouter = () => {
                 <Route path="/users/add/:userId" element={<NewUser />} />
 
                 <Route path="/patients/*" element={<PatientRouter />} />
+                <Route path="/patients" element={<PageGestionPatients />} />
+                <Route path="/patients/add" element={<NewPatient />} />
                 <Route path="/structure" element={<PageGestionStructure />} />
                 <Route path="/lieux" element={<PageGestionLieux />} />
                 <Route path="/activites" element={<PageGestionActivites />} />

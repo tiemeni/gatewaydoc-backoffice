@@ -56,7 +56,9 @@ const FormGenerator = ({ fields, title, dataId, type, redirect, onSubmit }) => {
             if (
               field.type === fieldTypes.TEXT ||
               field.type === fieldTypes.EMAIL ||
-              field.type === fieldTypes.FILE
+              field.type === fieldTypes.FILE ||
+              field.type === fieldTypes.DATE ||
+              field.type === fieldTypes.PASSWORD
             ) {
               return (
                 <CustomInput

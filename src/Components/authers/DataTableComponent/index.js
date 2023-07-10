@@ -19,7 +19,7 @@ import { Link } from "react-router-dom"
 
 
 export const DataTable = ({ object, dataField, dataInfo }) => {
-    console.log(dataInfo, dataField)
+    
     return (
         <TableContainer>
             <Box style={styles.sectionTitle} mt={2}>
