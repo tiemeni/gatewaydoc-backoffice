@@ -7,6 +7,7 @@ import FlashOnOutlinedIcon from '@mui/icons-material/FlashOnOutlined';
 import DateComponent from '../dateComponent';
 import { Colors } from '../../../Constants/colors.js';
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import MenuListComposition from '../Menue';
 import { Link } from 'react-router-dom';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
@@ -31,8 +32,14 @@ function Header() {
                         <DateComponent />
                     </Box>
                 </Box>
-                <Box style={{ width: "30%", display: "flex", justifyContent: "center", }}>
-                    <input type={"text"} style={{ borderRadius: 7, height: 35, width: 200, paddingLeft: 10 }} placeholder="RECHERCHER" />
+                <Box style={{ width: "30%", display: "flex", justifyContent: "center", position: "relative" }}>
+                    <input
+                        type={"text"}
+                        style={{ borderRadius: 7, height: 35, width: 200, paddingLeft: 10 }}
+                        placeholder="RECHERCHER" />
+                    {/* <SearchOutlinedIcon
+                        titleAccess='rechercher'
+                        style={{ ...styles.icon, border: "", position: "absolute", backgroundColor: Colors.primary, right: 12, width: 32, height: 32, marginTop: 2 }} /> */}
                 </Box>
                 <Box style={{ width: "40%", display: "flex", justifyContent: "space-around" }}>
                     <PersonOutlinedIcon titleAccess='comptes patients' style={styles.icon} />
