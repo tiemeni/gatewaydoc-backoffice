@@ -74,7 +74,7 @@ const NewPatient = () => {
       fields={patientFields}
       title={"Gestion des patients"}
       dataId={userId}
-      type={"user"}
+      type={"patient"}
       redirect={redirect}
       onSubmit={onSubmit}
     />

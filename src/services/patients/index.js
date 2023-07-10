@@ -36,7 +36,7 @@ export const createPatient = async (payload) => {
 export const updatePatient = async (payload, id) => {
   try {
     const res = await fetch(BASE_URL + "/patients/" + id, {
-      method: 'PATCH',
+      method: 'PUT',
       body: JSON.stringify(payload),
       headers: {
         "Content-Type": "application/json"
