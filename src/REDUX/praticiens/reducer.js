@@ -1,3 +1,6 @@
+/**
+ *  Un Reducer est une fonction qui manipule la valeur du state
+ */
 import {
   FETCH_PRATICIENS_REQUEST,
   FETCH_PRATICIENS_SUCCESS,

@@ -15,7 +15,7 @@ const AddPraticien = () => {
   const dispatch = useDispatch();
   const groupList = useSelector((state) => state.Groups.groups);
   const civList = useSelector((state) => state.Common.civilities);
-  const { userId } = useParams();
+  const { praticienId } = useParams();
 
   const [redirect, setRedirect] = React.useState(false);
 
@@ -58,14 +58,14 @@ const AddPraticien = () => {
   });
 
   const onSubmit = async (data) => {
-    if (!userId) {
+    if (!praticienId) {
       const datas = { ...data, password: generatePassword() };
       const result = await createPraticien(datas);
       if (result.success !== true) return;
       setRedirect("/content/praticiens");
     } else {
       //update user
-      const result = await editPraticien(userId, data);
+      const result = await editPraticien(praticienId, data);
       if (result.success !== true) return;
       setRedirect("/content/praticiens");
     }
@@ -75,7 +75,7 @@ const AddPraticien = () => {
     <FormGenerator
       fields={practitionerFields}
       title={"Gestion des utilisateurs"}
-      dataId={userId}
+      dataId={praticienId}
       type={"praticien"}
       redirect={redirect}
       onSubmit={onSubmit}

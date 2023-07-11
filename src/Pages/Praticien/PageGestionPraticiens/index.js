@@ -14,6 +14,7 @@ function PageGestionPraticiens({ data, loading, error }) {
   useEffect(() => {
     dispatch(getPraticiens());
     let praticiens = data !== null?data.data : [];
+    console.log(praticiens);
     getCivilities().then((resp)=>{
       praticiens.forEach((prati) => {
         let civ = resp.data.filter((item) => item._id === prati.civility);

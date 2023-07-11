@@ -1,64 +1,35 @@
 /**
- *  Une Action est un objet qui decrit un changement à appliquer dans le store local (le state)
- */
+*  Une Action est un objet qui decrit un changement à appliquer dans le store local (le state)
+*/
 
 
 import axios from "axios";
 
 import {
-  FETCH_PRATICIENS_REQUEST,
-  FETCH_PRATICIENS_SUCCESS,
-  FETCH_PRATICIENS_FAILURE,
+	FETCH_PRATICIENS_REQUEST,
+	FETCH_PRATICIENS_SUCCESS,
+	FETCH_PRATICIENS_FAILURE,
 } from "./types";
 
+import { getAllPraticiens } from "../../services/praticiens";
 
-export const getPraticiens = () => {
-    return (dispatch) => {
-        dispatch({ type: FETCH_PRATICIENS_REQUEST });
-        const BASE_URL = process.env.REACT_APP_BASE_URL;
-        axios({
-            method: "GET",
-            url: BASE_URL + "/users/",
-            params: {
-                isPraticien: true,
-            },
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-        })
-        .then((response) => {
-            let praticiens = response.data.data;
-            dispatch({
-              type: FETCH_PRATICIENS_SUCCESS,
-              payload: { success: true, data: praticiens },
-            });                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-            /* axios({
-              method: "GET",
-              url: BASE_URL + "/civilites/",
-              headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-              },
-            })
-              .then((resp) => {
-                praticiens.forEach((prati) => {
-                  let civ = resp.data.filter(
-                    (item) => item._id === prati.civility
-                  );
-                  prati["label_civility"] = civ.length > 0 ? civ[0].label : "";
-                });
-                dispatch({
-                  type: FETCH_PRATICIENS_SUCCESS,
-                  payload: { success: true, data: praticiens},
-                });
-              })
-              .catch((err) => {
-                dispatch({ type: FETCH_PRATICIENS_FAILURE, payload: err });
-              }); */
-        })
-        .catch((error) => {
-            dispatch({ type: FETCH_PRATICIENS_FAILURE, payload: error });
-        });
-    };
+
+export const getPraticiens = (options) => {
+	return (dispatch, options) => {
+		dispatch({ type: FETCH_PRATICIENS_REQUEST });
+		// lecture HTTP
+		const promise = getAllPraticiens(options);
+		// en cas de succès
+		promise.then((response)=>{
+			dispatch({
+				type: FETCH_PRATICIENS_SUCCESS,
+				payload: { success: true, data: response.data },
+			});
+			
+		});
+		// en cas d'erreur
+		promise.catch((response)=>{
+			dispatch({ type: FETCH_PRATICIENS_FAILURE, payload: response.error });
+		});
+	};
 };
