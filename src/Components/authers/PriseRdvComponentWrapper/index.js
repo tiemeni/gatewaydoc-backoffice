@@ -53,20 +53,24 @@ function PriseRdvComponent() {
       <Grid container spacing={1}>
       <Grid item xs={4} >
         
-        <FormControl><Label>Civilite </Label><Input  /></FormControl>
+        <FormControl><Label>Civilite </Label> 
+        <Select >
+          <Option>{/* option one */}</Option>
+          <Option>{/* option two */}</Option>
+        </Select><Input type={'text'} /></FormControl>
       </Grid>
       <Grid item xs={4}>
         
-        <FormControl><Label>Nom </Label><Input  /></FormControl>
+        <FormControl><Label>Nom </Label><Input type={'text'} /></FormControl>
         
       </Grid>
       <Grid item xs={4}>
         
-        <FormControl><Label>Prenom </Label><Input  /></FormControl>
+        <FormControl><Label>Prenom </Label><Input type={'text'} /></FormControl>
       </Grid>
       <Grid item xs={12}>
          
-        <FormControl><Label>Non de naissance </Label><Input  /></FormControl>
+        <FormControl><Label>Non de naissance </Label><Input type={'text'}  /></FormControl>
       </Grid>
 
       <Grid item xs={12}>

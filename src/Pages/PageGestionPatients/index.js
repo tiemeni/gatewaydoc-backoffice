@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import GestionLayout from '../../Components/authers/GestionLayout'
-import { SearchPraticienFormComponent } from '../../Components/authers/SearchPraticienFormComponent'
-import { DATA_TABLE_PATIENT_COLONNE, DATA_TABLE_PRATICIEN_COLONNE } from '../../Constants/dataFields'
-import { savePatients } from '../../REDUX/patients/actions'
-import { getPatients } from '../../services/patients'
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import GestionLayout from '../../Components/authers/GestionLayout';
+import { SearchPraticienFormComponent } from '../../Components/authers/SearchPraticienFormComponent';
+import { DATA_TABLE_PATIENT_COLONNE, DATA_TABLE_PRATICIEN_COLONNE } from '../../Constants/dataFields';
+import { savePatients } from '../../REDUX/patients/actions';
+import { getPatients } from '../../services/patients';
 
 function PageGestionPatients() {
     const [isLoading, setIsLoading] = useState(false)
