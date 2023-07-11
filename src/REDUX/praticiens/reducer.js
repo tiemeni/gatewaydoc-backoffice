@@ -13,7 +13,7 @@ const initialState = {
   error: null,
 };
 
-const PraticiensReducer = (state = initialState, action) => {
+const PractitionerReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_PRATICIENS_REQUEST:
       return {
@@ -23,7 +23,7 @@ const PraticiensReducer = (state = initialState, action) => {
     case FETCH_PRATICIENS_SUCCESS:
       return {
         ...state,
-        data: action.payload,
+        data : action.payload,
         loading: false,
         error: null,
       };
@@ -38,4 +38,4 @@ const PraticiensReducer = (state = initialState, action) => {
   }
 };
 
-export default PraticiensReducer;
+export default PractitionerReducer;

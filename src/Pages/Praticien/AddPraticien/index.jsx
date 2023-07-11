@@ -76,7 +76,7 @@ const AddPraticien = () => {
       fields={practitionerFields}
       title={"Gestion des utilisateurs"}
       dataId={praticienId}
-      type={"praticien"}
+      type={"practitioner"}
       redirect={redirect}
       onSubmit={onSubmit}
     />

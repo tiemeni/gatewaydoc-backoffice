@@ -23,7 +23,7 @@ export const getPraticiens = (options) => {
 		promise.then((response)=>{
 			dispatch({
 				type: FETCH_PRATICIENS_SUCCESS,
-				payload: { success: true, data: response.data },
+				payload: { success: true, data : response.data },
 			});
 			
 		});

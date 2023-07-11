@@ -6,15 +6,16 @@ import { SearchPraticienFormComponent } from '../../../Components/authers/Search
 import { DATA_TABLE_PRATICIEN_COLONNE } from '../../../Constants/dataFields';
 import { getCivilities } from "../../../services/civilities";
 
+
 function PageGestionPraticiens({ data, loading, error }) {
 
   const dispatch = useDispatch();
   const [ListPraticiens, setListPraticiens] = useState([]);
 
+
   useEffect(() => {
     dispatch(getPraticiens());
     let praticiens = data !== null?data.data : [];
-    console.log(praticiens);
     getCivilities().then((resp)=>{
       praticiens.forEach((prati) => {
         let civ = resp.data.filter((item) => item._id === prati.civility);
@@ -30,7 +31,7 @@ function PageGestionPraticiens({ data, loading, error }) {
       <GestionLayout
         searchForm={<SearchPraticienFormComponent />}
         title={"Gestion des praticiens"}
-        object={"praticien"}
+        object={"practitioner"}
         dataField={DATA_TABLE_PRATICIEN_COLONNE}
         dataInfo={ListPraticiens}
       />
@@ -40,8 +41,8 @@ function PageGestionPraticiens({ data, loading, error }) {
 }
 
 const mapStateToProps = (state) => ({
-  data: state.Praticiens.data,
-  loading: state.Praticiens.loading,
-  error: state.Praticiens.error,
+  data: state.Practitioner.data,
+  loading: state.Practitioner.loading,
+  error: state.Practitioner.error,
 });
 export default connect(mapStateToProps)(PageGestionPraticiens);
