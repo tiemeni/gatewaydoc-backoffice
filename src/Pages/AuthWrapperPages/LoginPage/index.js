@@ -14,6 +14,7 @@ const LoginPage = () => {
     const [login, setLogin] = useState("");
     const [mdp, setMdp] = useState("");
     const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
 
     const handleLogin = (e) => {
         setLogin(e.target.value)
@@ -25,14 +26,17 @@ const LoginPage = () => {
 
     const handleSubmit = async () => {
         setError('')
+        setLoading(true)
         const result = await signUserIn({ email: login, password: mdp })
-        if (result.data.success) {
+        if (result.data?.success) {
+            setLoading(false)
             dispatch(setUser({ ...result.data.data.user }))
             localStorage.setItem("acces_bo_token", result.data.data.access_token)
             window.location = "/content"
         } else {
-            console.log('not here')
-            setError(result.data.message)
+            setLoading(false)
+            console.log(result?.error)
+            setError(result.data?.message || "une erreur s'est produite, veillez verifier votre connexion")
         }
     }
 
@@ -73,7 +77,7 @@ const LoginPage = () => {
                         style={{
                             width: "80%", marginLeft: 'auto', marginRight: 'auto', paddingTop: '10px',
                             paddingBottom: "10px", background: Colors.primary, color: "white", fontSize: '12px', fontWeight: 'bold'
-                        }} >Se connecter</Button>
+                        }} >{loading ? 'Chargement...' : 'Se connecter'}</Button>
 
                 </Box>
 

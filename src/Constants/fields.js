@@ -357,3 +357,72 @@ export const patientFields = {
         }
     ]
 }
+
+export const lieuxFields = {
+    fields: [
+        {
+            id: 1,
+            label: "active",
+            name: "active",
+            type: fieldTypes.RADIO,
+            required: true,
+            placeholder: ""
+        },
+        {
+            id: 2,
+            label: "codePostal",
+            name: "codePostal",
+            type: fieldTypes.TEXT,
+            required: false,
+            placeholder: ""
+        },
+        {
+            id: 3,
+            label: "initiales",
+            name: "initiales",
+            type: fieldTypes.TEXT,
+            required: false,
+            placeholder: "initiales"
+        },
+        {
+            id: 4,
+            label: "label",
+            name: "label",
+            type: fieldTypes.TEXT,
+            required: false,
+            placeholder: "label"
+        },
+        {
+            id: 5,
+            label: "reference*",
+            name: "reference",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: "TEXT"
+        },
+        {
+            id: 6,
+            label: "region*",
+            name: "region",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: "region"
+        },
+        {
+            id: 7,
+            label: "Téléphone*",
+            name: "phone",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: "Prenom"
+        },
+        {
+            id: 8,
+            label: "ville*",
+            name: "ville",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: "ville"
+        },
+    ]
+}

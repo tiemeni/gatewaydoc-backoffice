@@ -12,6 +12,7 @@ import PageGestionLieux from "../../Pages/PageGestionLieux";
 import PageGestionActivites from "../../Pages/PageGestionActivites";
 import PageGestionTypePatients from "../../Pages/PageGestionTypePatients";
 import PageGestionGroupesDroits from "../../Pages/PageGestionGroupesDroits";
+import AddPraticien from "../../Pages/Praticien/AddPraticien";
 import PageGestionPraticiens from "../../Pages/Praticien/PageGestionPraticiens";
 import PageDetailPraticien from "../../Pages/Praticien/PageDetailPraticien";
 import PageGestionOptionsAvancees from "../../Pages/PageGestionOptionsAvancees";
@@ -19,6 +20,7 @@ import FormGenerator from "../../Components/authers/FormGenerator";
 import { practitionerFields } from "../../Constants/fields";
 import PatientRouter from "./PatientRouter";
 import SpecialitiesRouter from "./SpecialitiesRouter";
+import NewLieux from "../../Pages/PageGestionLieux/NewLieux";
 
 const ContentRouter = () => {
     return (
@@ -36,6 +38,7 @@ const ContentRouter = () => {
                 <Route path="/users" element={<Users />} />
                 <Route path="/users/add" element={<NewUser />} />
                 <Route path="/users/add/:userId" element={<NewUser />} />
+                <Route path="/lieux/add" element={<NewLieux />} />
 
                 <Route path="/patients/*" element={<PatientRouter />} />
                 <Route path="/patients" element={<PageGestionPatients />} />
@@ -50,8 +53,8 @@ const ContentRouter = () => {
                 <Route path="/typepatients" element={<PageGestionTypePatients />} />
                 <Route path="/groupe_droits" element={<PageGestionGroupesDroits />} />
                 <Route path="/praticiens" element={<PageGestionPraticiens />} />
-                <Route path="/praticiens/add" element={<FormGenerator fields={practitionerFields} title={"Fiche praticien"} />} />
-                <Route path="/praticiens/:userId" element={<PageDetailPraticien />} />
+                <Route path="/praticiens/add" element={<AddPraticien />} />
+                <Route path="/praticiens/:praticienId" element={<PageDetailPraticien />} />
                 <Route path="/advancedOptions" element={<PageGestionOptionsAvancees />} />
             </Routes>
         </>

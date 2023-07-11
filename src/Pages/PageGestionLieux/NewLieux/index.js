@@ -1,6 +1,6 @@
 import React from "react";
 import FormGenerator from "../../../Components/authers/FormGenerator";
-import { practitionerFields } from "../../../Constants/fields";
+import { lieuxFields } from "../../../Constants/fields";
 import { getAllGroup } from "../../../services/groups";
 import { getAllCivilities } from "../../../services/commons";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,10 +8,10 @@ import { saveGroups } from "../../../REDUX/groups/actions";
 import { getCivilities } from "../../../REDUX/commons/actions";
 import { useParams } from "react-router-dom";
 import generatePassword from "../../../helpers/passwordGenerator";
-import { createPraticien, editPraticien } from "../../../services/praticiens";
+import { createUser, updateUser } from "../../../services/users";
 
-const AddPraticien = () => {
-  const { fields } = practitionerFields;
+const NewLieux = () => {
+  const { fields } = lieuxFields;
   const dispatch = useDispatch();
   const groupList = useSelector((state) => state.Groups.groups);
   const civList = useSelector((state) => state.Common.civilities);
@@ -52,35 +52,35 @@ const AddPraticien = () => {
   }, []);
 
   // Attribuer les valeurs récupérées
-  practitionerFields.fields.forEach((field) => {
+  lieuxFields.fields.forEach((field) => {
     if (field.name === "groups") field.data = groupList;
     if (field.name === "civility") field.data = civList;
   });
 
   const onSubmit = async (data) => {
     if (!userId) {
-      const datas = { ...data, password: generatePassword() };
-      const result = await createPraticien(datas);
+      const payload = { ...data, password: generatePassword() };
+      const result = await createUser(payload);
       if (result.success !== true) return;
-      setRedirect("/content/praticiens");
+      setRedirect("/content/users");
     } else {
       //update user
-      const result = await editPraticien(userId, data);
+      const result = await updateUser(data, userId);
       if (result.success !== true) return;
-      setRedirect("/content/praticiens");
+      setRedirect("/content/users");
     }
   };
 
   return (
     <FormGenerator
-      fields={practitionerFields}
-      title={"Gestion des utilisateurs"}
+      fields={lieuxFields}
+      title={"Gestion des lieux"}
       dataId={userId}
-      type={"praticien"}
+      type={"user"}
       redirect={redirect}
       onSubmit={onSubmit}
     />
   );
 };
 
-export default AddPraticien;
+export default NewLieux;

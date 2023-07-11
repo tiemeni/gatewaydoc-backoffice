@@ -9,7 +9,7 @@ import {
 import styles from "./style";
 
 const MySelect = ({ error, register, label, fieldData = [], value }) => {
-  const [val, setVal] = React.useState(value)
+  const [val, setVal] = React.useState(value);
   return (
     <Box sx={styles.inputContainer}>
       <Typography sx={styles.label}>{label}</Typography>
