@@ -1,3 +1,8 @@
+/**
+ *  Une Action est un objet qui decrit un changement à appliquer dans le store local (le state)
+ */
+
+
 import axios from "axios";
 
 import {
@@ -5,8 +10,6 @@ import {
   FETCH_PRATICIENS_SUCCESS,
   FETCH_PRATICIENS_FAILURE,
 } from "./types";
-
-//import { url as BASE_URL } from "../../Constants/urls";
 
 
 export const getPraticiens = () => {
