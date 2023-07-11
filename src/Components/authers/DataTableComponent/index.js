@@ -46,7 +46,7 @@ export const DataTable = ({ object, dataField, dataInfo }) => {
                                                         <Link to={`add/${info._id}`}>
                                                             <Create fontSize='large' />
                                                         </Link>
-                                                        <Link href="#" style={{ marginLeft: 10 }}>
+                                                        <Link href="#" style={{ marginLeft: 10 }} >
                                                             <HighlightOff fontSize='large' color='error' />
                                                         </Link>
                                                     </TableCell>
