@@ -18,6 +18,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 export const createPraticien = async (donneePraticien = new Array()) => {
 	var __donneePraticien = Object.assign({}, donneePraticien);
 	__donneePraticien["isPraticien"] = true;
+	__donneePraticien["idCentre"] = "649aacd0c7542f87284daefd";
 	try {
 		const response = await axios({
 			url: BASE_URL + "/users/",
@@ -39,6 +40,7 @@ export const createPraticien = async (donneePraticien = new Array()) => {
 export const editPraticien = async (id_praticien, modifications = new Array()) => {
 	var __modifications = Object.assign({}, modifications);
 	__modifications["isPraticien"] = true;
+	__modifications["idCentre"] = "649aacd0c7542f87284daefd";
 	try {
 		const response = await axios({
 			url: BASE_URL + "/users/" + id_praticien,
@@ -59,6 +61,7 @@ export const editPraticien = async (id_praticien, modifications = new Array()) =
 export const getAllPraticiens = async (options = new Array()) => {
 	var __options = Object.assign({}, options);
 	__options["isPraticien"] = true;
+	__options["idCentre"] = "649aacd0c7542f87284daefd";
 	try {
 		const response = await axios({
 			url: BASE_URL + "/users/",

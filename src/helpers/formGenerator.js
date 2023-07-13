@@ -12,7 +12,7 @@ export const getValueFromReducer = (store, type, dataId) => {
             datas = store.Users.users;
             break;
         case "practitioner":
-            datas = store.Practitioner.practitioner;
+            datas = store.Practitioner.data;
             break;
         case "speciality":
             datas = store.Specialities.specialites;

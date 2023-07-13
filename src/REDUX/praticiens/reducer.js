@@ -5,10 +5,11 @@ import {
   FETCH_PRATICIENS_REQUEST,
   FETCH_PRATICIENS_SUCCESS,
   FETCH_PRATICIENS_FAILURE,
+  SAVE_PRATICIEN_SUCCESS,
 } from "./types";
 
 const initialState = {
-  data: null,
+  data: [],
   loading: false,
   error: null,
 };
@@ -20,10 +21,10 @@ const PractitionerReducer = (state = initialState, action) => {
         ...state,
         loading: true,
       };
-    case FETCH_PRATICIENS_SUCCESS:
+    case  SAVE_PRATICIEN_SUCCESS:
       return {
         ...state,
-        data : action.payload,
+        data: [...action.payload],
         loading: false,
         error: null,
       };

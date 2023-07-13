@@ -149,23 +149,23 @@ export const practitionerFields = {
             name: "name",
             type: fieldTypes.TEXT,
             required: true,
-            placeholder: "NOM"
+            placeholder: "Nom"
         },
         {
             id: 6,
-            label: "Prenom*",
+            label: "Prénom*",
             name: "surname",
             type: fieldTypes.TEXT,
             required: true,
-            placeholder: "Prenom"
+            placeholder: "Prénom"
         },
         {
             id: 7,
             label: "Téléphone*",
             name: "phone",
             type: fieldTypes.TEXT,
-            required: true,
-            placeholder: "Prenom"
+            required: false,
+            placeholder: "Téléphone"
         },
         {
             id: 8,

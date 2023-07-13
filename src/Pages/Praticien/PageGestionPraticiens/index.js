@@ -1,48 +1,41 @@
-import React, { useEffect, useState } from "react";
-import { connect, useDispatch } from "react-redux";
-import { getPraticiens } from "../../../REDUX/praticiens/actions";
-import GestionLayout from '../../../Components/authers/GestionLayout'
-import { SearchPraticienFormComponent } from '../../../Components/authers/SearchPraticienFormComponent';
-import { DATA_TABLE_PRATICIEN_COLONNE } from '../../../Constants/dataFields';
+import React from "react";
+import { getAllPraticiens } from "../../../services/praticiens";
 import { getCivilities } from "../../../services/civilities";
+import { useDispatch, useSelector } from "react-redux";
+import { fireSavePraticien } from "../../../REDUX/praticiens/actions";
+import GestionLayout from "../../../Components/authers/GestionLayout/index.js";
+import { SearchPraticienFormComponent } from "../../../Components/authers/SearchPraticienFormComponent";
+import { DATA_TABLE_PRATICIEN_COLONNE } from "../../../Constants/dataFields";
 
-
-function PageGestionPraticiens({ data, loading, error }) {
-
+export default function PageGestionPraticiens() {
+  const [isLoading, setIsLoading] = React.useState(true);
+  var practitionersList = useSelector((state) => state.Practitioner.data);
   const dispatch = useDispatch();
-  const [ListPraticiens, setListPraticiens] = useState([]);
-
-
-  useEffect(() => {
-    dispatch(getPraticiens());
-    let praticiens = data !== null?data.data : [];
-    getCivilities().then((resp)=>{
-      praticiens.forEach((prati) => {
-        let civ = resp.data.filter((item) => item._id === prati.civility);
-        prati["label_civility"] = civ.length > 0 ? civ[0].label : "";
-      });
-      setListPraticiens(praticiens);
-    });
+  React.useEffect(() => {
+    async function fetchData() {
+      setIsLoading(true);
+      const response = await getAllPraticiens();
+      console.log(response);
+      if (response.success === true) {
+          let praticiens = response.data;
+          praticiens.forEach((prati) => {
+            prati["label_civility"] = prati.civility.label;
+          });
+          practitionersList = praticiens;
+          dispatch(fireSavePraticien(response.data));
+      }
+       setIsLoading(false);
+    }
+    fetchData();
   }, []);
 
-
   return (
-    <container maxWidth="md">
-      <GestionLayout
-        searchForm={<SearchPraticienFormComponent />}
-        title={"Gestion des praticiens"}
-        object={"practitioner"}
-        dataField={DATA_TABLE_PRATICIEN_COLONNE}
-        dataInfo={ListPraticiens}
-      />
-      {/* <pre className="container">{JSON.stringify(data)}</pre> */}
-    </container>
+    <GestionLayout
+      searchForm={<SearchPraticienFormComponent />}
+      title={"Gestion des praticiens"}
+      object={"practitioner"}
+      dataField={DATA_TABLE_PRATICIEN_COLONNE}
+      dataInfo={practitionersList}
+    />
   );
 }
-
-const mapStateToProps = (state) => ({
-  data: state.Practitioner.data,
-  loading: state.Practitioner.loading,
-  error: state.Practitioner.error,
-});
-export default connect(mapStateToProps)(PageGestionPraticiens);

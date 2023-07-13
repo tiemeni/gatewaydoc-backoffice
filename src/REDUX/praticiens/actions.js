@@ -5,31 +5,14 @@
 
 import axios from "axios";
 
-import {
-	FETCH_PRATICIENS_REQUEST,
-	FETCH_PRATICIENS_SUCCESS,
-	FETCH_PRATICIENS_FAILURE,
-} from "./types";
+import { FETCH_PRATICIENS_SUCCESS, SAVE_PRATICIEN_SUCCESS } from "./types";
 
-import { getAllPraticiens } from "../../services/praticiens";
+export const fireGetPraticiens = (payload) => ({
+	type: FETCH_PRATICIENS_SUCCESS,
+	payload,
+});
 
-
-export const getPraticiens = (options) => {
-	return (dispatch, options) => {
-		dispatch({ type: FETCH_PRATICIENS_REQUEST });
-		// lecture HTTP
-		const promise = getAllPraticiens(options);
-		// en cas de succès
-		promise.then((response)=>{
-			dispatch({
-				type: FETCH_PRATICIENS_SUCCESS,
-				payload: { success: true, data : response.data },
-			});
-			
-		});
-		// en cas d'erreur
-		promise.catch((response)=>{
-			dispatch({ type: FETCH_PRATICIENS_FAILURE, payload: response.error });
-		});
-	};
-};
+export const fireSavePraticien = (payload) => ({
+  type: SAVE_PRATICIEN_SUCCESS,
+  payload,
+});
