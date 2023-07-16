@@ -1,3 +1,6 @@
+/**
+ *  Un Reducer est une fonction qui manipule la valeur du state
+ */
 import {
   SAVE_ALL_PRATICIENS,
 } from "./types";
