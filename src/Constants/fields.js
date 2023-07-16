@@ -186,7 +186,7 @@ export const practitionerFields = {
         {
             id: 10,
             label: "Le groupe*",
-            name: "group",
+            name: "groups",
             type: fieldTypes.SELECT,
             required: true,
             placeholder: ""
@@ -330,7 +330,7 @@ export const patientFields = {
             required: true,
             placeholder: ""
         },
-        
+
         {
             id: 10,
             label: "Telephone*",
@@ -353,6 +353,59 @@ export const patientFields = {
             name: "password",
             type: fieldTypes.PASSWORD,
             required: true,
+            placeholder: ""
+        }
+    ]
+}
+
+export const motifsFields = {
+    fields: [
+        {
+            id: 1,
+            label: "couleur*",
+            name: "couleur",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: ""
+        },
+        {
+            id: 2,
+            label: "nom*",
+            name: "nom",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: ""
+        },
+        {
+            id: 3,
+            label: "actif*",
+            name: "active",
+            type: fieldTypes.RADIO,
+            required: true,
+            placeholder: ""
+        },
+        {
+            id: 4,
+            label: "label*",
+            name: "label",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: ""
+        },
+        {
+            id: 5,
+            label: "Temps par defaut(minutes)*",
+            name: "default_time",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: ""
+        },
+        {
+            id: 6,
+            label: "Reference",
+            name: "reference",
+            type: fieldTypes.TEXT,
+            required: false,
             placeholder: ""
         }
     ]

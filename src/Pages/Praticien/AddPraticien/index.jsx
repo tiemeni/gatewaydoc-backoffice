@@ -1,21 +1,25 @@
 import React from "react";
-import FormGenerator from "../../../Components/authers/FormGenerator";
-import { practitionerFields } from "../../../Constants/fields";
-import { getAllGroup } from "../../../services/groups";
-import { getAllCivilities } from "../../../services/commons";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { saveGroups } from "../../../REDUX/groups/actions";
+import { getAllCivilities } from "../../../services/commons";
 import { getCivilities } from "../../../REDUX/commons/actions";
+import { saveGroups } from "../../../REDUX/groups/actions";
+import { getAllGroup } from "../../../services/groups";
 import { useParams } from "react-router-dom";
+import { practitionerFields } from "../../../Constants/fields";
 import generatePassword from "../../../helpers/passwordGenerator";
-import { createPraticien, editPraticien } from "../../../services/praticiens";
+import { createPraticien, updatePraticien } from "../../../services/praticiens";
+import FormGenerator from "../../../Components/authers/FormGenerator";
 
 const AddPraticien = () => {
+
   const { fields } = practitionerFields;
   const dispatch = useDispatch();
   const groupList = useSelector((state) => state.Groups.groups);
   const civList = useSelector((state) => state.Common.civilities);
-  const { userId } = useParams();
+  const { praticienId } = useParams();
 
   const [redirect, setRedirect] = React.useState(false);
 
@@ -36,6 +40,7 @@ const AddPraticien = () => {
     fields.map((field) => {
       switch (field.name) {
         case "groups":
+          console.log('groups call ...')
           getGroups();
           break;
         case "civility":
@@ -58,14 +63,14 @@ const AddPraticien = () => {
   });
 
   const onSubmit = async (data) => {
-    if (!userId) {
-      const datas = { ...data, password: generatePassword() };
-      const result = await createPraticien(datas);
+    if (!praticienId) {
+      const payload = { ...data, password: generatePassword() };
+      const result = await createPraticien(payload);
       if (result.success !== true) return;
       setRedirect("/content/praticiens");
     } else {
       //update user
-      const result = await editPraticien(userId, data);
+      const result = await updatePraticien(data, praticienId);
       if (result.success !== true) return;
       setRedirect("/content/praticiens");
     }
@@ -74,13 +79,13 @@ const AddPraticien = () => {
   return (
     <FormGenerator
       fields={practitionerFields}
-      title={"Gestion des utilisateurs"}
-      dataId={userId}
+      title={"Gestion des praticiens"}
+      dataId={praticienId}
       type={"praticien"}
       redirect={redirect}
       onSubmit={onSubmit}
     />
-  );
+  )
 };
 
 export default AddPraticien;

@@ -74,7 +74,7 @@ export const updateUser = async (payload, id) => {
       method: 'PATCH',
       body: JSON.stringify(payload),
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       }
     })
     const data = await res.json();
