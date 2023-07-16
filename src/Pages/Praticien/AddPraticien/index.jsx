@@ -1,6 +1,5 @@
 import React from "react";
 import UsersLayout from "../../../layout/usersLayout";
-import { createUser } from "../../../services/users/index";
 import {
   Box,
   Button,
@@ -13,163 +12,91 @@ import {
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import styles from "./style";
-import MySelect from "../../../Components/authers/MySelect";
-import CustomInput from "../../../Components/authers/CustomInput";
-
-const errorMsg = "Ce champ est obligatoire";
-const schema = yup.object().shape({
-  civilite: yup.string().required(errorMsg),
-  profession: yup.string().required(errorMsg),
-  fonction: yup.string().required(errorMsg),
-  nom: yup.string().required(errorMsg),
-  prenom: yup.string().required(errorMsg),
-  email: yup.string().email("Email invalide").required(errorMsg),
-  lieu: yup.string().required(errorMsg),
-});
+import { useDispatch, useSelector } from "react-redux";
+import { getAllCivilities } from "../../../services/commons";
+import { getCivilities } from "../../../REDUX/commons/actions";
+import { saveGroups } from "../../../REDUX/groups/actions";
+import { getAllGroup } from "../../../services/groups";
+import { useParams } from "react-router-dom";
+import { practitionerFields } from "../../../Constants/fields";
+import generatePassword from "../../../helpers/passwordGenerator";
+import { createPraticien, updatePraticien } from "../../../services/praticiens";
+import FormGenerator from "../../../Components/authers/FormGenerator";
 
 const AddPraticien = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) });
-  const [isActif, setIsActif] = React.useState("oui");
+
+  const { fields } = practitionerFields;
+  const dispatch = useDispatch();
+  const groupList = useSelector((state) => state.Groups.groups);
+  const civList = useSelector((state) => state.Common.civilities);
+  const { praticienId } = useParams();
+
+  const [redirect, setRedirect] = React.useState(false);
+
+  const getGroups = async () => {
+    const groups = await getAllGroup();
+    if (groups.success !== true) return;
+    dispatch(saveGroups(groups.data));
+  };
+
+  const getCiv = async () => {
+    const civilities = await getAllCivilities();
+    if (civilities.success !== true) return;
+    dispatch(getCivilities(civilities.data));
+  };
+
+  // recuperer les valeurs des champs de selection
+  const getRelatedValues = async () => {
+    fields.map((field) => {
+      switch (field.name) {
+        case "groups":
+          console.log('groups call ...')
+          getGroups();
+          break;
+        case "civility":
+          getCiv();
+          break;
+        default:
+          break;
+      }
+    });
+  };
+
+  React.useEffect(() => {
+    getRelatedValues();
+  }, []);
+
+  // Attribuer les valeurs récupérées
+  practitionerFields.fields.forEach((field) => {
+    if (field.name === "groups") field.data = groupList;
+    if (field.name === "civility") field.data = civList;
+  });
 
   const onSubmit = async (data) => {
-    await createUser(data);
+    if (!praticienId) {
+      const payload = { ...data, password: generatePassword() };
+      const result = await createPraticien(payload);
+      if (result.success !== true) return;
+      setRedirect("/content/praticiens");
+    } else {
+      //update user
+      const result = await updatePraticien(data, praticienId);
+      if (result.success !== true) return;
+      setRedirect("/content/praticiens");
+    }
   };
-  const handleChange = (e) => setIsActif(e.target.value);
+
 
   return (
-    <UsersLayout title={"Fiche praticien"}>
-      <Grid item xs={12} px={2} py={5}>
-        <form onSubmit={handleSubmit(onSubmit)} style={styles.form}>
-          <CustomInput
-            label={"Id module externe"}
-            register={{ ...register("initiales") }}
-          />
-
-          <MySelect
-            label={"Civilité"}
-            register={{ ...register("civilite") }}
-            error={errors.civilite}
-          />
-
-          <MySelect
-            label={"Profession"}
-            register={{ ...register("profession") }}
-            error={errors.profession}
-          />
-
-          <MySelect
-            label={"Fonction"}
-            register={{ ...register("fonction") }}
-            error={errors.fonction}
-          />
-
-          <CustomInput
-            label={"Initiales"}
-            register={{ ...register("initiales") }}
-          />
-
-          <CustomInput
-            label={"Nom*"}
-            register={{ ...register("nom") }}
-            error={errors.nom}
-          />
-
-          <CustomInput
-            label={"Prénom*"}
-            register={{ ...register("prenom") }}
-            error={errors.prenom}
-          />
-
-          <CustomInput
-            label={"Téléphone*"}
-            register={{ ...register("phone") }}
-            error={errors.prenom}
-          />
-
-          <CustomInput
-            label={"Photo"}
-            register={{ ...register("photo") }}
-            type="file"
-          />
-
-          <CustomInput
-            label={"Email*"}
-            register={{ ...register("email") }}
-            error={errors.email}
-            type="email"
-          />
-
-          <MySelect
-            label={"Le groupe"}
-            register={{ ...register("groupe") }}
-            error={errors.groupe}
-          />
-
-          <Box sx={styles.inputContainer}>
-            <Typography sx={styles.label}>Actif*</Typography>
-            <RadioGroup
-              name="actif"
-              value={isActif}
-              onChange={handleChange}
-              row
-            >
-              <FormControlLabel value="oui" control={<Radio />} label="Oui" />
-              <FormControlLabel value="non" control={<Radio />} label="Non" />
-            </RadioGroup>
-          </Box>
-
-          <CustomInput
-            label={"Date de fin d'activité"}
-            register={{ ...register("dateFin") }}
-            type="date"
-          />
-
-          <Box sx={styles.inputContainer}>
-            <Typography sx={styles.label}>Est chirurgien*</Typography>
-            <RadioGroup
-              name="chirurgien"
-              value={isActif}
-              onChange={handleChange}
-              row
-            >
-              <FormControlLabel value="oui" control={<Radio />} label="Oui" />
-              <FormControlLabel value="non" control={<Radio />} label="Non" />
-            </RadioGroup>
-          </Box>
-
-          <CustomInput
-            label={"Lieu affecté*"}
-            register={{ ...register("lieu") }}
-          />
-
-          <CustomInput
-            label={"Filtre sur les motifs de rdv"}
-            register={{ ...register("filtreMotif") }}
-          />
-
-          <CustomInput
-            label={"Prix défaut"}
-            register={{ ...register("defaultPrice") }}
-          />
-
-          <Box sx={styles.inputContainer} mt={2}>
-            <Box sx={{ width: 250, background: "red" }}></Box>
-            <Button type="submit" variant="contained">
-              Valider
-            </Button>
-            <Button type="submit" variant="contained">
-              Annuler
-            </Button>
-          </Box>
-        </form>
-      </Grid>
-    </UsersLayout>
-  );
+    <FormGenerator
+      fields={practitionerFields}
+      title={"Gestion des praticiens"}
+      dataId={praticienId}
+      type={"praticien"}
+      redirect={redirect}
+      onSubmit={onSubmit}
+    />
+  )
 };
 
 export default AddPraticien;

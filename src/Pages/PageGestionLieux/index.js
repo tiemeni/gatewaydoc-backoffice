@@ -5,35 +5,44 @@ import { DATA_TABLE_LIEU_COLONNE, DATA_TABLE_PATIENT_COLONNE } from '../../Const
 import { styles } from './style'
 import { DATA_TABLE_LIEUX_COLONNE } from '../../Constants/dataFields';
 import { SearchLieuxFormComponent } from '../../Components/authers/SearchLieuxFormComponent';
-import { getAllLieux } from '../../REDUX/lieux/action'
-import { connect, useDispatch } from 'react-redux' 
+import { getAllLieux, saveLieu } from '../../REDUX/lieux/action'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
+import { getLieux } from '../../services/lieu'
 
 
 function PageGestionLieux({ data, loading, error }) {
 
-    const dispatch = useDispatch();
-    console.log(data)
-    useEffect(()=>{
-      dispatch( getAllLieux() );
-    }, [])
+  const [isLoading, setIsLoading] = React.useState(true);
+  const lieuList = useSelector((state) => state.Lieux.lieux)
+  const dispatch = useDispatch();
 
-    return (
-        <GestionLayout
-            searchForm={<SearchPraticienFormComponent />}
-            title={"Gestion des lieux"}
-            object={"lieu"}
-            dataField={DATA_TABLE_LIEU_COLONNE}
-            // dataInfo={{ user1: ["Yaoundé", "yaoundé", "Centre", "85566", "reff_4554454", "q6sq65sq6s5", "154.1 - 257.5", "yes"] }}
-            dataInfo={data?.data}
-        />
-    )
+  React.useEffect(() => {
+    async function fetchData() {
+      setIsLoading(true);
+      const response = await getLieux();
+
+      if (response.success !== true) {
+        setIsLoading(false);
+        return;
+      }
+
+      setIsLoading(false);
+      dispatch(saveLieu(response.data))
+    }
+    fetchData()
+  }, [])
+
+  return (
+    <GestionLayout
+      searchForm={<SearchPraticienFormComponent />}
+      title={"Gestion des lieux"}
+      object={"lieu"}
+      dataField={DATA_TABLE_LIEU_COLONNE}
+      dataInfo={lieuList}
+    />
+  )
 }
 
-const mapStateToProps = state => ({
-    data: state.Lieux.data,
-    loading: state.Lieux.loading,
-    error: state.Lieux.error
-  });
 
-export default connect(mapStateToProps)(PageGestionLieux)
+export default PageGestionLieux
