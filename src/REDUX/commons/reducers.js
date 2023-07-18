@@ -1,7 +1,8 @@
 import * as types from "./types"
 
 const initialState = {
-    civilities: []
+    civilities: [],
+    idc: null
 }
 
 const CommonReducer = (state = initialState, action) => {
@@ -25,6 +26,11 @@ const CommonReducer = (state = initialState, action) => {
             return {
                 ...state,
                 civilities: [...action.payload]
+            }
+        case types.SAVE_IDC:
+            return {
+                ...state,
+                idc: action.payload
             }
         default:
             return state;

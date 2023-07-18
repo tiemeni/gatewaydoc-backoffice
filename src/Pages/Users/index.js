@@ -7,7 +7,8 @@ import { SearchPraticienFormComponent } from '../../Components/authers/SearchPra
 import { DATA_TABLE_USERS_COLONNE } from '../../Constants/dataFields'
 
 export default function Users() {
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState(false)
+  const idc = useSelector((state) => state.Common.idc)
   const usersList = useSelector((state) => state.Users.users)
   const dispatch = useDispatch();
 
