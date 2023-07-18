@@ -341,7 +341,7 @@ export const patientFields = {
         },
         {
             id: 11,
-            label: "Birthdate*",
+            label: "Date de naissance*",
             name: "birthdate",
             type: fieldTypes.DATE,
             required: true,
@@ -349,7 +349,7 @@ export const patientFields = {
         },
         {
             id: 12,
-            label: "Password*",
+            label: "Mot de passe*",
             name: "password",
             type: fieldTypes.PASSWORD,
             required: true,
@@ -362,7 +362,7 @@ export const lieuxFields = {
     fields: [
         {
             id: 1,
-            label: "active",
+            label: "Actif",
             name: "active",
             type: fieldTypes.RADIO,
             required: true,
@@ -370,7 +370,7 @@ export const lieuxFields = {
         },
         {
             id: 2,
-            label: "codePostal",
+            label: "Code postal",
             name: "codePostal",
             type: fieldTypes.TEXT,
             required: false,
@@ -378,7 +378,7 @@ export const lieuxFields = {
         },
         {
             id: 3,
-            label: "initiales",
+            label: "Initiales",
             name: "initiales",
             type: fieldTypes.TEXT,
             required: false,
@@ -394,7 +394,7 @@ export const lieuxFields = {
         },
         {
             id: 5,
-            label: "reference*",
+            label: "Réference*",
             name: "reference",
             type: fieldTypes.TEXT,
             required: true,
@@ -402,7 +402,7 @@ export const lieuxFields = {
         },
         {
             id: 6,
-            label: "region*",
+            label: "Région*",
             name: "region",
             type: fieldTypes.TEXT,
             required: true,
@@ -418,7 +418,7 @@ export const lieuxFields = {
         },
         {
             id: 8,
-            label: "ville*",
+            label: "Ville*",
             name: "ville",
             type: fieldTypes.TEXT,
             required: true,

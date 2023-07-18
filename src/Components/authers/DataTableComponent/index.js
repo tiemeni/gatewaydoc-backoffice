@@ -42,7 +42,7 @@ export const DataTable = ({ object, dataField, dataInfo }) => {
                                         return (
                                             <>
                                                 {column.label === "Actions" ?
-                                                    <TableCell sx={styles.fs14} align='center'>
+                                                    <TableCell sx={styles.fs14} align='right'>
                                                         <Link to={`add/${info._id}`}>
                                                             <Create fontSize='large' />
                                                         </Link>
@@ -51,7 +51,7 @@ export const DataTable = ({ object, dataField, dataInfo }) => {
                                                         </Link>
                                                     </TableCell>
                                                     :
-                                                    <TableCell key={column.label} sx={{ ...styles.fs14, textAlign: 'center' }} align="center">
+                                                    <TableCell key={column.label} sx={{ ...styles.fs14, textAlign: 'right' }} align="center">
                                                         {(column.name === 'groups' || column.name === 'civility') ? info[column.name].label || info[column.name].title : info[column.name]?.toString()}
                                                     </TableCell>
                                                 }
