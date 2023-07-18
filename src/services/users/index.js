@@ -38,7 +38,7 @@ export const createUser = async (payload) => {
   // }
 
   try {
-    const res = await fetch(BASE_URL + "/users/register/?idc=" + idc, {
+    const res = await fetch(BASE_URL + "/users/register/?idCentre=" + idc, {
       method: 'POST',
       body: JSON.stringify(payload),
       headers: {
@@ -73,7 +73,7 @@ export const isValidToken = async (token) => {
 }
 export const updateUser = async (payload, id) => {
   try {
-    const res = await fetch(BASE_URL + "/users/" + id, {
+    const res = await fetch(BASE_URL + "/users/" + id + "/?idCentre=" + idc, {
       method: 'PATCH',
       body: JSON.stringify(payload),
       headers: {
