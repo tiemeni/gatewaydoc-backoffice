@@ -12,8 +12,9 @@ import { showPRDV } from "../../REDUX/commons/actions";
 
 
 const FackContainer = () => {
-    const dispatch = useDispatch()
-    const showRDV = useSelector(state => state.Common.showPRDV)
+    const dispatch = useDispatch();
+    const showRDV = useSelector(state => state.Common.showPRDV);
+    console.log(showRDV)
     return (
         <Box overflowY={"hidden"}>
             <Box style={styles.container}>

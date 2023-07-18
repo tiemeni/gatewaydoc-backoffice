@@ -1,5 +1,6 @@
 export const EMAIL = "email"
 export const TEXT = "text"
+export const TEL = "tel"
 export const RADIO = "radio"
 export const FILE = "file"
 export const SELECT = "select"
