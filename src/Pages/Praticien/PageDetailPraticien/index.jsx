@@ -6,13 +6,13 @@ import { getPraticienById } from "../../../services/praticiens";
 const DetailPraticien = ()=>{
     const [praticien, setPraticien] = useState([]);
 
-    const { userId } = useParams();
+    const { praticienId } = useParams();
 
 //     useEffect(() => {
-//         getPraticienById(userId).then((data)=>{
+//         getPraticienById(praticienId).then((data)=>{
 //             setPraticien(data);
 //         });
-//   }, [userId]);
+//   }, [praticienId]);
     return <UsersLayout>
         <container maxWidth="md">
             <h1>Détail du Praticien</h1>

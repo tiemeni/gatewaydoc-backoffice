@@ -1,19 +1,21 @@
 import React, { useState } from 'react'
 import { Box, TextField, Button } from '@mui/material'
 import PersonIcon from '@mui/icons-material/Person';
-import { styled } from '@mui/system';
 import gatewayDocLogo from '../../../gatewaydoc.png'
 import { Colors } from '../../../Constants/colors';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../../REDUX/users/actions';
+import { saveIdc } from '../../../REDUX/commons/actions';
 import { signUserIn } from '../../../services/users';
+import styles from './style'
 
 
-const LoginPage = () => {
+const LoginPage = ({ idc }) => {
     const dispatch = useDispatch()
     const [login, setLogin] = useState("");
     const [mdp, setMdp] = useState("");
     const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
 
     const handleLogin = (e) => {
         setLogin(e.target.value)
@@ -25,30 +27,32 @@ const LoginPage = () => {
 
     const handleSubmit = async () => {
         setError('')
-        const result = await signUserIn({ email: login, password: mdp })
-        if (result.data.success) {
-            dispatch(setUser({ ...result.data.data.user }))
-            localStorage.setItem("acces_bo_token", result.data.data.access_token)
+        setLoading(true)
+        const result = await signUserIn({ email: login, password: mdp }, idc)
+        if (result?.success) {
+            setLoading(false)
+            dispatch(setUser({ ...result.data.user }))
+            // dispatch(saveIdc(idc))
+
+            localStorage.setItem("acces_bo_token", result.data.access_token)
+            localStorage.setItem("idc", idc)
             window.location = "/content"
         } else {
-            console.log('not here')
-            setError(result.data.message)
+            setLoading(false)
+            setError(result?.message || "une erreur s'est produite, veillez verifier votre connexion")
         }
     }
 
     return (
         <div style={{ position: "relative" }}>
-            <Box style={{ textAlign: "center", marginLeft: 'auto', marginRight: 'auto', width: '65vh', height: '100vh', paddingTop: "0px" }}>
-                <img src={gatewayDocLogo} style={{ marginLeft: 'auto', marginRight: 'auto', minWidth: "150px", height: 'auto', width: "10vw", marginTop: "50px" }} />
+            <Box style={styles.boxContainer}>
+                <img src={gatewayDocLogo} style={styles.images} alt='' />
 
-                <p style={{ fontSize: "14px", textAlign: "center", marginTop: "20px" }}>CONNECTEZ-VOUS A VOTRE COMPTE</p>
-                <div style={{
-                    backgroundColor: "gray", width: "100px", height: "100px", borderRadius: "200px",
-                    marginLeft: 'auto', marginRight: 'auto', marginTop: "20px"
-                }}>
-                    <PersonIcon sx={{ fontSize: 100, color: "white" }} />
+                <p style={styles.intitule}>CONNECTEZ-VOUS A VOTRE COMPTE</p>
+                <div style={styles.iconBox}>
+                    <PersonIcon sx={styles.icon} />
                 </div>
-                <Box style={{ display: "flex", flexDirection: 'column', justifyContent: 'center', marginTop: "20px", gap: "20px" }}>
+                <Box style={styles.inputBox}>
                     <p style={{ color: 'red' }}>{error}</p>
                     <TextField
                         required
@@ -57,7 +61,7 @@ const LoginPage = () => {
                         value={login}
                         onChange={handleLogin}
                         defaultValue=""
-                        style={{ width: "80%", marginLeft: 'auto', marginRight: 'auto' }}
+                        style={styles.inputField}
                     />
                     <TextField
                         required
@@ -66,14 +70,14 @@ const LoginPage = () => {
                         value={mdp}
                         onChange={handleMdp}
                         defaultValue=""
-                        style={{ width: "80%", marginLeft: 'auto', marginRight: 'auto' }}
+                        style={styles.inputField}
                     />
                     <Button
                         onClick={handleSubmit}
                         style={{
                             width: "80%", marginLeft: 'auto', marginRight: 'auto', paddingTop: '10px',
                             paddingBottom: "10px", background: Colors.primary, color: "white", fontSize: '12px', fontWeight: 'bold'
-                        }} >Se connecter</Button>
+                        }} >{loading ? 'Chargement...' : 'Se connecter'}</Button>
 
                 </Box>
 

@@ -1,8 +1,11 @@
 const BASE_URL = process.env.REACT_APP_BASE_URL;
+const idc = localStorage.getItem("idc");
 
 export const getUsers = async () => {
   try {
-    const res = await fetch(BASE_URL + "/users/");
+    const res = await fetch(BASE_URL + "/users/?idCentre=" + idc, {
+      credentials: "include"
+    });
     const data = await res.json()
     return data;
   } catch (err) {
@@ -10,9 +13,9 @@ export const getUsers = async () => {
   }
 };
 
-export const signUserIn = async (payload) => {
+export const signUserIn = async (payload, idc) => {
   try {
-    const res = await fetch(BASE_URL + "/users/signin", {
+    const res = await fetch(BASE_URL + "/users/signin/?idCentre=" + idc, {
       method: "POST",
       body: JSON.stringify(payload),
       headers: {
@@ -20,7 +23,7 @@ export const signUserIn = async (payload) => {
       }
     });
     const data = await res.json()
-    return { status: true, data: data };
+    return data;
   } catch (err) {
     console.error(err);
     return { status: false, error: err };
@@ -35,7 +38,7 @@ export const createUser = async (payload) => {
   // }
 
   try {
-    const res = await fetch(BASE_URL + "/users/register", {
+    const res = await fetch(BASE_URL + "/users/register/?idc=" + idc, {
       method: 'POST',
       body: JSON.stringify(payload),
       headers: {
@@ -63,7 +66,7 @@ export const isValidToken = async (token) => {
     const data = await res.json()
     return data.success
   } catch (err) {
-    console.error("------------",err);
+    console.error("------------", err);
     window.location = "/"
     return false
   }
@@ -74,7 +77,7 @@ export const updateUser = async (payload, id) => {
       method: 'PATCH',
       body: JSON.stringify(payload),
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       }
     })
     const data = await res.json();

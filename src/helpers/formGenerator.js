@@ -11,14 +11,20 @@ export const getValueFromReducer = (store, type, dataId) => {
         case "user":
             datas = store.Users.users;
             break;
-        case "practitioner":
-            datas = store.Practitioner.practitioner;
+        case "praticien":
+            datas = store.Praticiens.praticiens;
             break;
         case "speciality":
             datas = store.Specialities.specialites;
             break;
         case "patient":
             datas = store.Patients.patients;
+            break;
+        case "lieu":
+            datas = store.Lieux.lieux;
+            break;
+        case "motif":
+            datas = store.Motifs.motifs;
             break;
         default:
             break;

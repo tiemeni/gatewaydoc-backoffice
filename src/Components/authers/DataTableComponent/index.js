@@ -51,8 +51,8 @@ export const DataTable = ({ object, dataField, dataInfo }) => {
                                                         </Link>
                                                     </TableCell>
                                                     :
-                                                    <TableCell key={column.label} sx={{ ...styles.fs14, textAlign: 'right' }} align="center">
-                                                        {(column.name === 'groups' || column.name === 'civility') ? info[column.name].label || info[column.name].title : info[column.name]?.toString()}
+                                                    <TableCell key={column?.label} sx={{ ...styles.fs14, textAlign: 'center' }} align="right">
+                                                        {(column.name === 'groups' || column.name === 'civility') ? info[column.name]?.label || info[column.name]?.title : info[column.name]?.toString()}
                                                     </TableCell>
                                                 }
                                             </>

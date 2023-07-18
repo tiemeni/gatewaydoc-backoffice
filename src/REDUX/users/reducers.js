@@ -13,7 +13,6 @@ const UserReducers = (state = initalState, action) => {
                 users: [...action.payload]
             }
         case types.SIGNIN:
-            console.log(action.payload)
             return {
                 ...state,
                 connected_user: action.payload
