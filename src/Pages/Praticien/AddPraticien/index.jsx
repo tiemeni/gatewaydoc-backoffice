@@ -7,6 +7,8 @@ import { getAllCivilities } from "../../../services/commons";
 import { getCivilities } from "../../../REDUX/commons/actions";
 import { saveGroups } from "../../../REDUX/groups/actions";
 import { getAllGroup } from "../../../services/groups";
+import { getSpecialities } from "../../../services/specialities";
+import { saveSpecialities } from "../../../REDUX/specialites/actions";
 import { useParams } from "react-router-dom";
 import { practitionerFields } from "../../../Constants/fields";
 import generatePassword from "../../../helpers/passwordGenerator";
@@ -19,9 +21,23 @@ const AddPraticien = () => {
   const dispatch = useDispatch();
   const groupList = useSelector((state) => state.Groups.groups);
   const civList = useSelector((state) => state.Common.civilities);
+  const specList = useSelector((state) => state.Specialities.specialites);
   const { praticienId } = useParams();
 
   const [redirect, setRedirect] = React.useState(false);
+  
+  const getCiv = async () => {
+    const civilities = await getAllCivilities();
+    if (civilities.success !== true) return;
+    dispatch(getCivilities(civilities.data));
+  };
+
+  const getSpec = async () => {
+    const specialities = await getSpecialities();
+    if (specialities.success !== true) return;
+    dispatch(saveSpecialities(specialities.data));
+  };
+
 
   const getGroups = async () => {
     const groups = await getAllGroup();
@@ -29,22 +45,18 @@ const AddPraticien = () => {
     dispatch(saveGroups(groups.data));
   };
 
-  const getCiv = async () => {
-    const civilities = await getAllCivilities();
-    if (civilities.success !== true) return;
-    dispatch(getCivilities(civilities.data));
-  };
-
   // recuperer les valeurs des champs de selection
   const getRelatedValues = async () => {
     fields.map((field) => {
       switch (field.name) {
         case "groups":
-          console.log('groups call ...')
           getGroups();
           break;
         case "civility":
           getCiv();
+          break;
+        case "job":
+          getSpec();
           break;
         default:
           break;
@@ -60,6 +72,7 @@ const AddPraticien = () => {
   practitionerFields.fields.forEach((field) => {
     if (field.name === "groups") field.data = groupList;
     if (field.name === "civility") field.data = civList;
+    if (field.name === "job") field.data = specList;
   });
 
   const onSubmit = async (data) => {
