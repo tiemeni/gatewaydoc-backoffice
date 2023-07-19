@@ -1,9 +1,10 @@
 const BASE_URL = process.env.REACT_APP_BASE_URL;
+const idc = localStorage.getItem("idc");
 
 
 export const getPraticiens = async () => {
     try {
-        const res = await fetch(BASE_URL + "/users?isPraticien=true");
+        const res = await fetch(BASE_URL + "/users/?idCentre=" + idc + "&&isPraticien=true");
         const data = await res.json()
         return data;
     } catch (err) {
