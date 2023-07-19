@@ -14,7 +14,6 @@ import PageGestionTypePatients from "../../Pages/PageGestionTypePatients";
 import PageGestionGroupesDroits from "../../Pages/PageGestionGroupesDroits";
 import AddPraticien from "../../Pages/Praticien/AddPraticien";
 import PageGestionPraticiens from "../../Pages/Praticien/PageGestionPraticiens";
-import PageDetailPraticien from "../../Pages/Praticien/PageDetailPraticien";
 import PageGestionOptionsAvancees from "../../Pages/PageGestionOptionsAvancees";
 import FormGenerator from "../../Components/authers/FormGenerator";
 import { practitionerFields } from "../../Constants/fields";
@@ -22,6 +21,7 @@ import PatientRouter from "./PatientRouter";
 import SpecialitiesRouter from "./SpecialitiesRouter";
 import NewLieux from "../../Pages/PageGestionLieux/NewLieux";
 import AddMotif from "../../Pages/PageGestionMotifs/addMotif";
+import TestPage from "../../Pages/TestPage";
 
 const ContentRouter = () => {
     return (
@@ -60,6 +60,7 @@ const ContentRouter = () => {
                 <Route path="/praticiens/add" element={<AddPraticien />} />
                 <Route path="/praticiens/add/:praticienId" element={<AddPraticien />} />
                 <Route path="/advancedOptions" element={<PageGestionOptionsAvancees />} />
+                <Route path="/test" element={<TestPage />} />
             </Routes>
         </>
     )
