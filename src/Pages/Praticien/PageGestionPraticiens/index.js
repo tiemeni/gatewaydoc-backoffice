@@ -17,7 +17,10 @@ function PageGestionPraticiens({ data, loading, error }) {
       if (response.success !== true) {
         return;
       }
-      dispatch(savePraticiens(response.data))
+      response.data.forEach((item) => {
+        item["label_civility"] = item.civility.label;
+      });
+      dispatch(savePraticiens(response.data));
     }
     fetchData()
   }, [])
