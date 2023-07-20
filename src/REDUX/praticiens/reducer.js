@@ -1,24 +1,34 @@
-/**
- *  Un Reducer est une fonction qui manipule la valeur du state
- */
 import {
-  SAVE_ALL_PRATICIENS,
+  FETCH_PRATICIENS_REQUEST,
+  FETCH_PRATICIENS_SUCCESS,
+  FETCH_PRATICIENS_FAILURE,
 } from "./types";
 
 const initialState = {
-  praticiens: [],
+  data: null,
   loading: false,
   error: null,
 };
 
 const PraticiensReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SAVE_ALL_PRATICIENS:
+    case FETCH_PRATICIENS_REQUEST:
       return {
         ...state,
-        praticiens: action.payload,
+        loading: true,
+      };
+    case FETCH_PRATICIENS_SUCCESS:
+      return {
+        ...state,
+        data: action.payload,
         loading: false,
         error: null,
+      };
+    case FETCH_PRATICIENS_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: true,
       };
     default:
       return state;

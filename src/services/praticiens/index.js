@@ -1,53 +1,58 @@
+/**
+ *  Les services sont en fait des callouts destiné à vous produire des données qui vont aller dans le store
+ */
+import axios from "axios";
+
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-const idc = localStorage.getItem("idc");
 
 
-export const getPraticiens = async () => {
-    try {
-        const res = await fetch(BASE_URL + "/users/?idCentre=" + idc + "&&isPraticien=true");
-        const data = await res.json()
-        return data;
-    } catch (err) {
-        return err;
-    }
-};
+
+
 
 /**
- * Envoyer les donnees du praticien vers le serveur
- * @param {*} payload 
- * @returns {*} Contenu de la reponse AJAX
+ * Enregistrer les données dans les serveur.
+ * @param {*} datas
+ * @returns Object
  */
-export const createPraticien = async (payload) => {
+export const createPraticien = (datas) => {
+    return { success: true, data: [] };
+}
 
+
+
+export const editPraticien = (id_praticien, datas) => {
+  return {success : true, data: []};
+};
+
+
+export const getAllPraticiens = (Options) => {
+  return { success: true, data: [] };
+};
+
+
+/**
+ * Lire de information d'un praticien donnée
+ * @param {*} id_praticien 
+ * @returns 
+ */
+export const getPraticienById = async (id_praticien) => {
     try {
-        const res = await fetch(BASE_URL + "/users/register/?idCentre=" + idc, {
-          method: "POST",
-          body: JSON.stringify({ ...payload, isPraticien: true}),
+        const response = await axios({
+          method: "GET",
+          url: BASE_URL + "/users/" + id_praticien,
+          params: {
+            isPraticien: true,
+          },
           headers: {
+            Accept: "application/json",
             "Content-Type": "application/json",
           },
         });
-        const data = await res.json();
-        return data
-    } catch (err) {
-        console.error(err)
-        return { status: false, error: err }
-    }
-}
-
-export const updatePraticien = async (payload, id) => {
-    try {
-      const res = await fetch(BASE_URL + "/users/" + id + "/?idCentre=" + idc, {
-        method: 'PATCH',
-        body: JSON.stringify({...payload}),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-      const data = await res.json();
-      return data
-    } catch (err) {
-      console.error(err)
-      return { status: false, error: err }
-    }
+   
+    const data = await response.json();
+    return data
+  } catch (err) {
+    console.error(err)
+    return { status: false, error: err }
   }
+}
