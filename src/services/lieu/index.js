@@ -1,9 +1,10 @@
 const BASE_URL = process.env.REACT_APP_BASE_URL;
+const idc = localStorage.getItem("idc");
 
 
 export const getLieux = async () => {
     try {
-        const res = await fetch(BASE_URL + "/lieu/");
+        const res = await fetch(BASE_URL + "/lieu/?idCentre=" +idc );
         const data = await res.json()
         return data;
     } catch (err) {
@@ -14,7 +15,7 @@ export const getLieux = async () => {
 
 export const createLieux = async (payload) => {
     try {
-        const res = await fetch(BASE_URL + "/lieu/register", {
+        const res = await fetch(BASE_URL + "/lieu/register?idCentre=" +idc, {
             method: "POST",
             body: JSON.stringify(payload),
             headers: {
@@ -31,7 +32,7 @@ export const createLieux = async (payload) => {
 
 export const updateLieu = async (payload, lieuId) => {
     try {
-        const res = await fetch(BASE_URL + `/lieu/${lieuId}`, {
+        const res = await fetch(BASE_URL + `/lieu/${lieuId}/?idCentre=` +idc, {
             method: "PUT",
             body: JSON.stringify(payload),
             headers: {

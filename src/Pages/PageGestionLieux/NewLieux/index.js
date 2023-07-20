@@ -20,45 +20,19 @@ const NewLieux = () => {
 
   const [redirect, setRedirect] = React.useState(false);
 
-  // const getGroups = async () => {
-  //   const groups = await getAllGroup();
-  //   if (groups.success !== true) return;
-  //   dispatch(saveGroups(groups.data));
-  // };
-
-  // const getCiv = async () => {
-  //   const civilities = await getAllCivilities();
-  //   if (civilities.success !== true) return;
-  //   dispatch(getCivilities(civilities.data));
-  // };
-
-  // recuperer les valeurs des champs de selection
-  // const getRelatedValues = async () => {
-  //   fields.map((field) => {
-  //     switch (field.name) {
-  //       case "groups":
-  //         getGroups();
-  //         break;
-  //       case "civility":
-  //         getCiv();
-  //         break;
-  //       default:
-  //         break;
-  //     }
-  //   });
-  // };
 
   React.useEffect(() => {
     // getRelatedValues();
   }, []);
 
   // Attribuer les valeurs récupérées
-  lieuxFields.fields.forEach((field) => {
-    if (field.name === "groups") field.data = groupList;
-    if (field.name === "civility") field.data = civList;
-  });
+  // lieuxFields.fields.forEach((field) => {
+  //   if (field.name === "groups") field.data = groupList;
+  //   if (field.name === "civility") field.data = civList;
+  // });
 
   const onSubmit = async (data) => {
+    console.log(data)
     if (!lieuId) {
       const payload = { ...data };
       const result = await createLieux(payload);

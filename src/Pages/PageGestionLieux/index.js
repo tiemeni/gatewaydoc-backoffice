@@ -9,18 +9,27 @@ import { getAllLieux, saveLieu } from '../../REDUX/lieux/action'
 import { connect, useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { getLieux } from '../../services/lieu'
+import { useLocation } from "react-router-dom";
 
+
+function useQuery() {
+  const { search } = useLocation();
+
+  return new URLSearchParams(search);
+}
 
 function PageGestionLieux({ data, loading, error }) {
 
   const [isLoading, setIsLoading] = React.useState(true);
   const lieuList = useSelector((state) => state.Lieux.lieux)
   const dispatch = useDispatch();
+  const idc = useQuery().get("idc")
+
 
   React.useEffect(() => {
     async function fetchData() {
       setIsLoading(true);
-      const response = await getLieux();
+      const response = await getLieux(idc);
 
       if (response.success !== true) {
         setIsLoading(false);

@@ -1,8 +1,10 @@
 const BASE_URL = process.env.REACT_APP_BASE_URL;
+const idc = localStorage.getItem("idc");
+
 
 export const getPatients = async () => {
   try {
-    const res = await fetch(BASE_URL + "/patients/");
+    const res = await fetch(BASE_URL + "/patients/?idCentre=" +idc);
     const data = await res.json();
     return data;
   } catch (err) {
@@ -11,14 +13,9 @@ export const getPatients = async () => {
 };
 
 export const createPatient = async (payload) => {
-  // const keys = Object.keys(payload);
-  // const formData = new FormData();
-  // for (const key of keys) {
-  //   formData.append(key, payload[key]);
-  // }
 
   try {
-    const res = await fetch(BASE_URL + "/patients/register", {
+    const res = await fetch(BASE_URL + "/patients/register/?idCentre=" +idc, {
       method: 'POST',
       body: JSON.stringify(payload),
       headers: {
@@ -35,7 +32,7 @@ export const createPatient = async (payload) => {
 
 export const updatePatient = async (payload, id) => {
   try {
-    const res = await fetch(BASE_URL + "/patients/" + id, {
+    const res = await fetch(BASE_URL + `/patients/${id}/?idCentre=` +idc, {
       method: 'PUT',
       body: JSON.stringify(payload),
       headers: {
