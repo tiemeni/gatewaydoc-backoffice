@@ -12,10 +12,6 @@ export const DATA_TABLE_SPECIALITE_COLONNE = [
         name: "secretaryAlert"
     },
     {
-        label: "Active",
-        name: "active"
-    },
-    {
         label: "Actions"
     }
 ]
@@ -39,10 +35,6 @@ export const DATA_TABLE_USERS_COLONNE = [
     {
         label: "Prénom",
         name: 'surname'
-    },
-    {
-        label: "Téléphone",
-        name: 'telephone'
     },
     {
         label: "Email",

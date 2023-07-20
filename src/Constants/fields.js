@@ -259,15 +259,7 @@ export const specialityFields = {
             type: fieldTypes.TEXT,
             required: true,
             placeholder: ""
-        },
-        {
-            id: 3,
-            label: "active*",
-            name: "active",
-            type: fieldTypes.TEXT,
-            required: true,
-            placeholder: ""
-        },
+        }
     ]
 }
 
