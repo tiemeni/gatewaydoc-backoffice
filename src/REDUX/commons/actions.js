@@ -16,3 +16,8 @@ export const getCivilities = payload => ({
     type: types.GET_CIVILITIES,
     payload
 })
+
+export const saveIdc = (payload) => ({
+    type: types.SAVE_IDC,
+    payload
+})

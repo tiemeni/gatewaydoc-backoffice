@@ -1,27 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { connect, useDispatch } from "react-redux";
-import { getPraticiens } from "../../../REDUX/praticiens/actions";
+import { connect, useDispatch, useSelector } from "react-redux";
 import GestionLayout from '../../../Components/authers/GestionLayout'
 import { SearchPraticienFormComponent } from '../../../Components/authers/SearchPraticienFormComponent';
 import { DATA_TABLE_PRATICIEN_COLONNE } from '../../../Constants/dataFields';
-import { getCivilities } from "../../../services/civilities";
+import { getPraticiens } from "../../../services/praticiens";
+import { savePraticiens } from "../../../REDUX/praticiens/actions"
 
 function PageGestionPraticiens({ data, loading, error }) {
-
+  const praticiensList = useSelector((state) => state.Praticiens.praticiens)
   const dispatch = useDispatch();
-  const [ListPraticiens, setListPraticiens] = useState([]);
 
-  useEffect(() => {
-    dispatch(getPraticiens());
-    let praticiens = data !== null?data.data : [];
-    getCivilities().then((resp)=>{
-      praticiens.forEach((prati) => {
-        let civ = resp.data.filter((item) => item._id === prati.civility);
-        prati["label_civility"] = civ.length > 0 ? civ[0].label : "";
+  React.useEffect(() => {
+    async function fetchData() {
+      const response = await getPraticiens();
+      console.log(response)
+      if (response.success !== true) {
+        return;
+      }
+      response.data.forEach((item) => {
+        item["label_civility"] = item.civility.label;
       });
-      setListPraticiens(praticiens);
-    });
-  }, []);
+      dispatch(savePraticiens(response.data));
+    }
+    fetchData()
+  }, [])
 
 
   return (
@@ -31,16 +33,10 @@ function PageGestionPraticiens({ data, loading, error }) {
         title={"Gestion des praticiens"}
         object={"praticien"}
         dataField={DATA_TABLE_PRATICIEN_COLONNE}
-        dataInfo={ListPraticiens}
+        dataInfo={praticiensList}
       />
-      {/* <pre className="container">{JSON.stringify(data)}</pre> */}
     </container>
   );
 }
 
-const mapStateToProps = (state) => ({
-  data: state.Praticiens.data,
-  loading: state.Praticiens.loading,
-  error: state.Praticiens.error,
-});
-export default connect(mapStateToProps)(PageGestionPraticiens);
+export default PageGestionPraticiens;

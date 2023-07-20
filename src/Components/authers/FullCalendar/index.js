@@ -27,7 +27,7 @@ export default class DemoApp extends React.Component {
                     weekends={true}
                     dayCount={true}
                     locale={frlocale}
-                    initialDate={"2023-07-09T08:00:00"}
+                    initialDate={new Date()}
                     eventContent={renderEventContent}
                     slotMinTime={"08:00:00"}
                     slotMaxTime={"18:00:00"}
@@ -44,8 +44,8 @@ export default class DemoApp extends React.Component {
                         {
                             id: 1,
                             title: 'DONGMO Donald',
-                            start: '2023-07-09T08:00:00',
-                            end: '2023-07-09T08:10:00',
+                            start: '2023-07-11T08:00:00',
+                            end: '2023-07-11T08:10:00',
                             description: 'Ceci est un événement important',
                             heure_debut: "08:00",
                             civ: "M."
