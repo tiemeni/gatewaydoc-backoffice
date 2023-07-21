@@ -44,7 +44,7 @@ const StyledSelect = styled((props)=><select {...props}/>)(
   }
 `)
 
-function BasicFormControl( { Input, label="", control = { defaultValue: ""}, props={} }) {
+function BasicFormControl( { Input, label="", control = { }, props={} }) {
   return (
     <FormControl {...control}>
       <Label>{label}</Label>
@@ -70,11 +70,11 @@ function SelectWithOption({ options = [], ...props }) {
       border: "1px solid #CDD2D7",
       borderRadius: "8px",
       padding: "12px 12px"
-    }}  fullWidth {...props}>
+    }}   {...props}>
       {
         options.map((option, index)=><option key={index} value={option.id}>{option.label}</option>)
       }
-      <option value={"null"}>fd</option>
+     
     </StyledSelect>
   );
 }
@@ -110,30 +110,26 @@ const StyledInput = styled(Input)(
 
 const StyledTextarea = styled(TextareaAutosize)(
   ({ theme }) => `
-  
-  .${inputClasses.input} {
-    width: 320px;
-    font-family: IBM Plex Sans, sans-serif;
-    font-size: 0.875rem;
-    font-weight: 400;
-    line-height: 1.5;
-    padding: 12px;
-    border-radius: 12px 12px 0 12px;
-    color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
-    background: ${theme.palette.mode === 'dark' ? grey[900] : grey[50]};
-    border: 1px solid ${theme.palette.mode === 'dark' ? grey[800] : grey[300]};
-    border-radius: 8px;
-    padding: 12px 12px;
+  width: 100%;
+  font-size: 0.875rem;
+  font-family: IBM Plex Sans, sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+  background: ${theme.palette.mode === 'dark' ? grey[900] : grey[50]};
+  border: 1px solid ${theme.palette.mode === 'dark' ? grey[800] : grey[300]};
+  border-radius: 8px;
+  padding: 12px 12px;
 
-    &:hover {
-      background: ${theme.palette.mode === 'dark' ? '' : grey[100]};
-      border-color: ${theme.palette.mode === 'dark' ? grey[700] : grey[400]};
-    }
-
-    &:focus {
-      outline: 3px solid ${theme.palette.mode === 'dark' ? blue[600] : blue[100]};
-    }
+  &:hover {
+    background: ${theme.palette.mode === 'dark' ? '' : grey[100]};
+    border-color: ${theme.palette.mode === 'dark' ? grey[700] : grey[400]};
   }
+
+  &:focus {
+    outline: 3px solid ${theme.palette.mode === 'dark' ? blue[600] : blue[100]};
+  }
+}
 `,
 );
 
@@ -214,6 +210,11 @@ const grey = {
 };
 
 function PriseRdvComponent() {
+  const [phone, setPhone] = React.useState('')
+
+  const handleChange = (newPhone) => {
+    setPhone(newPhone)
+  }
   const onSubmit = (e)=>{
     e.preventDefault();
   }
@@ -272,7 +273,7 @@ function PriseRdvComponent() {
       </Grid>
       <Grid item xs={5}>
           
-          <BasicFormControl  Input={MuiTelInput} props={{ name: 'mobiletel', defaultCountry: "CM",  variant: "outlined",  langOfCountryName: "fr", placeholder: 'tel Mobile' }} />
+          <BasicFormControl  Input={MuiTelInput} props={{ name: 'mobiletel', disabled: false, defaultCountry: "CM",  variant: "outlined",  langOfCountryName: "fr", placeholder: 'tel Mobile' }} />
       </Grid>
       <Grid item xs={2}>
           Icon
@@ -280,7 +281,7 @@ function PriseRdvComponent() {
       <Grid item xs={5}>
           
 
-          <BasicFormControl  Input={MuiTelInput} props={{ name: 'tel', defaultCountry: "CM",  variant: "outlined", langOfCountryName: "fr" , placeholder: 'Tel Fixe' }} />
+          <BasicFormControl  Input={MuiTelInput} props={{ name: 'tel', defaultCountry: "CM", value: "897987989", onChange: console.log,   variant: "outlined", langOfCountryName: "fr" , placeholder: 'Tel Fixe' }} />
       </Grid>
       <Grid item xs={12}>
           
@@ -308,7 +309,7 @@ function PriseRdvComponent() {
           
           
 
-          <BasicFormControl  Input={MuiColorInput} props={{ name: 'couleur_patient', defaultValue: "transparent", placeholder: 'Couleur du Patient' }} />
+          <BasicFormControl  Input={MuiColorInput} props={{ name: 'couleur_patient', placeholder: 'Couleur du Patient' }} />
       </Grid>
       <Grid item xs={6}>
           
@@ -316,8 +317,8 @@ function PriseRdvComponent() {
           <BasicFormControl  Input={StyledInput} props={{ name: 'profession',  placeholder: 'Profession' }} />
       </Grid>
       
-      <Grid item xs={8}>
-        <BasicFormControl  Input={StyledTextarea} props={{ name: 'note',   placeholder: 'Remarque' }} />
+      <Grid item xs={12}>
+        <BasicFormControl  Input={StyledTextarea} props={{ name: 'note', minRows: 4, maxRows: 6,   placeholder: 'Remarque' }} />
           
         
           
