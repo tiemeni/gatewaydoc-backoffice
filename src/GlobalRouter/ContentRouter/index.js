@@ -21,7 +21,7 @@ import PatientRouter from "./PatientRouter";
 import SpecialitiesRouter from "./SpecialitiesRouter";
 import NewLieux from "../../Pages/PageGestionLieux/NewLieux";
 import AddMotif from "../../Pages/PageGestionMotifs/addMotif";
-import TestPage from "../../Pages/TestPage";
+import TestPage from '../../Pages/TestPage';
 
 const ContentRouter = () => {
     return (
