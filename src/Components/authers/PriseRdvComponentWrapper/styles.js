@@ -4,7 +4,8 @@ const styles = makeStyles({
     form: {
         display: 'flex',
         maxHeight: '65vh',
-        overflow: 'scroll'
+        overflow: 'scroll',
+        marginBottom: '2px'
     },
     search:{
         borderRadius: "30px",

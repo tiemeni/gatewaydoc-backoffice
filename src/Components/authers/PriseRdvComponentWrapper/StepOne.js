@@ -17,12 +17,13 @@ import Avatar from '@mui/material/Avatar';
 import ImageIcon from '@mui/icons-material/Image';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CircularIndeterminate from "./CircularIndeterminate";
-
+import { useForm } from "react-hook-form";
 
 function StepOne( { next = ()=>{} }){
     const [phone, setPhone] = React.useState('');
     const classes = styles();
     const items = [{}];
+    const { register, handleSubmit } = useForm();
     const handleChange = (newPhone) => {
       setPhone(newPhone)
     }
@@ -45,10 +46,10 @@ function StepOne( { next = ()=>{} }){
     useEffect(()=>{
       getMotifs()
     },[]);
-    console.log(classes , motifsList||[])
+
     
     return (
-      <form className={classes.form} onSubmit={onSubmit}>
+      <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
       
       <Grid container  style={{ padding: "12px" }}>
      
@@ -64,7 +65,7 @@ function StepOne( { next = ()=>{} }){
                             <h4 >Premiere disponibilite</h4>
                         </Grid>
                         <Grid item xs={12}>
-                            <BasicFormControl label="Quel est la profession ?"  Input={SelectWithOption} props={{ name: 'name' , placeholder: 'Nom' }} />
+                            <BasicFormControl label="Quel est la profession ?"  Input={SelectWithOption} props={{ name: 'name' , ...register('name'), placeholder: 'Nom' }} />
                         </Grid>
                         <Grid item xs={12}>
                             <BasicFormControl label="Quel est le motif de la consultation ?"  Input={SelectWithOption} props={{ name: 'name', options: motifsList && motifsList.data || [], placeholder: 'Nom' }} />
