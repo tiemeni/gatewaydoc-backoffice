@@ -1,7 +1,8 @@
 
 import StepOne from "./StepOne";
+import StepperForm from "./StepperForm";
 function PriseRdvComponent() {
-  return <StepOne/>;
+  return <StepperForm/>;
 }
 
 export default PriseRdvComponent;
