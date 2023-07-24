@@ -15,22 +15,40 @@ const steps = [
 
 const bySteps = {
   0: {
-    component: StepOne
+    component: StepOne,
+    navigation: {
+      'prev': false,
+      'next': true
+    }
   },
   1: {
-    component: StepTwo
+    component: StepTwo,
+    navigation: {
+      'prev': true,
+      'next': true
+    }
   }
 }
 export default function HorizontalLinearAlternativeLabelStepper() {
   const classes = styles();
   const [step, setStep] =  React.useState(0);
+  const [visibles, setVisibles] =  React.useState({
+    'prev': false,
+    'next': true
+  });
   const Component = bySteps[step].component;
   const next = ()=>{
     setStep((step + 1) % steps.length );
   }
   const prev = ()=>{
-    setStep(Math.abs((step - 1) % steps.length) )
+    setStep(Math.max(0,(step - 1) % steps.length) )
   }
+  const visible = (obj)=>{
+    setVisibles(obj)
+  }
+  React.useEffect(()=>{
+    setVisibles(bySteps[step].navigation)
+  },[step]);
   return (
     <Box  className={classes.stepper}>
       <Stepper activeStep={step} alternativeLabel>
@@ -40,9 +58,14 @@ export default function HorizontalLinearAlternativeLabelStepper() {
           </Step>
         ))}
       </Stepper>
-      <Component  next={next} prev={prev} />     
-
-      <Button onClick={()=>prev()}>Prev</Button><Button onClick={()=>next()}>Next</Button>
+      <Component  next={next} prev={prev} visible={visible} />     
+      {
+        visibles['prev'] ? <Button onClick={()=>prev()}>Prev</Button> : []
+      }    
+      {
+        visibles['next'] ? <Button onClick={()=>next()}>Next</Button> : []
+      }
+      
     </Box>
   );
 }
