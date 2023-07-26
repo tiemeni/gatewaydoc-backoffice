@@ -7,6 +7,13 @@ export const showPRDV = (data) => {
     }
 }
 
+export const showPFRDV = (data) => {
+    return {
+        type: types.SHOW_PFRDV,
+        data
+    }
+}
+
 export const setIsConnected = (payload) => ({
     type: types.VALID_TOKEN,
     payload

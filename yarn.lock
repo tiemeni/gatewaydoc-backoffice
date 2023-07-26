@@ -1388,7 +1388,7 @@
     "minimatch" "^3.1.2"
     "strip-json-comments" "^3.1.1"
 
-"@fullcalendar/core@^6.1.6", "@fullcalendar/core@~6.1.6", "@fullcalendar/core@~6.1.8":
+"@fullcalendar/core@^6.1.8", "@fullcalendar/core@~6.1.6", "@fullcalendar/core@~6.1.8":
   "integrity" "sha512-i8JBIvZCWGO9dsMEDcx9bnsQZ9PtGSJdOXGgWbhLaGq2iq41OBdp9g9gM4b/Otv2oK8bL5Gl6CsMmb/HkDtA6Q=="
   "resolved" "https://registry.npmjs.org/@fullcalendar/core/-/core-6.1.8.tgz"
   "version" "6.1.8"
@@ -1439,7 +1439,7 @@
   dependencies:
     "@fullcalendar/premium-common" "~6.1.8"
 
-"@fullcalendar/timegrid@~6.1.8":
+"@fullcalendar/timegrid@^6.1.8", "@fullcalendar/timegrid@~6.1.8":
   "integrity" "sha512-3+3KHHCoNcaLs/gQt004hAqICbY5+WAffrZ0ePv+80HFB1OVh8BQ5XXLHSOUbTvXdgtUTcfBHuw9fhO31kt5gA=="
   "resolved" "https://registry.npmjs.org/@fullcalendar/timegrid/-/timegrid-6.1.8.tgz"
   "version" "6.1.8"

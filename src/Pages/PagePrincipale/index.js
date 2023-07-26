@@ -7,14 +7,16 @@ import "./style.css"
 import ListItem from "../../Components/authers/ListItem";
 import ModalComponent from "../../Components/authers/ModalComponent";
 import PriseRdvComponent from "../../Components/authers/PriseRdvComponentWrapper";
+import FichePriseRdvComponent from "../../Components/authers/FichePriseRdvComponentWrapper";
 import { useDispatch, useSelector } from "react-redux";
 import { showPRDV } from "../../REDUX/commons/actions";
+import { showPFRDV } from "../../REDUX/commons/actions";
 
 
 const FackContainer = () => {
     const dispatch = useDispatch();
     const showRDV = useSelector(state => state.Common.showPRDV);
-    console.log(showRDV)
+    const showFRDV = useSelector(state => state.Common.showPFRDV);
     return (
         <Box overflowY={"hidden"}>
             <Box style={styles.container}>
@@ -24,6 +26,14 @@ const FackContainer = () => {
                         title={"Prise de Rendez-vous"}
                         contentComponent={<PriseRdvComponent />}
                         onClose={() => dispatch(showPRDV(false))}
+                    />}
+                {/* ******************* */}
+                {/* prise de rdv */}
+                {showFRDV &&
+                    <ModalComponent
+                        title={"Fiche de Rendez-vous de M. Attaiech131 Pat1231, ne(e) le 00/00/0000, 13 ans, IPP:"}
+                        contentComponent={<FichePriseRdvComponent />}
+                        onClose={() => dispatch(showPFRDV(false))}
                     />}
                 {/* ******************* */}
                 <Box style={{ ...styles.aside, position: "fixed", paddingRight: 20 }} className='aside'>
