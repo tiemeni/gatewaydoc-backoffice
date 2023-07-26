@@ -1,5 +1,5 @@
 .contextMenu-wrapper{
-    position: fixed;
+    position: absolute;
     top: 0px;
     left: 0px;
     width: 100%;
@@ -14,9 +14,9 @@
     min-height: 10px;
     width: auto;
     height: auto;
-    background-color: rgba(0, 0, 0, 0.8);
-    border-radius: 8px;
-    box-shadow: 0px 0px 5px #000000;
+    background-color: #ffffff;
+    border: 0.5px solid #bdb2be;
+    box-shadow: 1px 2px 5px #000000;
     padding: 5px 0px;
 }
 
@@ -32,7 +32,8 @@
     display: block;
     padding: 8.5px 10px;
     cursor: pointer;
-    color: #bbb6b6;
+    border: none;
+    color: #616161;
     font-size: 1.1em;
     line-height: 1.1em;
 }
@@ -43,19 +44,18 @@
 .contextMenu-wrapper .event-context-menu ul li span svg{
     vertical-align: normal;
     font-size: 1.2em;
+    color: #0078b7;
 }
 
-.contextMenu-wrapper .event-context-menu ul li:nth-child(2n){
+.contextMenu-wrapper .event-context-menu ul li.hasDivider{
     border: none;
-    border-top: 0.5px solid #4b464656;
     border-bottom: 0.5px solid #4b464656;
-}
-.contextMenu-wrapper .event-context-menu ul li:last-child{
-    border: none !important;
-    border-top: 0.5px solid #4b464656 !important;
 }
 
 .contextMenu-wrapper .event-context-menu ul li:hover{
     background-color: none;
-    color: #fff
+    color: #1d1c1c
+}
+.contextMenu-wrapper .event-context-menu ul li:hover span svg {
+    color: #096394;
 }
