@@ -8,11 +8,6 @@ import { Box, Typography } from '@mui/material';
 import styles from './style'
 import Pikaday from 'pikaday'
 import EventContextMenu from '../EventContextMenu';
-import EditNoteOutlinedIcon from "@mui/icons-material/EditNoteOutlined";
-import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
-import ContentCopyOutlinedIcon from "@mui/icons-material/ContentCopyOutlined";
-import ContentPasteOutlinedIcon from "@mui/icons-material/ContentPasteOutlined";
-import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
 const DemoApp = () => {
     const calendarRef = React.useRef(null);
@@ -40,12 +35,6 @@ const DemoApp = () => {
           </Box>
         );
     }
-    // définissez vos actions ici
-    const handleShare = (calendarEvent) => {console.log(calendarEvent);}
-    const handleEdit = (calendarEvent) => {console.log(calendarEvent);}
-    const handleCopy = (calendarEvent) => {console.log(calendarEvent);}
-    const handlePaste = (calendarEvent) => {console.log(calendarEvent);}
-    const handleDelete = (calendarEvent) => {console.log(calendarEvent);}
     // -- display contextMenu
     const hideContextenu = (value) => setshowContextMenu(!value);
 
@@ -107,13 +96,7 @@ const DemoApp = () => {
           calendarEvent={choosenEvent}
           isVisible={showContextMenu}
           onHideNeeded={hideContextenu}
-          items={[
-            { icon: <ShareOutlinedIcon />, label: <strong>Partager</strong>, action: handleShare,},
-            { icon: <EditNoteOutlinedIcon />, label: <strong>Éditer</strong>, action: handleEdit,},
-            { icon: <ContentCopyOutlinedIcon />, label: <strong>Copier</strong>, action: handleCopy,},
-            { icon: <ContentPasteOutlinedIcon />, label: <strong>Coller</strong>, action: handlePaste,},
-            { icon: <DeleteOutlineOutlinedIcon />, label: <strong>Supprimer</strong>, action: handleDelete,},
-          ]}
+          permissions={["copy", "cut", "move", "delete", "print", "receipt", "abort", "justify", "discuss", "profiling", "urgence"]}
         />
         <Typography sx={styles.practitionerTile}>BERTRAND Guillaume</Typography>
         <FullCalendar
