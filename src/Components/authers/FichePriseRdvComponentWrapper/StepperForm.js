@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import StepOne from './StepOne';
+import DisplayForm from './DisplayForm';
 import StepTwo from './StepTwo';
 import styles from './styles';
 import { Button } from '@mui/material';
@@ -20,7 +20,7 @@ const steps = [
 
 const bySteps = {
   0: {
-    component: StepOne,
+    component: DisplayForm,
     navigation: {
       'prev': false,
       'next': true

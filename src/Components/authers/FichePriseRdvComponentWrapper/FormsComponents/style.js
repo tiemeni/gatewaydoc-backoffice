@@ -8,7 +8,7 @@ export function styleAntTab({ theme }) { return ({
   [theme.breakpoints.up('sm')]: {
     minWidth: 0,
   },
-  fontWeight: 600,
+  fontWeight: 800,
   marginRight: theme.spacing(1),
   color: 'rgba(0, 0, 0, 0.85)',
   fontFamily: [
@@ -29,7 +29,7 @@ export function styleAntTab({ theme }) { return ({
   },
   '&.Mui-selected': {
     color: '#1890ff',
-    fontWeight: 400,
+    fontWeight: 600,
   },
   '&.Mui-focusVisible': {
     backgroundColor: '#d1eaff',
