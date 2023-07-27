@@ -3,10 +3,15 @@ import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import StepOne from './StepOne';
+import DisplayForm from './DisplayForm';
 import StepTwo from './StepTwo';
 import styles from './styles';
 import { Button } from '@mui/material';
+import PersonIcon from '@mui/icons-material/Person';
+import HistoryIcon from '@mui/icons-material/History';
+
+import StyledTab from './FormsComponents/StyledTab';
+import StyledTabs from './FormsComponents/StyledTabs';
 
 const steps = [
   'RDV disponible',
@@ -15,7 +20,7 @@ const steps = [
 
 const bySteps = {
   0: {
-    component: StepOne,
+    component: DisplayForm,
     navigation: {
       'prev': false,
       'next': true
@@ -51,20 +56,14 @@ export default function HorizontalLinearAlternativeLabelStepper() {
   },[step]);
   return (
     <Box  className={classes.stepper}>
-      <Stepper activeStep={step} alternativeLabel>
-        {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
+
+      <StyledTabs value={0} onChange={console.log} aria-label="ant example">
+          <StyledTab icon={<PersonIcon/>} iconPosition="start" label="Rendez-vous" />
+          <StyledTab icon={<HistoryIcon/>} iconPosition="start" label="Historique de gestion" />
+          
+      </StyledTabs>
       <Component  next={next} prev={prev} visible={visible} />     
-      {
-        visibles['prev'] ? <Button onClick={()=>prev()}>Prev</Button> : []
-      }    
-      {
-        visibles['next'] ? <Button onClick={()=>next()}>Next</Button> : []
-      }
+      
       
     </Box>
   );

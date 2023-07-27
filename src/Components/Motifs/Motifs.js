@@ -12,7 +12,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import MotifsTable from './MotifsTable'
+import MotifsTable from './MotifsTable';
 
 const Accordion = styled((props) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
