@@ -17,6 +17,7 @@ const DemoApp = () => {
     const [mouseXY, setMouseXY] = React.useState({x:0, y:0});
   
     const renderEventContent = ({ event }) => {
+        console.log(event)
         return (
           <Box>
             <div

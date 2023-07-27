@@ -46,7 +46,7 @@ function Header() {
                     <MailOutlinedIcon titleAccess='Messagerie' style={styles.icon} />
                     <MenuListComposition IconName={"mail"} styles={styles.icon} />
                     <FlashOnOutlinedIcon titleAccess='Raccourcis' style={styles.icon} />
-                    <AddOutlinedIcon onClick={() => dispatch(showPFRDV(true))} titleAccess='Prendre un rdv' style={styles.icon} />
+                    <AddOutlinedIcon onClick={() => dispatch(showPRDV(true))} titleAccess='Prendre un rdv' style={styles.icon} />
                 </Box>
             </Box>
             <Box style={{ ...styles.menu1, float: "right" }}>
