@@ -7,10 +7,11 @@ export const showPRDV = (data) => {
     }
 }
 
-export const showPFRDV = (data) => {
+export const showPFRDV = (data, event=null) => {
     return {
         type: types.SHOW_PFRDV,
-        data
+        data,
+        event
     }
 }
 

@@ -29,6 +29,7 @@ import Box from '@mui/material/Box';
 
 function DisplayForm( { next = ()=>{} }){
     const [phone, setPhone] = React.useState('');
+    const event = useSelector(state => state.Common.event);
     const classes = styles();
     const items = [{}];
     const object = {
@@ -117,7 +118,7 @@ function DisplayForm( { next = ()=>{} }){
                         <Grid item xs={12}>
 
                             <Typography variant="h5"  gutterBottom>
-                                Patient: {object.patient} <Button text> voire la fiche patient</Button>
+                                Patient: {event.extendedProps.civ}  {event.title} <Button text> voire la fiche patient</Button>
                             </Typography>
                             <Typography variant="h6"  gutterBottom>
                                 IPP: 

@@ -18,7 +18,8 @@ const CommonReducer = (state = initialState, action) => {
         case types.SHOW_PFRDV:
             return {
                 ...state,
-                showPFRDV: action.data
+                showPFRDV: action.data,
+                event: action.event
             }
         case types.VALID_TOKEN:
             return {

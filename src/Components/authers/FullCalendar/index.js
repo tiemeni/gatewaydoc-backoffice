@@ -7,14 +7,17 @@ import frlocale from '@fullcalendar/core/locales/fr'
 import { Box, Typography } from '@mui/material';
 import styles from './style'
 import Pikaday from 'pikaday'
+import { showPRDV, showPFRDV } from '../../../REDUX/commons/actions';
+import { useDispatch } from 'react-redux';
 
 const DemoApp = () => {
     const calendarRef = React.useRef(null);
     const pickerRef = React.useRef(null)
-
+    const dispatch = useDispatch() 
     const renderEventContent = ({ event }) => {
+        console.log(event)
         return (
-            <Box>
+            <Box onClick={()=>dispatch(showPFRDV(true,event))}>
                 <Typography>{event.extendedProps.heure_debut}</Typography>
                 <Typography fontWeight={'bold'}>{event.extendedProps.civ + " " + event.title}</Typography>
             </Box>
