@@ -1,7 +1,7 @@
 import { styled } from '@mui/system';
-import Input, { inputClasses } from '@mui/base/Input';
+import { TextField } from '@mui/material';
 import style from './style';
-const StyledInput = styled(Input)(
+const StyledInput = styled(TextField)(
      style.styleInput
   );
 

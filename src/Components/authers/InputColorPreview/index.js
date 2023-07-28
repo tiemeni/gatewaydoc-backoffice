@@ -1,4 +1,4 @@
-import 'react-phone-input-2/lib/material.css';
+import 'react-phone-input-2/lib/bootstrap.css'
 import InputColor from 'react-input-color';
 import React from 'react';
 

@@ -125,7 +125,7 @@ function StepTwo(){
         </Grid>
         
         <Grid item xs={12}>
-          <BasicFormControl  Input={StyledTextarea} props={{ name: 'note', minRows: 4, maxRows: 6,   placeholder: 'Remarque' }} />
+          <BasicFormControl  Input={StyledInput} props={{ name: 'note', multiline: true, minRows: 4, maxRows: 6,   placeholder: 'Remarque' }} />
         </Grid>
     </Grid>
         </Grid>

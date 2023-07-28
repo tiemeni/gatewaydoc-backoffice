@@ -19,11 +19,34 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import CircularIndeterminate from "./CircularIndeterminate";
 import { useForm } from "react-hook-form";
 
-function StepOne( { next = ()=>{} }){
+function StepOne( { next = ()=>{}, visible= ()=>{} }){
     const [phone, setPhone] = React.useState('');
+    const [level, setLevel] = React.useState(0);
     const classes = styles();
     const items = [{}];
+
     const { register, handleSubmit } = useForm();
+    useEffect(()=>{
+        visible({
+            next: false,
+            prev: false
+        });
+    },[])
+    
+    useEffect(()=>{
+        if(level == 5){
+            visible({
+                next: true,
+                prev: true
+               })
+        }else{
+            visible({
+                next: false,
+                prev: false
+               })
+        }
+
+    },[level]);
     const handleChange = (newPhone) => {
       setPhone(newPhone)
     }
@@ -64,47 +87,65 @@ function StepOne( { next = ()=>{} }){
                         <Grid item xs={12}>
                             <h4 >Premiere disponibilite</h4>
                         </Grid>
-                        <Grid item xs={12}>
-                            <BasicFormControl label="Quel est la profession ?"  Input={SelectWithOption} props={{ name: 'name' , ...register('name'), placeholder: 'Nom' }} />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <BasicFormControl label="Quel est le motif de la consultation ?"  Input={SelectWithOption} props={{ name: 'name', options: motifsList && motifsList.data || [], placeholder: 'Nom' }} />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <BasicFormControl label="Quel est le lieux de rendez vous ?"  Input={SelectWithOption} props={{ name: 'name', placeholder: 'Nom' }} />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <BasicFormControl label="Avec quel praticien ?" Input={SelectWithOption} props={{ name: 'name', placeholder: 'Nom' }} />
-                        </Grid>    
+                        {
+                            level  >= 0 ? <Grid item xs={12}>
+                            <BasicFormControl label="Quel est la profession ?"  Input={SelectWithOption} props={{ name: 'name' , options: motifsList && motifsList.data || [], ...register('name'), placeholder: 'Nom' }} />
+                        </Grid>: []
+                        }
+                        {
+                            level  >= 1 ?
+                            <Grid item xs={12}>
+                                <BasicFormControl label="Quel est le motif de la consultation ?"  Input={SelectWithOption} props={{ name: 'name', options: motifsList && motifsList.data || [], placeholder: 'Nom' }} />
+                            </Grid>
+                            :[]
+                        }
+                        {
+                            level  >= 2 ?                        <Grid item xs={12}>
+                                <BasicFormControl label="Quel est le lieux de rendez vous ?"  Input={SelectWithOption} props={{ name: 'name', placeholder: 'Nom' }} />
+                            </Grid>:[]
+                        }
+                        {
+                            level  >= 3 ?
+                            <Grid item xs={12}>
+                                <BasicFormControl label="Avec quel praticien ?" Input={SelectWithOption} props={{ name: 'name', placeholder: 'Nom' }} />
+                            </Grid>
+                            : []
+                        }
+
                         
                     </Grid>
-                    <Grid container spacing={1}>
-                        <Grid item xs={4}>
-                            <BasicFormControl  label='Date de debut'  Input={StyledInput} props={{ name: 'name' , type: DATE, placeholder: 'Nom' }} />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <BasicFormControl  label='Jour'  Input={SelectWithOption} props={{ name: 'name', placeholder: 'Nom' }} />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <BasicFormControl  label='Creneau horaire'  Input={SelectWithOption} props={{ name: 'name', placeholder: 'Nom' }} />
-                        </Grid>    
-                        <Grid item xs={4}>
-                            <BasicFormControl label='Periode'  Input={StyledInput} props={{ name: 'name' , placeholder: 'Nom' }} />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <BasicFormControl label='Creneau horaire'  Input={SelectWithOption} props={{ name: 'name', placeholder: 'Nom' }} />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Button className={classes.search} variant="contained"  color="primary" size="medium"  startIcon={<SearchIcon />}>
-                                    Rechercher
-                            </Button>
-                        </Grid>
-                    </Grid>
+                    {
+                            level  >= 4 ? <Grid container spacing={1}>
+                            <Grid item xs={4}>
+                                <BasicFormControl  label='Date de debut'  Input={StyledInput} props={{ name: 'name' , type: DATE, placeholder: 'Nom' }} />
+                            </Grid>
+                            <Grid item xs={4}>
+                                <BasicFormControl  label='Jour'  Input={SelectWithOption} props={{ name: 'name', placeholder: 'Nom' }} />
+                            </Grid>
+                            <Grid item xs={4}>
+                                <BasicFormControl  label='Creneau horaire'  Input={SelectWithOption} props={{ name: 'name', placeholder: 'Nom' }} />
+                            </Grid>    
+                            <Grid item xs={4}>
+                                <BasicFormControl label='Periode'  Input={StyledInput} props={{ name: 'name' , placeholder: 'Nom' }} />
+                            </Grid>
+                            <Grid item xs={4}>
+                                <BasicFormControl label='Creneau horaire'  Input={SelectWithOption} props={{ name: 'name', placeholder: 'Nom' }} />
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Button className={classes.search} variant="contained"  color="primary" size="medium"  startIcon={<SearchIcon />}>
+                                        Rechercher
+                                </Button>
+                            </Grid>
+                        </Grid>: []
+                    }
+                        
+                    
                     
                 </Grid>
                 <Grid item xs={6}>
-                    
-                    <InfiniteScroll
+                    {
+                            level  >= 5 ?
+                        <InfiniteScroll
                         dataLength={items.length-1}
                         next={fetchMoreData}           
                         hasMore={false}
@@ -120,8 +161,8 @@ function StepOne( { next = ()=>{} }){
                                     <ListItemText primary="Photos" secondary="Jan 9, 2014" />
                                 </ListItem>
                             </List>
-                        </InfiniteScroll>
-
+                        </InfiniteScroll>:[]
+                    }    
                 </Grid>
       </Grid>
       </form>    
