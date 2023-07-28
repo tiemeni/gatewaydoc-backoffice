@@ -1,8 +1,9 @@
 import { styled } from '@mui/system';
 import style from './style'
-const StyledSelect = styled((props)=><select {...props}/>)(
-   style.styleInput  
-  )
+import { Select } from '@mui/material'
+const StyledSelect = styled(Select)(
+   style.styleSelect  
+)
   
 export default StyledSelect;
 

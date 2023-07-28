@@ -1,9 +1,9 @@
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { styled } from '@mui/system';
-import { styleAntTabs } from './style';
+import { styleTabs } from './style';
 
-const StyledTabs = styled(Tabs)(styleAntTabs);
+const StyledTabs = styled(Tabs)(styleTabs);
 
 export default StyledTabs;
   

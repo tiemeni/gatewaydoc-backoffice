@@ -25,7 +25,7 @@ import StyledTextarea from "./FormsComponents/StyledTextarea";
 import PhoneInput from "react-phone-input-2";
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Box from '@mui/material/Box';
-
+import 'react-phone-input-2/lib/bootstrap.css'
 
 function DisplayForm( { next = ()=>{} }){
     const [phone, setPhone] = React.useState('');
@@ -126,10 +126,10 @@ function DisplayForm( { next = ()=>{} }){
                           
                         </Grid>
                         <Grid item xs={6}>
-                            <BasicFormControl  label='Telephone portable'  Input={PhoneInput} props={{ name: 'name' , placeholder: 'Nom' }} />
+                            <BasicFormControl  label='Telephone portable'  Input={PhoneInput} props={{ name: 'name' , placeholder: '', label: '' }} />
                         </Grid>
                         <Grid item xs={6}>
-                            <BasicFormControl  label='Telephone fixe '  Input={PhoneInput} props={{ name: 'name' , placeholder: 'Nom' }} />
+                            <BasicFormControl  label='Telephone fixe '  Input={PhoneInput} props={{ name: 'name' , placeholder: '', label: '' }} />
                         </Grid>
                         <Grid item xs={6}>
                             <BasicFormControl  label='Email '  Input={StyledInput} props={{ name: 'name' , placeholder: 'Nom' }} />
@@ -141,7 +141,7 @@ function DisplayForm( { next = ()=>{} }){
                             <BasicFormControl  label='Medecin Traitant '  Input={StyledInput} props={{ name: 'name' , placeholder: 'Nom' }} />
                         </Grid>
                         <Grid item xs={12}>
-                            <BasicFormControl  label='Commentaire '  Input={StyledTextarea} props={{ name: 'name' , rows: 3, placeholder: 'Nom' }} />
+                            <BasicFormControl  label='Commentaire '  Input={StyledInput} props={{ name: 'name', multiline: true , rows: 3, placeholder: 'Nom' }} />
                         </Grid>
 
                             <Grid item xs={3}>                

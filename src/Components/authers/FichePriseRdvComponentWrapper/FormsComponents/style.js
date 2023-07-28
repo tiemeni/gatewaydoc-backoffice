@@ -2,7 +2,8 @@ import {Blue, Grey } from '../../../../Constants/colors';
 import { inputClasses } from '@mui/base/Input';
 
 
-export function styleAntTab({ theme }) { return ({
+
+export function styleTab({ theme }) { return ({
   textTransform: 'none',
   minWidth: 0,
   [theme.breakpoints.up('sm')]: {
@@ -36,7 +37,7 @@ export function styleAntTab({ theme }) { return ({
   },
 })
 }
-export function styleAntTabs(){
+export function styleTabs(){
   return {
     borderBottom: '1px solid #e8e8e8',
     '& .MuiTabs-indicator': {
@@ -80,7 +81,8 @@ export function styleLabel({ theme}){
 `
 }
 export function styleInput({ theme }){
-    return `
+  
+  return `
     
     .${inputClasses.input} {
       width: 100%;
@@ -89,7 +91,7 @@ export function styleInput({ theme }){
       font-weight: 400;
       line-height: 1.5;
       color: ${theme.palette.mode === 'dark' ? Grey[300] : Grey[900]};
-      background: ${theme.palette.mode === 'dark' ? Grey[900] : Grey[50]};
+      background-color: white;
       border: 1px solid ${theme.palette.mode === 'dark' ? Grey[800] : Grey[300]};
       border-radius: 8px;
       padding: 12px 12px;
@@ -105,5 +107,37 @@ export function styleInput({ theme }){
     }
   `
 }
-
-export default { styleTextarea, styleInput, styleLabel };
+export function styleSelect({ theme }){
+  
+  return `
+    
+      width: 100%;
+      font-size: 0.875rem;
+      font-family: IBM Plex Sans, sans-serif;
+      font-weight: 400;
+      line-height: 1.5;
+      color: ${theme.palette.mode === 'dark' ? Grey[300] : Grey[900]};
+      background-color: white;
+  
+  
+      
+    
+  `
+}
+/*
+        background: ${theme.palette.mode === 'dark' ? '' : Grey[100]};
+        outline: 3px solid ${theme.palette.mode === 'dark' ? Blue[600] : Blue[100]};
+{
+        width: "100%",
+        fontSize: "0.875rem",
+        fontFamily: "IBM Plex Sans,sans-serif",
+        fontWeight: 400,
+        lineHeight: 1.5,
+        color: "#1A2027",
+        background: "#F3F6F9",
+        border: "1px solid #CDD2D7",
+        borderRadius: "8px",
+        padding: "12px 12px"
+      }
+*/
+export default { styleTextarea, styleInput, styleLabel, styleSelect, styleTab, styleTabs };
