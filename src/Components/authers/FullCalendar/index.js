@@ -8,6 +8,8 @@ import { Box, Typography } from '@mui/material';
 import styles from './style'
 import Pikaday from 'pikaday'
 import EventContextMenu from '../EventContextMenu';
+import { showPFRDV, showPRDV } from '../../../REDUX/commons/actions';
+import { useDispatch } from 'react-redux';
 
 const DemoApp = () => {
     const calendarRef = React.useRef(null);
@@ -15,7 +17,8 @@ const DemoApp = () => {
     const [choosenEvent, setChoosenEvent] = React.useState(null);
     const [showContextMenu, setshowContextMenu] = React.useState(false);
     const [mouseXY, setMouseXY] = React.useState({x:0, y:0});
-  
+    const dispatch = useDispatch(); 
+
     const renderEventContent = ({ event }) => {
         console.log(event)
         return (
@@ -106,6 +109,9 @@ const DemoApp = () => {
           initialView="timeGridWeek"
           weekends={true}
           dayCount={true}
+          eventClick={(info)=>{
+            dispatch(showPFRDV(true,info.event))
+          }}
           locale={frlocale}
           initialDate={new Date()}
           eventContent={renderEventContent}
