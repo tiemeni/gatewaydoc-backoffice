@@ -20,21 +20,43 @@ import CircularIndeterminate from "./CircularIndeterminate";
 import { useForm } from "react-hook-form";
 import { getPraticiens } from "../../../REDUX/praticiens/actions";
 
+const fieldsByLevel = {
+    "profession": {
+        level: 0
+    },
+    "motif": {
+        level: 1
+    },
+    "lieu": {
+        level: 2
+    },
+    "praticien": {
+        level: 3
+    }
+}
 function StepOne( { next = ()=>{}, visible= ()=>{} }){
     const [phone, setPhone] = React.useState('');
+    const [values, setValues] = React.useState({});
     const [level, setLevel] = React.useState(0);
    
     const classes = styles();
     const items = [{}];
 
-    const { register, handleSubmit, watch, control, formState, getValues  } = useForm();
+    const { register, handleSubmit, watch, control, formState, getValues, setValue  } = useForm({
+        defaultValues: {
+          motif: null,
+          praticien: null,
+          profession: null,
+          lieu: null
+        },
+      });
     useEffect(()=>{
         visible({
             next: false,
             prev: false
         });
     },[])
-    
+    console.log(values, level)
     useEffect(()=>{
         if(level == 5){
             visible({
@@ -49,35 +71,32 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
         }
 
     },[level]);
-    const fieldsByLevel = {
-        "profession": {
-            level: 0
-        },
-        "motif": {
-            level: 1
-        },
-        "lieu": {
-            level: 2
-        },
-        "praticien": {
-            level: 3
-        }
-    }
+    
     React.useEffect(() => {
     
         const subscription = watch((values, { name, type }) =>{
             console.log(values, name, type)
-        
-            if(!values[name]){
-                
-                setLevel(fieldsByLevel[name].level)
-            }else if(level <= fieldsByLevel[name].level){
-                setLevel(level + 1);
-            }
+            
+            setValues(values)
+            //setValue(name, values[name]);
         
     })
     return () => subscription.unsubscribe()
     }, [watch])
+
+    React.useEffect(() => {
+        let maxLevelSet = "";
+        let currentLevel = -1;
+        for(let name of Object.keys(values)){
+            if(values[name] && fieldsByLevel[name].level >= currentLevel){
+               maxLevelSet = name;
+               currentLevel = fieldsByLevel[name].level;
+            }
+        }
+        setLevel(currentLevel + 1);
+        console.log(currentLevel, values)
+    return () => {}
+    }, [values])
 
     const handleChange = (newPhone) => {
       setPhone(newPhone)
@@ -111,7 +130,7 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
     },[]);
 
     
-    
+    console.log("values",values)    
     return (
       <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
       
@@ -133,25 +152,25 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
                         
                         {
                             level  >= 0 ? <Grid item xs={12}>
-                            <BasicFormControl  label="Quel est la profession ?"  Input={SelectWithOption} props={{  options: motifList && motifList.data || [], value: getValues("profession"), ...register('profession',{ required: true }), placeholder: 'Profession' }} />
+                            <BasicFormControl  label="Quel est la profession ?"  Input={SelectWithOption} props={{  options: motifList && motifList.data || [], value: values["profession"], ...register('profession',{ required: true }), placeholder: 'Profession' }} />
                         </Grid>: []
                         }
                         {
                             level  >= 1 ?
                             <Grid item xs={12}>
-                                <BasicFormControl label="Quel est le motif de la consultation ?"  Input={SelectWithOption} props={{ value: getValues("motif"), options: motifList && motifList.data || [], ...register("motif"), placeholder: 'Motif' }} />
+                                <BasicFormControl label="Quel est le motif de la consultation ?"  Input={SelectWithOption} props={{ value: values["motif"], options: motifList && motifList.data || [], ...register("motif"), placeholder: 'Motif' }} />
                             </Grid>
                             :[]
                         }
                         {
                             level  >= 2 ? <Grid item xs={12}>
-                                <BasicFormControl label="Quel est le lieu de rendez vous ?"  Input={SelectWithOption} props={{ value: getValues("lieu"), options: motifList && motifList.data || [], ...register("lieu"), placeholder: 'Lieu du rendez vous' }} />
+                                <BasicFormControl label="Quel est le lieu de rendez vous ?"  Input={SelectWithOption} props={{  value: values["lieu"], options: motifList && motifList.data || [], ...register("lieu"), placeholder: 'Lieu du rendez vous' }} />
                             </Grid>:[]
                         }
                         {
                             level  >= 3 ?
                             <Grid item xs={12}>
-                                <BasicFormControl label="Avec quel praticien ?" Input={SelectWithOption} props={{ value: getValues("praticen"), options: motifList && motifList.data || [], ...register("praticien"), placeholder: 'Praticien' }} />
+                                <BasicFormControl label="Avec quel praticien ?" Input={SelectWithOption} props={{ value: values["praticien"], options: motifList && motifList.data || [], ...register("praticien"), placeholder: 'Praticien' }} />
                             </Grid>
                             : []
                         }
