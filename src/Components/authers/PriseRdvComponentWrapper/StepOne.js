@@ -5,7 +5,7 @@ import StyledInput from "./FormsComponents/StyledInput";
 import {DATE} from '../../../Constants/fieldTypes';
 import SelectWithOption from "./FormsComponents/SelectWithOption";
 import SearchIcon from '@mui/icons-material/Search';
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, MenuItem, Select } from "@mui/material";
 import React, { useEffect } from "react";
 import styles from "./styles";
 import { getAllMotif } from "../../../REDUX/motifs/actions";
@@ -25,7 +25,7 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
     const classes = styles();
     const items = [{}];
 
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, watch, control, formState, getValues  } = useForm();
     useEffect(()=>{
         visible({
             next: false,
@@ -47,6 +47,21 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
         }
 
     },[level]);
+    
+    React.useEffect(() => {
+    
+    const subscription = watch((value, { name, type }) =>{
+        if(name == "profession"){
+            if(!value){
+                setLevel(0)
+            }else if(level <= 0){
+                setLevel(level + 1);
+            }
+        }
+    })
+    return () => subscription.unsubscribe()
+    }, [watch])
+
     const handleChange = (newPhone) => {
       setPhone(newPhone)
     }
@@ -71,10 +86,11 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
     },[]);
 
     
+    
     return (
       <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
       
-      <Grid container  style={{ padding: "12px" }}>
+            <Grid container  style={{ padding: "12px" }}>
      
 
                 
@@ -86,22 +102,25 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
                     }}>
                         <Grid item xs={12}>
                             <h4 >Premiere disponibilite</h4>
+                           
+
                         </Grid>
+                        
                         {
                             level  >= 0 ? <Grid item xs={12}>
-                            <BasicFormControl label="Quel est la profession ?"  Input={SelectWithOption} props={{ name: 'name' , options: motifsList && motifsList.data || [], ...register('name'), placeholder: 'Nom' }} />
+                            <BasicFormControl  label="Quel est la profession ?"  Input={SelectWithOption} props={{ value: "649abbd384c9741c138bafba", options: motifsList && motifsList.data || [], value: getValues("profession"), ...register('profession',{ required: true }), placeholder: 'Nom' }} />
                         </Grid>: []
                         }
                         {
                             level  >= 1 ?
                             <Grid item xs={12}>
-                                <BasicFormControl label="Quel est le motif de la consultation ?"  Input={SelectWithOption} props={{ name: 'name', options: motifsList && motifsList.data || [], placeholder: 'Nom' }} />
+                                <BasicFormControl label="Quel est le motif de la consultation ?"  Input={SelectWithOption} props={{ name: 'name', options: motifsList && motifsList.data || [], ...register("motif"), placeholder: 'Nom' }} />
                             </Grid>
                             :[]
                         }
                         {
-                            level  >= 2 ?                        <Grid item xs={12}>
-                                <BasicFormControl label="Quel est le lieux de rendez vous ?"  Input={SelectWithOption} props={{ name: 'name', placeholder: 'Nom' }} />
+                            level  >= 2 ? <Grid item xs={12}>
+                                <BasicFormControl label="Quel est le lieux de rendez vous ?"  Input={SelectWithOption} props={{ name: 'name', ...register("lieux"), placeholder: 'Nom' }} />
                             </Grid>:[]
                         }
                         {
