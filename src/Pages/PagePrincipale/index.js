@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import { Box, TextField } from "@mui/material";
 import { styles } from "./style";
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
@@ -9,11 +10,80 @@ import ModalComponent from "../../Components/authers/ModalComponent";
 import PriseRdvComponent from "../../Components/authers/PriseRdvComponentWrapper";
 import { useDispatch, useSelector } from "react-redux";
 import { showPRDV } from "../../REDUX/commons/actions";
+import { getEventsByPractionner } from '../../services/calendars'
+import { getEvents } from "../../services/calendars";
+import { saveEvents } from "../../REDUX/calendar/actions";
+import { getPraticiensByJob } from "../../services/praticiens";
+import { saveEventsPractionner } from "../../REDUX/calendar/actions";
+import { savePraticiens } from "../../REDUX/praticiens/actions";
+import { savePraticiensPerJob } from "../../REDUX/praticiens/actions";
 
 
 const FackContainer = () => {
     const dispatch = useDispatch()
     const showRDV = useSelector(state => state.Common.showPRDV)
+    const [events, setEvents ]= useState(null)
+
+    const praticiensList = useSelector((state) => state.Praticiens.praticienJob)
+    const idPracti = useSelector((state) => state.Calendar.eventsPractionerId)
+    const FilterEvent = useSelector((state) => state.Calendar.events) 
+
+    const CustomEvents =  FilterEvent.map((ev)=>{
+        ev.start= ev.date.split("T")[0]+"T"+ev.timeStart
+        ev.end= ev.date.split("T")[0]+"T"+ev.timeEnd
+
+        return ev;
+    })
+    
+
+    React.useEffect(
+        ()=>{
+
+
+
+              async function fetchDataS() {
+                // setIsLoading(true);
+                // const response = await getEventsByPractionner(idPracti);
+                const response = await getPraticiensByJob();
+          
+                if (response.success !== true) {
+                  return;
+                }
+          
+                // setIsLoading(false);
+                dispatch(savePraticiensPerJob(response.data))
+              }
+              fetchDataS()
+            
+    }, []
+    )
+
+
+    const handleCheckboxChange = (e)=> {
+
+
+        // const value = event.target.value;
+        const isChecked = e.target.checked;
+      
+        // if (isChecked) {
+            // setEvents([...setEvents, event.name]);
+            async function fetchData() {
+                // setIsLoading(true);
+                const response = await getEventsByPractionner(idPracti);
+          
+                if (response.success !== true) {
+                  return;
+                }
+          
+                // setIsLoading(false);
+                dispatch(saveEvents(response.data))
+              }
+              fetchData()
+        // } else {
+        //     // setEvents(setEvents.filter((val) => val !== event.name));
+        // }
+    }
+
     return (
         <Box overflowY={"hidden"}>
             <Box style={styles.container}>
@@ -52,13 +122,12 @@ const FackContainer = () => {
                     </Box>
                     <Box>
                         {
-                            [6, 7, 8, 9]
-                                .map((e, i) => <ListItem key={i} />)
+                            <ListItem  boxChange={ handleCheckboxChange } data={praticiensList}/>
                         }
                     </Box>
                 </Box>
                 <Box style={{ ...styles.planning, marginLeft: "22%", height: 700, overflowY: "scroll", paddingRight: 5 }}>
-                    <DemoApp />
+                    <DemoApp filterEvents={CustomEvents}  eventChange={events}/>
                 </Box>
             </Box>
         </Box>

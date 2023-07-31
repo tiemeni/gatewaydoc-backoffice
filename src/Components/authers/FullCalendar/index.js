@@ -1,29 +1,108 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
+import timeGridPlugin from '@fullcalendar/timegrid';
 import resourceTimeGridPlugin from '@fullcalendar/resource-timegrid';
+import { connect, useDispatch, useSelector } from "react-redux";
 import interactionPlugin from '@fullcalendar/interaction';
 import frlocale from '@fullcalendar/core/locales/fr'
 import { Box, Typography } from '@mui/material';
 import styles from './style'
 import Pikaday from 'pikaday'
+import { getEvents } from '../../../services/calendars';
+import { saveEvents } from '../../../REDUX/calendar/actions';
+import { Tooltip, tooltipClasses } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { getEventsByPractionner } from "../../../services/calendars";
+import { getPraticiens } from '../../../services/praticiens';
+import { savePraticiens } from '../../../REDUX/praticiens/actions';
 
-const DemoApp = () => {
+
+const LightTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+      backgroundColor: theme.palette.common.white,
+      color: 'rgba(0, 0, 0, 0.87)',
+      boxShadow: theme.shadows[1],
+      fontSize: 11,
+    },
+  }));
+
+
+const DemoApp = ({ filterEvents }) => {
     const calendarRef = React.useRef(null);
     const pickerRef = React.useRef(null)
+    const dispatch = useDispatch();
+   
+    const praticiens = useSelector((state) => state.Praticiens.praticiens)
+
+    const RessourcePraticiens = praticiens.map((item, index) => {
+        return { ...item, id: item._id, title: item.name };
+      });
+
+
+
+    useEffect(()=>{
+        async function fetchData() {
+            const response = await getPraticiens();
+    
+            if (response.success !== true) {
+            return;
+            }
+
+            dispatch(savePraticiens(response.data))
+        }
+        fetchData()
+    }, [])
+
+    const events = useSelector((state) => state.Calendar.events)
+
+    const CustomEvents =  filterEvents.map((ev)=>{
+        // ev.start= ev.date.split("T")[0]+"T"+ev.timeStart
+        // ev.end= ev.date.split("T")[0]+"T"+ev.timeEnd
+        ev.title= ev.motif
+        return ev;
+    })
+
+
+
+
 
     const renderEventContent = ({ event }) => {
+
         return (
-            <Box>
-                <Typography>{event.extendedProps.heure_debut}</Typography>
-                <Typography fontWeight={'bold'}>{event.extendedProps.civ + " " + event.title}</Typography>
-            </Box>
+
+            <LightTooltip disableFocusListener disableTouchListener followCursor 
+                title={
+                    <div style={{ fontSize: '16px', backgroundColor:"white" }}>
+                        <div>
+                            <span style={{ color: '#6e706f', fontWeight:"bold" }} >{event.extendedProps.civility}</span>
+                            <span style={{ color: '#6e706f', fontWeight:"bold" }} >{" "+event.extendedProps.name}</span>
+                            <span style={{ color: '#6e706f', fontWeight:"bold" }} >{ " "+ event.extendedProps.surname}</span>
+                        </div>
+                        <div>
+                            <span style={{ color: '#6e706f', fontWeight:"bold" }}>Durée: </span>
+                            <span style={{ color: 'black' }}>{event.extendedProps.duration}</span>
+                        </div>
+                        <div>
+                            <span style={{ color: '#6e706f', fontWeight:"bold" }}>Provenance: </span>
+                            <span style={{ color: 'black', fontWeight:"bold" }}>{event.extendedProps.provenance}</span>
+                        </div>
+                    </div>
+                }>
+                <Box>
+                    <Typography>{event.extendedProps.startTime}</Typography>
+                    <Typography fontWeight={'bold'}>{event.extendedProps.civility + " " + event.extendedProps.name}</Typography>
+                </Box >
+            </LightTooltip>
         );
     }
 
     const handlePikadayDateChange = (date) => {
         if (date) {
             calendarRef.current.getApi().gotoDate(new Date(date));
+            // set ressource
         }
     };
 
@@ -37,6 +116,24 @@ const DemoApp = () => {
     };
 
     React.useEffect(() => {
+
+        if(localStorage.getItem('idP')){
+            async function fetchData() {
+                // const response = await getEvents();
+                const response = await getEventsByPractionner(localStorage.getItem('idP'));
+                
+          
+                if (response.success !== true) {
+                  return;
+                }
+                
+                dispatch(saveEvents(response.data))
+              }
+            fetchData();
+        }
+
+
+
         const picker = new Pikaday({
             field: document.querySelector(".fc-miniCalendar-button"),
             format: 'yy-mm-dd',
@@ -76,7 +173,7 @@ const DemoApp = () => {
             <Typography sx={styles.practitionerTile}>BERTRAND Guillaume</Typography>
             <FullCalendar
                 ref={calendarRef}
-                plugins={[dayGridPlugin, resourceTimeGridPlugin, interactionPlugin]}
+                plugins={[dayGridPlugin, resourceTimeGridPlugin, interactionPlugin, timeGridPlugin, resourceTimeGridPlugin]}
                 initialView="timeGridWeek"
                 weekends={true}
                 dayCount={true}
@@ -95,22 +192,40 @@ const DemoApp = () => {
                 stickyHeaderDates={true}
                 height={'auto'}
                 customButtons={customButtons}
-                events={[
-                    {
-                        id: 1,
-                        title: 'DONGMO Donald',
-                        start: '2023-07-11T08:00:00',
-                        end: '2023-07-11T08:10:00',
-                        description: 'Ceci est un événement important',
-                        heure_debut: "08:00",
-                        civ: "M."
-                    },
-                ]}
+                events={CustomEvents}
+                resources={RessourcePraticiens}
                 headerToolbar={{
-                    left: 'prev,next today miniCalendar',
+                    left: 'prev,next today',
                     center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay',
-                }}
+                    right: 'resourceTimeGridDay,resourceTimeGridWeek'
+                  }}
+                  views={{
+                    resourceTimeGridDay: {
+                      type: 'resourceTimeGrid',
+                      duration: { days: 1 }
+                    },
+                    resourceTimeGridWeek: {
+                      type: 'resourceTimeGrid',
+                      duration: { weeks: 1 }
+                    }
+                  }}
+                  resourceAreaWidth="15%"
+                // events={[
+                //     {
+                //         id: 1,
+                //         title: 'DONGMO Donald',
+                //         start: '2023-07-26T00:00:00',
+                //         end: '2023-07-26T00:00:00',
+                //         description: 'Ceci est un événement important',
+                //         heure_debut: "08:00",
+                //         civ: "M."
+                //     }
+                // ]}
+                // headerToolbar={{
+                //     left: 'prev,next today miniCalendar',
+                //     center: 'title',
+                //     right: 'dayGridMonth,timeGridWeek,timeGridDay',
+                // }}
                 slotLabelFormat={{
                     hour: 'numeric',
                     minute: '2-digit',
