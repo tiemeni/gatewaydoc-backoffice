@@ -10,7 +10,7 @@ import {
   FETCH_PRATICIENS_SUCCESS,
   FETCH_PRATICIENS_FAILURE,
 } from "./types";
-
+import app from "../../Configs/app";
 
 export const getPraticiens = () => {
     return (dispatch) => {
@@ -21,6 +21,7 @@ export const getPraticiens = () => {
             url: BASE_URL + "/users/",
             params: {
                 isPraticien: true,
+                idCentre: app.idCentre
             },
             headers: {
                 Accept: "application/json",

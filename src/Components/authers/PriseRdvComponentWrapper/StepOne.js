@@ -19,7 +19,8 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import CircularIndeterminate from "./CircularIndeterminate";
 import { useForm } from "react-hook-form";
 import { getPraticiens } from "../../../REDUX/praticiens/actions";
-
+import { getAllProfessions } from "../../../REDUX/professions/actions";
+import { getAllLieux } from "../../../REDUX/lieux/action"
 const fieldsByLevel = {
     "profession": {
         level: 0
@@ -108,10 +109,13 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
       e.preventDefault();
       next();
     }
+
     
     const dispatch = useDispatch();
     const motifList = useSelector((state) => state.Motifs.data);
     const praticienList = useSelector((state) => state.Praticiens.data);
+    const professionList = useSelector((state) => state.Professions.data);
+    const lieuList = useSelector((state) => state.Lieux.data);
     const getRessources = async () => {
       
       if (!(motifList && motifList.data && motifList.data.length > 0)){
@@ -120,11 +124,18 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
       if (!(praticienList && praticienList.data && praticienList.data.length > 0)){
         dispatch(getPraticiens());
       }
-      
+      if (!(professionList && professionList.data && professionList.data.length > 0)){
+        dispatch(getAllProfessions());
+      }
+
+      if (!(professionList && professionList.data && professionList.data.length > 0)){
+        dispatch(getAllLieux());
+      }
+        
     };
     
     
-
+    console.log(professionList)
     useEffect(()=>{
         getRessources()
     },[]);
@@ -152,7 +163,7 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
                         
                         {
                             level  >= 0 ? <Grid item xs={12}>
-                            <BasicFormControl  label="Quel est la profession ?"  Input={SelectWithOption} props={{  options: motifList && motifList.data || [], value: values["profession"], ...register('profession',{ required: true }), placeholder: 'Profession' }} />
+                            <BasicFormControl  label="Quel est la profession ?"  Input={SelectWithOption} props={{  options: professionList && professionList.data || [], value: values["profession"], ...register('profession',{ required: true }), placeholder: 'Profession' }} />
                         </Grid>: []
                         }
                         {
@@ -164,13 +175,13 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
                         }
                         {
                             level  >= 2 ? <Grid item xs={12}>
-                                <BasicFormControl label="Quel est le lieu de rendez vous ?"  Input={SelectWithOption} props={{  value: values["lieu"], options: motifList && motifList.data || [], ...register("lieu"), placeholder: 'Lieu du rendez vous' }} />
+                                <BasicFormControl label="Quel est le lieu de rendez vous ?"  Input={SelectWithOption} props={{  value: values["lieu"], options: lieuList && lieuList.data || [], ...register("lieu"), placeholder: 'Lieu du rendez vous' }} />
                             </Grid>:[]
                         }
                         {
                             level  >= 3 ?
                             <Grid item xs={12}>
-                                <BasicFormControl label="Avec quel praticien ?" Input={SelectWithOption} props={{ value: values["praticien"], options: motifList && motifList.data || [], ...register("praticien"), placeholder: 'Praticien' }} />
+                                <BasicFormControl label="Avec quel praticien ?" Input={SelectWithOption} props={{ value: values["praticien"], options: praticienList && praticienList.data || [], ...register("praticien"), placeholder: 'Praticien' }} />
                             </Grid>
                             : []
                         }
