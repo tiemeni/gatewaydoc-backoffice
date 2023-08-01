@@ -10,7 +10,8 @@ const styles = makeStyles({
     search:{
         borderRadius: "30px",
         position: "relative",
-        top: "35%"
+        top: "35%",
+        width: "100%"
     },
     stepper: {
         width: '100%',

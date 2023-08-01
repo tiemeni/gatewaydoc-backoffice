@@ -20,7 +20,12 @@ import CircularIndeterminate from "./CircularIndeterminate";
 import { useForm } from "react-hook-form";
 import { getPraticiens } from "../../../REDUX/praticiens/actions";
 import { getAllProfessions } from "../../../REDUX/professions/actions";
-import { getAllLieux } from "../../../REDUX/lieux/action"
+import { getAllLieux } from "../../../REDUX/lieux/action";
+import profession from "../../../Utils/transformers/profession";
+import motif from "../../../Utils/transformers/motif";
+import lieu from "../../../Utils/transformers/lieu";
+import praticien from "../../../Utils/transformers/praticien";
+
 const fieldsByLevel = {
     "profession": {
         level: 0
@@ -57,7 +62,7 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
             prev: false
         });
     },[])
-    console.log(values, level)
+
     useEffect(()=>{
         if(level == 5){
             visible({
@@ -134,14 +139,12 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
         
     };
     
-    
-    console.log(professionList)
+
     useEffect(()=>{
         getRessources()
     },[]);
 
     
-    console.log("values",values)    
     return (
       <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
       
@@ -163,25 +166,25 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
                         
                         {
                             level  >= 0 ? <Grid item xs={12}>
-                            <BasicFormControl  label="Quel est la profession ?"  Input={SelectWithOption} props={{  options: professionList && professionList.data || [], value: values["profession"], ...register('profession',{ required: true }), placeholder: 'Profession' }} />
+                            <BasicFormControl  label="Quel est la profession ?"  Input={SelectWithOption} props={{  options: (professionList && professionList.data || []).flatMap(profession.toListItem), value: values["profession"], ...register('profession',{ required: true }), placeholder: 'Profession' }} />
                         </Grid>: []
                         }
                         {
                             level  >= 1 ?
                             <Grid item xs={12}>
-                                <BasicFormControl label="Quel est le motif de la consultation ?"  Input={SelectWithOption} props={{ value: values["motif"], options: motifList && motifList.data || [], ...register("motif"), placeholder: 'Motif' }} />
+                                <BasicFormControl label="Quel est le motif de la consultation ?"  Input={SelectWithOption} props={{ value: values["motif"], options: (motifList && motifList.data || []).flatMap(motif.toListItem), ...register("motif"), placeholder: 'Motif' }} />
                             </Grid>
                             :[]
                         }
                         {
                             level  >= 2 ? <Grid item xs={12}>
-                                <BasicFormControl label="Quel est le lieu de rendez vous ?"  Input={SelectWithOption} props={{  value: values["lieu"], options: lieuList && lieuList.data || [], ...register("lieu"), placeholder: 'Lieu du rendez vous' }} />
+                                <BasicFormControl label="Quel est le lieu de rendez vous ?"  Input={SelectWithOption} props={{  value: values["lieu"], options: (lieuList && lieuList.data || []).flatMap(lieu.toListItem), ...register("lieu"), placeholder: 'Lieu du rendez vous' }} />
                             </Grid>:[]
                         }
                         {
                             level  >= 3 ?
                             <Grid item xs={12}>
-                                <BasicFormControl label="Avec quel praticien ?" Input={SelectWithOption} props={{ value: values["praticien"], options: praticienList && praticienList.data || [], ...register("praticien"), placeholder: 'Praticien' }} />
+                                <BasicFormControl label="Avec quel praticien ?" Input={SelectWithOption} props={{ value: values["praticien"], options: (praticienList && praticienList.data || []).flatMap(praticien.toListItem), ...register("praticien"), placeholder: 'Praticien' }} />
                             </Grid>
                             : []
                         }
