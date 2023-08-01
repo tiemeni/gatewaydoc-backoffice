@@ -25,6 +25,9 @@ import profession from "../../../Utils/transformers/profession";
 import motif from "../../../Utils/transformers/motif";
 import lieu from "../../../Utils/transformers/lieu";
 import praticien from "../../../Utils/transformers/praticien";
+import axios from "axios";
+import app from "../../../Configs/app";
+
 
 const fieldsByLevel = {
     "profession": {
@@ -44,10 +47,11 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
     const [phone, setPhone] = React.useState('');
     const [values, setValues] = React.useState({});
     const [level, setLevel] = React.useState(0);
+    const [praticienList, setPraticienList] = React.useState([]);
    
     const classes = styles();
     const items = [{}];
-
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
     const { register, handleSubmit, watch, control, formState, getValues, setValue  } = useForm({
         defaultValues: {
           motif: null,
@@ -101,6 +105,30 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
         }
         setLevel(currentLevel + 1);
         console.log(currentLevel, values)
+        if(values['lieu']  ){
+            axios({
+                method: "GET",
+                url: BASE_URL + "/users/",
+                params: {
+                    isPraticien: true,
+                    idCentre: app.idCentre,
+                    idSpeciality: values['profession'],
+                    idLieu: values['lieu']
+                },
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+            })
+            .then((response) => {
+                let praticiens = response.data.data;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+                setPraticienList(praticiens);                
+            })
+            .catch((error) => {
+             
+            });
+        }
     return () => {}
     }, [values])
 
@@ -118,7 +146,7 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
     
     const dispatch = useDispatch();
     const motifList = useSelector((state) => state.Motifs.data);
-    const praticienList = useSelector((state) => state.Praticiens.data);
+
     const professionList = useSelector((state) => state.Professions.data);
     const lieuList = useSelector((state) => state.Lieux.data);
     const getRessources = async () => {
@@ -126,9 +154,7 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
       if (!(motifList && motifList.data && motifList.data.length > 0)){
         dispatch(getAllMotif());
       }
-      if (!(praticienList && praticienList.data && praticienList.data.length > 0)){
-        dispatch(getPraticiens());
-      }
+
       if (!(professionList && professionList.data && professionList.data.length > 0)){
         dispatch(getAllProfessions());
       }
@@ -184,7 +210,7 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
                         {
                             level  >= 3 ?
                             <Grid item xs={12}>
-                                <BasicFormControl label="Avec quel praticien ?" Input={SelectWithOption} props={{ value: values["praticien"], options: (praticienList && praticienList.data || []).flatMap(praticien.toListItem), ...register("praticien"), placeholder: 'Praticien' }} />
+                                <BasicFormControl label="Avec quel praticien ?" Input={SelectWithOption} props={{ value: values["praticien"], options: (praticienList || []).flatMap(praticien.toListItem), ...register("praticien"), placeholder: 'Praticien' }} />
                             </Grid>
                             : []
                         }
