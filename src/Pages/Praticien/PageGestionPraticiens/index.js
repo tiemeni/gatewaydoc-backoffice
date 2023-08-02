@@ -9,7 +9,7 @@ import { getCivilities } from "../../../services/civilities";
 function PageGestionPraticiens({ data, loading, error }) {
 
   const dispatch = useDispatch();
-  const [ListPraticiens, setListPraticiens] = useState([]);
+  const [ListPraticiens, setListPraticiens] = useState(data||[]);
 
   useEffect(() => {
     dispatch(getPraticiens());
