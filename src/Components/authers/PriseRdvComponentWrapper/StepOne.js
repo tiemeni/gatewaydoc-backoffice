@@ -48,7 +48,8 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
     const [values, setValues] = React.useState({});
     const [level, setLevel] = React.useState(0);
     const [praticienList, setPraticienList] = React.useState([]);
-   
+    const [motifList, setMotifList] = React.useState([]);
+
     const classes = styles();
     const items = [{}];
     const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -105,6 +106,29 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
         }
         setLevel(currentLevel + 1);
         console.log(currentLevel, values)
+        if(values['profession']){
+            axios({
+                method: "GET",
+                url: BASE_URL + `/motif/profession/${values['profession']}`,
+                params: {
+                  
+                    idCentre: app.idCentre,
+                    
+                },
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+            })
+            .then((response) => {
+                let motifs = response.data.data;
+                setMotifList(motifs)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                              
+            })
+            .catch((error) => {
+             
+            });
+        }
         if(values['lieu']  ){
             axios({
                 method: "GET",
@@ -145,16 +169,11 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
 
     
     const dispatch = useDispatch();
-    const motifList = useSelector((state) => state.Motifs.data);
-
+    
     const professionList = useSelector((state) => state.Professions.data);
     const lieuList = useSelector((state) => state.Lieux.data);
     const getRessources = async () => {
-      
-      if (!(motifList && motifList.data && motifList.data.length > 0)){
-        dispatch(getAllMotif());
-      }
-
+    
       if (!(professionList && professionList.data && professionList.data.length > 0)){
         dispatch(getAllProfessions());
       }
@@ -198,7 +217,7 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
                         {
                             level  >= 1 ?
                             <Grid item xs={12}>
-                                <BasicFormControl label="Quel est le motif de la consultation ?"  Input={SelectWithOption} props={{ value: values["motif"], options: (motifList && motifList.data || []).flatMap(motif.toListItem), ...register("motif"), placeholder: 'Motif' }} />
+                                <BasicFormControl label="Quel est le motif de la consultation ?"  Input={SelectWithOption} props={{ value: values["motif"], options: (motifList || []).flatMap(motif.toListItem), ...register("motif"), placeholder: 'Motif' }} />
                             </Grid>
                             :[]
                         }
