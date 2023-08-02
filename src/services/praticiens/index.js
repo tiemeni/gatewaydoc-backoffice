@@ -51,3 +51,13 @@ export const updatePraticien = async (payload, id) => {
       return { status: false, error: err }
     }
   }
+
+export const getPraticiensByJob = async () => {
+  try {
+      const res = await fetch(BASE_URL + "/users/profession/?isPraticien=true&idCentre=" + idc );
+      const data = await res.json()
+      return data;
+  } catch (err) {
+      return err;
+  }
+};
