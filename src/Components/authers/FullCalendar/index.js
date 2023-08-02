@@ -18,6 +18,7 @@ import { getPraticiens } from '../../../services/praticiens';
 import { savePraticiens } from '../../../REDUX/praticiens/actions';
 import LanguageIcon from '@mui/icons-material/Language';
 import ReplyIcon from '@mui/icons-material/Reply';
+import EventContextMenu from '../EventContextMenu';
 
 const LightTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -33,7 +34,7 @@ const LightTooltip = styled(({ className, ...props }) => (
 
 const DemoApp = ({ filterEvents }) => {
     const calendarRef = React.useRef(null);
-    const pickerRef = React.useRef(null)
+    // const pickerRef = React.useRef(null)
     const dispatch = useDispatch();
    
     const praticiens = useSelector((state) => state.Praticiens.praticiens)
@@ -72,6 +73,11 @@ const DemoApp = ({ filterEvents }) => {
 
 
 
+    const pickerRef = React.useRef(null);
+    const [choosenEvent, setChoosenEvent] = React.useState(null);
+    const [showContextMenu, setshowContextMenu] = React.useState(false);
+    const [mouseXY, setMouseXY] = React.useState({x:0, y:0});
+  
     const renderEventContent = ({ event }) => {
 
         return (
@@ -108,7 +114,7 @@ const DemoApp = ({ filterEvents }) => {
 
                     </div>
                 }>
-                <Box sx={{ display:'flex', flexDirection: 'row', gap: '5px', height:'100%' }}>
+                {/* <Box sx={{ display:'flex', flexDirection: 'row', gap: '5px', height:'100%' }}>
                     <Typography>{event.extendedProps.timeStart}</Typography>
                     <Typography fontWeight={'bold'}>{event.extendedProps.civility + " " + event.extendedProps.name}</Typography>
                     <Box>
@@ -116,10 +122,32 @@ const DemoApp = ({ filterEvents }) => {
                             event.extendedProps.wasMoved==true? <ReplyIcon/>:''
                         }
                     </Box>
-                </Box >
+                </Box > */}
+                <Box>
+                    <div
+                    onContextMenu={(e) => {
+                        e.preventDefault();
+                        setMouseXY({x: e.clientX, y: e.clientY});
+                        setChoosenEvent(event);
+                        hideContextenu(false);
+                    }}
+                    style={{ display:'flex', flexDirection: 'row', gap: '5px', height:'100%' }}
+                    >
+                        <Typography>{event.extendedProps.timeStart}</Typography>
+                        <Typography fontWeight={'bold'}>{event.extendedProps.civility + " " + event.extendedProps.name}</Typography>
+                        <Box>
+                            { event.extendedProps.provenance==="backoffice"? <LanguageIcon />:
+                                event.extendedProps.wasMoved==true? <ReplyIcon/>:''
+                            }
+                        </Box>
+                    </div>
+                </Box>
             </LightTooltip>
+
         );
     }
+    // -- display contextMenu
+    const hideContextenu = (value) => setshowContextMenu(!value);
 
     const handlePikadayDateChange = (date) => {
         if (date) {
@@ -192,10 +220,18 @@ const DemoApp = ({ filterEvents }) => {
 
     return (
         <Box>
+            <EventContextMenu
+                left={mouseXY.x}
+                top={mouseXY.y}
+                calendarEvent={choosenEvent}
+                isVisible={showContextMenu}
+                onHideNeeded={hideContextenu}
+                permissions={["copy", "cut", "move", "delete", "print", "receipt", "abort", "justify", "discuss", "profiling", "urgence"]}
+            />
             <Typography sx={styles.practitionerTile}>BERTRAND Guillaume</Typography>
             <FullCalendar
                 ref={calendarRef}
-                plugins={[dayGridPlugin, resourceTimeGridPlugin, interactionPlugin, timeGridPlugin, resourceTimeGridPlugin]}
+                plugins={[dayGridPlugin, resourceTimeGridPlugin, interactionPlugin]}
                 initialView="timeGridWeek"
                 weekends={true}
                 dayCount={true}
@@ -204,59 +240,99 @@ const DemoApp = ({ filterEvents }) => {
                 eventContent={renderEventContent}
                 slotMinTime={"08:00:00"}
                 slotMaxTime={"18:00:00"}
-                slotDuration={'00:05:00'}
-                slotLabelInterval={'00:30:00'}
+                slotDuration={"00:05:00"}
+                slotLabelInterval={"00:30:00"}
                 nowIndicator={true}
                 datesAboveResources={true}
                 dayMaxEventRows={true}
                 allDaySlot={false}
                 weekNumbers={true}
                 stickyHeaderDates={true}
-                height={'auto'}
+                height={"auto"}
                 customButtons={customButtons}
                 events={CustomEvents}
-                resources={RessourcePraticiens}
-                headerToolbar={{
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'resourceTimeGridDay,resourceTimeGridWeek'
-                  }}
-                  views={{
-                    resourceTimeGridDay: {
-                      type: 'resourceTimeGrid',
-                      duration: { days: 1 }
-                    },
-                    resourceTimeGridWeek: {
-                      type: 'resourceTimeGrid',
-                      duration: { weeks: 1 }
-                    }
-                  }}
-                  resourceAreaWidth="15%"
+
                 // events={[
                 //     {
-                //         id: 1,
-                //         title: 'DONGMO Donald',
-                //         start: '2023-07-26T00:00:00',
-                //         end: '2023-07-26T00:00:00',
-                //         description: 'Ceci est un événement important',
-                //         heure_debut: "08:00",
-                //         civ: "M."
-                //     }
+                //     id: 1,
+                //     title: "DONGMO Donald",
+                //     start: "2023-07-11T08:00:00",
+                //     end: "2023-07-11T08:10:00",
+                //     description: "Ceci est un événement important",
+                //     heure_debut: "08:00",
+                //     civ: "M.",
+                //     },
                 // ]}
-                // headerToolbar={{
-                //     left: 'prev,next today miniCalendar',
-                //     center: 'title',
-                //     right: 'dayGridMonth,timeGridWeek,timeGridDay',
-                // }}
+                headerToolbar={{
+                    left: "prev,next today miniCalendar",
+                    center: "title",
+                    right: "dayGridMonth,timeGridWeek,timeGridDay",
+                }}
                 slotLabelFormat={{
-                    hour: 'numeric',
-                    minute: '2-digit',
+                    hour: "numeric",
+                    minute: "2-digit",
                     omitZeroMinute: false,
-                    meridiem: 'short',
+                    meridiem: "short",
                 }}
             />
         </Box>
-    )
+    // )
+    //   <Box>
+    //     <EventContextMenu
+    //       left={mouseXY.x}
+    //       top={mouseXY.y}
+    //       calendarEvent={choosenEvent}
+    //       isVisible={showContextMenu}
+    //       onHideNeeded={hideContextenu}
+    //       permissions={["copy", "cut", "move", "delete", "print", "receipt", "abort", "justify", "discuss", "profiling", "urgence"]}
+    //     />
+    //     <Typography sx={styles.practitionerTile}>BERTRAND Guillaume</Typography>
+    //     <FullCalendar
+    //       ref={calendarRef}
+    //       plugins={[dayGridPlugin, resourceTimeGridPlugin, interactionPlugin]}
+    //       initialView="timeGridWeek"
+    //       weekends={true}
+    //       dayCount={true}
+    //       locale={frlocale}
+    //       initialDate={new Date()}
+    //       eventContent={renderEventContent}
+    //       slotMinTime={"08:00:00"}
+    //       slotMaxTime={"18:00:00"}
+    //       slotDuration={"00:05:00"}
+    //       slotLabelInterval={"00:30:00"}
+    //       nowIndicator={true}
+    //       datesAboveResources={true}
+    //       dayMaxEventRows={true}
+    //       allDaySlot={false}
+    //       weekNumbers={true}
+    //       stickyHeaderDates={true}
+    //       height={"auto"}
+    //       customButtons={customButtons}
+    //       events={[
+    //         {
+    //           id: 1,
+    //           title: "DONGMO Donald",
+    //           start: "2023-07-11T08:00:00",
+    //           end: "2023-07-11T08:10:00",
+    //           description: "Ceci est un événement important",
+    //           heure_debut: "08:00",
+    //           civ: "M.",
+    //         },
+    //       ]}
+    //       headerToolbar={{
+    //         left: "prev,next today miniCalendar",
+    //         center: "title",
+    //         right: "dayGridMonth,timeGridWeek,timeGridDay",
+    //       }}
+    //       slotLabelFormat={{
+    //         hour: "numeric",
+    //         minute: "2-digit",
+    //         omitZeroMinute: false,
+    //         meridiem: "short",
+    //       }}
+    //     />
+    //   </Box>
+    );
 }
 
 export default DemoApp

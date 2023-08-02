@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import { saveEventsPractionner } from "../../../REDUX/calendar/actions";
 import { saveEvents } from "../../../REDUX/calendar/actions";
 import { getEventsByPractionner } from "../../../services/calendars";
+import { Divider } from "@mui/material";
 
 
 
@@ -124,11 +125,13 @@ function NestedCheckboxes({ data, boxChange }) {
               defaultChecked
               onChange={(e) => handleParentCheckboxChange(e, parentName)}
               name={parentName}
+              sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}
             />
           }
           label={parentName}
           sx={{ fontSize: "14px" }} // ajout de la propriété sx pour la taille de police
         />
+        <Divider />
         {items.map((child) => (
           <Box key={child._id} sx={{ ml: 2 }}>
             <FormControlLabel
@@ -137,6 +140,7 @@ function NestedCheckboxes({ data, boxChange }) {
                   checked={checkedItems.includes(child._id)}
                   onChange={handleChildCheckboxChange}
                   name={child._id}
+                  sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}
                 />
               }
               label={`${child.name} ${child.surname}`}
