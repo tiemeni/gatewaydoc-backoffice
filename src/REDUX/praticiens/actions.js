@@ -13,4 +13,8 @@ export const savePraticiensPerJob = (payload) => {
     type: SAVE_PRATICIENS_PER_JOB,
     payload
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 44c74b29ceaf6d946783a486df51db0240c0749e

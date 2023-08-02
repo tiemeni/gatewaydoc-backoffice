@@ -83,7 +83,12 @@ const FackContainer = () => {
         // } else {
         //     // setEvents(setEvents.filter((val) => val !== event.name));
         // }
+<<<<<<< HEAD
     }   
+=======
+    }
+
+>>>>>>> 44c74b29ceaf6d946783a486df51db0240c0749e
     return (
         <Box overflowY={"hidden"}>
             <Box style={styles.container}>

@@ -5,35 +5,17 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Box from "@mui/material/Box";
 import { saveEventsPractionner } from "../../../REDUX/calendar/actions";
-import { saveEvents } from "../../../REDUX/calendar/actions";
-import { getEventsByPractionner } from "../../../services/calendars";
 
-
-
-function NestedCheckboxes({ data, boxChange }) {
+function NestedCheckboxes({data }) {
   const dispatch = useDispatch();
 
   const [checkedItems, setCheckedItems] = useState([]);
   const idPracti = useSelector((state) => state.Calendar.eventsPractionerId)
 
-
   useEffect(() => {
 
     dispatch(saveEventsPractionner(checkedItems))
-    async function fetchData() {
-      // setIsLoading(true);
-      // const response = await getEventsByPractionner(idPracti);
-      const finalId=  Object.values(checkedItems).join(",");
-      console.log("voici final id"+checkedItems)
-      const response = await getEventsByPractionner(checkedItems);
 
-      if (response.success !== true) {
-        return;
-      }
-      // setIsLoading(false);
-      dispatch(saveEvents(response.data))
-    }
-    fetchData()
 
 
   }, [checkedItems]);
@@ -41,49 +23,21 @@ function NestedCheckboxes({ data, boxChange }) {
   const handleParentCheckboxChange = (event, parentName) => {
     const { checked } = event.target;
     let newCheckedItems = [...checkedItems];
-        if(data){
 
-            if (checked) {
-            newCheckedItems = newCheckedItems.concat(data[parentName].map((item) => item._id));
-            } else {
-            newCheckedItems = newCheckedItems.filter((item) => !data[parentName].map((item) => item._id).includes(item));
+    if (checked) {
+      newCheckedItems = newCheckedItems.concat(data[parentName].map((item) => item._id));
+    } else {
+      newCheckedItems = newCheckedItems.filter((item) => !data[parentName].map((item) => item._id).includes(item));
 
-            }
-        }
-<<<<<<< HEAD
-    // if(checkedItems.length>=1 ){
-      setCheckedItems(newCheckedItems);
-
-    // }
-=======
+    }
 
     setCheckedItems(newCheckedItems);
->>>>>>> 44c74b29ceaf6d946783a486df51db0240c0749e
 //   dispatch(saveEventsPractionner(checkedItems))
 
 
   };
 
   const handleChildCheckboxChange = (event) => {
-
-    // if( idPracti ){
-        async function fetchData() {
-            // setIsLoading(true);
-            // const response = await getEventsByPractionner(idPracti);
-            const finalId=  Object.values(checkedItems).join(",");
-            console.log("voici final id"+checkedItems)
-            const response = await getEventsByPractionner(checkedItems);
-      
-            if (response.success !== true) {
-              return;
-            }
-            // setIsLoading(false);
-            dispatch(saveEvents(response.data))
-          }
-          fetchData()
-    // }
-
-
     const { name, checked } = event.target;
     let newCheckedItems = [...checkedItems];
 
@@ -108,15 +62,7 @@ function NestedCheckboxes({ data, boxChange }) {
       newCheckedItems = newCheckedItems.filter((item) => item !== parentName);
     }
 
-<<<<<<< HEAD
-
-        // if(checkedItems.length>=1 ){
-      setCheckedItems(newCheckedItems);
-
-    // }
-=======
     setCheckedItems(newCheckedItems);
->>>>>>> 44c74b29ceaf6d946783a486df51db0240c0749e
 //   dispatch(saveEventsPractionner(checkedItems))
 
     // saveEventsPractionner(checkedItems)
@@ -132,10 +78,6 @@ function NestedCheckboxes({ data, boxChange }) {
               checked={
                 items.every((item) => checkedItems.includes(item._id))
               }
-<<<<<<< HEAD
-              defaultChecked
-=======
->>>>>>> 44c74b29ceaf6d946783a486df51db0240c0749e
               onChange={(e) => handleParentCheckboxChange(e, parentName)}
               name={parentName}
             />
@@ -162,18 +104,11 @@ function NestedCheckboxes({ data, boxChange }) {
     ));
   };
 
-  if(data.length!==0){
-    return (
-        <FormGroup>
-          {renderItems()}
-        </FormGroup>
-      );
-  }else return (
-    <div>
-
-    </div>
-  )
-
+  return (
+    <FormGroup>
+      {renderItems()}
+    </FormGroup>
+  );
 }
 
 export default NestedCheckboxes;
