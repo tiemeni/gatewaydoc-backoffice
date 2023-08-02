@@ -18,7 +18,7 @@ export const getPraticiens = () => {
         const BASE_URL = process.env.REACT_APP_BASE_URL;
         axios({
             method: "GET",
-            url: BASE_URL + "/users/",
+            url: BASE_URL + `/users/`,
             params: {
                 isPraticien: true,
                 idCentre: app.idCentre
