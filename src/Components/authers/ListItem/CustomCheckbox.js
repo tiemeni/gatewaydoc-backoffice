@@ -32,7 +32,6 @@ function NestedCheckboxes({data }) {
     }
 
     setCheckedItems(newCheckedItems);
-//   dispatch(saveEventsPractionner(checkedItems))
 
 
   };
@@ -50,9 +49,7 @@ function NestedCheckboxes({data }) {
       const allChildrenChecked = data[parentName].every((child) =>
         newCheckedItems.includes(child._id)
       );
-    //   if (allChildrenChecked) {
-    //     newCheckedItems.push(parentName);
-    //   }
+
     } else {
       newCheckedItems = newCheckedItems.filter((item) => item !== name);
 
@@ -63,9 +60,6 @@ function NestedCheckboxes({data }) {
     }
 
     setCheckedItems(newCheckedItems);
-//   dispatch(saveEventsPractionner(checkedItems))
-
-    // saveEventsPractionner(checkedItems)
 
   };
 

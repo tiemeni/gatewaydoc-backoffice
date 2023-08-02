@@ -13,9 +13,5 @@ export const saveEventsPractionner = (payload) => {
       type: SAVE_EVENT_PRACTIONNER_FILTER,
       payload
     }
-<<<<<<< HEAD
-  }
-=======
   }
 
->>>>>>> 44c74b29ceaf6d946783a486df51db0240c0749e

@@ -16,14 +16,9 @@ import { styled } from '@mui/material/styles';
 import { getEventsByPractionner } from "../../../services/calendars";
 import { getPraticiens } from '../../../services/praticiens';
 import { savePraticiens } from '../../../REDUX/praticiens/actions';
-<<<<<<< HEAD
 import LanguageIcon from '@mui/icons-material/Language';
 import ReplyIcon from '@mui/icons-material/Reply';
 
-=======
-
-
->>>>>>> 44c74b29ceaf6d946783a486df51db0240c0749e
 const LightTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
   ))(({ theme }) => ({
@@ -43,11 +38,8 @@ const DemoApp = ({ filterEvents }) => {
    
     const praticiens = useSelector((state) => state.Praticiens.praticiens)
 
-<<<<<<< HEAD
     localStorage.setItem('idP', praticiens[0]?._id)
 
-=======
->>>>>>> 44c74b29ceaf6d946783a486df51db0240c0749e
     const RessourcePraticiens = praticiens.map((item, index) => {
         return { ...item, id: item._id, title: item.name };
       });
@@ -83,7 +75,6 @@ const DemoApp = ({ filterEvents }) => {
     const renderEventContent = ({ event }) => {
 
         return (
-<<<<<<< HEAD
             <LightTooltip disableFocusListener disableTouchListener followCursor
                 title={
                     <div style={{ fontSize: '16px', backgroundColor:"white", height: 'auto' }}>
@@ -125,30 +116,6 @@ const DemoApp = ({ filterEvents }) => {
                             event.extendedProps.wasMoved==true? <ReplyIcon/>:''
                         }
                     </Box>
-=======
-
-            <LightTooltip disableFocusListener disableTouchListener followCursor 
-                title={
-                    <div style={{ fontSize: '16px', backgroundColor:"white" }}>
-                        <div>
-                            <span style={{ color: '#6e706f', fontWeight:"bold" }} >{event.extendedProps.civility}</span>
-                            <span style={{ color: '#6e706f', fontWeight:"bold" }} >{" "+event.extendedProps.name}</span>
-                            <span style={{ color: '#6e706f', fontWeight:"bold" }} >{ " "+ event.extendedProps.surname}</span>
-                        </div>
-                        <div>
-                            <span style={{ color: '#6e706f', fontWeight:"bold" }}>Durée: </span>
-                            <span style={{ color: 'black' }}>{event.extendedProps.duration}</span>
-                        </div>
-                        <div>
-                            <span style={{ color: '#6e706f', fontWeight:"bold" }}>Provenance: </span>
-                            <span style={{ color: 'black', fontWeight:"bold" }}>{event.extendedProps.provenance}</span>
-                        </div>
-                    </div>
-                }>
-                <Box>
-                    <Typography>{event.extendedProps.startTime}</Typography>
-                    <Typography fontWeight={'bold'}>{event.extendedProps.civility + " " + event.extendedProps.name}</Typography>
->>>>>>> 44c74b29ceaf6d946783a486df51db0240c0749e
                 </Box >
             </LightTooltip>
         );

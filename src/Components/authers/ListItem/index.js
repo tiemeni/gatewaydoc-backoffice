@@ -50,15 +50,8 @@ function NestedCheckboxes({ data, boxChange }) {
 
             }
         }
-<<<<<<< HEAD
-    // if(checkedItems.length>=1 ){
-      setCheckedItems(newCheckedItems);
-
-    // }
-=======
 
     setCheckedItems(newCheckedItems);
->>>>>>> 44c74b29ceaf6d946783a486df51db0240c0749e
 //   dispatch(saveEventsPractionner(checkedItems))
 
 
@@ -108,15 +101,11 @@ function NestedCheckboxes({ data, boxChange }) {
       newCheckedItems = newCheckedItems.filter((item) => item !== parentName);
     }
 
-<<<<<<< HEAD
 
         // if(checkedItems.length>=1 ){
       setCheckedItems(newCheckedItems);
 
     // }
-=======
-    setCheckedItems(newCheckedItems);
->>>>>>> 44c74b29ceaf6d946783a486df51db0240c0749e
 //   dispatch(saveEventsPractionner(checkedItems))
 
     // saveEventsPractionner(checkedItems)
@@ -132,10 +121,7 @@ function NestedCheckboxes({ data, boxChange }) {
               checked={
                 items.every((item) => checkedItems.includes(item._id))
               }
-<<<<<<< HEAD
               defaultChecked
-=======
->>>>>>> 44c74b29ceaf6d946783a486df51db0240c0749e
               onChange={(e) => handleParentCheckboxChange(e, parentName)}
               name={parentName}
             />
