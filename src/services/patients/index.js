@@ -1,8 +1,9 @@
+import app from "../../Configs/app"
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const getPatients = async () => {
   try {
-    const res = await fetch(BASE_URL + "/patients/");
+    const res = await fetch(BASE_URL + `/patients/?idCentre=${app.idCentre}`);
     const data = await res.json();
     return data;
   } catch (err) {
@@ -18,7 +19,7 @@ export const createPatient = async (payload) => {
   // }
 
   try {
-    const res = await fetch(BASE_URL + "/patients/register", {
+    const res = await fetch(BASE_URL + `/patients/register?idCentre=${app.idCentre}`, {
       method: 'POST',
       body: JSON.stringify(payload),
       headers: {
@@ -35,12 +36,12 @@ export const createPatient = async (payload) => {
 
 export const updatePatient = async (payload, id) => {
   try {
-    const res = await fetch(BASE_URL + "/patients/" + id, {
+    const res = await fetch(BASE_URL + `/patients/${id}/?idCentre=${app.idCentre}` , {
       method: 'PUT',
       body: JSON.stringify(payload),
       headers: {
         "Content-Type": "application/json"
-      }
+      },
     })
     const data = await res.json();
     return data
