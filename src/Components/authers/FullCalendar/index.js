@@ -1,4 +1,4 @@
-import React from 'react'
+/*import React from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import resourceTimeGridPlugin from '@fullcalendar/resource-timegrid';
@@ -147,4 +147,4 @@ const DemoApp = () => {
     );
 }
 
-export default DemoApp
+export default DemoApp*/

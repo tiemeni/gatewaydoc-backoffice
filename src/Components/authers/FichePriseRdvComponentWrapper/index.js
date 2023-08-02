@@ -1,5 +1,5 @@
 
-import StepOne from "./DisplayForm";
+//import StepOne from "./DisplayForm";
 import StepperForm from "./StepperForm";
 function PriseRdvComponent() {
   return <StepperForm/>;
