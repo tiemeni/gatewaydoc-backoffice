@@ -24,7 +24,7 @@ function GestionLayout({
     searchForm = null,
     searchFonction
 }) {
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
 
     return (
         <UsersLayout
