@@ -9,7 +9,7 @@ import { getAllMotif } from '../../services/motifs'
 
 function GestionMotifs( { data, loading, error } ) {
   const dispatch = useDispatch();
-  const [motifs, setMotifs] = useState([])
+
   const getMotifs = async () => {
       
     if(!(data && data.length > 0)){

@@ -55,6 +55,7 @@ const ContentRouter = () => {
                 <Route path="/groupe_droits" element={<PageGestionGroupesDroits />} />
                 <Route path="/praticiens" element={<PageGestionPraticiens />} />
                 <Route path="/praticiens/add" element={<AddPraticien />} />
+                <Route path="/praticiens/add/:praticienId" element={<AddPraticien />} />
                 <Route path="/praticiens/:praticienId" element={<PageDetailPraticien />} />
                 <Route path="/advancedOptions" element={<PageGestionOptionsAvancees />} />
             </Routes>
