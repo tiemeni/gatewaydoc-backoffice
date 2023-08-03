@@ -21,7 +21,8 @@ import { practitionerFields } from "../../Constants/fields";
 import PatientRouter from "./PatientRouter";
 import SpecialitiesRouter from "./SpecialitiesRouter";
 import NewLieux from "../../Pages/PageGestionLieux/NewLieux";
-import AddMotif from "../../Pages/PageGestionMotifs/AddMotifs"
+import AddMotif from "../../Pages/PageGestionMotifs/AddMotifs";
+import AddGroupeDroit from "../../Pages/PageGestionGroupesDroits/AddGroupeDroit"
 
 const ContentRouter = () => {
     return (
@@ -58,8 +59,11 @@ const ContentRouter = () => {
 
                 <Route path="/specialites/*" element={<SpecialitiesRouter />} />
                 <Route path="/typepatients" element={<PageGestionTypePatients />} />
-                <Route path="/groupe_droits" element={<PageGestionGroupesDroits />} />
                 
+                <Route path="/groupe_droits" element={<PageGestionGroupesDroits />} />
+                <Route path="/groupe_droits/add" element={<AddGroupeDroit />} />
+                <Route path="/groupe_droits/add/:groupeId" element={<AddGroupeDroit />} />
+
                 <Route path="/praticiens" element={<PageGestionPraticiens />} />
                 <Route path="/praticiens/add" element={<AddPraticien />} />
                 <Route path="/praticiens/add/:praticienId" element={<AddPraticien />} />

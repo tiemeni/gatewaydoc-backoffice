@@ -138,6 +138,35 @@ export const motifFields = {
         }
     ]
 }
+export const groupe_droitFields = {
+    fields: [
+        
+        {
+            id: 0,
+            label: "Titre*",
+            name: "title",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: "Titre"
+        },
+        {
+            id: 1,
+            label: "Description*",
+            name: "description",
+            type: fieldTypes.TEXT,
+            required: false,
+            placeholder: "Description"
+        },
+        {
+            id: 2,
+            label: "Actif*",
+            name: "active",
+            type: fieldTypes.RADIO,
+            required: true,
+            placeholder: ""
+        }
+    ]
+}
 
 export const practitionerFields = {
     fields: [
