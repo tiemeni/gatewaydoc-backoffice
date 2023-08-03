@@ -73,7 +73,7 @@ export const DATA_TABLE_PATIENT_COLONNE = [{ label: "Civilité", name: "civility
 export const DATA_TABLE_PRATICIEN_COLONNE = [
     {
         label: "Civilité",
-        name: "label_civility",
+        name: "civility",
     },
     {
         label: "Nom",

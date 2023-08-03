@@ -23,7 +23,7 @@ function PageGestionPraticiens({ data, loading, error }) {
       }
     }
   }
-  console.log(ListPraticiens)
+
   useEffect(() => {
     
     getAllPraticiens();
@@ -45,7 +45,7 @@ function PageGestionPraticiens({ data, loading, error }) {
         title={"Gestion des praticiens"}
         object={"praticien"}
         dataField={DATA_TABLE_PRATICIEN_COLONNE}
-        dataInfo={ListPraticiens}
+        dataInfo={ListPraticiens?.data}
       />
       {/* <pre className="container">{JSON.stringify(data)}</pre> */}
     </container>
