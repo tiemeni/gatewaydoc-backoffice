@@ -22,7 +22,9 @@ const DemoApp = () => {
     const renderEventContent = ({ event }) => {
         console.log(event)
         return (
-          <Box>
+          <Box onClick={(e)=>{
+            dispatch(showPFRDV(true,event))
+          }}>
             <div
               onContextMenu={(e) => {
                 e.preventDefault();
@@ -109,9 +111,7 @@ const DemoApp = () => {
           initialView="timeGridWeek"
           weekends={true}
           dayCount={true}
-          eventClick={(info)=>{
-            dispatch(showPFRDV(true,info.event))
-          }}
+          
           locale={frlocale}
           initialDate={new Date()}
           eventContent={renderEventContent}

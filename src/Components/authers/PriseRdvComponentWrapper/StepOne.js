@@ -18,21 +18,56 @@ import ImageIcon from '@mui/icons-material/Image';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CircularIndeterminate from "./CircularIndeterminate";
 import { useForm } from "react-hook-form";
+import { getPraticiens } from "../../../REDUX/praticiens/actions";
+import { getAllProfessions } from "../../../REDUX/professions/actions";
+import { getAllLieux } from "../../../REDUX/lieux/action";
+import profession from "../../../Utils/transformers/profession";
+import motif from "../../../Utils/transformers/motif";
+import lieu from "../../../Utils/transformers/lieu";
+import praticien from "../../../Utils/transformers/praticien";
+import axios from "axios";
+import app from "../../../Configs/app";
 
+
+const fieldsByLevel = {
+    "profession": {
+        level: 0
+    },
+    "motif": {
+        level: 1
+    },
+    "lieu": {
+        level: 2
+    },
+    "praticien": {
+        level: 3
+    }
+}
 function StepOne( { next = ()=>{}, visible= ()=>{} }){
     const [phone, setPhone] = React.useState('');
+    const [values, setValues] = React.useState({});
     const [level, setLevel] = React.useState(0);
+    const [praticienList, setPraticienList] = React.useState([]);
+    const [motifList, setMotifList] = React.useState([]);
+
     const classes = styles();
     const items = [{}];
-
-    const { register, handleSubmit, watch, control, formState, getValues  } = useForm();
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
+    const { register, handleSubmit, watch, control, formState, getValues, setValue  } = useForm({
+        defaultValues: {
+          motif: null,
+          praticien: null,
+          profession: null,
+          lieu: null
+        },
+      });
     useEffect(()=>{
         visible({
             next: false,
             prev: false
         });
     },[])
-    
+
     useEffect(()=>{
         if(level == 5){
             visible({
@@ -50,17 +85,76 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
     
     React.useEffect(() => {
     
-    const subscription = watch((value, { name, type }) =>{
-        if(name == "profession"){
-            if(!value){
-                setLevel(0)
-            }else if(level <= 0){
-                setLevel(level + 1);
-            }
-        }
+        const subscription = watch((values, { name, type }) =>{
+            console.log(values, name, type)
+            
+            setValues(values)
+            //setValue(name, values[name]);
+        
     })
     return () => subscription.unsubscribe()
     }, [watch])
+
+    React.useEffect(() => {
+        let maxLevelSet = "";
+        let currentLevel = -1;
+        for(let name of Object.keys(values)){
+            if(values[name] && fieldsByLevel[name].level >= currentLevel){
+               maxLevelSet = name;
+               currentLevel = fieldsByLevel[name].level;
+            }
+        }
+        setLevel(currentLevel + 1);
+        console.log(currentLevel, values)
+        if(values['profession']){
+            axios({
+                method: "GET",
+                url: BASE_URL + `/motif/profession/${values['profession']}`,
+                params: {
+                  
+                    idCentre: app.idCentre,
+                    
+                },
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+            })
+            .then((response) => {
+                let motifs = response.data.data;
+                setMotifList(motifs)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                              
+            })
+            .catch((error) => {
+             
+            });
+        }
+        if(values['lieu']  ){
+            axios({
+                method: "GET",
+                url: BASE_URL + "/users/",
+                params: {
+                    isPraticien: true,
+                    idCentre: app.idCentre,
+                    idSpeciality: values['profession'],
+                    idLieu: values['lieu']
+                },
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+            })
+            .then((response) => {
+                let praticiens = response.data.data;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+                setPraticienList(praticiens);                
+            })
+            .catch((error) => {
+             
+            });
+        }
+    return () => {}
+    }, [values])
 
     const handleChange = (newPhone) => {
       setPhone(newPhone)
@@ -72,20 +166,29 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
       e.preventDefault();
       next();
     }
-    
-    const dispatch = useDispatch();
-    const motifsList = useSelector((state) => state.Motifs.data);
-    
-    const getMotifs = async () => {
-      
-      if (motifsList && motifsList.data && motifsList.data.length > 0) return;
-      dispatch(getAllMotif());
-    };
-    useEffect(()=>{
-      getMotifs()
-    },[]);
 
     
+    const dispatch = useDispatch();
+    
+    const professionList = useSelector((state) => state.Professions.data);
+    const lieuList = useSelector((state) => state.Lieux.data);
+    const getRessources = async () => {
+    
+      if (!(professionList && professionList.data && professionList.data.length > 0)){
+        dispatch(getAllProfessions());
+      }
+
+      if (!(professionList && professionList.data && professionList.data.length > 0)){
+        dispatch(getAllLieux());
+      }
+        
+    };
+    
+
+    useEffect(()=>{
+        getRessources()
+    },[]);
+
     
     return (
       <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
@@ -108,25 +211,25 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
                         
                         {
                             level  >= 0 ? <Grid item xs={12}>
-                            <BasicFormControl  label="Quel est la profession ?"  Input={SelectWithOption} props={{ value: "649abbd384c9741c138bafba", options: motifsList && motifsList.data || [], value: getValues("profession"), ...register('profession',{ required: true }), placeholder: 'Nom' }} />
+                            <BasicFormControl  label="Quel est la profession ?"  Input={SelectWithOption} props={{  options: (professionList && professionList.data || []).flatMap(profession.toListItem), value: values["profession"], ...register('profession',{ required: true }), placeholder: 'Profession' }} />
                         </Grid>: []
                         }
                         {
                             level  >= 1 ?
                             <Grid item xs={12}>
-                                <BasicFormControl label="Quel est le motif de la consultation ?"  Input={SelectWithOption} props={{ name: 'name', options: motifsList && motifsList.data || [], ...register("motif"), placeholder: 'Nom' }} />
+                                <BasicFormControl label="Quel est le motif de la consultation ?"  Input={SelectWithOption} props={{ value: values["motif"], options: (motifList || []).flatMap(motif.toListItem), ...register("motif"), placeholder: 'Motif' }} />
                             </Grid>
                             :[]
                         }
                         {
                             level  >= 2 ? <Grid item xs={12}>
-                                <BasicFormControl label="Quel est le lieux de rendez vous ?"  Input={SelectWithOption} props={{ name: 'name', ...register("lieux"), placeholder: 'Nom' }} />
+                                <BasicFormControl label="Quel est le lieu de rendez vous ?"  Input={SelectWithOption} props={{  value: values["lieu"], options: (lieuList && lieuList.data || []).flatMap(lieu.toListItem), ...register("lieu"), placeholder: 'Lieu du rendez vous' }} />
                             </Grid>:[]
                         }
                         {
                             level  >= 3 ?
                             <Grid item xs={12}>
-                                <BasicFormControl label="Avec quel praticien ?" Input={SelectWithOption} props={{ name: 'name', placeholder: 'Nom' }} />
+                                <BasicFormControl label="Avec quel praticien ?" Input={SelectWithOption} props={{ value: values["praticien"], options: (praticienList || []).flatMap(praticien.toListItem), ...register("praticien"), placeholder: 'Praticien' }} />
                             </Grid>
                             : []
                         }
@@ -136,19 +239,19 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
                     {
                             level  >= 4 ? <Grid container spacing={1}>
                             <Grid item xs={4}>
-                                <BasicFormControl  label='Date de debut'  Input={StyledInput} props={{ name: 'name' , type: DATE, placeholder: 'Nom' }} />
+                                <BasicFormControl  label='Date de debut'  Input={StyledInput} props={{ value: getValues("date_debut"),...register("date_debut") , type: DATE, placeholder: 'Date debut' }} />
                             </Grid>
                             <Grid item xs={4}>
-                                <BasicFormControl  label='Jour'  Input={SelectWithOption} props={{ name: 'name', placeholder: 'Nom' }} />
+                                <BasicFormControl  label='Jour'  Input={SelectWithOption} props={{ value: getValues("jour"),...register("jour"), placeholder: 'Nom' }} />
                             </Grid>
                             <Grid item xs={4}>
-                                <BasicFormControl  label='Creneau horaire'  Input={SelectWithOption} props={{ name: 'name', placeholder: 'Nom' }} />
+                                <BasicFormControl  label='Creneau horaire'  Input={SelectWithOption} props={{ value: getValues("heure"), ...register("heure"), placeholder: 'Nom' }} />
                             </Grid>    
                             <Grid item xs={4}>
-                                <BasicFormControl label='Periode'  Input={StyledInput} props={{ name: 'name' , placeholder: 'Nom' }} />
+                                <BasicFormControl label='Periode'  Input={StyledInput} props={{ value: getValues('periode'), ...register("periode"), placeholder: 'Nom' }} />
                             </Grid>
                             <Grid item xs={4}>
-                                <BasicFormControl label='Creneau horaire'  Input={SelectWithOption} props={{ name: 'name', placeholder: 'Nom' }} />
+                                <BasicFormControl label='Creneau horaire'  Input={SelectWithOption} props={{ value: getValues('interval'), ...register("interval"), placeholder: 'Nom' }} />
                             </Grid>
                             <Grid item xs={4}>
                                 <Button className={classes.search} variant="contained"  color="primary" size="medium"  startIcon={<SearchIcon />}>

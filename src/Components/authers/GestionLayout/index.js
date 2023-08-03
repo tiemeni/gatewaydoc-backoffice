@@ -18,7 +18,7 @@ function GestionLayout({
     object,
     addFunction = null,
     dataField = [],
-    dataInfo = {},
+    dataInfo = [],
     editeFonction,
     deleteFonction,
     searchForm = null,
@@ -38,7 +38,7 @@ function GestionLayout({
             <Grid item xs={12} px={2} mt={3}>
                 <Typography
                     sx={styles.fs14}>
-                    <b>8 {object ?? "Objet"}(s)</b> correspondent à votre recherche
+                    <b>{dataInfo.length} {object ?? " Objet"}(s)</b> correspondent à votre recherche
                 </Typography>
             </Grid>
             <Grid item xs={12} px={2} mt={3}>

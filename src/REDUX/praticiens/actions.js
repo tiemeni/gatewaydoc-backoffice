@@ -10,7 +10,7 @@ import {
   FETCH_PRATICIENS_SUCCESS,
   FETCH_PRATICIENS_FAILURE,
 } from "./types";
-
+import app from "../../Configs/app";
 
 export const getPraticiens = () => {
     return (dispatch) => {
@@ -18,9 +18,10 @@ export const getPraticiens = () => {
         const BASE_URL = process.env.REACT_APP_BASE_URL;
         axios({
             method: "GET",
-            url: BASE_URL + "/users/",
+            url: BASE_URL + `/users/`,
             params: {
                 isPraticien: true,
+                idCentre: app.idCentre
             },
             headers: {
                 Accept: "application/json",
