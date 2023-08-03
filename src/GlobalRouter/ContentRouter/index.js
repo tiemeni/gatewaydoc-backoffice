@@ -39,6 +39,7 @@ const ContentRouter = () => {
                 <Route path="/users/add" element={<NewUser />} />
                 <Route path="/users/add/:userId" element={<NewUser />} />
                 <Route path="/lieux/add" element={<NewLieux />} />
+                <Route path="/lieux/add/:lieuId" element={<NewLieux />} />
 
                 <Route path="/patients/*" element={<PatientRouter />} />
                 <Route path="/patients" element={<PageGestionPatients />} />

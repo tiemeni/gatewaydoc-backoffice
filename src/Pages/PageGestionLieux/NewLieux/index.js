@@ -15,7 +15,7 @@ const NewLieux = () => {
   const dispatch = useDispatch();
   const groupList = useSelector((state) => state.Groups.groups);
   const civList = useSelector((state) => state.Common.civilities);
-  const { userId } = useParams();
+  const { lieuId } = useParams();
 
   const [redirect, setRedirect] = React.useState(false);
 
@@ -58,16 +58,16 @@ const NewLieux = () => {
   });
 
   const onSubmit = async (data) => {
-    if (!userId) {
+    if (!lieuId) {
       const payload = { ...data, password: generatePassword() };
       const result = await createUser(payload);
       if (result.success !== true) return;
-      setRedirect("/content/users");
+      setRedirect("/content/lieux");
     } else {
       //update user
-      const result = await updateUser(data, userId);
+      const result = await updateUser(data, lieuId);
       if (result.success !== true) return;
-      setRedirect("/content/users");
+      setRedirect("/content/lieux");
     }
   };
 
@@ -75,7 +75,7 @@ const NewLieux = () => {
     <FormGenerator
       fields={lieuxFields}
       title={"Gestion des lieux"}
-      dataId={userId}
+      dataId={lieuId}
       type={"user"}
       redirect={redirect}
       onSubmit={onSubmit}

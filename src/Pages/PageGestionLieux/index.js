@@ -14,11 +14,11 @@ import { getAllLieux } from '../../services/lieux'
 function PageGestionLieux({ data, loading, error }) {
 
     const dispatch = useDispatch();
-    console.log(data)
+    
     const load = async ()=>{
       dispatch(lieux.loading());
         try{
-            const data = await getAllLieux()
+            const data = await getAllLieux();
             dispatch(lieux.save(data));
         }catch(e){
             dispatch(lieux.loadingError(e));
