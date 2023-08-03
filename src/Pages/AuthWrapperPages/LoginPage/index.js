@@ -9,7 +9,7 @@ import { setUser } from '../../../REDUX/users/actions';
 import { signUserIn } from '../../../services/users';
 
 
-const LoginPage = () => {
+const LoginPage = ({ idc }) => {
     const dispatch = useDispatch()
     const [login, setLogin] = useState("");
     const [mdp, setMdp] = useState("");
@@ -27,7 +27,7 @@ const LoginPage = () => {
     const handleSubmit = async () => {
         setError('')
         setLoading(true)
-        const result = await signUserIn({ email: login, password: mdp })
+        const result = await signUserIn({ email: login, password: mdp, idc })
         if (result.data?.success) {
             setLoading(false)
             dispatch(setUser({ ...result.data.data.user }))
