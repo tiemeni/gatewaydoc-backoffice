@@ -57,6 +57,7 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
     const { register, handleSubmit, watch, control, formState, getValues, setValue  } = useForm({
         defaultValues: {
           motif: null,
+          speciality: null,
           praticien: null,
           profession: null,
           lieu: null
@@ -87,9 +88,16 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
     React.useEffect(() => {
     
         const subscription = watch((values, { name, type }) =>{
-            console.log(values, name, type)
             
-            setValues(values)
+            let v = { ...values};
+            for(let field in fieldsByLevel ){
+                if(fieldsByLevel[name].level < fieldsByLevel[field].level){
+                    v[field] = null;
+                    
+                }
+            }
+                        
+            setValues(v)
             //setValue(name, values[name]);
         
     })
@@ -106,7 +114,6 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
             }
         }
         setLevel(currentLevel + 1);
-        console.log(currentLevel, values)
         if(values['profession']){
             axios({
                 method: "GET",
