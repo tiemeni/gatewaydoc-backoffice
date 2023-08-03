@@ -96,4 +96,21 @@ export const DATA_TABLE_PRATICIEN_COLONNE = [
     },
 ];
 
-export const DATA_TABLE_GROUPE_COLONNE = ["Nom du groupe", "Description", "Actions"]
+export const DATA_TABLE_GROUPE_COLONNE = [
+    {
+        label: "Titre",
+        name: "title",
+    },
+    {
+        label: "Description",
+        name: "description",
+    },
+    {
+        label: "Actif",
+        name: "active",
+    },
+    {
+        label: "Actions",
+    },
+];
+

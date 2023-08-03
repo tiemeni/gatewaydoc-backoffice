@@ -24,7 +24,7 @@ const NewLieux = () => {
     if (groups.success !== true) return;
     dispatch(saveGroups(groups.data));
   };
-
+  console.log(groupList)
   const getCiv = async () => {
     const civilities = await getAllCivilities();
     if (civilities.success !== true) return;

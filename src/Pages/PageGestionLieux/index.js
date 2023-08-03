@@ -26,7 +26,7 @@ function PageGestionLieux({ data, loading, error }) {
     }
     useEffect(()=>{
       load();
-    }, [])
+    }, []);
 
     return (
         <GestionLayout
