@@ -5,17 +5,27 @@ import { DATA_TABLE_LIEU_COLONNE, DATA_TABLE_PATIENT_COLONNE } from '../../Const
 import { styles } from './style'
 import { DATA_TABLE_LIEUX_COLONNE } from '../../Constants/dataFields';
 import { SearchLieuxFormComponent } from '../../Components/authers/SearchLieuxFormComponent';
-import { getAllLieux } from '../../REDUX/lieux/action'
+import lieux from '../../REDUX/lieux/actions'
 import { connect, useDispatch } from 'react-redux' 
 import { useEffect, useState } from 'react'
+import { getAllLieux } from '../../services/lieux'
 
 
 function PageGestionLieux({ data, loading, error }) {
 
     const dispatch = useDispatch();
     console.log(data)
+    const load = async ()=>{
+      dispatch(lieux.loading());
+        try{
+            const data = await getAllLieux()
+            dispatch(lieux.save(data));
+        }catch(e){
+            dispatch(lieux.loadingError(e));
+        }
+    }
     useEffect(()=>{
-      dispatch( getAllLieux() );
+      load();
     }, [])
 
     return (

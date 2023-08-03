@@ -8,7 +8,7 @@ import { DATA_TABLE_USERS_COLONNE } from '../../Constants/dataFields';
 
 export default function Users() {
   const [isLoading, setIsLoading] = React.useState(true);
-  const usersList = useSelector((state) => state.Users.users)
+  const usersList = useSelector((state) => state.Users.users);
   const dispatch = useDispatch();
 
   React.useEffect(() => {

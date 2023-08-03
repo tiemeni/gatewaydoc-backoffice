@@ -1,18 +1,15 @@
-import { FETCH_MOTIF_REQUEST, FETCH_MOTIF_SUCCESS, FETCH_MOTIF_FAILURE  } from "./types"
+import { FETCH_MOTIFS_REQUEST, FETCH_MOTIFS_SUCCESS, FETCH_MOTIFS_FAILURE  } from "./types"
 
 import { url } from "../../Constants/urls";
 
-export const getAllMotif = () => {
-    return dispatch => {
-        dispatch({ type: FETCH_MOTIF_REQUEST });
-        console.log("on est ici")
-        fetch( url+'motif/' )
-          .then(response => response.json())
-          .then(data => {
-            dispatch({ type: FETCH_MOTIF_SUCCESS, payload: data })
-            }
-            )
-          .catch(error => dispatch({ type: FETCH_MOTIF_FAILURE, payload: error }));
-      };
 
+
+export const loading = () => ({ type: FETCH_MOTIFS_REQUEST });
+export const loadingError = (error) => ({ type: FETCH_MOTIFS_FAILURE, payload: error });
+export const save = (data) => ({ type: FETCH_MOTIFS_SUCCESS, payload: data });
+
+export default {
+  loading,
+  loadingError,
+  save
 }
