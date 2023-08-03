@@ -23,9 +23,11 @@ function PageGestionPraticiens({ data, loading, error }) {
       }
     }
   }
+  console.log(ListPraticiens)
   useEffect(() => {
+    
     getAllPraticiens();
-    let praticiens = data !== null?data.data : [];
+    let praticiens = data !== null?data : [];
     getCivilities().then((resp)=>{
       praticiens.forEach((prati) => {
         let civ = resp.data.filter((item) => item._id === prati.civility);
