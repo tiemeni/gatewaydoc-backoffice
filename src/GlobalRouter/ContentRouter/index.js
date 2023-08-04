@@ -21,6 +21,8 @@ import { practitionerFields } from "../../Constants/fields";
 import PatientRouter from "./PatientRouter";
 import SpecialitiesRouter from "./SpecialitiesRouter";
 import NewLieux from "../../Pages/PageGestionLieux/NewLieux";
+import AddMotif from "../../Pages/PageGestionMotifs/AddMotifs";
+import AddGroupeDroit from "../../Pages/PageGestionGroupesDroits/AddGroupeDroit"
 
 const ContentRouter = () => {
     return (
@@ -38,7 +40,10 @@ const ContentRouter = () => {
                 <Route path="/users" element={<Users />} />
                 <Route path="/users/add" element={<NewUser />} />
                 <Route path="/users/add/:userId" element={<NewUser />} />
+                
+                <Route path="/lieux" element={<PageGestionLieux />} />
                 <Route path="/lieux/add" element={<NewLieux />} />
+                <Route path="/lieux/add/:lieuId" element={<NewLieux />} />
 
                 <Route path="/patients/*" element={<PatientRouter />} />
                 <Route path="/patients" element={<PageGestionPatients />} />
@@ -46,14 +51,22 @@ const ContentRouter = () => {
                 <Route path="/patients/add/:userId" element={<NewPatient />} />
                 
                 <Route path="/structure" element={<PageGestionStructure />} />
-                <Route path="/lieux" element={<PageGestionLieux />} />
+                
                 <Route path="/activites" element={<PageGestionActivites />} />
                 <Route path="/motifs" element={<GestionMotifs />} />
+                <Route path="/motifs/add" element={<AddMotif />} />
+                <Route path="/motifs/add/:motifId" element={<AddMotif />} />
+
                 <Route path="/specialites/*" element={<SpecialitiesRouter />} />
                 <Route path="/typepatients" element={<PageGestionTypePatients />} />
+                
                 <Route path="/groupe_droits" element={<PageGestionGroupesDroits />} />
+                <Route path="/groupe_droits/add" element={<AddGroupeDroit />} />
+                <Route path="/groupe_droits/add/:groupeId" element={<AddGroupeDroit />} />
+
                 <Route path="/praticiens" element={<PageGestionPraticiens />} />
                 <Route path="/praticiens/add" element={<AddPraticien />} />
+                <Route path="/praticiens/add/:praticienId" element={<AddPraticien />} />
                 <Route path="/praticiens/:praticienId" element={<PageDetailPraticien />} />
                 <Route path="/advancedOptions" element={<PageGestionOptionsAvancees />} />
             </Routes>

@@ -8,7 +8,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Button, Grid, MenuItem, Select } from "@mui/material";
 import React, { useEffect } from "react";
 import styles from "./styles";
-import { getAllMotif } from "../../../REDUX/motifs/actions";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -18,15 +17,17 @@ import ImageIcon from '@mui/icons-material/Image';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CircularIndeterminate from "./CircularIndeterminate";
 import { useForm } from "react-hook-form";
-import { getPraticiens } from "../../../REDUX/praticiens/actions";
-import { getAllProfessions } from "../../../REDUX/professions/actions";
-import { getAllLieux } from "../../../REDUX/lieux/action";
+import professions from "../../../REDUX/professions/actions";
+import lieux from "../../../REDUX/lieux/actions";
 import profession from "../../../Utils/transformers/profession";
 import motif from "../../../Utils/transformers/motif";
 import lieu from "../../../Utils/transformers/lieu";
 import praticien from "../../../Utils/transformers/praticien";
 import axios from "axios";
 import app from "../../../Configs/app";
+import { getAllProfessions } from "../../../services/professions";
+
+import { getAllLieux } from "../../../services/lieux";
 
 
 const fieldsByLevel = {
@@ -56,6 +57,7 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
     const { register, handleSubmit, watch, control, formState, getValues, setValue  } = useForm({
         defaultValues: {
           motif: null,
+          speciality: null,
           praticien: null,
           profession: null,
           lieu: null
@@ -86,9 +88,16 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
     React.useEffect(() => {
     
         const subscription = watch((values, { name, type }) =>{
-            console.log(values, name, type)
             
-            setValues(values)
+            let v = { ...values};
+            for(let field in fieldsByLevel ){
+                if(fieldsByLevel[name].level < fieldsByLevel[field].level){
+                    v[field] = null;
+                    
+                }
+            }
+                        
+            setValues(v)
             //setValue(name, values[name]);
         
     })
@@ -105,7 +114,6 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
             }
         }
         setLevel(currentLevel + 1);
-        console.log(currentLevel, values)
         if(values['profession']){
             axios({
                 method: "GET",
@@ -175,11 +183,24 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
     const getRessources = async () => {
     
       if (!(professionList && professionList.data && professionList.data.length > 0)){
-        dispatch(getAllProfessions());
+        dispatch(professions.loading());
+        try{
+            const data = await getAllProfessions()
+            dispatch(professions.save(data));
+        }catch(e){
+            dispatch(professions.loadingError(e));
+        }
       }
 
-      if (!(professionList && professionList.data && professionList.data.length > 0)){
-        dispatch(getAllLieux());
+      if (!(lieuList && lieuList.data && lieuList.data.length > 0)){
+        
+        dispatch(lieux.loading());
+        try{
+            const data = await getAllLieux()
+            dispatch(lieux.save(data));
+        }catch(e){
+            dispatch(lieux.loadingError(e));
+        }
       }
         
     };

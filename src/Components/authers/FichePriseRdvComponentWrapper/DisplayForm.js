@@ -8,7 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Button, Grid } from "@mui/material";
 import React, { useEffect } from "react";
 import styles from "./styles";
-import { getAllMotif } from "../../../REDUX/motifs/actions";
+import motifs from "../../../REDUX/motifs/actions";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -26,6 +26,7 @@ import PhoneInput from "react-phone-input-2";
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Box from '@mui/material/Box';
 import 'react-phone-input-2/lib/bootstrap.css'
+import { getAllMotif } from "../../../services/motifs";
 
 function DisplayForm( { next = ()=>{} }){
     const [phone, setPhone] = React.useState('');
@@ -55,8 +56,17 @@ function DisplayForm( { next = ()=>{} }){
     
     const getMotifs = async () => {
       
-      if (motifsList && motifsList.data && motifsList.data.length > 0) return;
-      dispatch(getAllMotif());
+      if(!(motifsList && motifsList.data && motifsList.data.length > 0)){
+
+        dispatch(motifs.loading());
+        try{
+            const data = await getAllMotif()
+            dispatch(motifs.save(data));
+        }catch(e){
+            dispatch(motifs.loadingError(e));
+        }
+      }
+
     };
     useEffect(()=>{
       getMotifs()

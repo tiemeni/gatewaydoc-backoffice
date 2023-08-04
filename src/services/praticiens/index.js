@@ -2,7 +2,7 @@
  *  Les services sont en fait des callouts destiné à vous produire des données qui vont aller dans le store
  */
 import axios from "axios";
-
+import app from "../../Configs/app";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 
@@ -42,6 +42,7 @@ export const getPraticienById = async (id_praticien) => {
           url: BASE_URL + "/users/" + id_praticien,
           params: {
             isPraticien: true,
+            idCentre: app.idCentre
           },
           headers: {
             Accept: "application/json",
@@ -56,3 +57,19 @@ export const getPraticienById = async (id_praticien) => {
     return { status: false, error: err }
   }
 }
+
+export const getPraticiens = async () => {
+  const res = await axios({
+      method: "GET",
+      url: BASE_URL + `/users/`,
+      params: {
+          isPraticien: true,
+          idCentre: app.idCentre
+      },
+      headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+      },
+  });
+  return res.data;
+};
