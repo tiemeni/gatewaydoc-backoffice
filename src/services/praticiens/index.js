@@ -4,6 +4,8 @@
 import axios from "axios";
 import app from "../../Configs/app";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
+const idc = localStorage.getItem("idc");
+
 
 
 
@@ -14,20 +16,6 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
  * @param {*} datas
  * @returns Object
  */
-export const createPraticien = (datas) => {
-    return { success: true, data: [] };
-}
-
-
-
-export const editPraticien = (id_praticien, datas) => {
-  return {success : true, data: []};
-};
-
-
-export const getAllPraticiens = (Options) => {
-  return { success: true, data: [] };
-};
 
 
 /**
@@ -73,3 +61,48 @@ export const getPraticiens = async () => {
   });
   return res.data;
 };
+
+export const getPraticiensByJob = async () => {
+  try {
+      const res = await fetch(BASE_URL + "/users/profession/?isPraticien=true&idCentre=" + idc );
+      const data = await res.json()
+      return data;
+  } catch (err) {
+      return err;
+  }
+};
+
+export const editPraticien = async (payload, id) => {
+  try {
+    const res = await fetch(BASE_URL + "/users/" + id + "/?idCentre=" + idc, {
+      method: 'PATCH',
+      body: JSON.stringify({...payload}),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    const data = await res.json();
+    return data
+  } catch (err) {
+    console.error(err)
+    return { status: false, error: err }
+  }
+}
+
+export const createPraticien = async (payload) => {
+
+  try {
+      const res = await fetch(BASE_URL + "/users/register/?idCentre=" + idc, {
+        method: "POST",
+        body: JSON.stringify({ ...payload, isPraticien: true}),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      return data
+  } catch (err) {
+      console.error(err)
+      return { status: false, error: err }
+  }
+}
