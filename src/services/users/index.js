@@ -13,9 +13,9 @@ export const getUsers = async () => {
 
 export const signUserIn = async (payload) => {
   try {
-    const res = await fetch(BASE_URL + "/users/signin", {
+    const res = await fetch(BASE_URL + "/users/signin?idCentre=" + payload.idc, {
       method: "POST",
-      body: JSON.stringify(payload),
+      body: JSON.stringify({ email: payload.email, password: payload.password }),
       headers: {
         "Content-Type": "application/json"
       }
@@ -64,7 +64,7 @@ export const isValidToken = async (token) => {
     const data = await res.json()
     return data.success
   } catch (err) {
-    console.error("------------",err);
+    console.error("------------", err);
     window.location = "/"
     return false
   }

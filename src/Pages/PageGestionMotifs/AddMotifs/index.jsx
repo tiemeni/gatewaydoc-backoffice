@@ -1,21 +1,20 @@
 import React from "react";
 import FormGenerator from "../../../Components/authers/FormGenerator";
-import { lieuxFields } from "../../../Constants/fields";
+import { motifFields } from "../../../Constants/fields";
 import { getAllGroup } from "../../../services/groups";
 import { getAllCivilities } from "../../../services/commons";
 import { useDispatch, useSelector } from "react-redux";
 import { saveGroups } from "../../../REDUX/groups/actions";
 import { getCivilities } from "../../../REDUX/commons/actions";
 import { useParams } from "react-router-dom";
-import generatePassword from "../../../helpers/passwordGenerator";
-import { createUser, updateUser } from "../../../services/users";
+import { createMotif, editMotif } from "../../../services/motifs";
 
-const NewLieux = () => {
-  const { fields } = lieuxFields;
+const AddMotif = () => {
+  const { fields } = motifFields;
   const dispatch = useDispatch();
   const groupList = useSelector((state) => state.Groups.groups);
   const civList = useSelector((state) => state.Common.civilities);
-  const { lieuId } = useParams();
+  const { motifId } = useParams();
 
   const [redirect, setRedirect] = React.useState(false);
 
@@ -24,7 +23,7 @@ const NewLieux = () => {
     if (groups.success !== true) return;
     dispatch(saveGroups(groups.data));
   };
-  console.log(groupList)
+
   const getCiv = async () => {
     const civilities = await getAllCivilities();
     if (civilities.success !== true) return;
@@ -52,35 +51,35 @@ const NewLieux = () => {
   }, []);
 
   // Attribuer les valeurs récupérées
-  lieuxFields.fields.forEach((field) => {
+  motifFields.fields.forEach((field) => {
     if (field.name === "groups") field.data = groupList;
     if (field.name === "civility") field.data = civList;
   });
 
   const onSubmit = async (data) => {
-    if (!lieuId) {
-      const payload = { ...data, password: generatePassword() };
-      const result = await createUser(payload);
+    if (!motifId) {
+      const datas = { ...data  };
+      const result = await createMotif(datas);
       if (result.success !== true) return;
-      setRedirect("/content/lieux");
+      setRedirect("/content/motifs");
     } else {
-      //update user
-      const result = await updateUser(data, lieuId);
+      //update motif
+      const result = await editMotif(data,motifId);
       if (result.success !== true) return;
-      setRedirect("/content/lieux");
+      setRedirect("/content/motifs");
     }
   };
 
   return (
     <FormGenerator
-      fields={lieuxFields}
-      title={"Gestion des lieux"}
-      dataId={lieuId}
-      type={"user"}
+      fields={motifFields}
+      title={"Gestion des motifs"}
+      dataId={motifId}
+      type={"motif"}
       redirect={redirect}
       onSubmit={onSubmit}
     />
   );
 };
 
-export default NewLieux;
+export default AddMotif;

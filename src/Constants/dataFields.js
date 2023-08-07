@@ -22,7 +22,7 @@ export const DATA_TABLE_SPECIALITE_COLONNE = [
 export const DATA_TABLE_LIEU_COLONNE = 
 [ { label:"active", name:"active"}, { label:"codePostal", name:"codePostal"}, { label:"initiales", name:"initiales"}, { label:"label", name:"label"}, { label:"reference", name:"reference"}, { label:"region", name:"region"}, { label:"ville", name:"ville"}, { label:"Actions", name:"Actions"} ]
 export const DATA_TABLE_MOTIF_COLONNE = 
-[ { label:"couleur", name:"couleur"},{ label:"nom", name:"nom"}, { label:"Actions", name:"Actions"}]
+[ { label:"couleur", name:"couleur"},{ label:"name", name:"name"}, { label:"Actions", name:"Actions"}]
 export const DATA_TABLE_USERS_COLONNE = [
     {
         label: "Profession",
@@ -73,7 +73,7 @@ export const DATA_TABLE_PATIENT_COLONNE = [{ label: "Civilité", name: "civility
 export const DATA_TABLE_PRATICIEN_COLONNE = [
     {
         label: "Civilité",
-        name: "label_civility",
+        name: "civility",
     },
     {
         label: "Nom",
@@ -96,4 +96,21 @@ export const DATA_TABLE_PRATICIEN_COLONNE = [
     },
 ];
 
-export const DATA_TABLE_GROUPE_COLONNE = ["Nom du groupe", "Description", "Actions"]
+export const DATA_TABLE_GROUPE_COLONNE = [
+    {
+        label: "Titre",
+        name: "title",
+    },
+    {
+        label: "Description",
+        name: "description",
+    },
+    {
+        label: "Actif",
+        name: "active",
+    },
+    {
+        label: "Actions",
+    },
+];
+

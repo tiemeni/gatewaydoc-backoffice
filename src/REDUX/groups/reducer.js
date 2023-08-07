@@ -11,8 +11,26 @@ const GroupReducers = (state = initalState, action) => {
                 ...state,
                 groups: [...action.payload]
             }
-        default:
-            return state;
+            case types.FETCH_GROUPS_REQUEST:
+                return {
+                    ...state,
+                    loading: true,
+                }
+            case  types.FETCH_GROUPS_SUCCESS:
+                return {
+                    ...state,
+                    data: action.payload,
+                    loading: false,
+                    error: null
+                }
+            case types.FETCH_GROUPS_FAILURE:
+                return {
+                    ...state,
+                    loading: false,
+                    error: true
+                }
+            default:
+                return state;
     }
 }
 

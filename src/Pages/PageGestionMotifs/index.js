@@ -4,14 +4,28 @@ import { SearchPraticienFormComponent } from '../../Components/authers/SearchPra
 import { DATA_TABLE_LIEU_COLONNE, DATA_TABLE_MOTIF_COLONNE } from '../../Constants/dataFields'
 import { useEffect, useState } from 'react'
 import { connect, useDispatch } from 'react-redux' 
-import { getAllMotif } from '../../REDUX/motifs/actions'
+import motifs from '../../REDUX/motifs/actions'
+import { getAllMotif } from '../../services/motifs'
 
 function GestionMotifs( { data, loading, error } ) {
   const dispatch = useDispatch();
-  const [motifs, setMotifs] = useState([])
-  
+
+  const getMotifs = async () => {
+      
+    if(!(data && data.length > 0)){
+
+      dispatch(motifs.loading());
+      try{
+          const data = await getAllMotif()
+          dispatch(motifs.save(data));
+      }catch(e){
+          dispatch(motifs.loadingError(e));
+      }
+    }
+
+  };
   useEffect(()=>{
-    dispatch( getAllMotif() );
+    getMotifs() ;
   }, [])
 
   return (<>

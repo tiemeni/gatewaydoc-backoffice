@@ -8,3 +8,14 @@
 -webkit-box-shadow: 4px 1px 7px -3px rgba(97,87,87,0.78);
 -moz-box-shadow: 4px 1px 7px -3px rgba(97,87,87,0.78);
   }
+
+  .css-1w78ofh-MuiFormControlLabel-root .MuiFormControlLabel-label{
+    font-size: 15px;
+    /* text-transform: uppercase; */
+  }
+
+  .css-j204z7-MuiFormControlLabel-root .MuiFormControlLabel-label {
+    font-size: 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+  }

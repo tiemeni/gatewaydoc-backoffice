@@ -3,17 +3,14 @@ import { FETCH_PROFESSION_REQUEST, FETCH_PROFESSION_SUCCESS, FETCH_PROFESSION_FA
 import { url } from "../../Constants/urls";
 import app from "../../Configs/app";
 
-export const getAllProfessions = () => {
-    return dispatch => {
-        dispatch({ type: FETCH_PROFESSION_REQUEST });
-        
-        fetch( url+`profession/?idCentre=${app.idCentre}` )
-          .then(response => response.json())
-          .then(data => {
-            dispatch({ type: FETCH_PROFESSION_SUCCESS, payload: data })
-            }
-            )
-          .catch(error => dispatch({ type: FETCH_PROFESSION_FAILURE, payload: error }));
-      };
 
+
+export const loading = () => ({ type: FETCH_PROFESSION_REQUEST });
+export const loadingError = (error) => ({ type: FETCH_PROFESSION_FAILURE, payload: error });
+export const save = (data) => ({ type: FETCH_PROFESSION_SUCCESS, payload: data });
+
+export default {
+  loading,
+  loadingError,
+  save
 }
