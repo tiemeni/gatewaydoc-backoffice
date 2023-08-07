@@ -118,10 +118,8 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
             axios({
                 method: "GET",
                 url: BASE_URL + `/motif/profession/${values['profession']}`,
-                params: {
-                  
+                params: {                  
                     idCentre: app.idCentre,
-                    
                 },
                 headers: {
                     Accept: "application/json",
@@ -137,7 +135,7 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
              
             });
         }
-        if(values['lieu']  ){
+        if(values['lieu']){
             axios({
                 method: "GET",
                 url: BASE_URL + "/users/",
