@@ -5,7 +5,7 @@ import StyledInput from "./FormsComponents/StyledInput";
 import {DATE} from '../../../Constants/fieldTypes';
 import SelectWithOption from "./FormsComponents/SelectWithOption";
 import SearchIcon from '@mui/icons-material/Search';
-import { Button, Grid, MenuItem, Select } from "@mui/material";
+import { Button, Grid, MenuItem, Select, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import styles from "./styles";
 import List from '@mui/material/List';
@@ -28,6 +28,7 @@ import app from "../../../Configs/app";
 import { getAllProfessions } from "../../../services/professions";
 
 import { getAllLieux } from "../../../services/lieux";
+import dayjs from 'dayjs';
 
 
 const fieldsByLevel = {
@@ -42,13 +43,111 @@ const fieldsByLevel = {
     },
     "praticien": {
         level: 3
+    },
+    "startDate": {
+        level: 4
+    },
+    "submitied": {
+        level: 5
     }
 }
+const CRENEAUX = [{   
+    value: "00:00-01:00",
+    label: "00:00-01:00",        
+    
+},{
+    value: "01:00-02:00",
+    label: "01:00-02:00",
+},{
+    value: "02:00-03:00",
+    label: "02:00-03:00",
+},{
+    value: "03:00-04:00",
+    label: "03:00-04:00",
+},{
+    value: "04:00-05:00",
+    label: "04:00-05:00",
+},{
+    value: "05:00-06:00",
+    label: "05:00-06:00",
+},{
+    value: "06:00-07:00",
+    label: "06:00-07:00",
+},{
+    value: "07:00-08:00",
+    label: "07:00-08:00",
+},{
+    value: "08:00-09:00",
+    label: "08:00-09:00",
+},{
+    value: "09:00-10:00",
+    label: "09:00-10:00",
+},{
+    value: "11:00-12:00",
+    label: "11:00-12:00",
+},{
+    value: "12:00-13:00",
+    label: "12:00-13:00",
+},{
+    value: "14:00-15:00",
+    label: "14:00-15:00",
+},{
+    value: "15:00-16:00",
+    label: "15:00-16:00",
+},{
+    value: "16:00-17:00",
+    label: "16:00-17:00",
+},{
+    value: "17:00-18:00",
+    label: "17:00-18:00",
+},{
+    value: "18:00-19:00",
+    label: "18:00-19:00",
+},{
+    value: "19:00-20:00",
+    label: "19:00-20:00",
+},{
+    value: "20:00-21:00",
+    label: "20:00-21:00",
+}]
+
+const JOURS = [
+    {
+        value: 1,
+        label: "Lundi",        
+    },
+    {
+        value: 2,
+        label: "Mardi",        
+    },
+    {
+        value: 3,
+        label: "Mercredi",        
+    },
+    {
+        value: 4,
+        label: "Jeudi",        
+    },
+    {
+        value: 5,
+        label: "Vendredi",        
+    },
+    {
+        value: 6,
+        label: "Samedi",        
+    },
+    {
+        value: 7,
+        label: "Dimanche",        
+    }
+
+]
 function StepOne( { next = ()=>{}, visible= ()=>{} }){
     const [phone, setPhone] = React.useState('');
     const [values, setValues] = React.useState({});
     const [level, setLevel] = React.useState(0);
     const [praticienList, setPraticienList] = React.useState([]);
+    const [disponibilityList, setDisponibilityList] = React.useState([]);
     const [motifList, setMotifList] = React.useState([]);
 
     const classes = styles();
@@ -60,7 +159,8 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
           speciality: null,
           praticien: null,
           profession: null,
-          lieu: null
+          lieu: null,
+          startDate: dayjs()
         },
       });
     useEffect(()=>{
@@ -90,10 +190,12 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
         const subscription = watch((values, { name, type }) =>{
             
             let v = { ...values};
-            for(let field in fieldsByLevel ){
-                if(fieldsByLevel[name].level < fieldsByLevel[field].level){
-                    v[field] = null;
-                    
+            if(name in fieldsByLevel){
+
+                for(let field in fieldsByLevel ){
+                    if(fieldsByLevel[name].level < fieldsByLevel[field].level){
+                        v[field] = null;                    
+                    }
                 }
             }
                         
@@ -101,14 +203,16 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
             //setValue(name, values[name]);
         
     })
-    return () => subscription.unsubscribe()
+    return () => subscription.unsubscribe();
     }, [watch])
+
 
     React.useEffect(() => {
         let maxLevelSet = "";
         let currentLevel = -1;
         for(let name of Object.keys(values)){
-            if(values[name] && fieldsByLevel[name].level >= currentLevel){
+
+            if(values[name] && (name in fieldsByLevel)  && fieldsByLevel[name].level >= currentLevel){
                maxLevelSet = name;
                currentLevel = fieldsByLevel[name].level;
             }
@@ -159,6 +263,33 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
              
             });
         }
+        if(values["praticien"]){
+            axios({
+                method: "GET",
+                url: BASE_URL + "/appointments/rechercher_dispo/",
+                params: {
+                 
+                    idCentre: app.idCentre,
+            //        startDate:  dayjs.unix(),
+                    idp: values['praticien'],
+//                    slotRange: values['praticien'],
+                    day: values['day'] || 0
+                },
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+            })
+            .then((response) => {
+                let disponibilities = response.data.data;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+                setDisponibilityList(disponibilities);                
+            })
+            .catch((error) => {
+             
+            });
+            
+        }
     return () => {}
     }, [values])
 
@@ -169,8 +300,9 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
 
     }
     const onSubmit = (e)=>{
-      e.preventDefault();
-      next();
+      console.log(e)
+      //setValues({ ...values, "submitted": true })
+      //next();
     }
 
     
@@ -218,7 +350,7 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
                 
                     
                
-                <Grid item xs={6}>
+                <Grid item xs={6} style={{ padding: "5px"}}>
                     <Grid container spacing={1} style={{
                         padding: 15 
                     }}>
@@ -258,22 +390,22 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
                     {
                             level  >= 4 ? <Grid container spacing={1}>
                             <Grid item xs={4}>
-                                <BasicFormControl  label='Date de debut'  Input={StyledInput} props={{ value: getValues("date_debut"),...register("date_debut") , type: DATE, placeholder: 'Date debut' }} />
+                                <BasicFormControl  label='Date de debut'  Input={StyledInput} props={{ value: getValues("startDate") || dayjs(),...register("startDate") , type: DATE, placeholder: 'Date debut' }} />
                             </Grid>
                             <Grid item xs={4}>
-                                <BasicFormControl  label='Jour'  Input={SelectWithOption} props={{ value: getValues("jour"),...register("jour"), placeholder: 'Nom' }} />
+                                <BasicFormControl  label='Jour'  Input={SelectWithOption} props={{ value: getValues("jour"),...register("jour"), options: JOURS, placeholder: 'Nom' }} />
                             </Grid>
                             <Grid item xs={4}>
-                                <BasicFormControl  label='Creneau horaire'  Input={SelectWithOption} props={{ value: getValues("heure"), ...register("heure"), placeholder: 'Nom' }} />
+                                <BasicFormControl  label='Creneau horaire'  Input={SelectWithOption} props={{ value: getValues("heure"), ...register("heure"), options: CRENEAUX, placeholder: 'Nom' }} />
                             </Grid>    
                             <Grid item xs={4}>
-                                <BasicFormControl label='Periode'  Input={StyledInput} props={{ value: getValues('periode'), ...register("periode"), placeholder: 'Nom' }} />
+                                <BasicFormControl label='Periode'  Input={StyledInput} props={{ value: getValues('periode'), ...register("periode"), placeholder: 'Periode' }} />
                             </Grid>
                             <Grid item xs={4}>
-                                <BasicFormControl label='Creneau horaire'  Input={SelectWithOption} props={{ value: getValues('interval'), ...register("interval"), placeholder: 'Nom' }} />
+                                <BasicFormControl label='Interval de temps'  Input={SelectWithOption} props={{ value: getValues('interval'), ...register("interval"), placeholder: 'Interval' }} />
                             </Grid>
                             <Grid item xs={4}>
-                                <Button className={classes.search} variant="contained"  color="primary" size="medium"  startIcon={<SearchIcon />}>
+                                <Button className={classes.search} variant="contained"  color="primary" size="medium" type="submit"  startIcon={<SearchIcon />}>
                                         Rechercher
                                 </Button>
                             </Grid>
@@ -283,24 +415,28 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
                     
                     
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={6} style={{ padding: "5px", "borderRadius": "10px", backgroundColor: "#cfeffd" }}>
                     {
-                            level  >= 5 ?
+                            level  >= 4 ?
                         <InfiniteScroll
-                        dataLength={items.length-1}
+                        dataLength={disponibilityList.length-1}
                         next={fetchMoreData}           
                         hasMore={false}
                         loader={<CircularIndeterminate/>}
                         >    
-                            <List sx={{ width: '100%', bgcolor: 'background.paper' }}>    
-                                <ListItem>
+                            <List sx={{ width: '100%', backgroundColor: "#cfeffd", borderRadius: "5px", maxHeight: "54vh", marginTop: "4vh" }}>    
+                                {
+                                    disponibilityList.flatMap((item, index)=><ListItem key={index}>
                                     <ListItemAvatar>
                                     <Avatar>
                                         <ImageIcon />
                                     </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText primary="Photos" secondary="Jan 9, 2014" />
-                                </ListItem>
+                                    <ListItemText primary={<Typography  sx={{ display: 'inline' }}
+                component="span" color={"#a7c0ec"}>{item.displayedDate}</Typography> } secondary={item.pname} />
+                                </ListItem>)
+                                }
+
                             </List>
                         </InfiniteScroll>:[]
                     }    

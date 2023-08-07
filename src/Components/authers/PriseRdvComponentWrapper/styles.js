@@ -3,7 +3,7 @@ import { makeStyles } from '@mui/styles';
 const styles = makeStyles({
     form: {
         display: 'flex',
-        maxHeight: '65vh',
+        maxHeight: '66vh',
         overflow: 'scroll',
         marginBottom: '2px'
     },
