@@ -13,7 +13,7 @@ export const getUsers = async () => {
 
 export const signUserIn = async (payload) => {
   try {
-    const res = await fetch(BASE_URL + "/users/signin?idCentre=" + payload.idc, {
+    const res = await fetch(BASE_URL + "/users/signin?idCentre=" + app.idCentre, {
       method: "POST",
       body: JSON.stringify({ email: payload.email, password: payload.password }),
       headers: {
