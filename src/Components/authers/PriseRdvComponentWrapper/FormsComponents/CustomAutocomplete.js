@@ -49,7 +49,7 @@ function CustomAutocomplete({ resolve= empty, ...props }) {
       onClose={() => {
         setOpen(false);
       }}
-      onChange={()=>{}}
+      onChange={(e)=>{console.log(e)}}
       isOptionEqualToValue={(option, value) => option.label === value.label}
       getOptionLabel={(option) => option.label}
       options={options}

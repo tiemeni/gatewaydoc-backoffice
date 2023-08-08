@@ -25,6 +25,8 @@ import CustomPhoneInput from './FormsComponents/CustomPhoneInput';
 import professions from "../../../REDUX/professions/actions";
 import { getAllProfessions } from '../../../services/professions';
 import profession from '../../../Utils/transformers/profession';
+import CustomAutocomplete from './FormsComponents/CustomAutocomplete';
+
 function StepTwo(){
     const [phone, setPhone] = React.useState('');
     const [values, setValues] = React.useState({});
@@ -107,7 +109,7 @@ function StepTwo(){
         </Grid>
         <Grid item xs={4}>
           
-          <BasicFormControl  Input={StyledInput} props={{ value: getValues('name'),...register('name'), placeholder: 'Nom' }} />
+          <BasicFormControl  Input={CustomAutocomplete} props={{ value: getValues('name'),...register('name'), placeholder: 'Nom' }} />
         </Grid>
         <Grid item xs={4}>
           <BasicFormControl  Input={StyledInput} props={{ value: getValues('surname'),...register('surname'), placeholder: 'Prenom' }} />
