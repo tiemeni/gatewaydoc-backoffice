@@ -17,8 +17,10 @@ import ImageIcon from '@mui/icons-material/Image';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CircularIndeterminate from "./CircularIndeterminate";
 import { useForm } from "react-hook-form";
+import dayjs from 'dayjs';
 import professions from "../../../REDUX/professions/actions";
 import lieux from "../../../REDUX/lieux/actions";
+
 import profession from "../../../Utils/transformers/profession";
 import motif from "../../../Utils/transformers/motif";
 import lieu from "../../../Utils/transformers/lieu";
@@ -28,7 +30,7 @@ import app from "../../../Configs/app";
 import { getAllProfessions } from "../../../services/professions";
 
 import { getAllLieux } from "../../../services/lieux";
-import dayjs from 'dayjs';
+
 import CustomDateInput from "./FormsComponents/CustomDateInput";
 
 const fieldsByLevel = {
@@ -46,6 +48,9 @@ const fieldsByLevel = {
     },
     "startDate": {
         level: 4
+    },
+    "disponibility": {
+        level: 5
     },
     "submitied": {
         level: 5
@@ -165,6 +170,8 @@ const PERIODES = [
 function StepOne( { next = ()=>{}, visible= ()=>{} }){
     const [phone, setPhone] = React.useState('');
     const [values, setValues] = React.useState({});
+    const [filter, setFilter] = React.useState({});
+
     const [level, setLevel] = React.useState(0);
    
     const [praticienList, setPraticienList] = React.useState([]);
@@ -183,13 +190,14 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
           lieu: null,
           interval: 1,
           periode: 0,
+          day: 1,
           startDate: dayjs()
         },
       });
 
 
     useEffect(()=>{
-        if(level == 5){
+        if(level == 6){
             visible({
                 next: true,
                 prev: false
@@ -219,9 +227,9 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
             if(['interval','periode'].includes(name) && v['periode'] && v['interval']){
                 v['startDate'] = dayjs().add( +v['periode'] * v['interval'],'day')
                 setValue("startDate", v['startDate'])
-                console.log("change")
+               
             }
-            console.log(v)
+
             setValues(v)
             //setValue(name, values[name]);
         
@@ -286,17 +294,37 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
              
             });
         }
+        let collect = {};
         if(values["praticien"]){
+            collect['idp'] = values["praticien"]
+                
+            if(values["startDate"]){
+                
+                collect['startDate'] = values["startDate"].format('YYYY-MM-DD')
+            }
+            if(values["day"]){
+                
+                collect['day'] = values["day"];
+            }
+            if(values["slotRange"]){
+                
+                collect['slotRange'] = values["slotRange"]
+            }
+            setFilter(collect);
+        }
+    return () => {}
+    }, [values])
+
+    React.useEffect(()=>{
+        if(filter["idp"]){
             axios({
                 method: "GET",
                 url: BASE_URL + "/appointments/rechercher_dispo/",
                 params: {
                  
                     idCentre: app.idCentre,
-            //        startDate:  dayjs.unix(),
-                    idp: values['praticien'],
-//                    slotRange: values['praticien'],
-                    day: values['day'] || 0
+                    ...filter,
+                 
                 },
                 headers: {
                     Accept: "application/json",
@@ -313,9 +341,7 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
             });
             
         }
-    return () => {}
-    }, [values])
-
+    },[filter]);
     const handleChange = (newPhone) => {
       setPhone(newPhone)
     }
@@ -323,7 +349,22 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
 
     }
     const onSubmit = (e)=>{
-      console.log(e)
+        setDisponibilityList([]);
+        setValue("disponibility",null);
+        let collect = {};
+        if(values["startDate"]){
+            
+            collect['startDate'] = values["startDate"].format('YYYY-MM-DD')
+        }
+        if(values["day"]){
+            
+            collect['day'] = values["day"];
+        }
+        if(values["slotRange"]){
+            
+            collect['slotRange'] = values["slotRange"];
+        }
+        setFilter({...filter, ...collect});
       //setValues({ ...values, "submitted": true })
       //next();
     }
@@ -413,13 +454,14 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
                     {
                             level  >= 4 ? <Grid container spacing={1}>
                             <Grid item xs={4}>
+                                
                                 <BasicFormControl  label='Date de debut'  Input={CustomDateInput} props={{ value: getValues("startDate") ,...register("startDate"), minDate: dayjs() ,  placeholder: 'Date debut' }} />
                             </Grid>
                             <Grid item xs={4}>
-                                <BasicFormControl  label='Jour'  Input={SelectWithOption} props={{ value: getValues("jour"),...register("jour"), options: JOURS, placeholder: 'Nom' }} />
+                                <BasicFormControl  label='Jour'  Input={SelectWithOption} props={{ value: getValues("day"),...register("day"), options: JOURS, placeholder: 'Jour' }} />
                             </Grid>
                             <Grid item xs={4}>
-                                <BasicFormControl  label='Creneau horaire'  Input={SelectWithOption} props={{ value: getValues("heure"), ...register("heure"), options: CRENEAUX, placeholder: 'Heure' }} />
+                                <BasicFormControl  label='Creneau horaire'  Input={SelectWithOption} props={{ value: getValues("slotRange"), ...register("slotRange"), options: CRENEAUX, placeholder: 'Slot Range' }} />
                             </Grid>    
                             <Grid item xs={4}>
                                 <BasicFormControl label='Periode'  Input={StyledInput} props={{ value: getValues('periode'), min: 0, type: NUMBER, ...register("periode"), placeholder: 'Periode' }} />
@@ -449,7 +491,7 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
                         >    
                             <List sx={{ width: '100%', backgroundColor: "#cfeffd", borderRadius: "5px", maxHeight: "54vh", marginTop: "4vh" }}>    
                                 {
-                                    disponibilityList.flatMap((item, index)=><ListItem style={{ "cursor": "pointer" }} onClick={()=>{ setValue("disponibilite", item) }} key={index}>
+                                    disponibilityList.flatMap((item, index)=><ListItem style={{ "cursor": "pointer" }} onClick={()=>{ setValue("disponibility", item) }} key={index}>
                                     <ListItemAvatar>
                                     <Avatar>
                                         <ImageIcon />
