@@ -18,7 +18,7 @@ const bySteps = {
     component: StepOne,
     navigation: {
       'prev': false,
-      'next': true
+      'next': false
     }
   },
   1: {
@@ -34,7 +34,7 @@ export default function HorizontalLinearAlternativeLabelStepper() {
   const [step, setStep] =  React.useState(0);
   const [visibles, setVisibles] =  React.useState({
     'prev': false,
-    'next': true
+    'next': false
   });
   const Component = bySteps[step].component;
   const next = ()=>{

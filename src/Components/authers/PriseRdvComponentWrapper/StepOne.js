@@ -2,7 +2,7 @@ import { Input } from "@mui/base";
 import { useDispatch, useSelector } from "react-redux";
 import BasicFormControl from "./FormsComponents/BasicFormControl";
 import StyledInput from "./FormsComponents/StyledInput";
-import {DATE} from '../../../Constants/fieldTypes';
+import {DATE, NUMBER} from '../../../Constants/fieldTypes';
 import SelectWithOption from "./FormsComponents/SelectWithOption";
 import SearchIcon from '@mui/icons-material/Search';
 import { Button, Grid, MenuItem, Select, Typography } from "@mui/material";
@@ -29,7 +29,7 @@ import { getAllProfessions } from "../../../services/professions";
 
 import { getAllLieux } from "../../../services/lieux";
 import dayjs from 'dayjs';
-
+import CustomDateInput from "./FormsComponents/CustomDateInput";
 
 const fieldsByLevel = {
     "profession": {
@@ -142,10 +142,31 @@ const JOURS = [
     }
 
 ]
+
+const PERIODES = [
+    {
+        value: 1,
+        label: "Jour",        
+    },
+    {
+        value: 7,
+        label: "Semaine",        
+    },
+    {
+        value: 31,
+        label: "Mois",        
+    },
+    {
+        value: 365,
+        label: "Annee",        
+    },
+
+]
 function StepOne( { next = ()=>{}, visible= ()=>{} }){
     const [phone, setPhone] = React.useState('');
     const [values, setValues] = React.useState({});
     const [level, setLevel] = React.useState(0);
+   
     const [praticienList, setPraticienList] = React.useState([]);
     const [disponibilityList, setDisponibilityList] = React.useState([]);
     const [motifList, setMotifList] = React.useState([]);
@@ -160,21 +181,18 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
           praticien: null,
           profession: null,
           lieu: null,
+          interval: 1,
+          periode: 0,
           startDate: dayjs()
         },
       });
-    useEffect(()=>{
-        visible({
-            next: false,
-            prev: false
-        });
-    },[])
+
 
     useEffect(()=>{
         if(level == 5){
             visible({
                 next: true,
-                prev: true
+                prev: false
                })
         }else{
             visible({
@@ -198,7 +216,12 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
                     }
                 }
             }
-                        
+            if(['interval','periode'].includes(name) && v['periode'] && v['interval']){
+                v['startDate'] = dayjs().add( +v['periode'] * v['interval'],'day')
+                setValue("startDate", v['startDate'])
+                console.log("change")
+            }
+            console.log(v)
             setValues(v)
             //setValue(name, values[name]);
         
@@ -390,19 +413,19 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
                     {
                             level  >= 4 ? <Grid container spacing={1}>
                             <Grid item xs={4}>
-                                <BasicFormControl  label='Date de debut'  Input={StyledInput} props={{ value: getValues("startDate") || dayjs(),...register("startDate") , type: DATE, placeholder: 'Date debut' }} />
+                                <BasicFormControl  label='Date de debut'  Input={CustomDateInput} props={{ value: getValues("startDate") ,...register("startDate"), minDate: dayjs() ,  placeholder: 'Date debut' }} />
                             </Grid>
                             <Grid item xs={4}>
                                 <BasicFormControl  label='Jour'  Input={SelectWithOption} props={{ value: getValues("jour"),...register("jour"), options: JOURS, placeholder: 'Nom' }} />
                             </Grid>
                             <Grid item xs={4}>
-                                <BasicFormControl  label='Creneau horaire'  Input={SelectWithOption} props={{ value: getValues("heure"), ...register("heure"), options: CRENEAUX, placeholder: 'Nom' }} />
+                                <BasicFormControl  label='Creneau horaire'  Input={SelectWithOption} props={{ value: getValues("heure"), ...register("heure"), options: CRENEAUX, placeholder: 'Heure' }} />
                             </Grid>    
                             <Grid item xs={4}>
-                                <BasicFormControl label='Periode'  Input={StyledInput} props={{ value: getValues('periode'), ...register("periode"), placeholder: 'Periode' }} />
+                                <BasicFormControl label='Periode'  Input={StyledInput} props={{ value: getValues('periode'), min: 0, type: NUMBER, ...register("periode"), placeholder: 'Periode' }} />
                             </Grid>
                             <Grid item xs={4}>
-                                <BasicFormControl label='Interval de temps'  Input={SelectWithOption} props={{ value: getValues('interval'), ...register("interval"), placeholder: 'Interval' }} />
+                                <BasicFormControl label='Interval de temps'  Input={SelectWithOption} props={{ value: getValues('interval'), ...register("interval"), options: PERIODES, placeholder: 'Interval' }} />
                             </Grid>
                             <Grid item xs={4}>
                                 <Button className={classes.search} variant="contained"  color="primary" size="medium" type="submit"  startIcon={<SearchIcon />}>
@@ -426,14 +449,19 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
                         >    
                             <List sx={{ width: '100%', backgroundColor: "#cfeffd", borderRadius: "5px", maxHeight: "54vh", marginTop: "4vh" }}>    
                                 {
-                                    disponibilityList.flatMap((item, index)=><ListItem key={index}>
+                                    disponibilityList.flatMap((item, index)=><ListItem style={{ "cursor": "pointer" }} onClick={()=>{ setValue("disponibilite", item) }} key={index}>
                                     <ListItemAvatar>
                                     <Avatar>
                                         <ImageIcon />
                                     </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText primary={<Typography  sx={{ display: 'inline' }}
-                component="span" color={"#a7c0ec"}>{item.displayedDate}</Typography> } secondary={item.pname} />
+                                    <ListItemText 
+                                        primary={<Typography  
+                                            sx={{ display: 'inline' }}
+                                            component="span" 
+                                            color={"#a7c0ec"}>
+                                                {item.displayedDate}
+                                                </Typography> } secondary={item.pname} />
                                 </ListItem>)
                                 }
 

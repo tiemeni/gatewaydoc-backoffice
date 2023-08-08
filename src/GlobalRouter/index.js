@@ -14,7 +14,7 @@ const Routeur = () => {
         handleRes()
     }, [])
 
-    console.log(token_value)
+
 
     return (
         <BrowserRouter>
