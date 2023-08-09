@@ -28,13 +28,14 @@ import profession from '../../../Utils/transformers/profession';
 import CustomAutocomplete from './FormsComponents/CustomAutocomplete';
 import civility from '../../../Utils/transformers/civility';
 
-function StepTwo({ data= {}, save = ()=>{}, visible= ()=>{} }){
+function StepTwo({ data= {}, save = ()=>{}, visible= ()=>{}, ...props }){
     const [phone, setPhone] = React.useState('');
     const [values, setValues] = React.useState({...data});
     const classes = styles();
     const { register, handleSubmit, watch, control, formState, getValues, setValue  } = useForm({
       defaultValues: {
         ...data,
+
       },
     });
     const handleChange = (newPhone) => {
@@ -46,7 +47,7 @@ function StepTwo({ data= {}, save = ()=>{}, visible= ()=>{} }){
     const dispatch = useDispatch();
     const civList = useSelector((state) => state.Common.civilities);
     const professionList = useSelector((state) => state.Professions.data);
-    
+   
     
     const getCiv = async () => {
       const civilities = await getAllCivilities();
@@ -77,12 +78,12 @@ function StepTwo({ data= {}, save = ()=>{}, visible= ()=>{} }){
 
     React.useEffect(() => {
     
-      const subscription = watch((values, { name, type }) =>{
+      const subscription = watch((v, { name, type }) =>{
           
-            
-        setValues(values)
-        save(values)
-         
+            let r = {...v,...values}
+           
+        setValues(r)
+        save(r)
         //setValue(name, values[name]);
       
   })
@@ -97,6 +98,7 @@ function StepTwo({ data= {}, save = ()=>{}, visible= ()=>{} }){
          })
       }
     },[values])
+    console.log("values", values)
     return (
       <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={2} style={{ padding: "12px" }}>
@@ -111,8 +113,7 @@ function StepTwo({ data= {}, save = ()=>{}, visible= ()=>{} }){
           <BasicFormControl  Input={SelectWithOption} props={{ value: values["civility"],...register('civility'), options: civList.flatMap(civility.toListItem), placeholder: 'Civilete' }} />
         </Grid>
         <Grid item xs={4}>
-          
-          <BasicFormControl  Input={CustomAutocomplete} props={{ value: values["name"],...register('name'), placeholder: 'Nom' }} />
+          <BasicFormControl  Input={CustomAutocomplete} props={{ value: values["name"]  ,...register('name'), placeholder: 'Name' }} />
         </Grid>
         <Grid item xs={4}>
           <BasicFormControl  Input={StyledInput} props={{ value: values["surname"],...register('surname'), placeholder: 'Prenom' }} />
@@ -120,21 +121,19 @@ function StepTwo({ data= {}, save = ()=>{}, visible= ()=>{} }){
         </Grid>
         <Grid item xs={12}>
           <BasicFormControl  Input={StyledInput} props={{  value: values["birthdayname"],...register('birthdayname'), placeholder: 'Non de naissance' }} />
-          
         </Grid>
   
         <Grid item xs={12}>
           <BasicFormControl  Input={StyledInput} props={{ value: values["adress"],...register('adress'), placeholder: 'Adress' }} />
         </Grid>
         <Grid item xs={6}>
-            <BasicFormControl  Input={StyledInput} props={{ value: values["codePostal"],...register('codePostal'), placeholder: 'Code postal' }} />
+          <BasicFormControl  Input={StyledInput} props={{ value: values["codePostal"],...register('codePostal'), placeholder: 'Code postal' }} />
         </Grid>
         <Grid item xs={6}>
-            <BasicFormControl  Input={StyledInput} props={{ value: values["ville"],...register('ville'), placeholder: 'Ville' }} />
+          <BasicFormControl  Input={StyledInput} props={{ value: values["ville"],...register('ville'), placeholder: 'Ville' }} />
         </Grid>
-        <Grid item xs={5}>
-            
-            <BasicFormControl  Input={CustomPhoneInput} props={{ value: values["mobiletel"], ...register('mobiletel'), disabled: false, country: "CM",  variant: "outlined",  langOfCountryName: "fr", placeholder: 'tel Mobile' }} />
+        <Grid item xs={5}>  
+          <BasicFormControl  Input={CustomPhoneInput} props={{ value: values["mobiletel"], ...register('mobiletel'), disabled: false, country: "CM",  variant: "outlined",  langOfCountryName: "fr", placeholder: 'tel Mobile' }} />
         </Grid>
         <Grid item xs={2}>
             Icon
@@ -142,7 +141,7 @@ function StepTwo({ data= {}, save = ()=>{}, visible= ()=>{} }){
         <Grid item xs={5}>
             
   
-            <BasicFormControl  Input={CustomPhoneInput} props={{ value: values["fixetel"],...register('fixetel'), country: "CM",     variant: "outlined", langOfCountryName: "fr" , placeholder: 'Tel Fixe' }} />
+          <BasicFormControl  Input={CustomPhoneInput} props={{ value: values["fixetel"],...register('fixetel'), country: "CM",     variant: "outlined", langOfCountryName: "fr" , placeholder: 'Tel Fixe' }} />
         </Grid>
         <Grid item xs={12}>
             
@@ -150,7 +149,7 @@ function StepTwo({ data= {}, save = ()=>{}, visible= ()=>{} }){
         </Grid>
         <Grid item xs={4}>
             
-            <BasicFormControl  Input={StyledInput} props={{ value: values["birthdate"],...register('birthdate'), type: 'date', placeholder: 'Date naissnace' }} />
+          <BasicFormControl  Input={StyledInput} props={{ value: values["birthdate"],...register('birthdate'), type: 'date', placeholder: 'Date naissnace' }} />
         </Grid>
         <Grid item xs={4}>
           <BasicFormControl  Input={StyledInput} props={{ value: values["securityNumber"],...register('securityNumber'), type: 'text', placeholder: 'N de securite sociale' }} />  
@@ -158,21 +157,21 @@ function StepTwo({ data= {}, save = ()=>{}, visible= ()=>{} }){
         </Grid>
         <Grid item xs={4}>
              
-            <BasicFormControl  Input={StyledInput} props={{ value: values["assurance"],...register('assurance'), type: 'text', placeholder: 'Assurance' }} />
+          <BasicFormControl  Input={StyledInput} props={{ value: values["assurance"],...register('assurance'), type: 'text', placeholder: 'Assurance' }} />
         </Grid>
         <Grid item xs={6}>
-            <BasicFormControl  Input={StyledInput} props={{ value: values["medecin"],...register('medecin'), type: 'text', placeholder: 'Medecin Traitant' }} />
+          <BasicFormControl  Input={StyledInput} props={{ value: values["medecin"],...register('medecin'), type: 'text', placeholder: 'Medecin Traitant' }} />
         </Grid>
         <Grid item xs={6}>
-            <BasicFormControl  Input={StyledInput} props={{ value: values["medecin_traitant"],...register('medecin_traitant'), type: 'text', placeholder: 'Ville du Medecin' }} />
+          <BasicFormControl  Input={StyledInput} props={{ value: values["medecin_traitant"],...register('medecin_traitant'), type: 'text', placeholder: 'Ville du Medecin' }} />
         </Grid>
         <Grid item xs={6}>
-           <BasicFormControl  Input={InputColorPreview} props={{ value: values["couleur_patient"],...register('couleur_patient'), initialValue: "#5e72e4", placeholder: 'Couleur du Patient' }} />
+          <BasicFormControl  Input={InputColorPreview} props={{ value: values["couleur_patient"],...register('couleur_patient'), initialValue: "#5e72e4", placeholder: 'Couleur du Patient' }} />
         </Grid>
         <Grid item xs={6}>
             
   
-            <BasicFormControl  Input={StyledInput} props={{ value: values["profession"],...register('profession'),  placeholder: 'Profession' }} />
+          <BasicFormControl  Input={StyledInput} props={{ value: values["profession"],...register('profession'),  placeholder: 'Profession' }} />
         </Grid>
         
         <Grid item xs={12}>

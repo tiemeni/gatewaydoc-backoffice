@@ -6,12 +6,13 @@ import CircularProgress from '@mui/material/CircularProgress';
 const  empty = async (...p) => {return []}
 
 
-function CustomAutocomplete({ resolve= empty, ...props }) {
+function CustomAutocomplete({ resolve= empty, value="", ...props }) {
   const [open, setOpen] = React.useState(false);
-  const [term, setTerm] = React.useState(props.value||"");
+  const [term, setTerm] = React.useState(value||"");
   const [options, setOptions] = React.useState([]);
   const loading = open && options.length === 0;
 
+  console.log(term, props, value)
   React.useEffect(() => {
     let active = true;
 
@@ -49,7 +50,15 @@ function CustomAutocomplete({ resolve= empty, ...props }) {
       onClose={() => {
         setOpen(false);
       }}
+      clearOnBlur={false}
+     
       onChange={(e)=>{console.log(e)}}
+      inputValue={term|| value}
+      onInputChange={(event, newInputValue) => {
+        setTerm(newInputValue);
+        props.onChange({ target: { name: props.name, value: newInputValue }});
+        
+      }}
       isOptionEqualToValue={(option, value) => option.label === value.label}
       getOptionLabel={(option) => option.label}
       options={options}
@@ -57,11 +66,9 @@ function CustomAutocomplete({ resolve= empty, ...props }) {
       renderInput={(params) => (
         <TextField
           {...params}
-          {...props}
-          onChange={(e)=> {
-            props.onChange(e);
-            setTerm(e.target.value);
-          }}
+       
+          
+          onChange={params.onChange}     
           label=""
           InputProps={{
             ...params.InputProps,

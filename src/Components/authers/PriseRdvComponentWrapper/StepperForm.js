@@ -67,10 +67,11 @@ export default function HorizontalLinearAlternativeLabelStepper() {
   }
   const submit = async ()=>{
     try{
+      setError(null)
       let patientId = data[1]['patientId'];
       if(!patientId){
-        const rep = await   createPatient ({active: true,...data[1], name: 'test'});
-        console.log(rep)
+        const rep = await   createPatient ({active: true,...data[1] });
+        
         if(rep.success){
           patientId = rep.data._id;
           setData({ ...data, [1]: { ...data[1], patientId }})
@@ -115,7 +116,11 @@ export default function HorizontalLinearAlternativeLabelStepper() {
 
   }
   React.useEffect(()=>{
-    setVisibles(bySteps[step].navigation)
+    let navigation = {...bySteps[step].navigation};
+    if(step === 1 && data[1] && data[1]['name'] && data[1]['email']){
+      navigation['submit'] = true;
+    }
+    setVisibles(navigation)
   },[step]);
   return (
     <Box  className={classes.stepper}>
@@ -127,7 +132,7 @@ export default function HorizontalLinearAlternativeLabelStepper() {
         ))}
       </Stepper>
       {
-        error&& <Alert severity="error">{error.message}</Alert>
+        error&& <Alert severity="error">{error?.message}</Alert>
       }
       
       <Component data={data[step] || {}} save={save}  next={next} prev={prev} visible={visible} />     
