@@ -35,15 +35,6 @@ function StepTwo({ data= {}, save = ()=>{}, visible= ()=>{} }){
     const { register, handleSubmit, watch, control, formState, getValues, setValue  } = useForm({
       defaultValues: {
         ...data,
-        motif: null,
-        speciality: null,
-        praticien: null,
-        profession: null,
-        lieu: null,
-        interval: 1,
-        periode: 0,
-        day: 1,
-        startDate: dayjs()
       },
     });
     const handleChange = (newPhone) => {
@@ -91,19 +82,21 @@ function StepTwo({ data= {}, save = ()=>{}, visible= ()=>{} }){
             
         setValues(values)
         save(values)
-        if(values['civility']&&values['email']){
-          visible({
-            next: false,
-            prev: true,
-            submit: true
-           })
-        }  
+         
         //setValue(name, values[name]);
       
   })
   return () => subscription.unsubscribe();
   }, [watch])
-  
+    React.useEffect(()=>{
+      if(values['civility']&&values['email']){
+        visible({
+          next: false,
+          prev: true,
+          submit: true
+         })
+      }
+    },[values])
     return (
       <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={2} style={{ padding: "12px" }}>
