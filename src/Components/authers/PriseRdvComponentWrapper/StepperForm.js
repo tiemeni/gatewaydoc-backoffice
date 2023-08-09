@@ -6,7 +6,7 @@ import StepLabel from '@mui/material/StepLabel';
 import StepOne from './StepOne';
 import StepTwo from './StepTwo';
 import styles from './styles';
-import { Button } from '@mui/material';
+import { Alert, Button } from '@mui/material';
 import app from '../../../Configs/app';
 import axios from "axios";
 import { createPatient } from '../../../services/patients';
@@ -40,6 +40,7 @@ const bySteps = {
 export default function HorizontalLinearAlternativeLabelStepper() {
   const classes = styles();
   const [step, setStep] =  React.useState(0);
+  const [error, setError] =  React.useState(null);
   const [data, setData] =  React.useState({});
   const [visibles, setVisibles] =  React.useState({
     'prev': false,
@@ -51,6 +52,8 @@ export default function HorizontalLinearAlternativeLabelStepper() {
   const next = (stepData)=>{
     if(stepData)
     setData({ ...data, [step]: stepData})
+    
+    setError(null);
     setStep((step + 1) % steps.length );
   }
   const save = (stepData) => {
@@ -63,45 +66,53 @@ export default function HorizontalLinearAlternativeLabelStepper() {
     setVisibles(obj)
   }
   const submit = async ()=>{
-    let patientId = data[1]['patientId'];
-    if(!patientId){
-      const rep = await   createPatient ({active: true,...data[1], name: 'test'});
-      console.log(rep)
-      patientId = rep.data._id
-    }  
-       
-      axios({
+    try{
+      let patientId = data[1]['patientId'];
+      if(!patientId){
+        const rep = await   createPatient ({active: true,...data[1], name: 'test'});
+        console.log(rep)
+        if(rep.success){
+          patientId = rep.data._id;
+          setData({ ...data, [1]: { ...data[1], patientId }})
+        }else{
+          setError(rep)
+        }
 
-        method: "POST",
-        url: BASE_URL + `/appointments/enregistrer_rdv/?idCentre=${app.idCentre}`,
-        data: {
         
-            "centre": app.idCentre,
-            "practitioner": data[0].praticien,
-            "patient": patientId,
-            "motif": data[0].motif,
-            "startTime": "08:00",
-            "endTime": "10:00",
-            "provenance": app.platform,
-            "duration": 20,
-           // "dayOfWeek": 1,
-            "date": data[0].disponibility.date,
+      }  
         
-        },
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        },
-    })
-    .then((response) => {
-      dispatch(showPRDV(false))      
-      //      let disponibilities = response.data.data;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-//        setDisponibilityList(disponibilities);                
-    })
-    .catch((error) => {
+      if(patientId && !error){
+          const rep = await  axios({
+
+            method: "POST",
+            url: BASE_URL + `/appointments/enregistrer_rdv/?idCentre=${app.idCentre}`,
+            data: {
+            
+                "centre": app.idCentre,
+                "practitioner": data[0].praticien,
+                "patient": patientId,
+                "motif": data[0].motif,
+                "startTime": "08:00",
+                "endTime": "10:00",
+                "provenance": app.platform,
+                "duration": 20,
+              // "dayOfWeek": 1,
+                "date": data[0].disponibility.date,
+            
+            },
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+        });
+        dispatch(showPRDV(false));
+      }
+
+    }catch(e){
+      setError(e);
+    }
     
-    });
+
   }
   React.useEffect(()=>{
     setVisibles(bySteps[step].navigation)
@@ -115,6 +126,10 @@ export default function HorizontalLinearAlternativeLabelStepper() {
           </Step>
         ))}
       </Stepper>
+      {
+        error&& <Alert severity="error">{error.message}</Alert>
+      }
+      
       <Component data={data[step] || {}} save={save}  next={next} prev={prev} visible={visible} />     
       {
         visibles['prev'] ? <Button onClick={()=>prev()}>Etape precedente</Button> : []

@@ -53,12 +53,12 @@ const DemoApp = ({ filterEvents }) => {
             <div>
               <div>
                 <span style={{ color: '#6e706f', fontWeight: "bold" }} >{event.extendedProps.civility}</span>
-                <span style={{ color: '#6e706f', fontWeight: "bold" }} >{" " + event.extendedProps.patient.name}</span>
-                <span style={{ color: '#6e706f', fontWeight: "bold" }} >{" " + event.extendedProps.patient.surname}</span>
+                <span style={{ color: '#6e706f', fontWeight: "bold" }} >{" " + event.extendedProps?.patient?.name}</span>
+                <span style={{ color: '#6e706f', fontWeight: "bold" }} >{" " + event.extendedProps?.patient?.surname}</span>
               </div>
               <div>
                 <span style={{ color: '#6e706f', fontWeight: "bold" }}>Durée: </span>
-                <span style={{ color: 'black' }}>{event.extendedProps.duration}</span>
+                <span style={{ color: 'black' }}>{event.extendedProps?.duration}</span>
               </div>
               <div>
                 <span style={{ color: '#6e706f', fontWeight: "bold" }}>Motif: </span>
@@ -66,7 +66,7 @@ const DemoApp = ({ filterEvents }) => {
               </div>
               <div>
                 <span style={{ color: '#6e706f', fontWeight: "bold" }}>Telephone: </span>
-                <span style={{ color: 'black' }}>{event.extendedProps.patient.telephone}</span>
+                <span style={{ color: 'black' }}>{event.extendedProps?.patient?.telephone}</span>
               </div>
               <div>
                 <span style={{ color: '#6e706f', fontWeight: "bold" }}>Praticien: </span>
