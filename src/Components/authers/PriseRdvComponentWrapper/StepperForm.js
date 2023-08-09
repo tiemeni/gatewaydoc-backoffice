@@ -18,33 +18,45 @@ const bySteps = {
     component: StepOne,
     navigation: {
       'prev': false,
-      'next': false
+      'next': false,
+      'submit': false
     }
   },
   1: {
     component: StepTwo,
     navigation: {
       'prev': true,
-      'next': true
+      'next': false,
+      'submit': false
     }
   }
 }
 export default function HorizontalLinearAlternativeLabelStepper() {
   const classes = styles();
   const [step, setStep] =  React.useState(0);
+  const [data, setData] =  React.useState({});
   const [visibles, setVisibles] =  React.useState({
     'prev': false,
-    'next': false
+    'next': false,
+    'submit': false
   });
   const Component = bySteps[step].component;
-  const next = ()=>{
+  const next = (stepData)=>{
+    if(stepData)
+    setData({ ...data, [step]: stepData})
     setStep((step + 1) % steps.length );
+  }
+  const save = (stepData) => {
+    setData({ ...data, [step]: stepData})
   }
   const prev = ()=>{
     setStep(Math.max(0,(step - 1) % steps.length) )
   }
   const visible = (obj)=>{
     setVisibles(obj)
+  }
+  const submit = ()=>{
+    console.log(data)
   }
   React.useEffect(()=>{
     setVisibles(bySteps[step].navigation)
@@ -58,14 +70,16 @@ export default function HorizontalLinearAlternativeLabelStepper() {
           </Step>
         ))}
       </Stepper>
-      <Component  next={next} prev={prev} visible={visible} />     
+      <Component data={data[step] || {}} save={save}  next={next} prev={prev} visible={visible} />     
       {
-        visibles['prev'] ? <Button onClick={()=>prev()}>Prev</Button> : []
+        visibles['prev'] ? <Button onClick={()=>prev()}>Etape precedente</Button> : []
       }    
       {
-        visibles['next'] ? <Button onClick={()=>next()}>Next</Button> : []
+        visibles['next'] ? <Button onClick={()=>next()}>Etape suivante</Button> : []
       }
-      
+      {
+        visibles['submit'] ? <Button onClick={()=>submit()}>Enregistrer</Button> : []
+      }
     </Box>
   );
 }

@@ -168,9 +168,9 @@ const PERIODES = [
     },
 
 ]
-function StepOne( { next = ()=>{}, visible= ()=>{} }){
+function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{}, data = {} }){
     const [phone, setPhone] = React.useState('');
-    const [values, setValues] = React.useState({});
+    const [values, setValues] = React.useState({ ...data});
     const [filter, setFilter] = React.useState({});
 
     const [level, setLevel] = React.useState(0);
@@ -184,15 +184,7 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
     const BASE_URL = process.env.REACT_APP_BASE_URL;
     const { register, handleSubmit, watch, control, formState, getValues, setValue  } = useForm({
         defaultValues: {
-          motif: null,
-          speciality: null,
-          praticien: null,
-          profession: null,
-          lieu: null,
-          interval: 1,
-          periode: 0,
-          day: 1,
-          startDate: dayjs()
+          ...data
         },
       });
 
@@ -201,7 +193,8 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
         if(level == 6){
             visible({
                 next: true,
-                prev: false
+                prev: false,
+                submit: false
                })
         }else{
             visible({
@@ -231,7 +224,8 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
                
             }
 
-            setValues(v)
+            save(v);
+            setValues(v);
             //setValue(name, values[name]);
         
     })
@@ -264,7 +258,7 @@ function StepOne( { next = ()=>{}, visible= ()=>{} }){
             })
             .then((response) => {
                 let motifs = response.data.data;
-                setMotifList(motifs)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                setMotifList(motifs);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
                               
             })
             .catch((error) => {
