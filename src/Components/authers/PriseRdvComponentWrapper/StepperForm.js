@@ -79,8 +79,7 @@ export default function HorizontalLinearAlternativeLabelStepper() {
         
         if(rep.success){
           patientId = rep.data._id;
-          save({ ...steps[1], patientId});
-
+          dispatch(saveStep(1, { ...steps[1].values, patientId}))
         }else{
           dispatch(saveError(rep));
         }
@@ -116,7 +115,8 @@ export default function HorizontalLinearAlternativeLabelStepper() {
           //patientId = rep.data._id;
           //setData({ ...data, [1]: { ...data[1], patientId }})
           dispatch(showPRDV(false));
-          save({  })
+          dispatch(saveStep(0, { }))
+          dispatch(saveStep(1, { }))
           
         }else{
           dispatch(saveError(rep));
