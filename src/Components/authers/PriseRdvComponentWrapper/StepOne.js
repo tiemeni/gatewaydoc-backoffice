@@ -258,22 +258,28 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
                   
             }
             if(values['profession'] && name === "profession" ){
-                const response = await  axios({
-                    method: "GET",
-                    url: BASE_URL + `/motif/profession/${values['profession']}`,
-                    params: {                  
-                        idCentre: app.idCentre,
-                    },
-                    headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json",
-                    },
-                });
-                let motifs = response.data.data;
+                try{
+                    const response = await  axios({
+                        method: "GET",
+                        url: BASE_URL + `/motif/profession/${values['profession']}`,
+                        params: {                  
+                            idCentre: app.idCentre,
+                        },
+                        headers: {
+                            Accept: "application/json",
+                            "Content-Type": "application/json",
+                        },
+                    });
+                    let motifs = response.data.data;
+                    dispatch(saveData('motifList',motifs));
+                }catch(e){
+
+                }
+
                 
 //                setMotifList(motifs);
                 //datas['motifList'] = motifs;  
-                dispatch(saveData('motifList',motifs))   
+    
             }
 
             if(values["praticien"] && name === "praticien" ){
@@ -284,7 +290,8 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
                     
                 
                 const p = ([ ...(praticienList||[])]).filter((praticien)=>praticien._id === data.values["praticien"])[0];
-                    //v["timeSlot"] = p.timeSlot;
+                console.log(p, praticienList)    
+                //v["timeSlot"] = p.timeSlot;
                 //v["timeSlot"] = p.timeSlot;    
                     
                

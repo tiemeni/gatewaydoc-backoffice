@@ -11,7 +11,7 @@ import app from '../../../Configs/app';
 import axios from "axios";
 import { createPatient } from '../../../services/patients';
 import { showPRDV } from '../../../REDUX/commons/actions';
-import { saveStep } from '../../../REDUX/prgv/actions';
+import { saveError, saveStep } from '../../../REDUX/prgv/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -40,9 +40,8 @@ const bySteps = {
 }
 export default function HorizontalLinearAlternativeLabelStepper() {
   const classes = styles();
-  const { steps } = useSelector((state)=>state.Prdv);
+  const { steps, error } = useSelector((state)=>state.Prdv);
   const [step, setStep] = React.useState(0);
-  const [error, setError] =  React.useState(null);
   const [data, setData] =  React.useState({});
   const [visibles, setVisibles] =  React.useState({
     'prev': false,
@@ -57,7 +56,7 @@ export default function HorizontalLinearAlternativeLabelStepper() {
     }
     
     
-    setError(null);
+    dispatch(saveError(null));
     setStep((step + 1) % stepsLabels.length );
   }
   const save = (stepData) => {
@@ -72,16 +71,18 @@ export default function HorizontalLinearAlternativeLabelStepper() {
   }
   const submit = async ()=>{
     try{
-      setError(null)
-      let patientId = data[1]['patientId'];
+
+      dispatch(saveError(null));
+      let patientId = steps[1]['patientId'];
       if(!patientId){
-        const rep = await   createPatient ({active: true,...data[1] });
+        const rep = await   createPatient ({active: true,...steps[1] });
         
         if(rep.success){
           patientId = rep.data._id;
-          setData({ ...data, [1]: { ...data[1], patientId }})
+          save({ ...steps[1], patientId});
+
         }else{
-          setError(rep)
+          dispatch(saveError(rep));
         }
 
         
@@ -95,15 +96,15 @@ export default function HorizontalLinearAlternativeLabelStepper() {
             data: {
             
                 "centre": app.idCentre,
-                "practitioner": data[0].praticien,
+                "practitioner": steps[0]?.values?.praticien,
                 "patient": patientId,
-                "motif": data[0].motif,
+                "motif": steps[0]?.values?.motif,
                 "startTime": "08:00",
                 "endTime": "10:00",
                 "provenance": app.platform,
                 "duration": 20,
               // "dayOfWeek": 1,
-                "date": data[0].disponibility.date,
+                "date": steps[0]?.values?.disponibility?.date,
             
             },
             headers: {
@@ -111,11 +112,21 @@ export default function HorizontalLinearAlternativeLabelStepper() {
                 "Content-Type": "application/json",
             },
         });
-        dispatch(showPRDV(false));
+        if(rep.success){
+          //patientId = rep.data._id;
+          //setData({ ...data, [1]: { ...data[1], patientId }})
+          dispatch(showPRDV(false));
+          save({  })
+          
+        }else{
+          dispatch(saveError(rep));
+        }
+        
       }
 
     }catch(e){
-      setError(e);
+      console.log(e)
+      dispatch(saveError(e));
     }
     
 
