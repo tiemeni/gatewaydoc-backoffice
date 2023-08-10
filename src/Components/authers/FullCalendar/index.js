@@ -47,9 +47,9 @@ const DemoApp = ({ filterEvents }) => {
   const renderEventContent = ({ event }) => {
 
     return (
-      <LightTooltip disableFocusListener disableTouchListener followCursor
+      <LightTooltip  disableFocusListener disableTouchListener followCursor
         title={
-          <div style={{ fontSize: '16px', backgroundColor: "white", height: 'auto' }}>
+          <div  style={{ fontSize: '16px', backgroundColor: "white", height: 'auto' }}>
             <div>
               <div>
                 <span style={{ color: '#6e706f', fontWeight: "bold" }} >{event.extendedProps.civility}</span>
@@ -89,7 +89,7 @@ const DemoApp = ({ filterEvents }) => {
                     }
                 </Box>
             </Box > */}
-        <Box>
+        <Box onClick={()=>dispatch(showPFRDV(true,event))}>
           <div
             onContextMenu={(e) => {
               e.preventDefault();
