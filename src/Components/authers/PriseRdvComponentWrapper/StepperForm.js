@@ -11,10 +11,11 @@ import app from '../../../Configs/app';
 import axios from "axios";
 import { createPatient } from '../../../services/patients';
 import { showPRDV } from '../../../REDUX/commons/actions';
-import { useDispatch } from 'react-redux';
+import { saveStep } from '../../../REDUX/prgv/actions';
+import { useDispatch, useSelector } from 'react-redux';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-const steps = [
+const stepsLabels = [
   'RDV disponible',
   'Informations Patient',
 ];
@@ -39,7 +40,8 @@ const bySteps = {
 }
 export default function HorizontalLinearAlternativeLabelStepper() {
   const classes = styles();
-  const [step, setStep] =  React.useState(0);
+  const { steps } = useSelector((state)=>state.Prdv);
+  const [step, setStep] = React.useState(0);
   const [error, setError] =  React.useState(null);
   const [data, setData] =  React.useState({});
   const [visibles, setVisibles] =  React.useState({
@@ -50,17 +52,20 @@ export default function HorizontalLinearAlternativeLabelStepper() {
   const Component = bySteps[step].component;
   const dispatch = useDispatch();
   const next = (stepData)=>{
-    if(stepData)
-    setData({ ...data, [step]: stepData})
+    if(stepData){
+      save(stepData)
+    }
+    
     
     setError(null);
-    setStep((step + 1) % steps.length );
+    setStep((step + 1) % stepsLabels.length );
   }
   const save = (stepData) => {
-    setData({ ...data, [step]: stepData})
+
+    dispatch(saveStep(step, stepData))
   }
   const prev = ()=>{
-    setStep(Math.max(0,(step - 1) % steps.length) )
+    setStep(Math.max(0,(step - 1) % stepsLabels.length) )
   }
   const visible = (obj)=>{
     setVisibles(obj)
@@ -122,10 +127,11 @@ export default function HorizontalLinearAlternativeLabelStepper() {
     }
     setVisibles(navigation)
   },[step]);
+ 
   return (
     <Box  className={classes.stepper}>
       <Stepper activeStep={step} alternativeLabel>
-        {steps.map((label) => (
+        {stepsLabels.map((label) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
           </Step>
@@ -135,7 +141,7 @@ export default function HorizontalLinearAlternativeLabelStepper() {
         error&& <Alert severity="error">{error?.message}</Alert>
       }
       
-      <Component data={data[step] || {}} save={save}  next={next} prev={prev} visible={visible} />     
+      <Component data={steps[step] || {}} save={save}  next={next} prev={prev} visible={visible} />     
       {
         visibles['prev'] ? <Button onClick={()=>prev()}>Etape precedente</Button> : []
       }    

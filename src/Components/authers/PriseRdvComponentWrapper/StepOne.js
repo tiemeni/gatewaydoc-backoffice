@@ -32,6 +32,7 @@ import { getAllProfessions } from "../../../services/professions";
 import { getAllLieux } from "../../../services/lieux";
 
 import CustomDateInput from "./FormsComponents/CustomDateInput";
+import { saveData } from "../../../REDUX/prgv/actions";
 
 
 const fieldsByLevel = {
@@ -168,27 +169,28 @@ const PERIODES = [
     },
 
 ]
-function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{}, data = {} }){
+function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
+    
+    const data = useSelector((state)=>state.Prdv.steps[0]);
+    const { results, praticienList, motifList  } = useSelector((state)=>state.Prdv);
     const [phone, setPhone] = React.useState('');
-    const [values, setValues] = React.useState({ ...data});
+  
+
     const [filter, setFilter] = React.useState({});
 
     const [level, setLevel] = React.useState(0);
    
-    const [praticienList, setPraticienList] = React.useState([]);
-    const [disponibilityList, setDisponibilityList] = React.useState([]);
-    const [motifList, setMotifList] = React.useState([]);
+
 
     const classes = styles();
     const items = [{}];
     const BASE_URL = process.env.REACT_APP_BASE_URL;
     const { register, handleSubmit, watch, control, formState, getValues, setValue  } = useForm({
         defaultValues: {
-          ...data
+          ...data.values
         },
       });
-
-
+    
     useEffect(()=>{
         if(level == 6){
             visible({
@@ -199,17 +201,20 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{}, data = {} }){
         }else{
             visible({
                 next: false,
-                prev: false
+                prev: false,
+                submit: false
                })
         }
 
     },[level]);
     
+
     React.useEffect(() => {
-    
-        const subscription = watch((values, { name, type }) =>{
-            
+        
+        const subscription = watch(async(values, { name, type }) =>{
+                        
             let v = { ...values};
+            
             if(name in fieldsByLevel){
 
                 for(let field in fieldsByLevel ){
@@ -224,91 +229,92 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{}, data = {} }){
                
             }
 
-            save(v);
-            setValues(v);
+            
+            
+            
+            let collect = {};
+            let datas = {  ...data, values: v };
+            
+//            setValues(v);
+            if(values['lieu']  && name == "lieu"){
+                const response = await axios({
+                    method: "GET",
+                    url: BASE_URL + "/users/",
+                    params: {
+                        isPraticien: true,
+                        idCentre: app.idCentre,
+                        idSpeciality: values['profession'],
+                        idLieu: values['lieu']
+                    },
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                });
+                let praticiens = response.data.data;                                                                                   
+ //               setPraticienList(praticiens);
+                  
+                dispatch(saveData('praticienList',praticiens))
+                  
+            }
+            if(values['profession'] && name === "profession" ){
+                const response = await  axios({
+                    method: "GET",
+                    url: BASE_URL + `/motif/profession/${values['profession']}`,
+                    params: {                  
+                        idCentre: app.idCentre,
+                    },
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                });
+                let motifs = response.data.data;
+                
+//                setMotifList(motifs);
+                //datas['motifList'] = motifs;  
+                dispatch(saveData('motifList',motifs))   
+            }
+
+            if(values["praticien"] && name === "praticien" ){
+                
+                
+                
+                collect['idp'] = values["praticien"];
+                    
+                
+                const p = ([ ...(praticienList||[])]).filter((praticien)=>praticien._id === data.values["praticien"])[0];
+                    //v["timeSlot"] = p.timeSlot;
+                //v["timeSlot"] = p.timeSlot;    
+                    
+               
+                setFilter(collect);
+            }
+            datas['values'] =v;     
+            save(datas);
             //setValue(name, values[name]);
         
     })
     return () => subscription.unsubscribe();
-    }, [watch])
+    }, [watch]);
 
 
     React.useEffect(() => {
         let maxLevelSet = "";
         let currentLevel = -1;
-        for(let name of Object.keys(values)){
+        for(let name of Object.keys(data.values)){
 
-            if(values[name] && (name in fieldsByLevel)  && fieldsByLevel[name].level >= currentLevel){
+            if(data.values[name] && (name in fieldsByLevel)  && fieldsByLevel[name].level >= currentLevel){
                maxLevelSet = name;
                currentLevel = fieldsByLevel[name].level;
             }
         }
         setLevel(currentLevel + 1);
-        if(values['profession']){
-            axios({
-                method: "GET",
-                url: BASE_URL + `/motif/profession/${values['profession']}`,
-                params: {                  
-                    idCentre: app.idCentre,
-                },
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-            })
-            .then((response) => {
-                let motifs = response.data.data;
-                setMotifList(motifs);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                              
-            })
-            .catch((error) => {
-             
-            });
-        }
-        if(values['lieu']){
-            axios({
-                method: "GET",
-                url: BASE_URL + "/users/",
-                params: {
-                    isPraticien: true,
-                    idCentre: app.idCentre,
-                    idSpeciality: values['profession'],
-                    idLieu: values['lieu']
-                },
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-            })
-            .then((response) => {
-                let praticiens = response.data.data;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-                setPraticienList(praticiens);                
-            })
-            .catch((error) => {
-             
-            });
-        }
-        let collect = {};
-        if(values["praticien"]){
-            collect['idp'] = values["praticien"]
-                
-            if(values["startDate"]){
-                
-                collect['startDate'] = values["startDate"].format('YYYY-MM-DD')
-            }
-            if(values["day"]){
-                
-                collect['day'] = values["day"];
-            }
-            if(values["slotRange"]){
-                
-                collect['slotRange'] = values["slotRange"]
-            }
-            setFilter(collect);
-        }
+        
+        
+
     return () => {}
-    }, [values])
+    }, [data.values])
 
     React.useEffect(()=>{
         if(filter["idp"]){
@@ -329,7 +335,9 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{}, data = {} }){
             .then((response) => {
                 let disponibilities = response.data.data;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
-                setDisponibilityList(disponibilities);                
+                //setDisponibilityList(disponibilities);
+                save({ ...data,  }); 
+                dispatch(saveData('results', disponibilities))               
             })
             .catch((error) => {
              
@@ -344,22 +352,23 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{}, data = {} }){
 
     }
     const onSubmit = (e)=>{
-        setDisponibilityList([]);
+        save({ ...data, results: []});
         setValue("disponibility",null);
         let collect = {};
-        if(values["startDate"]){
+        if(data.values["startDate"]){
             
-            collect['startDate'] = values["startDate"].format('YYYY-MM-DD')
+            collect['startDate'] = data.values["startDate"].format('YYYY-MM-DD')
         }
-        if(values["day"]){
+        if(data.values["day"]){
             
-            collect['day'] = values["day"];
+            collect['day'] = data.values["day"];
         }
-        if(values["slotRange"]){
+        if(data.values["slotRange"]){
             
-            collect['slotRange'] = values["slotRange"];
+            collect['slotRange'] = data.values["slotRange"];
         }
         setFilter({...filter, ...collect});
+        //console.log(filter)
       //setValues({ ...values, "submitted": true })
       //next();
     }
@@ -374,7 +383,7 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{}, data = {} }){
       if (!(professionList && professionList.data && professionList.data.length > 0)){
         dispatch(professions.loading());
         try{
-            const data = await getAllProfessions()
+            const data = await getAllProfessions();
             dispatch(professions.save(data));
         }catch(e){
             dispatch(professions.loadingError(e));
@@ -385,7 +394,7 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{}, data = {} }){
         
         dispatch(lieux.loading());
         try{
-            const data = await getAllLieux()
+            const data = await getAllLieux();
             dispatch(lieux.save(data));
         }catch(e){
             dispatch(lieux.loadingError(e));
@@ -394,14 +403,14 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{}, data = {} }){
         
     };
     
-
+    
     useEffect(()=>{
         getRessources()
     },[]);
 
     
     return (
-      <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+        <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
       
             <Grid container  style={{ padding: "12px" }}>
      
@@ -421,25 +430,25 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{}, data = {} }){
                         
                         {
                             level  >= 0 ? <Grid item xs={12}>
-                            <BasicFormControl  label="Quel est la profession ?"  Input={SelectWithOption} props={{  options: (professionList && professionList.data || []).flatMap(profession.toListItem), value: values["profession"], ...register('profession',{ required: true }), placeholder: 'Profession' }} />
+                            <BasicFormControl  label="Quel est la profession ?"  Input={SelectWithOption} props={{  options: (professionList && professionList.data || []).flatMap(profession.toListItem), value: data.values["profession"], ...register('profession',{ required: true }), placeholder: 'Profession' }} />
                         </Grid>: []
                         }
                         {
                             level  >= 1 ?
                             <Grid item xs={12}>
-                                <BasicFormControl label="Quel est le motif de la consultation ?"  Input={SelectWithOption} props={{ value: values["motif"], options: (motifList || []).flatMap(motif.toListItem), ...register("motif"), placeholder: 'Motif' }} />
+                                <BasicFormControl label="Quel est le motif de la consultation ?"  Input={SelectWithOption} props={{ value: data.values["motif"], options: (motifList || []).flatMap(motif.toListItem), ...register("motif"), placeholder: 'Motif' }} />
                             </Grid>
                             :[]
                         }
                         {
                             level  >= 2 ? <Grid item xs={12}>
-                                <BasicFormControl label="Quel est le lieu de rendez vous ?"  Input={SelectWithOption} props={{  value: values["lieu"], options: (lieuList && lieuList.data || []).flatMap(lieu.toListItem), ...register("lieu"), placeholder: 'Lieu du rendez vous' }} />
+                                <BasicFormControl label="Quel est le lieu de rendez vous ?"  Input={SelectWithOption} props={{  value: data.values["lieu"], options: (lieuList && lieuList.data || []).flatMap(lieu.toListItem), ...register("lieu"), placeholder: 'Lieu du rendez vous' }} />
                             </Grid>:[]
                         }
                         {
                             level  >= 3 ?
                             <Grid item xs={12}>
-                                <BasicFormControl label="Avec quel praticien ?" Input={SelectWithOption} props={{ value: values["praticien"], options: (praticienList || []).flatMap(praticien.toListItem), ...register("praticien"), placeholder: 'Praticien' }} />
+                                <BasicFormControl label="Avec quel praticien ?" Input={SelectWithOption} props={{ value: data.values["praticien"], options: (praticienList || []).flatMap(praticien.toListItem), ...register("praticien"), placeholder: 'Praticien' }} />
                             </Grid>
                             : []
                         }
@@ -479,14 +488,14 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{}, data = {} }){
                     {
                             level  >= 4 ?
                         <InfiniteScroll
-                        dataLength={disponibilityList.length-1}
+                        dataLength={results.length-1}
                         next={fetchMoreData}           
                         hasMore={false}
                         loader={<CircularIndeterminate/>}
                         >    
                             <List sx={{ width: '100%', backgroundColor: "#cfeffd", borderRadius: "5px", maxHeight: "54vh", marginTop: "4vh" }}>    
                                 {
-                                    disponibilityList.flatMap((item, index)=><ListItem style={{ "cursor": "pointer" }} onClick={()=>{ setValue("disponibility", item) }} key={index}>
+                                    results.flatMap((item, index)=><ListItem style={{ "cursor": "pointer" }} onClick={()=>{ setValue("disponibility", item) }} key={index}>
                                     <ListItemAvatar>
                                     <Avatar>
                                         <ImageIcon />
@@ -506,8 +515,8 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{}, data = {} }){
                         </InfiniteScroll>:[]
                     }    
                 </Grid>
-      </Grid>
-      </form>    
+            </Grid>
+       </form>    
     )
 }
 
