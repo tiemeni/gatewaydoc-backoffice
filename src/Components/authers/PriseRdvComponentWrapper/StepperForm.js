@@ -73,14 +73,16 @@ export default function HorizontalLinearAlternativeLabelStepper() {
     try{
 
       dispatch(saveError(null));
+      let error = false;
       let patientId = steps[1]['patientId'];
       if(!patientId){
         const rep = await   createPatient ({active: true,...steps[1] });
         
         if(rep.success){
           patientId = rep.data._id;
-          dispatch(saveStep(1, { ...steps[1].values, patientId}))
+          dispatch(saveStep(1, { ...steps[1], patientId}))
         }else{
+          error = true;
           dispatch(saveError(rep));
         }
 
@@ -95,15 +97,15 @@ export default function HorizontalLinearAlternativeLabelStepper() {
             data: {
             
                 "centre": app.idCentre,
-                "practitioner": steps[0]?.values?.praticien,
+                "practitioner": steps[0]?.praticien,
                 "patient": patientId,
-                "motif": steps[0]?.values?.motif,
+                "motif": steps[0]?.motif,
                 "startTime": "08:00",
                 "endTime": "10:00",
                 "provenance": app.platform,
                 "duration": 20,
               // "dayOfWeek": 1,
-                "date": steps[0]?.values?.disponibility?.date,
+                "date": steps[0]?.disponibility?.date,
             
             },
             headers: {
@@ -111,21 +113,21 @@ export default function HorizontalLinearAlternativeLabelStepper() {
                 "Content-Type": "application/json",
             },
         });
-        if(rep.success){
+        if(rep.data.success){
           //patientId = rep.data._id;
           //setData({ ...data, [1]: { ...data[1], patientId }})
           dispatch(showPRDV(false));
-          dispatch(saveStep(0, { }))
+          dispatch(saveStep(0, {  }))
           dispatch(saveStep(1, { }))
           
         }else{
-          dispatch(saveError(rep));
+          dispatch(saveError(rep.data));
         }
         
       }
 
     }catch(e){
-      console.log(e)
+      
       dispatch(saveError(e));
     }
     

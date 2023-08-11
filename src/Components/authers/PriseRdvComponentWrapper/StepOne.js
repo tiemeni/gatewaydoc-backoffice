@@ -187,7 +187,7 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
     const BASE_URL = process.env.REACT_APP_BASE_URL;
     const { register, handleSubmit, watch, control, formState, getValues, setValue  } = useForm({
         defaultValues: {
-          ...data.values
+          ...data
         },
       });
     
@@ -233,7 +233,7 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
             
             
             let collect = {};
-            let datas = {  ...data, values: v };
+            let datas = {  ...data, ...v };
             
 //            setValues(v);
             if(values['lieu']  && name == "lieu"){
@@ -289,15 +289,14 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
                 collect['idp'] = values["praticien"];
                     
                 
-                const p = ([ ...(praticienList||[])]).filter((praticien)=>praticien._id === data.values["praticien"])[0];
-                console.log(p, praticienList)    
+                const p = ([ ...(praticienList||[])]).filter((praticien)=>praticien._id === data["praticien"])[0];
                 //v["timeSlot"] = p.timeSlot;
                 //v["timeSlot"] = p.timeSlot;    
                     
                
                 setFilter(collect);
             }
-            datas['values'] =v;     
+            datas =v;     
             save(datas);
             //setValue(name, values[name]);
         
@@ -309,9 +308,9 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
     React.useEffect(() => {
         let maxLevelSet = "";
         let currentLevel = -1;
-        for(let name of Object.keys(data.values)){
+        for(let name of Object.keys(data)){
 
-            if(data.values[name] && (name in fieldsByLevel)  && fieldsByLevel[name].level >= currentLevel){
+            if(data[name] && (name in fieldsByLevel)  && fieldsByLevel[name].level >= currentLevel){
                maxLevelSet = name;
                currentLevel = fieldsByLevel[name].level;
             }
@@ -321,7 +320,7 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
         
 
     return () => {}
-    }, [data.values])
+    }, [data])
 
     React.useEffect(()=>{
         if(filter["idp"]){
@@ -359,20 +358,20 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
 
     }
     const onSubmit = (e)=>{
-        save({ ...data, results: []});
+        //save({ ...data, results: []});
         setValue("disponibility",null);
         let collect = {};
-        if(data.values["startDate"]){
+        if(data["startDate"]){
             
-            collect['startDate'] = data.values["startDate"].format('YYYY-MM-DD')
+            collect['startDate'] = data["startDate"].format('YYYY-MM-DD')
         }
-        if(data.values["day"]){
+        if(data["day"]){
             
-            collect['day'] = data.values["day"];
+            collect['day'] = data["day"];
         }
-        if(data.values["slotRange"]){
+        if(data["slotRange"]){
             
-            collect['slotRange'] = data.values["slotRange"];
+            collect['slotRange'] = data["slotRange"];
         }
         setFilter({...filter, ...collect});
         //console.log(filter)
@@ -437,25 +436,25 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
                         
                         {
                             level  >= 0 ? <Grid item xs={12}>
-                            <BasicFormControl  label="Quel est la profession ?"  Input={SelectWithOption} props={{  options: (professionList && professionList.data || []).flatMap(profession.toListItem), value: data.values["profession"], ...register('profession',{ required: true }), placeholder: 'Profession' }} />
+                            <BasicFormControl  label="Quel est la profession ?"  Input={SelectWithOption} props={{  options: (professionList && professionList.data || []).flatMap(profession.toListItem), value: data["profession"], ...register('profession',{ required: true }), placeholder: 'Profession' }} />
                         </Grid>: []
                         }
                         {
                             level  >= 1 ?
                             <Grid item xs={12}>
-                                <BasicFormControl label="Quel est le motif de la consultation ?"  Input={SelectWithOption} props={{ value: data.values["motif"], options: (motifList || []).flatMap(motif.toListItem), ...register("motif"), placeholder: 'Motif' }} />
+                                <BasicFormControl label="Quel est le motif de la consultation ?"  Input={SelectWithOption} props={{ value: data["motif"], options: (motifList || []).flatMap(motif.toListItem), ...register("motif"), placeholder: 'Motif' }} />
                             </Grid>
                             :[]
                         }
                         {
                             level  >= 2 ? <Grid item xs={12}>
-                                <BasicFormControl label="Quel est le lieu de rendez vous ?"  Input={SelectWithOption} props={{  value: data.values["lieu"], options: (lieuList && lieuList.data || []).flatMap(lieu.toListItem), ...register("lieu"), placeholder: 'Lieu du rendez vous' }} />
+                                <BasicFormControl label="Quel est le lieu de rendez vous ?"  Input={SelectWithOption} props={{  value: data["lieu"], options: (lieuList && lieuList.data || []).flatMap(lieu.toListItem), ...register("lieu"), placeholder: 'Lieu du rendez vous' }} />
                             </Grid>:[]
                         }
                         {
                             level  >= 3 ?
                             <Grid item xs={12}>
-                                <BasicFormControl label="Avec quel praticien ?" Input={SelectWithOption} props={{ value: data.values["praticien"], options: (praticienList || []).flatMap(praticien.toListItem), ...register("praticien"), placeholder: 'Praticien' }} />
+                                <BasicFormControl label="Avec quel praticien ?" Input={SelectWithOption} props={{ value: data["praticien"], options: (praticienList || []).flatMap(praticien.toListItem), ...register("praticien"), placeholder: 'Praticien' }} />
                             </Grid>
                             : []
                         }
