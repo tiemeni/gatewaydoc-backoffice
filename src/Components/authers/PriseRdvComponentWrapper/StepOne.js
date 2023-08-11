@@ -490,9 +490,9 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
                     
                     
                 </Grid>
-                <Grid item xs={6} style={{ padding: "5px", "borderRadius": "10px", backgroundColor: "#cfeffd" }}>
-                    {
-                            level  >= 4 ?
+                {
+                            level  >= 4 ?<Grid item xs={6} style={{ padding: "5px", "borderRadius": "10px", backgroundColor: "#cfeffd" }}>
+                    
                         <InfiniteScroll
                         dataLength={results.length-1}
                         next={fetchMoreData}           
@@ -518,9 +518,9 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
                                 }
 
                             </List>
-                        </InfiniteScroll>:[]
+                        </InfiniteScroll>
+                </Grid>:[]
                     }    
-                </Grid>
             </Grid>
        </form>    
     )
