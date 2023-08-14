@@ -5,7 +5,7 @@ import StyledInput from "./FormsComponents/StyledInput";
 import {DATE, NUMBER} from '../../../Constants/fieldTypes';
 import SelectWithOption from "./FormsComponents/SelectWithOption";
 import SearchIcon from '@mui/icons-material/Search';
-import { Button, Grid, MenuItem, Select, Typography } from "@mui/material";
+import { Alert, Button, Grid, MenuItem, Select, Typography } from "@mui/material";
 import React, { useEffect, useMemo } from "react";
 import styles from "./styles";
 import List from '@mui/material/List';
@@ -33,7 +33,7 @@ import { getAllLieux } from "../../../services/lieux";
 
 import CustomDateInput from "./FormsComponents/CustomDateInput";
 import { saveData } from "../../../REDUX/prgv/actions";
-
+import Skeleton from '@mui/material/Skeleton';
 
 const fieldsByLevel = {
     "profession": {
@@ -193,7 +193,7 @@ const PERIODES = [
 function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
     
     const data = useSelector((state)=>state.Prdv.steps[0]);
-    const { results, praticienList, praticienListLoading, motifList, motifListLoading  } = useSelector((state)=>state.Prdv);
+    const { results, praticienList, praticienListLoading, motifList, motifListLoading, disponibilityListLoading  } = useSelector((state)=>state.Prdv);
     const [phone, setPhone] = React.useState('');
   
 
@@ -321,7 +321,6 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
                 
                 collect['idp'] = values["praticien"];
                     
-                console.log(praticienList)
                 const p = (praticienList).filter((praticien)=>praticien._id === values["praticien"])[0];
                 if(p)
                 v["timeSlot"] = p.timeSlot;
@@ -358,6 +357,7 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
     const slotRanges = useMemo(() => generateTimeRange(data.timeSlot), [data.timeSlot]);
     React.useEffect(()=>{
         if(filter["idp"]){
+            dispatch(saveData('disponibilityListLoading',true));
             axios({
                 method: "GET",
                 url: BASE_URL + "/appointments/rechercher_dispo/",
@@ -377,10 +377,12 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
                 //setDisponibilityList(disponibilities);
                 save({ ...data,  }); 
-                dispatch(saveData('results', disponibilities))               
+                dispatch(saveData('results', disponibilities));
+                dispatch(saveData('disponibilityListLoading',false));               
             })
             .catch((error) => {
-             
+                dispatch(saveData('disponibilityListLoading',false));
+                dispatch(saveData('error',error));
             });
             
         }
@@ -469,27 +471,71 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
                         </Grid>
                         
                         {
-                            level  >= 0 ? <Grid item xs={12}>
-                            <BasicFormControl  label="Quel est la profession ?" loading={!professionList || professionList.loading}  Input={SelectWithOption} props={{  options: (professionList && professionList.data || []).flatMap(profession.toListItem), value: data["profession"], ...register('profession',{ required: true }), placeholder: 'Profession' }} />
-                        </Grid>: []
+                            level  >= 0 ? <>
+                        {
+                            (level  >= 0 && !(professionList && professionList.loading) && (professionList && professionList.data.length === 0)) ? 
+                                
+                                <p className={classes.alert}><Alert severity="error">Pas de profession trouver</Alert> </p>
+                            : <Grid item xs={12}>
+                                
+                                <BasicFormControl  label="Quel est la profession ?" loading={!professionList || professionList.loading}  Input={SelectWithOption} props={{  options: (professionList && professionList.data || []).flatMap(profession.toListItem), value: data["profession"], ...register('profession',{ required: true }), placeholder: 'Profession' }} />
+                        </Grid>
+                        }
+                                                    
+                    
+                    </>: []
                         }
                         {
                             level  >= 1 || motifListLoading ?
-                            <Grid item xs={12}>
-                                <BasicFormControl label="Quel est le motif de la consultation ?" loading={motifListLoading}  Input={SelectWithOption} props={{ value: data["motif"], options: (motifList || []).flatMap(motif.toListItem), ...register("motif"), placeholder: 'Motif' }} />
-                            </Grid>
+                            <>
+                                {
+                                    (level  >= 1 && !motifListLoading && motifList.length === 0) ? 
+                                        
+                                        <p className={classes.alert}><Alert severity="error">Pas de motif trouver</Alert> </p>
+                                    : <Grid item xs={12}>
+                                        
+                                    <BasicFormControl label="Quel est le motif de la consultation ?" loading={motifListLoading}  Input={SelectWithOption} props={{ value: data["motif"], options: (motifList || []).flatMap(motif.toListItem), ...register("motif"), placeholder: 'Motif' }} />
+                                </Grid>
+                                }
+                                                            
+                            
+                            </>
+
                             :[]
                         }
                         {
-                            level  >= 2 || (lieuList && lieuList.loading) ? <Grid item xs={12}>
-                                <BasicFormControl label="Quel est le lieu de rendez vous ?"  Input={SelectWithOption} loading={!lieuList || lieuList.loading} props={{  value: data["lieu"], options: (lieuList && lieuList.data || []).flatMap(lieu.toListItem), ...register("lieu"), placeholder: 'Lieu du rendez vous' }} />
-                            </Grid>:[]
+                            level  >= 2 || (lieuList && lieuList.loading) ? 
+                            
+                            <>
+                            {
+                                (level  >= 2 && !(lieuList && lieuList.loading) && (lieuList && lieuList.data.length === 0)) ? 
+                                    
+                                    <p className={classes.alert}><Alert severity="error">Pas de profession trouver</Alert> </p>
+                                : <Grid item xs={12}>
+                                    
+                                    <BasicFormControl label="Quel est le lieu de rendez vous ?"  Input={SelectWithOption} loading={!lieuList || lieuList.loading} props={{  value: data["lieu"], options: (lieuList && lieuList.data || []).flatMap(lieu.toListItem), ...register("lieu"), placeholder: 'Lieu du rendez vous' }} />
+                            </Grid>
+                            }
+                                                        
+                        
+                        </>:[]
                         }
                         {
                             level  >= 3 ?
-                            <Grid item xs={12}>
-                                <BasicFormControl label="Avec quel praticien ?" Input={SelectWithOption} loading={praticienListLoading} props={{ value: data["praticien"], options: (praticienList || []).flatMap(praticien.toListItem), ...register("praticien"), placeholder: 'Praticien' }} />
+                            <>
+                            {
+                                (level  >= 2 && !(praticienListLoading) && ( praticienList.length === 0)) ? 
+                                    
+                                    <p className={classes.alert}><Alert severity="error">Pas de praticiens trouver</Alert> </p>
+                                : <Grid item xs={12}>
+                                    
+                                    <BasicFormControl label="Avec quel praticien ?" Input={SelectWithOption} loading={praticienListLoading} props={{ value: data["praticien"], options: (praticienList || []).flatMap(praticien.toListItem), ...register("praticien"), placeholder: 'Praticien' }} />
                             </Grid>
+                            }
+                                                        
+                        
+                        </>
+
                             : []
                         }
 
@@ -525,35 +571,45 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
                     
                 </Grid>
                 {
-                            level  >= 4 ?<Grid item xs={6} style={{ padding: "5px", "borderRadius": "10px", backgroundColor: "#cfeffd" }}>
-                    
-                        <InfiniteScroll
-                        dataLength={results.length-1}
-                        next={fetchMoreData}           
-                        hasMore={false}
-                        loader={<CircularIndeterminate/>}
-                        >    
-                            <List sx={{ width: '100%', backgroundColor: "#cfeffd", borderRadius: "5px", maxHeight: "54vh", marginTop: "4vh" }}>    
+                            level  >= 4 || disponibilityListLoading ?
+                            <>
                                 {
-                                    results.flatMap((item, index)=><ListItem style={{ "cursor": "pointer" }} onClick={()=>{ setValue("disponibility", item) }} key={index}>
-                                    <ListItemAvatar>
-                                    <Avatar>
-                                        <ImageIcon />
-                                    </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText 
-                                        primary={<Typography  
-                                            sx={{ display: 'inline' }}
-                                            component="span" 
-                                            color={"#a7c0ec"}>
-                                                {item.displayedDate}
-                                                </Typography> } secondary={item.pname} />
-                                </ListItem>)
-                                }
+                                    disponibilityListLoading ? <Grid item xs={6} ><Skeleton variant="rounded" width={"100%"} height={"100%"} /></Grid> :     
+                                    
+                                    <Grid item xs={6} style={{ padding: "5px", "borderRadius": "10px", backgroundColor: "#cfeffd" }}>
+                                        {
+                                           results.length !== 0?                                          <InfiniteScroll
+                                           dataLength={results.length-1}
+                                           next={fetchMoreData}           
+                                           hasMore={false}
+                                           loader={<CircularIndeterminate/>}
+                                           >    
+                                               <List sx={{ width: '100%', backgroundColor: "#cfeffd", borderRadius: "5px", maxHeight: "54vh", marginTop: "4vh" }}>    
+                                                   {
+                                                       results.flatMap((item, index)=><ListItem style={{ "cursor": "pointer" }} onClick={()=>{ setValue("disponibility", item) }} key={index}>
+                                                       <ListItemAvatar>
+                                                       <Avatar>
+                                                           <ImageIcon />
+                                                       </Avatar>
+                                                       </ListItemAvatar>
+                                                       <ListItemText 
+                                                           primary={<Typography  
+                                                               sx={{ display: 'inline' }}
+                                                               component="span" 
+                                                               color={"#a7c0ec"}>
+                                                                   {item.displayedDate}
+                                                                   </Typography> } secondary={item.pname} />
+                                                   </ListItem>)
+                                                   }
+                   
+                                               </List>
+                                           </InfiniteScroll> :<Alert severity="error">Pas de plages trouver</Alert>
+                                        }          
 
-                            </List>
-                        </InfiniteScroll>
-                </Grid>:[]
+                                 </Grid>
+                                }
+                            </>
+                       :[]
                     }    
             </Grid>
        </form>    

@@ -17,6 +17,11 @@ const styles = makeStyles({
     stepper: {
         width: '100%',
         marginTop: '15px'
+    },
+    alert: {
+        paddingLeft: "8px",
+        paddingTop: "8px",
+        width: "100%"
     }
 })
 export default styles;
