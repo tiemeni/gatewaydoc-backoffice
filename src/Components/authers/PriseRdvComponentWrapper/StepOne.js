@@ -193,7 +193,7 @@ const PERIODES = [
 function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
     
     const data = useSelector((state)=>state.Prdv.steps[0]);
-    const { results, praticienList, motifList  } = useSelector((state)=>state.Prdv);
+    const { results, praticienList, praticienListLoading, motifList, motifListLoading  } = useSelector((state)=>state.Prdv);
     const [phone, setPhone] = React.useState('');
   
 
@@ -258,28 +258,37 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
             
 //            setValues(v);
             if(values['lieu']  && name == "lieu"){
-                const response = await axios({
-                    method: "GET",
-                    url: BASE_URL + "/users/",
-                    params: {
-                        isPraticien: true,
-                        idCentre: app.idCentre,
-                        idSpeciality: values['profession'],
-                        idLieu: values['lieu']
-                    },
-                    headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json",
-                    },
-                });
-                let praticiens = response.data.data;                                                                                   
- //               setPraticienList(praticiens);
-                  
-                dispatch(saveData('praticienList',praticiens))
+                try{
+                    dispatch(saveData('praticienListLoading',true));
+                    const response = await axios({
+                        method: "GET",
+                        url: BASE_URL + "/users/",
+                        params: {
+                            isPraticien: true,
+                            idCentre: app.idCentre,
+                            idSpeciality: values['profession'],
+                            idLieu: values['lieu']
+                        },
+                        headers: {
+                            Accept: "application/json",
+                            "Content-Type": "application/json",
+                        },
+                    });
+                    let praticiens = response.data.data;                                                                                   
+     //               setPraticienList(praticiens);
+                      
+                    dispatch(saveData('praticienList',praticiens));
+                    dispatch(saveData('praticienListLoading',false));
+                }catch(e){
+                    dispatch(saveData('praticienListLoading',false));
+                    dispatch(saveData('error',e));
+                }
+
                   
             }
             if(values['profession'] && name === "profession" ){
                 try{
+                    dispatch(saveData('motifListLoading',true));
                     const response = await  axios({
                         method: "GET",
                         url: BASE_URL + `/motif/profession/${values['profession']}`,
@@ -293,8 +302,11 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
                     });
                     let motifs = response.data.data;
                     dispatch(saveData('motifList',motifs));
+                    dispatch(saveData('motifListLoading',false));
+                    
                 }catch(e){
-
+                    dispatch(saveData('error',e));
+                    dispatch(saveData('motifListLoading',false));
                 }
 
                 
@@ -309,9 +321,9 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
                 
                 collect['idp'] = values["praticien"];
                     
-                
-                const p = ([ ...(praticienList||[])]).filter((praticien)=>praticien._id === data["praticien"])[0];
-                //v["timeSlot"] = p.timeSlot;
+                console.log(praticienList)
+                const p = (praticienList).filter((praticien)=>praticien._id === values["praticien"])[0];
+                v["timeSlot"] = p.timeSlot;
                 //v["timeSlot"] = p.timeSlot;    
                     
                
@@ -457,25 +469,25 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
                         
                         {
                             level  >= 0 ? <Grid item xs={12}>
-                            <BasicFormControl  label="Quel est la profession ?"  Input={SelectWithOption} props={{  options: (professionList && professionList.data || []).flatMap(profession.toListItem), value: data["profession"], ...register('profession',{ required: true }), placeholder: 'Profession' }} />
+                            <BasicFormControl  label="Quel est la profession ?" loading={!professionList || professionList.loading}  Input={SelectWithOption} props={{  options: (professionList && professionList.data || []).flatMap(profession.toListItem), value: data["profession"], ...register('profession',{ required: true }), placeholder: 'Profession' }} />
                         </Grid>: []
                         }
                         {
-                            level  >= 1 ?
+                            level  >= 1 || motifListLoading ?
                             <Grid item xs={12}>
-                                <BasicFormControl label="Quel est le motif de la consultation ?"  Input={SelectWithOption} props={{ value: data["motif"], options: (motifList || []).flatMap(motif.toListItem), ...register("motif"), placeholder: 'Motif' }} />
+                                <BasicFormControl label="Quel est le motif de la consultation ?" loading={motifListLoading}  Input={SelectWithOption} props={{ value: data["motif"], options: (motifList || []).flatMap(motif.toListItem), ...register("motif"), placeholder: 'Motif' }} />
                             </Grid>
                             :[]
                         }
                         {
-                            level  >= 2 ? <Grid item xs={12}>
-                                <BasicFormControl label="Quel est le lieu de rendez vous ?"  Input={SelectWithOption} props={{  value: data["lieu"], options: (lieuList && lieuList.data || []).flatMap(lieu.toListItem), ...register("lieu"), placeholder: 'Lieu du rendez vous' }} />
+                            level  >= 2 || (lieuList && lieuList.loading) ? <Grid item xs={12}>
+                                <BasicFormControl label="Quel est le lieu de rendez vous ?"  Input={SelectWithOption} loading={!lieuList || lieuList.loading} props={{  value: data["lieu"], options: (lieuList && lieuList.data || []).flatMap(lieu.toListItem), ...register("lieu"), placeholder: 'Lieu du rendez vous' }} />
                             </Grid>:[]
                         }
                         {
                             level  >= 3 ?
                             <Grid item xs={12}>
-                                <BasicFormControl label="Avec quel praticien ?" Input={SelectWithOption} props={{ value: data["praticien"], options: (praticienList || []).flatMap(praticien.toListItem), ...register("praticien"), placeholder: 'Praticien' }} />
+                                <BasicFormControl label="Avec quel praticien ?" Input={SelectWithOption} loading={praticienListLoading} props={{ value: data["praticien"], options: (praticienList || []).flatMap(praticien.toListItem), ...register("praticien"), placeholder: 'Praticien' }} />
                             </Grid>
                             : []
                         }
