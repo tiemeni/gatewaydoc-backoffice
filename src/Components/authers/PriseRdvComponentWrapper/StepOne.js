@@ -6,7 +6,7 @@ import {DATE, NUMBER} from '../../../Constants/fieldTypes';
 import SelectWithOption from "./FormsComponents/SelectWithOption";
 import SearchIcon from '@mui/icons-material/Search';
 import { Button, Grid, MenuItem, Select, Typography } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import styles from "./styles";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -323,6 +323,7 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
                     
                 console.log(praticienList)
                 const p = (praticienList).filter((praticien)=>praticien._id === values["praticien"])[0];
+                if(p)
                 v["timeSlot"] = p.timeSlot;
                 //v["timeSlot"] = p.timeSlot;    
                     
@@ -354,7 +355,7 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
 
     return () => {}
     }, [data])
-
+    const slotRanges = useMemo(() => generateTimeRange(data.timeSlot), [data.timeSlot]);
     React.useEffect(()=>{
         if(filter["idp"]){
             axios({
@@ -504,7 +505,7 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
                                 <BasicFormControl  label='Jour'  Input={SelectWithOption} props={{ value: getValues("day"),...register("day"), options: JOURS, placeholder: 'Jour' }} />
                             </Grid>
                             <Grid item xs={4}>
-                                <BasicFormControl  label='Creneau horaire'  Input={SelectWithOption} props={{ value: getValues("slotRange"), ...register("slotRange"), options: CRENEAUX, placeholder: 'Slot Range' }} />
+                                <BasicFormControl  label='Creneau horaire'  Input={SelectWithOption} props={{ value: getValues("slotRange"), ...register("slotRange"), options: slotRanges, placeholder: 'Slot Range' }} />
                             </Grid>    
                             <Grid item xs={4}>
                                 <BasicFormControl label='Periode'  Input={StyledInput} props={{ value: getValues('periode'), min: 0, type: NUMBER, ...register("periode"), placeholder: 'Periode' }} />
