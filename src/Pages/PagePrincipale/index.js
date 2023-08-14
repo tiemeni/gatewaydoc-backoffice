@@ -22,7 +22,8 @@ import { savePraticiensPerJob } from "../../REDUX/praticiens/actions";
 
 const FackContainer = () => {
     const dispatch = useDispatch()
-    const showRDV = useSelector(state => state.Common.showPRDV)
+    const showRDV = useSelector(state => state.Common.showPRDV);
+    const event = useSelector(state => state.Common.event)
     const showFRDV = useSelector(state => state.Common.showPFRDV);
     const [events, setEvents] = useState(null)
 
@@ -97,7 +98,9 @@ const FackContainer = () => {
                     />}
                 {showFRDV &&
                     <ModalComponent
-                        title={"Fiche de Rendez-vous de M. Attaiech131 Pat1231, ne(e) le 00/00/0000, 13 ans, IPP:"}
+                        title={`Fiche de Rendez-vous de ${event?._def?.extendedProps?.civility
+                        } ${event?._def?.extendedProps?.patient?.name} Ne le ${event?._def?.extendedProps?.patient?.birthdate
+                        }`}
                         contentComponent={<FichePriseRdvComponent />}
                         onClose={() => dispatch(showPFRDV(false))}
                     />}

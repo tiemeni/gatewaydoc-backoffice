@@ -34,10 +34,10 @@ function DisplayForm( { next = ()=>{} }){
     const classes = styles();
     const items = [{}];
     const object = {
-        medecin: "OPTHA2 Pierre (Ophtalmologiste2)",
-        patient: 'Fezeu Ghomsi Eugene Clotaire',
+        medecin: event?._def?.extendedProps?.name,
+        patient: event?._def?.extendedProps?.patient?.name,
         centre_name: "Centre Ophtalmologique",
-        serveur_info: "Enregistrer par serveur. le lundi 24 juillet 2023"
+        serveur_info: `Enregistrer par ${event?._def?.extendedProps?.provenance}. le lundi 24 juillet 2023`
     }
     const { register, handleSubmit } = useForm();
     const handleChange = (newPhone) => {
