@@ -119,16 +119,16 @@ function DisplayForm( { next = ()=>{} }){
                             </Box>
                         </Grid>    
                         <Grid item xs={3}>
-                            <BasicFormControl  label='Date'  Input={CustomDateInput} props={{ name: 'date', value: dayjs(eventData.date), placeholder: 'date' }} />
+                            <BasicFormControl  label='Date'  Input={CustomDateInput} props={{ name: 'date', disabled: true, value: dayjs(eventData.date), placeholder: 'date' }} />
                         </Grid>
                         <Grid item xs={3}>
-                            <BasicFormControl  label='Heure Patient'  Input={CustomTimeInput} props={{ name: 'startTime', value: dayjs(`2022-04-17T${eventData.timeStart}`),views: ['hours','minutes']  , placeholder: 'Nom' }} />
+                            <BasicFormControl  label='Heure Patient'  Input={CustomTimeInput} props={{ name: 'startTime', value: dayjs(`2022-04-17T${eventData.timeStart}`),views: ['hours','minutes'], disabled: true, placeholder: 'Nom' }} />
                         </Grid>
                         <Grid item xs={3}>
-                            <BasicFormControl  label='Heure Reelle'  Input={CustomTimeInput} props={{ name: 'endTime', value: dayjs(`2022-04-17T${eventData.timeStart}`), views: ['hours','minutes'] , placeholder: 'Nom' }} />
+                            <BasicFormControl  label='Heure Reelle'  Input={CustomTimeInput} props={{ name: 'endTime', value: dayjs(`2022-04-17T${eventData.timeStart}`), disabled: true, views: ['hours','minutes'], disable: true , placeholder: 'Nom' }} />
                         </Grid>
                         <Grid item xs={3}>
-                            <BasicFormControl  label='Duree (en min.) '  Input={StyledInput} props={{ name: 'duration', value: eventData.duration , placeholder: 'Nom', type: NUMBER }} />
+                            <BasicFormControl  label='Duree (en min.) '  Input={StyledInput} props={{ name: 'duration', value: eventData.duration, disabled: true , placeholder: 'Nom', type: NUMBER }} />
                         </Grid>
                         <Grid item xs={12}>
                             <Divider orientation="horizontal"/>
@@ -150,17 +150,21 @@ function DisplayForm( { next = ()=>{} }){
                             <BasicFormControl  label='Telephone fixe '  Input={PhoneInput} props={{ name: 'fixe' , placeholder: '', label: '' }} />
                         </Grid>
                         <Grid item xs={6}>
-                            <BasicFormControl  label='Email '  Input={StyledInput} props={{ name: 'email', value: patient.email , placeholder: 'email' }} />
+                            <BasicFormControl  label='Email '  Input={StyledInput} props={{ name: 'email', value: patient.email, disabled: true , placeholder: 'email' }} />
                         </Grid>
-                        <Grid item xs={6}>
-                            <BasicFormControl  label='Date de naissance '  Input={CustomDateInput} props={{ name: 'birthdate', value: dayjs(patient.birthdate), type: DATE, placeholder: 'Birthdate' }} />
+                        <Grid item xs={4}>
+                            <BasicFormControl  label='Date de naissance '  Input={CustomDateInput} props={{ name: 'birthdate', value: dayjs(patient.birthdate), type: DATE, placeholder: 'Birthdate' }} /> 
+                        </Grid>
+                        <Grid item xs={2} >
+                            <Typography style={{ 'paddingTop': "40px"}}>{` ${dayjs().year() - dayjs(patient.birthdate).year()  } ans`}</Typography>
+                             
                         </Grid>
                         
                         <Grid item xs={12}>
                             <BasicFormControl  label='Medecin Traitant '  Input={StyledInput} props={{ name: 'name', value: eventData.name , placeholder: 'Nom' }} />
                         </Grid>
                         <Grid item xs={12}>
-                            <BasicFormControl  label='Commentaire '  Input={StyledInput} props={{ name: 'name', multiline: true , rows: 3, placeholder: 'Nom' }} />
+                            <BasicFormControl  label='Commentaire '  Input={StyledInput} props={{ name: 'commentaire', multiline: true , rows: 3, placeholder: 'Nom' }} />
                         </Grid>
 
                             <Grid item xs={3}>                
