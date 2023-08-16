@@ -322,8 +322,12 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
                 collect['idp'] = values["praticien"];
                     
                 const p = (praticienList).filter((praticien)=>praticien._id === values["praticien"])[0];
-                if(p)
-                v["timeSlot"] = p.timeSlot;
+                if(p){
+
+                    v["timeSlot"] = p.timeSlot;
+                    datas["timeSlot"] = datas.timeSlot;
+                }
+                
                 //v["timeSlot"] = p.timeSlot;    
                     
                

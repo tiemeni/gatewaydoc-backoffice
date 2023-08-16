@@ -41,7 +41,7 @@ const bySteps = {
 }
 export default function HorizontalLinearAlternativeLabelStepper() {
   const classes = styles();
-  const { steps, error } = useSelector((state)=>state.Prdv);
+  const { steps, error, praticienList } = useSelector((state)=>state.Prdv);
   const [step, setStep] = React.useState(0);
   const [data, setData] =  React.useState({});
   const [visibles, setVisibles] =  React.useState({
@@ -91,6 +91,7 @@ export default function HorizontalLinearAlternativeLabelStepper() {
       }  
         
       if(patientId && !error){
+          const p = (praticienList).filter((praticien)=>praticien._id === steps[0]?.praticien)[0];
           const rep = await  axios({
 
             method: "POST",
@@ -102,9 +103,9 @@ export default function HorizontalLinearAlternativeLabelStepper() {
                 "patient": patientId,
                 "motif": steps[0]?.motif,
                 "startTime": steps[0]?.disponibility?.start,
-                "endTime": dayjs(`2022-04-17T${steps[0]?.disponibility?.startTime}`).add(steps[0]?.timeSlot,'minute').format('HH:mm'),
+                "endTime": dayjs(`2022-04-17T${steps[0]?.disponibility?.start}`).add(p?.timeSlot,'m').format('HH:mm'),
                 "provenance": app.platform,
-                "duration": steps[0]?.timeSlot,
+                "duration": p?.timeSlot,
               // "dayOfWeek": 1,
                 "date": steps[0]?.disponibility?.date,
             
