@@ -13,19 +13,22 @@ import { Divider } from "@mui/material";
 
 function NestedCheckboxes({ data, boxChange }) {
   const dispatch = useDispatch();
+  
+  const defaultPracti = useSelector((state) => state.Praticiens.praticiens[0]?._id)
 
-  const [checkedItems, setCheckedItems] = useState([]);
+  // const [checkedItems, setCheckedItems] = useState( defaultPracti ?? []);
+  const [checkedItems, setCheckedItems] = useState(localStorage.getItem('defaultPraticien')? localStorage.getItem('defaultPraticien'):[]);
+
   const idPracti = useSelector((state) => state.Calendar.eventsPractionerId)
 
 
   useEffect(() => {
-
+    console.log(checkedItems)
     dispatch(saveEventsPractionner(checkedItems))
+    if (typeof defaultPracti !== "undefined"){
+
     async function fetchData() {
-      // setIsLoading(true);
-      // const response = await getEventsByPractionner(idPracti);
-      const finalId=  Object.values(checkedItems).join(",");
-      console.log("voici final id"+checkedItems)
+
       const response = await getEventsByPractionner(checkedItems);
 
       if (response.success !== true) {
@@ -34,7 +37,23 @@ function NestedCheckboxes({ data, boxChange }) {
       // setIsLoading(false);
       dispatch(saveEvents(response.data))
     }
-    fetchData()
+
+      fetchData()
+
+    if (checkedItems.length === 0 &&  data ) {
+      // Si aucun élément n'est cochée et que 'data' est défini
+      const firstParentName = Object.keys(data)[0]; // Récupérer le nom du premier parent
+
+      if (data[firstParentName] && data[firstParentName].length > 0) {
+        const firstChildId = data[firstParentName][0]?._id;
+        setCheckedItems(firstChildId.toString());
+
+        localStorage.setItem('defaultPraticien', firstChildId.toString())
+
+      }
+    }
+  }
+
 
 
   }, [checkedItems]);
@@ -52,7 +71,10 @@ function NestedCheckboxes({ data, boxChange }) {
             }
         }
 
-    setCheckedItems(newCheckedItems);
+    setCheckedItems(newCheckedItems.toString());
+
+    localStorage.setItem('defaultPraticien', newCheckedItems.toString())
+
 //   dispatch(saveEventsPractionner(checkedItems))
 
 
@@ -60,25 +82,21 @@ function NestedCheckboxes({ data, boxChange }) {
 
   const handleChildCheckboxChange = (event) => {
 
-    // if( idPracti ){
+ 
         async function fetchData() {
-            // setIsLoading(true);
-            // const response = await getEventsByPractionner(idPracti);
-            const finalId=  Object.values(checkedItems).join(",");
-            console.log("voici final id"+checkedItems)
+
+            // const finalId=  Object.values(checkedItems).join(",");
+            // console.log("voici final id"+checkedItems)
             const response = await getEventsByPractionner(checkedItems);
       
             if (response.success !== true) {
               return;
             }
-            // setIsLoading(false);
             dispatch(saveEvents(response.data))
           }
           fetchData()
-    // }
 
-
-    const { name, checked } = event.target;
+    const { name, checked } = event.target; 
     let newCheckedItems = [...checkedItems];
 
     if (checked) {
@@ -90,9 +108,7 @@ function NestedCheckboxes({ data, boxChange }) {
       const allChildrenChecked = data[parentName].every((child) =>
         newCheckedItems.includes(child._id)
       );
-    //   if (allChildrenChecked) {
-    //     newCheckedItems.push(parentName);
-    //   }
+
     } else {
       newCheckedItems = newCheckedItems.filter((item) => item !== name);
 
@@ -102,33 +118,28 @@ function NestedCheckboxes({ data, boxChange }) {
       newCheckedItems = newCheckedItems.filter((item) => item !== parentName);
     }
 
+          setCheckedItems(newCheckedItems);
 
-        // if(checkedItems.length>=1 ){
-      setCheckedItems(newCheckedItems);
-
-    // }
-//   dispatch(saveEventsPractionner(checkedItems))
-
-    // saveEventsPractionner(checkedItems)
+          localStorage.setItem('defaultPraticien', newCheckedItems.toString())
 
   };
 
   const renderItems = () => {
     return Object.entries(data).map(([parentName, items]) => (
-      <Box key={parentName} sx={{ ml: 2 }}>
+      <Box key={parentName} sx={{ ml: 2 }} >
         <FormControlLabel
           control={
             <Checkbox
               checked={
                 items.every((item) => checkedItems.includes(item._id))
               }
-              defaultChecked
               onChange={(e) => handleParentCheckboxChange(e, parentName)}
               name={parentName}
               sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}
             />
           }
           label={parentName}
+          onClick={()=> alert('hello')}
           sx={{ fontSize: "14px" }} // ajout de la propriété sx pour la taille de police
         />
         <Divider />
@@ -152,7 +163,8 @@ function NestedCheckboxes({ data, boxChange }) {
     ));
   };
 
-  if(data.length!==0){
+  if(data.length!==0 && typeof defaultPracti !== "undefined"){
+
     return (
         <FormGroup>
           {renderItems()}

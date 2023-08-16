@@ -10,4 +10,12 @@
   }
   .css-1w78ofh-MuiFormControlLabel-root .MuiFormControlLabel-label{
     font-size: 14px;
-  }
+}
+.btn-toggle{
+  opacity: 0.5;
+  transition: all ease-in-out 0.3s;
+}
+.btn-toggle:hover{
+  opacity: 1;
+  transition: all ease-in-out 0.3s;
+}

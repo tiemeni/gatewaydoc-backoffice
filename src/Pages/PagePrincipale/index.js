@@ -18,6 +18,8 @@ import { getPraticiensByJob } from "../../services/praticiens";
 import { saveEventsPractionner } from "../../REDUX/calendar/actions";
 import { savePraticiens } from "../../REDUX/praticiens/actions";
 import { savePraticiensPerJob } from "../../REDUX/praticiens/actions";
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 
 const FackContainer = () => {
@@ -27,7 +29,10 @@ const FackContainer = () => {
 
     const praticiensList = useSelector((state) => state.Praticiens.praticienJob)
     const idPracti = useSelector((state) => state.Calendar.eventsPractionerId)
+    const defaultPracti = useSelector((state) => state.Praticiens.praticiens[0]?._id)
     const FilterEvent = useSelector((state) => state.Calendar.events) 
+
+    const [isFirstChildVisible, setIsFirstChildVisible] = useState(true);
 
     const CustomEvents =  FilterEvent.map((ev)=>{
         ev.start= ev.date.split("T")[0]+"T"+ev.timeStart
@@ -86,25 +91,11 @@ const FackContainer = () => {
     }
 
     return (
-        <Box overflowY={"hidden"}>
-            <Box style={styles.container}>
-                {/* prise de rdv */}
-                {/* {showRDV &&
-                    <ModalComponent
-                        title={"Prise de Rendez-vous"}
-                        contentComponent={<PriseRdvComponent />}
-                        onClose={() => dispatch(showPRDV(false))}
-                    />} */}
-                {/* ******************* */}
-                {/* prise de rdv */}
-                {/* {showPRDV &&
-                    <ModalComponent
-                        title={"Fiche de Rendez-vous de M. Attaiech131 Pat1231, ne(e) le 00/00/0000, 13 ans, IPP:"}
-                        contentComponent={<FichePriseRdvComponent />}
-                        onClose={() => dispatch(showPFRDV(false))}
-                    />} */}
-                {/* ******************* */}
-                <Box style={{ ...styles.aside, position: "fixed", paddingRight: 20 }} className='aside'>
+        <Box overflowY={"hidden"} >
+            <Box style={{...styles.container, display: 'flex', flexDirection: 'row'}} >
+  
+                {/* <Box style={{ ...styles.aside, position: "fixed", paddingRight: 20 }} className='aside'> */}
+                <Box style={{ ...styles.aside, position: "fixed", paddingRight: 20, display: isFirstChildVisible ? 'block' : 'none' }} className='aside'>
                     <Box padding={2} marginBottom={3} marginTop={10} >
                         <TextField
                             className='text-field-input'
@@ -131,14 +122,20 @@ const FackContainer = () => {
                     </Box>
                     <Box>
                         {
-                            <ListItem  boxChange={ handleCheckboxChange } data={praticiensList}/>
+                            <ListItem  boxChange={ handleCheckboxChange } data={praticiensList ?? []} defaultPracti={defaultPracti}/>
                         }
                     </Box>
                 </Box>
-                <Box style={{ ...styles.planning, marginLeft: "22%", height: 700, overflowY: "scroll", paddingRight: 5 }}>
+
+                <Box style={{ ...styles.planning, marginLeft: isFirstChildVisible ? "22%" : "auto", marginRight: isFirstChildVisible ? "auto" : "auto", height: 700, overflowY: "scroll", paddingRight: 5 }}>
                     <DemoApp filterEvents={CustomEvents}  eventChange={events}/>
                 </Box>
             </Box>
+            <button style={{ position: "absolute", top: '150px', width: '40px', height:'40px',
+             borderRadius: '200px', color: 'white', left: '15px', backgroundColor: '#04b7c9', boxShadow: '1px 3px 4px #858282', border: 'none' }} className="btn-toggle" onClick={() => setIsFirstChildVisible(!isFirstChildVisible)}>
+            { isFirstChildVisible? <KeyboardArrowLeftIcon/> : <KeyboardArrowRightIcon/>  }
+
+            </button>
         </Box>
     )
 }

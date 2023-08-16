@@ -66,8 +66,11 @@ const DemoApp = ({ filterEvents }) => {
         // ev.start= ev.date.split("T")[0]+"T"+ev.timeStart
         // ev.end= ev.date.split("T")[0]+"T"+ev.timeEnd
         ev.title= ev.motif
+        ev.id= ev._id
+
         return ev;
     })
+
 
 
 
@@ -86,29 +89,29 @@ const DemoApp = ({ filterEvents }) => {
                     <div style={{ fontSize: '16px', backgroundColor:"white", height: 'auto' }}>
                         <div>
                             <div>
-                                <span style={{ color: '#6e706f', fontWeight:"bold" }} >{event.extendedProps.civility}</span>
-                                <span style={{ color: '#6e706f', fontWeight:"bold" }} >{" "+event.extendedProps.patient.name}</span>
-                                <span style={{ color: '#6e706f', fontWeight:"bold" }} >{ " "+ event.extendedProps.patient.surname}</span>
+                                <span style={{ color: '#6e706f', fontWeight:"bold" }} >{event.extendedProps?.civility}</span>
+                                <span style={{ color: '#6e706f', fontWeight:"bold" }} >{" "+event.extendedProps?.patient?.name}</span>
+                                <span style={{ color: '#6e706f', fontWeight:"bold" }} >{ " "+ event.extendedProps?.patient?.surname}</span>
                             </div>
                             <div>
                                 <span style={{ color: '#6e706f', fontWeight:"bold" }}>Durée: </span>
-                                <span style={{ color: 'black' }}>{event.extendedProps.duration}</span>
+                                <span style={{ color: 'black' }}>{event.extendedProps?.duration}</span>
                             </div>
                             <div>
                                 <span style={{ color: '#6e706f', fontWeight:"bold" }}>Motif: </span>
-                                <span style={{ color: 'black' }}>{event.extendedProps.motif}</span>
+                                <span style={{ color: 'black' }}>{event.extendedProps?.motif}</span>
                             </div>
                             <div>
                                 <span style={{ color: '#6e706f', fontWeight:"bold" }}>Telephone: </span>
-                                <span style={{ color: 'black' }}>{event.extendedProps.patient.telephone}</span>
+                                <span style={{ color: 'black' }}>{event.extendedProps?.patient.telephone}</span>
                             </div>
                             <div>
                                 <span style={{ color: '#6e706f', fontWeight:"bold" }}>Praticien: </span>
-                                <span style={{ color: 'black' }}>{event.extendedProps.name}</span>
+                                <span style={{ color: 'black' }}>{event.extendedProps?.name}</span>
                             </div>
                             <div>
                                 <span style={{ color: '#6e706f', fontWeight:"bold" }}>Provenance: </span>
-                                <span style={{ color: 'black', fontWeight:"bold" }}>{event.extendedProps.provenance}</span>
+                                <span style={{ color: 'black', fontWeight:"bold" }}>{event.extendedProps?.provenance}</span>
                             </div>
                         </div>  
 
@@ -167,10 +170,10 @@ const DemoApp = ({ filterEvents }) => {
 
     React.useEffect(() => {
 
-        if(localStorage.getItem('idP')){
+        if(localStorage.getItem('defaultPraticien')){
             async function fetchData() {
                 // const response = await getEvents();
-                const response = await getEventsByPractionner(localStorage.getItem('idP'));
+                const response = await getEventsByPractionner(localStorage.getItem('defaultPraticien'));
                 
           
                 if (response.success !== true) {
@@ -229,6 +232,7 @@ const DemoApp = ({ filterEvents }) => {
                 permissions={["copy", "cut", "move", "delete", "print", "receipt", "abort", "justify", "discuss", "profiling", "urgence"]}
             />
             <Typography sx={styles.practitionerTile}>BERTRAND Guillaume</Typography>
+            { console.log(CustomEvents) }
             <FullCalendar
                 ref={calendarRef}
                 plugins={[dayGridPlugin, resourceTimeGridPlugin, interactionPlugin]}
@@ -251,6 +255,7 @@ const DemoApp = ({ filterEvents }) => {
                 height={"auto"}
                 customButtons={customButtons}
                 events={CustomEvents}
+                resources={CustomEvents}
 
                 // events={[
                 //     {
@@ -276,62 +281,6 @@ const DemoApp = ({ filterEvents }) => {
                 }}
             />
         </Box>
-    // )
-    //   <Box>
-    //     <EventContextMenu
-    //       left={mouseXY.x}
-    //       top={mouseXY.y}
-    //       calendarEvent={choosenEvent}
-    //       isVisible={showContextMenu}
-    //       onHideNeeded={hideContextenu}
-    //       permissions={["copy", "cut", "move", "delete", "print", "receipt", "abort", "justify", "discuss", "profiling", "urgence"]}
-    //     />
-    //     <Typography sx={styles.practitionerTile}>BERTRAND Guillaume</Typography>
-    //     <FullCalendar
-    //       ref={calendarRef}
-    //       plugins={[dayGridPlugin, resourceTimeGridPlugin, interactionPlugin]}
-    //       initialView="timeGridWeek"
-    //       weekends={true}
-    //       dayCount={true}
-    //       locale={frlocale}
-    //       initialDate={new Date()}
-    //       eventContent={renderEventContent}
-    //       slotMinTime={"08:00:00"}
-    //       slotMaxTime={"18:00:00"}
-    //       slotDuration={"00:05:00"}
-    //       slotLabelInterval={"00:30:00"}
-    //       nowIndicator={true}
-    //       datesAboveResources={true}
-    //       dayMaxEventRows={true}
-    //       allDaySlot={false}
-    //       weekNumbers={true}
-    //       stickyHeaderDates={true}
-    //       height={"auto"}
-    //       customButtons={customButtons}
-    //       events={[
-    //         {
-    //           id: 1,
-    //           title: "DONGMO Donald",
-    //           start: "2023-07-11T08:00:00",
-    //           end: "2023-07-11T08:10:00",
-    //           description: "Ceci est un événement important",
-    //           heure_debut: "08:00",
-    //           civ: "M.",
-    //         },
-    //       ]}
-    //       headerToolbar={{
-    //         left: "prev,next today miniCalendar",
-    //         center: "title",
-    //         right: "dayGridMonth,timeGridWeek,timeGridDay",
-    //       }}
-    //       slotLabelFormat={{
-    //         hour: "numeric",
-    //         minute: "2-digit",
-    //         omitZeroMinute: false,
-    //         meridiem: "short",
-    //       }}
-    //     />
-    //   </Box>
     );
 }
 
