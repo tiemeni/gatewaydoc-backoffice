@@ -22,6 +22,7 @@ import SpecialitiesRouter from "./SpecialitiesRouter";
 import NewLieux from "../../Pages/PageGestionLieux/NewLieux";
 import AddMotif from "../../Pages/PageGestionMotifs/addMotif";
 import TestPage from "../../Pages/TestPage";
+import PageGestionPaiement from "../../Pages/PageGestionPaiement";
 
 const ContentRouter = () => {
     return (
@@ -60,6 +61,7 @@ const ContentRouter = () => {
                 <Route path="/praticiens/add" element={<AddPraticien />} />
                 <Route path="/praticiens/add/:praticienId" element={<AddPraticien />} />
                 <Route path="/advancedOptions" element={<PageGestionOptionsAvancees />} />
+                <Route path="/recappaiement" element={<PageGestionPaiement />} />
                 <Route path="/test" element={<TestPage />} />
             </Routes>
         </>

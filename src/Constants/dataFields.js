@@ -88,4 +88,35 @@ export const DATA_TABLE_PRATICIEN_COLONNE = [
     },
 ];
 
+export const DATA_TABLE_PAIEMENT_COLONNE = [
+    {
+        label: "Date du RDV",
+        name: "date_rdv",
+    },
+    {
+        label: "Praticien",
+        name: "praticien",
+    },
+    {
+        label: "Patient",
+        name: "patient",
+    },
+    {
+        label: "Motif",
+        name: "motif",
+    },
+    {
+        label: "Lieu",
+        name: "lieu",
+    },
+    {
+        label: "Mode de règlement",
+        name: "mode_reglement",
+    },
+    {
+        label: "Montant",
+        name: "montant",
+    },
+];
+
 export const DATA_TABLE_GROUPE_COLONNE = ["Nom du groupe", "Description", "Actions"]

@@ -146,6 +146,9 @@ export default function MenuListComposition({ IconName, styles }) {
                                             <Link to={{ pathname: 'praticiens' }}>
                                                 <MenuItem onClick={handleClose} style={style.menuItem}>Fiches praticiens</MenuItem>
                                             </Link>
+                                            <Link to={{ pathname: 'recappaiement' }}>
+                                                <MenuItem onClick={handleClose} style={style.menuItem}>Paiement</MenuItem>
+                                            </Link>
                                             {/* <Link to={{ pathname: 'advancedOptions' }}>
                                                 <MenuItem onClick={handleClose} style={style.menuItem}>Options avancées</MenuItem>
                                             </Link> */}
