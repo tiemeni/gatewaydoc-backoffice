@@ -13,6 +13,7 @@ import { createPatient } from '../../../services/patients';
 import { showPRDV } from '../../../REDUX/commons/actions';
 import { saveError, saveStep } from '../../../REDUX/prgv/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import dayjs from 'dayjs';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const stepsLabels = [
@@ -100,10 +101,10 @@ export default function HorizontalLinearAlternativeLabelStepper() {
                 "practitioner": steps[0]?.praticien,
                 "patient": patientId,
                 "motif": steps[0]?.motif,
-                "startTime": "08:00",
-                "endTime": "10:00",
+                "startTime": steps[0]?.disponibility?.start,
+                "endTime": dayjs(`2022-04-17T${steps[0]?.disponibility?.startTime}`).add(steps[0]?.timeSlot,'minute').format('HH:mm'),
                 "provenance": app.platform,
-                "duration": 20,
+                "duration": steps[0]?.timeSlot,
               // "dayOfWeek": 1,
                 "date": steps[0]?.disponibility?.date,
             
