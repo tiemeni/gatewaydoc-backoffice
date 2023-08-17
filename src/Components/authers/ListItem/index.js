@@ -8,7 +8,7 @@ import { saveEventsPractionner, saveEvents } from "../../../REDUX/calendar/actio
 import { getEventsByPractionner } from "../../../services/calendars";
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { Colors } from "../../../Constants/colors";
-import { Divider } from "@mui/material";
+import { Divider, Typography } from "@mui/material";
 
 
 function NestedCheckboxes({ data, boxChange }) {
@@ -97,11 +97,11 @@ function NestedCheckboxes({ data, boxChange }) {
                 }
                 defaultChecked
                 onChange={(e) => handleParentCheckboxChange(e, parentName)}
-                name={parentName}
+                name={<Typography variant="h5" noWrap title={`${parentName}`}>{`${parentName}`}</Typography>}
                 sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}
               />
             }
-            label={parentName}
+            label={<Typography variant="h5" noWrap title={`${parentName}`}>{`${parentName}`}</Typography>}
             sx={{}} // ajout de la propriété sx pour la taille de police
           />
           <AddOutlinedIcon style={{ height: "20px", width: "20px", mb: 2, color: Colors.primary, cursor: "pointer" }} />
@@ -124,7 +124,7 @@ function NestedCheckboxes({ data, boxChange }) {
                     sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}
                   />
                 }
-                label={`${child.name} ${child.surname}`}
+                label={<Typography noWrap title={`${child.name} ${child.surname}`}>{`${child.name} ${child.surname}`}</Typography>}
                 sx={{ fontSize: "14px" }} // ajout de la propriété sx pour la taille de police
               />
               <AddOutlinedIcon style={{ height: "17px", width: "17px", cursor: "pointer", color: Colors.primary }} />
