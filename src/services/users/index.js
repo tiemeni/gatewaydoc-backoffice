@@ -1,11 +1,9 @@
+import app from "../../Configs/app"
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-const idc = localStorage.getItem("idc");
 
 export const getUsers = async () => {
   try {
-    const res = await fetch(BASE_URL + "/users/?idCentre=" + idc, {
-      credentials: "include"
-    });
+    const res = await fetch(BASE_URL + `/users/?idCentre=${app.idCentre}`);
     const data = await res.json()
     return data;
   } catch (err) {
@@ -13,17 +11,17 @@ export const getUsers = async () => {
   }
 };
 
-export const signUserIn = async (payload, idc) => {
+export const signUserIn = async (payload) => {
   try {
-    const res = await fetch(BASE_URL + "/users/signin/?idCentre=" + idc, {
+    const res = await fetch(BASE_URL + "/users/signin?idCentre=" + payload.idc, {
       method: "POST",
-      body: JSON.stringify(payload),
+      body: JSON.stringify({ email: payload.email, password: payload.password }),
       headers: {
         "Content-Type": "application/json"
       }
     });
     const data = await res.json()
-    return data;
+    return { status: true, data: data };
   } catch (err) {
     console.error(err);
     return { status: false, error: err };
@@ -38,7 +36,7 @@ export const createUser = async (payload) => {
   // }
 
   try {
-    const res = await fetch(BASE_URL + "/users/register/?idCentre=" + idc, {
+    const res = await fetch(BASE_URL + "/users/register", {
       method: 'POST',
       body: JSON.stringify(payload),
       headers: {
@@ -73,11 +71,11 @@ export const isValidToken = async (token) => {
 }
 export const updateUser = async (payload, id) => {
   try {
-    const res = await fetch(BASE_URL + "/users/" + id + "/?idCentre=" + idc, {
+    const res = await fetch(BASE_URL + "/users/" + id, {
       method: 'PATCH',
       body: JSON.stringify(payload),
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       }
     })
     const data = await res.json();

@@ -1,22 +1,32 @@
-import { SAVE_MOTIFS } from "./types"
+import { FETCH_MOTIFS_REQUEST, FETCH_MOTIFS_SUCCESS, FETCH_MOTIFS_FAILURE } from "./types"
 
 const initialState = {
-    motifs: [],
+    data: null,
     loading: false,
     error: null
-};
+  };
 
 const MotifsReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SAVE_MOTIFS:
+        case FETCH_MOTIFS_REQUEST:
             return {
                 ...state,
-                motifs: action.payload,
+                loading: true,
+            }
+        case  FETCH_MOTIFS_SUCCESS:
+            return {
+                ...state,
+                data: action.payload,
                 loading: false,
                 error: null
             }
-        default:
-            return state;
+        case FETCH_MOTIFS_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: true
+            }
+        default: return state;
     }
 }
 

@@ -14,14 +14,15 @@ import PageGestionTypePatients from "../../Pages/PageGestionTypePatients";
 import PageGestionGroupesDroits from "../../Pages/PageGestionGroupesDroits";
 import AddPraticien from "../../Pages/Praticien/AddPraticien";
 import PageGestionPraticiens from "../../Pages/Praticien/PageGestionPraticiens";
+import PageDetailPraticien from "../../Pages/Praticien/PageDetailPraticien";
 import PageGestionOptionsAvancees from "../../Pages/PageGestionOptionsAvancees";
 import FormGenerator from "../../Components/authers/FormGenerator";
 import { practitionerFields } from "../../Constants/fields";
 import PatientRouter from "./PatientRouter";
 import SpecialitiesRouter from "./SpecialitiesRouter";
 import NewLieux from "../../Pages/PageGestionLieux/NewLieux";
-import AddMotif from "../../Pages/PageGestionMotifs/addMotif";
-import TestPage from "../../Pages/TestPage";
+import AddMotif from "../../Pages/PageGestionMotifs/AddMotifs";
+import AddGroupeDroit from "../../Pages/PageGestionGroupesDroits/AddGroupeDroit"
 import PageGestionPaiement from "../../Pages/PageGestionPaiement";
 
 const ContentRouter = () => {
@@ -40,6 +41,8 @@ const ContentRouter = () => {
                 <Route path="/users" element={<Users />} />
                 <Route path="/users/add" element={<NewUser />} />
                 <Route path="/users/add/:userId" element={<NewUser />} />
+                
+                <Route path="/lieux" element={<PageGestionLieux />} />
                 <Route path="/lieux/add" element={<NewLieux />} />
                 <Route path="/lieux/add/:lieuId" element={<NewLieux />} />
 
@@ -49,20 +52,25 @@ const ContentRouter = () => {
                 <Route path="/patients/add/:userId" element={<NewPatient />} />
                 
                 <Route path="/structure" element={<PageGestionStructure />} />
-                <Route path="/lieux" element={<PageGestionLieux />} />
+                
                 <Route path="/activites" element={<PageGestionActivites />} />
                 <Route path="/motifs" element={<GestionMotifs />} />
                 <Route path="/motifs/add" element={<AddMotif />} />
                 <Route path="/motifs/add/:motifId" element={<AddMotif />} />
+
                 <Route path="/specialites/*" element={<SpecialitiesRouter />} />
                 <Route path="/typepatients" element={<PageGestionTypePatients />} />
+                
                 <Route path="/groupe_droits" element={<PageGestionGroupesDroits />} />
+                <Route path="/groupe_droits/add" element={<AddGroupeDroit />} />
+                <Route path="/groupe_droits/add/:groupeId" element={<AddGroupeDroit />} />
+
                 <Route path="/praticiens" element={<PageGestionPraticiens />} />
                 <Route path="/praticiens/add" element={<AddPraticien />} />
                 <Route path="/praticiens/add/:praticienId" element={<AddPraticien />} />
+                <Route path="/praticiens/:praticienId" element={<PageDetailPraticien />} />
                 <Route path="/advancedOptions" element={<PageGestionOptionsAvancees />} />
                 <Route path="/recappaiement" element={<PageGestionPaiement />} />
-                <Route path="/test" element={<TestPage />} />
             </Routes>
         </>
     )

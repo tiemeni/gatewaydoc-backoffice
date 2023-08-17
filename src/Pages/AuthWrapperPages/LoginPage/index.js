@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import { Box, TextField, Button } from '@mui/material'
 import PersonIcon from '@mui/icons-material/Person';
+import { styled } from '@mui/system';
 import gatewayDocLogo from '../../../gatewaydoc.png'
 import { Colors } from '../../../Constants/colors';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../../REDUX/users/actions';
-import { saveIdc } from '../../../REDUX/commons/actions';
 import { signUserIn } from '../../../services/users';
-import styles from './style'
 
 
 const LoginPage = ({ idc }) => {
@@ -28,31 +27,32 @@ const LoginPage = ({ idc }) => {
     const handleSubmit = async () => {
         setError('')
         setLoading(true)
-        const result = await signUserIn({ email: login, password: mdp }, idc)
-        if (result?.success) {
+        const result = await signUserIn({ email: login, password: mdp, idc })
+        if (result.data?.success) {
             setLoading(false)
-            dispatch(setUser({ ...result.data.user }))
-            // dispatch(saveIdc(idc))
-
-            localStorage.setItem("acces_bo_token", result.data.access_token)
-            localStorage.setItem("idc", idc)
+            dispatch(setUser({ ...result.data.data.user }))
+            localStorage.setItem("acces_bo_token", result.data.data.access_token)
             window.location = "/content"
         } else {
             setLoading(false)
-            setError(result?.message || "une erreur s'est produite, veillez verifier votre connexion")
+            console.log(result?.error)
+            setError(result.data?.message || "une erreur s'est produite, veillez verifier votre connexion")
         }
     }
 
     return (
         <div style={{ position: "relative" }}>
-            <Box style={styles.boxContainer}>
-                <img src={gatewayDocLogo} style={styles.images} alt='' />
+            <Box style={{ textAlign: "center", marginLeft: 'auto', marginRight: 'auto', width: '65vh', height: '100vh', paddingTop: "0px" }}>
+                <img src={gatewayDocLogo} style={{ marginLeft: 'auto', marginRight: 'auto', minWidth: "150px", height: 'auto', width: "10vw", marginTop: "50px" }} />
 
-                <p style={styles.intitule}>CONNECTEZ-VOUS A VOTRE COMPTE</p>
-                <div style={styles.iconBox}>
-                    <PersonIcon sx={styles.icon} />
+                <p style={{ fontSize: "14px", textAlign: "center", marginTop: "20px" }}>CONNECTEZ-VOUS A VOTRE COMPTE</p>
+                <div style={{
+                    backgroundColor: "gray", width: "100px", height: "100px", borderRadius: "200px",
+                    marginLeft: 'auto', marginRight: 'auto', marginTop: "20px"
+                }}>
+                    <PersonIcon sx={{ fontSize: 100, color: "white" }} />
                 </div>
-                <Box style={styles.inputBox}>
+                <Box style={{ display: "flex", flexDirection: 'column', justifyContent: 'center', marginTop: "20px", gap: "20px" }}>
                     <p style={{ color: 'red' }}>{error}</p>
                     <TextField
                         required
@@ -61,7 +61,7 @@ const LoginPage = ({ idc }) => {
                         value={login}
                         onChange={handleLogin}
                         defaultValue=""
-                        style={styles.inputField}
+                        style={{ width: "80%", marginLeft: 'auto', marginRight: 'auto' }}
                     />
                     <TextField
                         required
@@ -70,7 +70,7 @@ const LoginPage = ({ idc }) => {
                         value={mdp}
                         onChange={handleMdp}
                         defaultValue=""
-                        style={styles.inputField}
+                        style={{ width: "80%", marginLeft: 'auto', marginRight: 'auto' }}
                     />
                     <Button
                         onClick={handleSubmit}

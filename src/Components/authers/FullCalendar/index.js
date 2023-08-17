@@ -6,31 +6,32 @@ import resourceTimeGridPlugin from '@fullcalendar/resource-timegrid';
 import { connect, useDispatch, useSelector } from "react-redux";
 import interactionPlugin from '@fullcalendar/interaction';
 import frlocale from '@fullcalendar/core/locales/fr'
-import { Box, Typography } from '@mui/material';
+import { Box, Tooltip, tooltipClasses, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import styles from './style'
 import Pikaday from 'pikaday'
 import { getEvents } from '../../../services/calendars';
 import { saveEvents } from '../../../REDUX/calendar/actions';
-import { Tooltip, tooltipClasses } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import { getEventsByPractionner } from "../../../services/calendars";
 import { getPraticiens } from '../../../services/praticiens';
-import { savePraticiens } from '../../../REDUX/praticiens/actions';
 import LanguageIcon from '@mui/icons-material/Language';
 import ReplyIcon from '@mui/icons-material/Reply';
 import EventContextMenu from '../EventContextMenu';
+import { showPFRDV, showPRDV } from '../../../REDUX/commons/actions';
+import { getAllPraticiens } from '../../../services/praticiens';
+import { save } from '../../../REDUX/praticiens/actions';
+
 
 const LightTooltip = styled(({ className, ...props }) => (
-    <Tooltip {...props} classes={{ popper: className }} />
-  ))(({ theme }) => ({
-    [`& .${tooltipClasses.tooltip}`]: {
-      backgroundColor: theme.palette.common.white,
-      color: 'rgba(0, 0, 0, 0.87)',
-      boxShadow: theme.shadows[1],
-      fontSize: 11,
-    },
-  }));
-
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.white,
+    color: 'rgba(0, 0, 0, 0.87)',
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
+  },
+}));
 
 const DemoApp = ({ filterEvents }) => {
     const calendarRef = React.useRef(null);
@@ -39,11 +40,11 @@ const DemoApp = ({ filterEvents }) => {
    
     const praticiens = useSelector((state) => state.Praticiens.praticiens)
 
-    localStorage.setItem('idP', praticiens[0]?._id)
+    // localStorage.setItem('idP', praticiens[0]?._id)
 
-    const RessourcePraticiens = praticiens.map((item, index) => {
-        return { ...item, id: item._id, title: item.name };
-      });
+    // const RessourcePraticiens = praticiens.map((item, index) => {
+    //     return { ...item, id: item._id, title: item.name };
+    //   });
 
 
 
@@ -55,24 +56,12 @@ const DemoApp = ({ filterEvents }) => {
             return;
             }
 
-            dispatch(savePraticiens(response.data))
+            dispatch(save(response.data))
         }
         fetchData()
     }, [])
 
     const events = useSelector((state) => state.Calendar.events)
-
-    const CustomEvents =  filterEvents.map((ev)=>{
-        // ev.start= ev.date.split("T")[0]+"T"+ev.timeStart
-        // ev.end= ev.date.split("T")[0]+"T"+ev.timeEnd
-        ev.title= ev.motif
-        ev.id= ev._id
-
-        return ev;
-    })
-
-
-
 
 
 
@@ -159,14 +148,14 @@ const DemoApp = ({ filterEvents }) => {
         }
     };
 
-    const customButtons = {
-        miniCalendar: {
-            icon: 'btn-miniCalendar',
-            click: function () {
-                pickerRef.current.show();
-            },
-        },
-    };
+  const customButtons = {
+    miniCalendar: {
+      icon: 'btn-miniCalendar',
+      click: function () {
+        pickerRef.current.show();
+      },
+    },
+  };
 
     React.useEffect(() => {
 
@@ -216,10 +205,18 @@ const DemoApp = ({ filterEvents }) => {
         });
         pickerRef.current = picker;
 
-        return () => {
-            picker.destroy();
-        };
-    }, []);
+    return () => {
+      picker.destroy();
+    };
+  }, []);
+
+  const CustomEvents = filterEvents?.map((ev) => {
+    // ev.start= ev.date.split("T")[0]+"T"+ev.timeStart
+    // ev.end= ev.date.split("T")[0]+"T"+ev.timeEnd
+    ev.title = ev.motif
+    return ev;
+  })
+
 
     return (
         <Box>

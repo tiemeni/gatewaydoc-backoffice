@@ -1,8 +1,7 @@
 import * as types from "./types"
 
 const initialState = {
-    civilities: [],
-    idc: null
+    civilities: []
 }
 
 const CommonReducer = (state = initialState, action) => {
@@ -16,8 +15,13 @@ const CommonReducer = (state = initialState, action) => {
                 ...state,
                 showPRDV: action.data
             }
+        case types.SHOW_PFRDV:
+            return {
+                ...state,
+                showPFRDV: action.data,
+                event: action.event
+            }
         case types.VALID_TOKEN:
-            console.log(action.token)
             return {
                 ...state,
                 isValidToken: action.payload
@@ -27,13 +31,7 @@ const CommonReducer = (state = initialState, action) => {
                 ...state,
                 civilities: [...action.payload]
             }
-        case types.SAVE_IDC:
-            return {
-                ...state,
-                idc: action.payload
-            }
-        default:
-            return state;
+        default: return state;
     }
 }
 

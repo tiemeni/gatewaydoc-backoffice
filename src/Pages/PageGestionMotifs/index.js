@@ -3,43 +3,52 @@ import GestionLayout from '../../Components/authers/GestionLayout'
 import { SearchPraticienFormComponent } from '../../Components/authers/SearchPraticienFormComponent'
 import { DATA_TABLE_LIEU_COLONNE, DATA_TABLE_MOTIF_COLONNE } from '../../Constants/dataFields'
 import { useEffect, useState } from 'react'
-import { connect, useDispatch, useSelector } from 'react-redux'
-import { getAllMotif, saveMotifs } from '../../REDUX/motifs/actions'
-import { getMotifs } from '../../services/motif'
+import { connect, useDispatch } from 'react-redux' 
+import motifs from '../../REDUX/motifs/actions'
+import { getAllMotif } from '../../services/motifs'
 
-function GestionMotifs() {
-  const [isLoading, setIsLoading] = React.useState(true);
-  const motifListe = useSelector((state) => state.Motifs.motifs)
+function GestionMotifs( { data, loading, error } ) {
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
-    async function fetchData() {
-      setIsLoading(true);
-      const response = await getMotifs();
+  const getMotifs = async () => {
+      
+    if(!(data && data.length > 0)){
 
-      if (response.success !== true) {
-        setIsLoading(false);
-        return;
+      dispatch(motifs.loading());
+      try{
+          const data = await getAllMotif()
+          dispatch(motifs.save(data));
+      }catch(e){
+          dispatch(motifs.loadingError(e));
       }
-
-      setIsLoading(false);
-      dispatch(saveMotifs(response.data))
     }
-    fetchData()
+
+  };
+  useEffect(()=>{
+    getMotifs() ;
   }, [])
 
   return (<>
-    <GestionLayout
-      searchForm={<SearchPraticienFormComponent />}
-      title={"Gestion des motifs"}
-      object={"motif"}
-      dataField={DATA_TABLE_MOTIF_COLONNE}
-      dataInfo={motifListe}
-    />
+        <GestionLayout
+        searchForm={<SearchPraticienFormComponent />}
+        title={"Gestion des motifs"}
+        object={"motif"}
+        dataField={DATA_TABLE_MOTIF_COLONNE}
+        // dataInfo={{ user1: ["Consultation", "Consultation", "15 minutes", "bleu", "reff_4554454", "yes"] }}
+        dataInfo={data?.data}
+      />
   </>
 
   )
 
 }
 
-export default GestionMotifs;
+const mapStateToProps = state => ({
+  data: state.Motifs.data,
+  loading: state.Motifs.loading,
+  error: state.Motifs.error
+});
+
+
+
+export default connect(mapStateToProps)(GestionMotifs);

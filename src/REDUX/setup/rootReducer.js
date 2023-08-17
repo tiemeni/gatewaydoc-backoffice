@@ -7,7 +7,8 @@ import GroupReducers from "../groups/reducer";
 import specialitiesReducers from "../specialites/reducers";
 import PatientReducers from "../patients/reducer";
 import PraticiensReducer from "../praticiens/reducer";
-import CalendarReducer from "../calendar/reducers"
+import ProfessionsReducer from "../professions/reducers";
+import CalendarReducer from "../calendar/reducers";
 
 
 const rootReducer = combineReducers({
@@ -19,7 +20,9 @@ const rootReducer = combineReducers({
     Praticiens: PraticiensReducer,
     Motifs: MotifsReducer,
     Lieux: LieuxReducer,
+    Professions: ProfessionsReducer,
     Calendar: CalendarReducer
+
 })
 
 export default rootReducer;

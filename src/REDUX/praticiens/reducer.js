@@ -1,9 +1,9 @@
-/**
- *  Un Reducer est une fonction qui manipule la valeur du state
- */
 import {
-  SAVE_ALL_PRATICIENS,
-  SAVE_PRATICIENS_PER_JOB
+  FETCH_PRATICIENS_REQUEST,
+  FETCH_PRATICIENS_SUCCESS,
+  FETCH_PRATICIENS_FAILURE,
+  SAVE_PRATICIENS_PER_JOB,
+  SAVE_ALL_PRATICIENS
 } from "./types";
 
 const initialState = {
@@ -15,12 +15,10 @@ const initialState = {
 
 const PraticiensReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SAVE_ALL_PRATICIENS:
+    case FETCH_PRATICIENS_REQUEST:
       return {
         ...state,
-        praticiens: action.payload,
-        loading: false,
-        error: null,
+        loading: true,
       };
     case SAVE_PRATICIENS_PER_JOB:
       return {
@@ -28,6 +26,26 @@ const PraticiensReducer = (state = initialState, action) => {
         praticienJob: action.payload,
         loading: false,
         error: null,
+      };
+    case FETCH_PRATICIENS_SUCCESS:
+      return {
+        ...state,
+        praticiens: action.payload,
+        loading: false,
+        error: null,
+      };
+    case SAVE_ALL_PRATICIENS:
+      return {
+        ...state,
+        praticiens: action.payload,
+        loading: false,
+        error: null,
+      };
+    case FETCH_PRATICIENS_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: true,
       };
     default:
       return state;

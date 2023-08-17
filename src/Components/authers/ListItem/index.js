@@ -8,13 +8,15 @@ import { saveEventsPractionner } from "../../../REDUX/calendar/actions";
 import { saveEvents } from "../../../REDUX/calendar/actions";
 import { getEventsByPractionner } from "../../../services/calendars";
 import { Divider } from "@mui/material";
-
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import { Colors } from "../../../Constants/colors"
 
 
 function NestedCheckboxes({ data, boxChange }) {
   const dispatch = useDispatch();
   
-  const defaultPracti = useSelector((state) => state.Praticiens.praticiens[0]?._id)
+  // const defaultPracti = useSelector((state) => state.Praticiens.praticiens[0]?._id)
+  const defaultPracti = 1
 
   // const [checkedItems, setCheckedItems] = useState( defaultPracti ?? []);
   const [checkedItems, setCheckedItems] = useState(localStorage.getItem('defaultPraticien')? localStorage.getItem('defaultPraticien'):[]);
@@ -125,43 +127,61 @@ function NestedCheckboxes({ data, boxChange }) {
   };
 
   const renderItems = () => {
-    return Object.entries(data).map(([parentName, items]) => (
-      <Box key={parentName} sx={{ ml: 2 }} >
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={
-                items.every((item) => checkedItems.includes(item._id))
-              }
-              onChange={(e) => handleParentCheckboxChange(e, parentName)}
-              name={parentName}
-              sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}
-            />
-          }
-          label={parentName}
-          onClick={()=> alert('hello')}
-          sx={{ fontSize: "14px" }} // ajout de la propriété sx pour la taille de police
-        />
-        <Divider />
+    return Object.entries(data)?.map(([parentName, items]) => (
+      <Box key={parentName} sx={{ ml: 2 }}>
+        <Box style={{
+          display: "flex",
+          flexDirection: 'row',
+          alignItems: "center",
+          justifyContent: "space-between"
+        }}>
+          <FormControlLabel
+            style={{ height: "20px", fontWeight: "bold", minHeight: "20px" }}
+            control={
+              <Checkbox
+                checked={
+                  items.every((item) => checkedItems.includes(item._id))
+                }
+                defaultChecked
+                onChange={(e) => handleParentCheckboxChange(e, parentName)}
+                name={parentName}
+                sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}
+              />
+            }
+            label={parentName}
+            sx={{}} // ajout de la propriété sx pour la taille de police
+          />
+          <AddOutlinedIcon style={{ height: "20px", width: "20px", mb: 2, color: Colors.primary, cursor: "pointer" }} />
+        </Box>
+        <Divider style={{ backgroundColor: Colors.primary }} />
         {items.map((child) => (
-          <Box key={child._id} sx={{ ml: 2 }}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={checkedItems.includes(child._id)}
-                  onChange={handleChildCheckboxChange}
-                  name={child._id}
-                  sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}
-                />
-              }
-              label={`${child.name} ${child.surname}`}
-              sx={{ fontSize: "14px" }} // ajout de la propriété sx pour la taille de police
-            />
+          <Box key={child._id} sx={{ ml: 2, mt: "3px" }}>
+            <Box style={{
+              display: "flex",
+              flexDirection: 'row',
+              alignItems: "center",
+            }}>
+              <FormControlLabel
+                style={{ height: "20px", minHeight: "20px" }}
+                control={
+                  <Checkbox
+                    checked={checkedItems.includes(child._id)}
+                    onChange={handleChildCheckboxChange}
+                    name={child._id}
+                    sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}
+                  />
+                }
+                label={`${child.name} ${child.surname}`}
+                sx={{ fontSize: "14px" }} // ajout de la propriété sx pour la taille de police
+              />
+              <AddOutlinedIcon style={{ height: "17px", width: "17px", cursor: "pointer", color: Colors.primary }} />
+            </Box>
           </Box>
         ))}
       </Box>
     ));
   };
+
 
   if(data.length!==0 && typeof defaultPracti !== "undefined"){
 

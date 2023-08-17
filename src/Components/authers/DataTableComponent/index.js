@@ -42,17 +42,17 @@ export const DataTable = ({ object, dataField, dataInfo }) => {
                                         return (
                                             <>
                                                 {column.label === "Actions" ?
-                                                    <TableCell sx={styles.fs14} align='right'>
+                                                    <TableCell sx={styles.fs14} align='center'>
                                                         <Link to={`add/${info._id}`}>
                                                             <Create fontSize='large' />
                                                         </Link>
-                                                        <Link href="#" style={{ marginLeft: 10 }}>
+                                                        <Link href="#" style={{ marginLeft: 10 }} >
                                                             <HighlightOff fontSize='large' color='error' />
                                                         </Link>
                                                     </TableCell>
                                                     :
-                                                    <TableCell key={column?.label} sx={{ ...styles.fs14, textAlign: 'center' }} align="right">
-                                                        {(column.name === 'groups' || column.name === 'civility') ? info[column.name]?.label || info[column.name]?.title : info[column.name]?.toString()}
+                                                    <TableCell key={column.label} sx={{ ...styles.fs14, textAlign: 'center' }} align="center">
+                                                        {(column.name === 'groups' || column.name === 'civility') ? info[column.name].label || info[column.name].title : info[column.name]?.toString()}
                                                     </TableCell>
                                                 }
                                             </>

@@ -1,9 +1,8 @@
-import React from 'react'
 
+import StepOne from "./StepOne";
+import StepperForm from "./StepperForm";
 function PriseRdvComponent() {
-  return (
-    <div>PriseRdvComponent</div>
-  )
+  return <StepperForm/>;
 }
 
-export default PriseRdvComponent
+export default PriseRdvComponent;

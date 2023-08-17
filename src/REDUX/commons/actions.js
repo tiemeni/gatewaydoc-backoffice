@@ -7,6 +7,14 @@ export const showPRDV = (data) => {
     }
 }
 
+export const showPFRDV = (data, event=null) => {
+    return {
+        type: types.SHOW_PFRDV,
+        data,
+        event
+    }
+}
+
 export const setIsConnected = (payload) => ({
     type: types.VALID_TOKEN,
     payload
@@ -14,10 +22,5 @@ export const setIsConnected = (payload) => ({
 
 export const getCivilities = payload => ({
     type: types.GET_CIVILITIES,
-    payload
-})
-
-export const saveIdc = (payload) => ({
-    type: types.SAVE_IDC,
     payload
 })

@@ -16,7 +16,6 @@ import { getValueFromReducer } from "../../../helpers/formGenerator";
 const errorMsg = "Ce champ est obligatoire";
 
 const FormGenerator = ({ fields, title, dataId, type, redirect, onSubmit }) => {
-  console.log(dataId)
   const store = useSelector((state) => state);
   const toUpdate = getValueFromReducer(store, type, dataId);
   const mySchema = {};

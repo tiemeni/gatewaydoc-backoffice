@@ -2,7 +2,8 @@ import { Box, Modal } from '@mui/material'
 import React from 'react'
 import ModalHeader from './ModalHeader';
 
-function ModalComponent({ title, contentComponent = null, onClose = null }) {
+function ModalComponent({ title, contentComponent = null, onClose = null, open=true }) {
+
     const style = {
         position: 'absolute',
         top: '50%',
@@ -20,7 +21,7 @@ function ModalComponent({ title, contentComponent = null, onClose = null }) {
     };
     return (
         <Modal
-            open={true}
+            open={open}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >

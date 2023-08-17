@@ -12,13 +12,17 @@ export const DATA_TABLE_SPECIALITE_COLONNE = [
         name: "secretaryAlert"
     },
     {
+        label: "Active",
+        name: "active"
+    },
+    {
         label: "Actions"
     }
 ]
-export const DATA_TABLE_LIEU_COLONNE =
-    [{ label: "active", name: "active" }, { label: "codePostal", name: "codePostal" }, { label: "initiales", name: "initiales" }, { label: "label", name: "label" }, { label: "reference", name: "reference" }, { label: "region", name: "region" }, { label: "ville", name: "ville" }, { label: "Actions", name: "Actions" }]
-export const DATA_TABLE_MOTIF_COLONNE =
-    [{ label: "Label", name: "label" }, { label: "nom", name: "nom" }, { label: "couleur", name: "couleur" }, { label: "Reference", name: "reference" }, { label: "Durée par defaut", name: "default_time" }, { label: "Actif", name: "active" }, { label: "Actions", name: "Actions" }]
+export const DATA_TABLE_LIEU_COLONNE = 
+[ { label:"active", name:"active"}, { label:"codePostal", name:"codePostal"}, { label:"initiales", name:"initiales"}, { label:"label", name:"label"}, { label:"reference", name:"reference"}, { label:"region", name:"region"}, { label:"ville", name:"ville"}, { label:"Actions", name:"Actions"} ]
+export const DATA_TABLE_MOTIF_COLONNE = 
+[ { label:"couleur", name:"couleur"},{ label:"name", name:"name"}, { label:"Actions", name:"Actions"}]
 export const DATA_TABLE_USERS_COLONNE = [
     {
         label: "Profession",
@@ -35,6 +39,10 @@ export const DATA_TABLE_USERS_COLONNE = [
     {
         label: "Prénom",
         name: 'surname'
+    },
+    {
+        label: "Téléphone",
+        name: 'telephone'
     },
     {
         label: "Email",
@@ -65,7 +73,7 @@ export const DATA_TABLE_PATIENT_COLONNE = [{ label: "Civilité", name: "civility
 export const DATA_TABLE_PRATICIEN_COLONNE = [
     {
         label: "Civilité",
-        name: "label_civility",
+        name: "civility",
     },
     {
         label: "Nom",

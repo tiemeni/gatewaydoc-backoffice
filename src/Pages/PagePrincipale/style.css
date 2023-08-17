@@ -19,3 +19,9 @@
   opacity: 1;
   transition: all ease-in-out 0.3s;
 }
+
+  .css-j204z7-MuiFormControlLabel-root .MuiFormControlLabel-label {
+    font-size: 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
