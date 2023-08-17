@@ -3,6 +3,7 @@ import { SAVE_EVENT, SAVE_EVENT_PRACTIONNER_FILTER } from "./types"
 const initialState = {
     events: [],
     eventsPractionerId: [],
+    selectedPractionerId: [],
     loading: false,
     error: null
 };
@@ -23,6 +24,7 @@ const CalendarReducer = (state = initialState, action) => {
                 loading: false,
                 error: null
             }
+        
         default:
             return state;
     }

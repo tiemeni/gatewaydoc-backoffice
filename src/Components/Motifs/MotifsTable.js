@@ -271,7 +271,7 @@ export default function MotifsTable() {
                   align={column.align}
                   style={{ minWidth: column.minWidth, backgroundColor:'#bfcdff', fontSize: "12px", fontWeight: 'bold' }}
                 >
-                  {column.label}
+                  {column?.label}
                 </TableCell>
               ))}
             </TableRow>

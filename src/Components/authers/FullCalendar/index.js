@@ -33,6 +33,8 @@ const DemoApp = ({ filterEvents }) => {
   const calendarRef = React.useRef(null);
   const pickerRef = React.useRef(null);
   const praticiens = useSelector((state) => state.Praticiens.praticiens)
+  const eventsPractionerId = useSelector((state) => state.Calendar.eventsPractionerId);
+
   localStorage.setItem('idP', praticiens[0]?._id)
   const [choosenEvent, setChoosenEvent] = React.useState(null);
   const [showContextMenu, setshowContextMenu] = React.useState(false);
