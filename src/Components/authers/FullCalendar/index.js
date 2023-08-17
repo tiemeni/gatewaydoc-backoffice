@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect, useMemo } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import resourceTimeGridPlugin from '@fullcalendar/resource-timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import frlocale from '@fullcalendar/core/locales/fr'
-import { Box, Tooltip, tooltipClasses, Typography } from '@mui/material';
+import { Box, Skeleton, Tooltip, tooltipClasses, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import LanguageIcon from '@mui/icons-material/Language';
 import ReplyIcon from '@mui/icons-material/Reply';
@@ -17,6 +17,8 @@ import { getAllPraticiens } from '../../../services/praticiens';
 import { save } from '../../../REDUX/praticiens/actions';
 import { saveEvents } from '../../../REDUX/calendar/actions';
 import { getEventsByPractionner } from '../../../services/calendars';
+import { getPraticiens } from "../../../services/praticiens";
+import praticiensActions from "../../../REDUX/praticiens/actions";
 
 const LightTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -32,7 +34,7 @@ const LightTooltip = styled(({ className, ...props }) => (
 const DemoApp = ({ filterEvents }) => {
   const calendarRef = React.useRef(null);
   const pickerRef = React.useRef(null);
-  const praticiens = useSelector((state) => state.Praticiens.praticiens)
+  const praticiens = useSelector((state) => state.Praticiens.praticiens);
   const eventsPractionerId = useSelector((state) => state.Calendar.eventsPractionerId);
 
   localStorage.setItem('idP', praticiens[0]?._id)
@@ -45,16 +47,47 @@ const DemoApp = ({ filterEvents }) => {
   const RessourcePraticiens = praticiens.map((item, index) => {
     return { ...item, id: item._id, title: item.name };
   });
+  const getAllPraticiens = async () => {
+    if (!(praticiens && praticiens.length > 0)) {
 
+      dispatch(praticiensActions.loading());
+      try {
+        const data = await getPraticiens()
+        dispatch(praticiensActions.save(data));
+      } catch (e) {
+        dispatch(praticiensActions.loadingError(e));
+      }
+    }
+  }
+  useEffect(()=>{
+    getAllPraticiens()
+  },[])
+
+  const names =  useMemo(()=>{
+    if(praticiens.loading){
+      return '';
+    }
+    if(eventsPractionerId.length === 0){
+      return "Tous les praticiens";
+    }
+    if(!praticiens){
+      return "Inconnue";
+    }
+    return eventsPractionerId.flatMap((id)=>{
+      let p = praticiens.filter((p)=>p._id == id)[0];
+      if(!p) return 'Inconnue';
+      return p.name;
+    }).join(", ")
+  },[praticiens,eventsPractionerId]);
   const renderEventContent = ({ event }) => {
-
+    
     return (
       <LightTooltip  disableFocusListener disableTouchListener followCursor
         title={
           <div  style={{ fontSize: '16px', backgroundColor: "white", height: 'auto' }}>
             <div>
               <div>
-                <span style={{ color: '#6e706f', fontWeight: "bold" }} >{event.extendedProps.civility}</span>
+                <span style={{ color: '#6e706f', fontWeight: "bold" }} >{event.extendedProps?.civility}</span>
                 <span style={{ color: '#6e706f', fontWeight: "bold" }} >{" " + event.extendedProps?.patient?.name}</span>
                 <span style={{ color: '#6e706f', fontWeight: "bold" }} >{" " + event.extendedProps?.patient?.surname}</span>
               </div>
@@ -64,7 +97,7 @@ const DemoApp = ({ filterEvents }) => {
               </div>
               <div>
                 <span style={{ color: '#6e706f', fontWeight: "bold" }}>Motif: </span>
-                <span style={{ color: 'black' }}>{event.extendedProps.motif}</span>
+                <span style={{ color: 'black' }}>{event.extendedProps?.motif}</span>
               </div>
               <div>
                 <span style={{ color: '#6e706f', fontWeight: "bold" }}>Telephone: </span>
@@ -72,11 +105,11 @@ const DemoApp = ({ filterEvents }) => {
               </div>
               <div>
                 <span style={{ color: '#6e706f', fontWeight: "bold" }}>Praticien: </span>
-                <span style={{ color: 'black' }}>{event.extendedProps.name}</span>
+                <span style={{ color: 'black' }}>{event.extendedProps?.name}</span>
               </div>
               <div>
                 <span style={{ color: '#6e706f', fontWeight: "bold" }}>Provenance: </span>
-                <span style={{ color: 'black', fontWeight: "bold" }}>{event.extendedProps.provenance}</span>
+                <span style={{ color: 'black', fontWeight: "bold" }}>{event.extendedProps?.provenance}</span>
               </div>
             </div>
 
@@ -101,11 +134,11 @@ const DemoApp = ({ filterEvents }) => {
             }}
             style={{ display: 'flex', flexDirection: 'row', gap: '5px', height: '100%' }}
           >
-            <Typography>{event.extendedProps.timeStart}</Typography>
-            <Typography fontWeight={'bold'}>{event.extendedProps.civility + " " + event.extendedProps.name}</Typography>
+            <Typography>{event.extendedProps?.timeStart}</Typography>
+            <Typography fontWeight={'bold'}>{event.extendedProps?.civility + " " + event.extendedProps?.name}</Typography>
             <Box>
-              {event.extendedProps.provenance === "backoffice" ? <LanguageIcon /> :
-                event.extendedProps.wasMoved == true ? <ReplyIcon /> : ''
+              {event.extendedProps?.provenance === "backoffice" ? <LanguageIcon /> :
+                event.extendedProps?.wasMoved == true ? <ReplyIcon /> : ''
               }
             </Box>
           </div>
@@ -196,7 +229,7 @@ const DemoApp = ({ filterEvents }) => {
         onHideNeeded={hideContextenu}
         permissions={["copy", "cut", "move", "delete", "print", "receipt", "abort", "justify", "discuss", "profiling", "urgence"]}
       />
-      <Typography sx={styles.practitionerTile}>BERTRAND Guillaume</Typography>
+      <Typography sx={styles.practitionerTile} title={names} noWrap>{names}</Typography>
       <FullCalendar
         ref={calendarRef}
         plugins={[dayGridPlugin, resourceTimeGridPlugin, interactionPlugin]}

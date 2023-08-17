@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
-import praticiens from "../../../REDUX/praticiens/actions";
+
 import GestionLayout from '../../../Components/authers/GestionLayout'
 import { SearchPraticienFormComponent } from '../../../Components/authers/SearchPraticienFormComponent';
 import { DATA_TABLE_PRATICIEN_COLONNE } from '../../../Constants/dataFields';
 import { getCivilities } from "../../../services/civilities";
 import { getPraticiens } from "../../../services/praticiens";
+import praticiens from "../../../REDUX/praticiens/actions";
 
 function PageGestionPraticiens({ data, loading, error }) {
   console.log(data)
