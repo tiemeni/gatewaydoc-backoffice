@@ -13,16 +13,11 @@ import { Colors } from "../../../Constants/colors"
 
 
 function NestedCheckboxes({ data, boxChange }) {
+
   const dispatch = useDispatch();
-  
-  // const defaultPracti = useSelector((state) => state.Praticiens.praticiens[0]?._id)
   const defaultPracti = 1
-
-  // const [checkedItems, setCheckedItems] = useState( defaultPracti ?? []);
   const [checkedItems, setCheckedItems] = useState(localStorage.getItem('defaultPraticien')? localStorage.getItem('defaultPraticien'):[]);
-
   const idPracti = useSelector((state) => state.Calendar.eventsPractionerId)
-
 
   useEffect(() => {
     console.log(checkedItems)
@@ -36,7 +31,6 @@ function NestedCheckboxes({ data, boxChange }) {
       if (response.success !== true) {
         return;
       }
-      // setIsLoading(false);
       dispatch(saveEvents(response.data))
     }
 
@@ -49,27 +43,20 @@ function NestedCheckboxes({ data, boxChange }) {
       if (data[firstParentName] && data[firstParentName].length > 0) {
         const firstChildId = data[firstParentName][0]?._id;
         setCheckedItems(firstChildId.toString());
-
         localStorage.setItem('defaultPraticien', firstChildId.toString())
-
       }
     }
   }
-
-
-
   }, [checkedItems]);
 
   const handleParentCheckboxChange = (event, parentName) => {
     const { checked } = event.target;
     let newCheckedItems = [...checkedItems];
         if(data){
-
             if (checked) {
             newCheckedItems = newCheckedItems.concat(data[parentName].map((item) => item._id));
             } else {
             newCheckedItems = newCheckedItems.filter((item) => !data[parentName].map((item) => item._id).includes(item));
-
             }
         }
 
@@ -77,18 +64,12 @@ function NestedCheckboxes({ data, boxChange }) {
 
     localStorage.setItem('defaultPraticien', newCheckedItems.toString())
 
-//   dispatch(saveEventsPractionner(checkedItems))
-
-
   };
 
   const handleChildCheckboxChange = (event) => {
 
- 
         async function fetchData() {
 
-            // const finalId=  Object.values(checkedItems).join(",");
-            // console.log("voici final id"+checkedItems)
             const response = await getEventsByPractionner(checkedItems);
       
             if (response.success !== true) {
@@ -102,7 +83,7 @@ function NestedCheckboxes({ data, boxChange }) {
     let newCheckedItems = [...checkedItems];
 
     if (checked) {
-      newCheckedItems.push(name);
+      newCheckedItems.push(name.toString());
 
       const parentName = Object.keys(data).find((key) =>
         data[key].some((item) => item._id === name)
