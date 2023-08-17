@@ -1,15 +1,15 @@
 import { MenuItem, Select } from "@mui/material";
 import StyledSelect from './StyledSelect'
 
-function SelectWithOption({ options = [], ...props }) {
-    
+function SelectWithOption({ options = [], onChange=()=>{}, ...props }) {
+
     return (
-      <StyledSelect   {...props}>
+      <Select   {...props} value={props.value} onChange={(e,r)=> onChange(e,r)} >
         {
-          options.map((option, index)=><MenuItem key={`${option.id}_${index}`} value={option.id}>{option.label}</MenuItem>)
+          options.map((option, index)=><MenuItem key={`${option.value}_${index}`} value={option.value}>{option.label}</MenuItem>)
         }
        
-      </StyledSelect>
+      </Select>
     );
   }
 

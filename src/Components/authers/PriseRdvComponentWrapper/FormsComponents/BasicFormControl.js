@@ -2,14 +2,13 @@ import StyledLabel from "./StyledLabel";
 import StyledHelperText from './StyledHelperText';
 import { FormControl } from "@mui/material";
 import ControlInputWrapper from "./ControlInputWrapper";
-
-function BasicFormControl( { Input, label="", control = { }, props={} }) {
+import Skeleton from '@mui/material/Skeleton';
+function BasicFormControl( { Input, label="", loading = false, control = { }, props={} }) {
     
     return (
       <FormControl  fullWidth {...control} >
         <StyledLabel>{label}</StyledLabel>
-        
-          <ControlInputWrapper Input={Input} {...props} ></ControlInputWrapper>
+         { loading ?  <Skeleton variant="rounded" width={"100%"} height={45} /> : <ControlInputWrapper Input={Input} {...props} ></ControlInputWrapper> }
         <StyledHelperText />
       </FormControl>
     );

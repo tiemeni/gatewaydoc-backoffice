@@ -3,9 +3,10 @@ import { makeStyles } from '@mui/styles';
 const styles = makeStyles({
     form: {
         display: 'flex',
-        maxHeight: '65vh',
+        maxHeight: '66vh',
         overflow: 'scroll',
-        marginBottom: '2px'
+        marginBottom: '2px',
+        height: '66vh'
     },
     search:{
         borderRadius: "30px",
@@ -16,6 +17,11 @@ const styles = makeStyles({
     stepper: {
         width: '100%',
         marginTop: '15px'
+    },
+    alert: {
+        paddingLeft: "8px",
+        paddingTop: "8px",
+        width: "100%"
     }
 })
 export default styles;

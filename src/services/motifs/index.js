@@ -1,3 +1,4 @@
+import axios from "axios";
 import app from "../../Configs/app"
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -46,4 +47,25 @@ export const editMotif = async (payload, id) => {
     console.error(err)
     return { status: false, error: err }
   }
+}
+
+export const motifsByProfession = async (profession)=>{
+  try{
+    const response = await  axios({
+      method: "GET",
+      url: BASE_URL + `/motif/profession/${profession}`,
+      params: {                  
+          idCentre: app.idCentre,
+      },
+      headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+      },
+  })
+    const data = response.data;
+    return { status: true, data }
+  }catch(e){
+    return { status: false, error: e }
+  }
+  
 }

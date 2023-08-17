@@ -6,9 +6,17 @@ import StepLabel from '@mui/material/StepLabel';
 import StepOne from './StepOne';
 import StepTwo from './StepTwo';
 import styles from './styles';
-import { Button } from '@mui/material';
+import { Alert, Button } from '@mui/material';
+import app from '../../../Configs/app';
+import axios from "axios";
+import { createPatient } from '../../../services/patients';
+import { showPRDV } from '../../../REDUX/commons/actions';
+import { saveError, saveStep } from '../../../REDUX/prgv/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import dayjs from 'dayjs';
 
-const steps = [
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+const stepsLabels = [
   'RDV disponible',
   'Informations Patient',
 ];
@@ -18,54 +26,146 @@ const bySteps = {
     component: StepOne,
     navigation: {
       'prev': false,
-      'next': true
+      'next': false,
+      'submit': false
     }
   },
   1: {
     component: StepTwo,
     navigation: {
       'prev': true,
-      'next': true
+      'next': false,
+      'submit': false
     }
   }
 }
 export default function HorizontalLinearAlternativeLabelStepper() {
   const classes = styles();
-  const [step, setStep] =  React.useState(0);
+  const { steps, error, praticienList } = useSelector((state)=>state.Prdv);
+  const [step, setStep] = React.useState(0);
+  const [data, setData] =  React.useState({});
   const [visibles, setVisibles] =  React.useState({
     'prev': false,
-    'next': true
+    'next': false,
+    'submit': false
   });
   const Component = bySteps[step].component;
-  const next = ()=>{
-    setStep((step + 1) % steps.length );
+  const dispatch = useDispatch();
+  const next = (stepData)=>{
+    if(stepData){
+      save(stepData)
+    }
+    
+    
+    dispatch(saveError(null));
+    setStep((step + 1) % stepsLabels.length );
+  }
+  const save = (stepData) => {
+
+    dispatch(saveStep(step, stepData))
   }
   const prev = ()=>{
-    setStep(Math.max(0,(step - 1) % steps.length) )
+    setStep(Math.max(0,(step - 1) % stepsLabels.length) )
   }
   const visible = (obj)=>{
     setVisibles(obj)
   }
+  const submit = async ()=>{
+    try{
+
+      dispatch(saveError(null));
+      let error = false;
+      let patientId = steps[1]['patientId'];
+      if(!patientId){
+        const rep = await   createPatient ({active: true,...steps[1] });
+        
+        if(rep.success){
+          patientId = rep.data._id;
+          dispatch(saveStep(1, { ...steps[1], patientId}))
+        }else{
+          error = true;
+          dispatch(saveError(rep));
+        }
+
+        
+      }  
+        
+      if(patientId && !error){
+          const p = (praticienList).filter((praticien)=>praticien._id === steps[0]?.praticien)[0];
+          const rep = await  axios({
+
+            method: "POST",
+            url: BASE_URL + `/appointments/enregistrer_rdv/?idCentre=${app.idCentre}`,
+            data: {
+            
+                "centre": app.idCentre,
+                "practitioner": steps[0]?.praticien,
+                "patient": patientId,
+                "motif": steps[0]?.motif,
+                "startTime": steps[0]?.disponibility?.start,
+                "endTime": dayjs(`2022-04-17T${steps[0]?.disponibility?.start}`).add(p?.timeSlot,'m').format('HH:mm'),
+                "provenance": app.platform,
+                "duration": p?.timeSlot,
+              // "dayOfWeek": 1,
+                "date": steps[0]?.disponibility?.date,
+            
+            },
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+        });
+        if(rep.data.success){
+          //patientId = rep.data._id;
+          //setData({ ...data, [1]: { ...data[1], patientId }})
+          dispatch(showPRDV(false));
+          dispatch(saveStep(0, {  }))
+          dispatch(saveStep(1, { }))
+          
+        }else{
+          dispatch(saveError(rep.data));
+        }
+        
+      }
+
+    }catch(e){
+      
+      dispatch(saveError(e));
+    }
+    
+
+  }
   React.useEffect(()=>{
-    setVisibles(bySteps[step].navigation)
+    let navigation = {...bySteps[step].navigation};
+    if(step === 1 && data[1] && data[1]['name'] && data[1]['email']){
+      navigation['submit'] = true;
+    }
+    setVisibles(navigation)
   },[step]);
+ 
   return (
     <Box  className={classes.stepper}>
       <Stepper activeStep={step} alternativeLabel>
-        {steps.map((label) => (
+        {stepsLabels.map((label) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
           </Step>
         ))}
       </Stepper>
-      <Component  next={next} prev={prev} visible={visible} />     
       {
-        visibles['prev'] ? <Button onClick={()=>prev()}>Prev</Button> : []
-      }    
-      {
-        visibles['next'] ? <Button onClick={()=>next()}>Next</Button> : []
+        error&& <Alert severity="error">{error?.message}</Alert>
       }
       
+      <Component data={steps[step] || {}} save={save}  next={next} prev={prev} visible={visible} />     
+      {
+        visibles['prev'] ? <Button onClick={()=>prev()}>Etape precedente</Button> : []
+      }    
+      {
+        visibles['next'] ? <Button onClick={()=>next()}>Etape suivante</Button> : []
+      }
+      {
+        visibles['submit'] ? <Button onClick={()=>submit()}>Enregistrer</Button> : []
+      }
     </Box>
   );
 }

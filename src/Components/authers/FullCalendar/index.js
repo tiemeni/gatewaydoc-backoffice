@@ -157,53 +157,46 @@ const DemoApp = ({ filterEvents }) => {
     },
   };
 
-    React.useEffect(() => {
-
-        if(localStorage.getItem('defaultPraticien')){
-            async function fetchData() {
-                // const response = await getEvents();
-                const response = await getEventsByPractionner(localStorage.getItem('defaultPraticien'));
-                
-          
-                if (response.success !== true) {
-                  return;
-                }
-                
-                dispatch(saveEvents(response.data))
-              }
-            fetchData();
+  React.useEffect(() => {
+    if (localStorage.getItem('idP')) {
+      async function fetchData() {
+        // const response = await getEvents();
+        const response = await getEventsByPractionner(localStorage.getItem('idP'));
+        if (response.success !== true) {
+          return;
         }
-
-
-
-        const picker = new Pikaday({
-            field: document.querySelector(".fc-miniCalendar-button"),
-            format: 'yy-mm-dd',
-            onSelect: handlePikadayDateChange,
-            i18n: {
-                previousMonth: 'Mois précedent',
-                nextMonth: 'Mois prochain',
-                months: [
-                    'Janvier',
-                    'Février',
-                    'Mars',
-                    'Avril',
-                    'Mai',
-                    'Juin',
-                    'Juillet',
-                    'Août',
-                    'Septembre',
-                    'Octobre',
-                    'Novembre',
-                    'Décembre',
-                ],
-                weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
-                weekdaysShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
-            },
-            firstDay: 1,
-            showWeekNumber: true
-        });
-        pickerRef.current = picker;
+        dispatch(saveEvents(response.data))
+      }
+      fetchData();
+    }
+    const picker = new Pikaday({
+      field: document.querySelector(".fc-miniCalendar-button"),
+      format: 'yy-mm-dd',
+      onSelect: handlePikadayDateChange,
+      i18n: {
+        previousMonth: 'Mois précedent',
+        nextMonth: 'Mois prochain',
+        months: [
+          'Janvier',
+          'Février',
+          'Mars',
+          'Avril',
+          'Mai',
+          'Juin',
+          'Juillet',
+          'Août',
+          'Septembre',
+          'Octobre',
+          'Novembre',
+          'Décembre',
+        ],
+        weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+        weekdaysShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+      },
+      firstDay: 1,
+      showWeekNumber: true
+    });
+    pickerRef.current = picker;
 
     return () => {
       picker.destroy();
@@ -218,67 +211,53 @@ const DemoApp = ({ filterEvents }) => {
   })
 
 
-    return (
-        <Box>
-            <EventContextMenu
-                left={mouseXY.x}
-                top={mouseXY.y}
-                calendarEvent={choosenEvent}
-                isVisible={showContextMenu}
-                onHideNeeded={hideContextenu}
-                permissions={["copy", "cut", "move", "delete", "print", "receipt", "abort", "justify", "discuss", "profiling", "urgence"]}
-            />
-            <Typography sx={styles.practitionerTile}>BERTRAND Guillaume</Typography>
-            { console.log(CustomEvents) }
-            <FullCalendar
-                ref={calendarRef}
-                plugins={[dayGridPlugin, resourceTimeGridPlugin, interactionPlugin]}
-                initialView="timeGridWeek"
-                weekends={true}
-                dayCount={true}
-                locale={frlocale}
-                initialDate={new Date()}
-                eventContent={renderEventContent}
-                slotMinTime={"08:00:00"}
-                slotMaxTime={"18:00:00"}
-                slotDuration={"00:05:00"}
-                slotLabelInterval={"00:30:00"}
-                nowIndicator={true}
-                datesAboveResources={true}
-                dayMaxEventRows={true}
-                allDaySlot={false}
-                weekNumbers={true}
-                stickyHeaderDates={true}
-                height={"auto"}
-                customButtons={customButtons}
-                events={CustomEvents}
-                resources={CustomEvents}
-
-                // events={[
-                //     {
-                //     id: 1,
-                //     title: "DONGMO Donald",
-                //     start: "2023-07-11T08:00:00",
-                //     end: "2023-07-11T08:10:00",
-                //     description: "Ceci est un événement important",
-                //     heure_debut: "08:00",
-                //     civ: "M.",
-                //     },
-                // ]}
-                headerToolbar={{
-                    left: "prev,next today miniCalendar",
-                    center: "title",
-                    right: "dayGridMonth,timeGridWeek,timeGridDay",
-                }}
-                slotLabelFormat={{
-                    hour: "numeric",
-                    minute: "2-digit",
-                    omitZeroMinute: false,
-                    meridiem: "short",
-                }}
-            />
-        </Box>
-    );
+  return (
+    <Box>
+      <EventContextMenu
+        left={mouseXY.x}
+        top={mouseXY.y}
+        calendarEvent={choosenEvent}
+        isVisible={showContextMenu}
+        onHideNeeded={hideContextenu}
+        permissions={["copy", "cut", "move", "delete", "print", "receipt", "abort", "justify", "discuss", "profiling", "urgence"]}
+      />
+      <Typography sx={styles.practitionerTile}>BERTRAND Guillaume</Typography>
+      <FullCalendar
+        ref={calendarRef}
+        plugins={[dayGridPlugin, resourceTimeGridPlugin, interactionPlugin]}
+        initialView="timeGridWeek"
+        weekends={true}
+        dayCount={true}
+        locale={frlocale}
+        initialDate={new Date()}
+        eventContent={renderEventContent}
+        slotMinTime={"08:00:00"}
+        slotMaxTime={"18:00:00"}
+        slotDuration={"00:05:00"}
+        slotLabelInterval={"00:30:00"}
+        nowIndicator={true}
+        datesAboveResources={true}
+        dayMaxEventRows={true}
+        allDaySlot={false}
+        weekNumbers={true}
+        stickyHeaderDates={true}
+        height={"auto"}
+        customButtons={customButtons}
+        events={CustomEvents}
+        headerToolbar={{
+          left: "prev,next today miniCalendar",
+          center: "title",
+          right: "dayGridMonth,timeGridWeek,timeGridDay",
+        }}
+        slotLabelFormat={{
+          hour: "numeric",
+          minute: "2-digit",
+          omitZeroMinute: false,
+          meridiem: "short",
+        }}
+      />
+    </Box>
+  );
 }
 
 export default DemoApp

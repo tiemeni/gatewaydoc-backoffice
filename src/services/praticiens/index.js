@@ -64,7 +64,7 @@ export const getPraticiens = async () => {
 
 export const getPraticiensByJob = async () => {
   try {
-      const res = await fetch(BASE_URL + "/users/profession/?isPraticien=true&idCentre=" + idc );
+      const res = await fetch(BASE_URL + "/users/profession/?isPraticien=true&idCentre=" + app.idCentre );
       const data = await res.json()
       return data;
   } catch (err) {

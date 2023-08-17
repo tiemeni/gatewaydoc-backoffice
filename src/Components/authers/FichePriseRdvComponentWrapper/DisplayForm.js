@@ -2,7 +2,7 @@ import { Input } from "@mui/base";
 import { useDispatch, useSelector } from "react-redux";
 import BasicFormControl from "./FormsComponents/BasicFormControl";
 import StyledInput from "./FormsComponents/StyledInput";
-import {DATE} from '../../../Constants/fieldTypes';
+import {DATE, NUMBER} from '../../../Constants/fieldTypes';
 import SelectWithOption from "./FormsComponents/SelectWithOption";
 import SearchIcon from '@mui/icons-material/Search';
 import { Button, Grid } from "@mui/material";
@@ -26,18 +26,27 @@ import PhoneInput from "react-phone-input-2";
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Box from '@mui/material/Box';
 import 'react-phone-input-2/lib/bootstrap.css'
-import { getAllMotif } from "../../../services/motifs";
+import { getAllMotif, motifsByProfession } from "../../../services/motifs";
+import CustomDateInput from "./FormsComponents/CustomDateInput";
+import dayjs from "dayjs";
+import CustomTimeInput from "./FormsComponents/CustomTimeInput";
+import motif from "../../../Utils/transformers/motif";
 
 function DisplayForm( { next = ()=>{} }){
     const [phone, setPhone] = React.useState('');
     const event = useSelector(state => state.Common.event);
+    const eventData = useSelector(state => (state.Calendar.events || []).filter((e)=>e._id == event._def.extendedProps._id)[0]);
+   
     const classes = styles();
     const items = [{}];
     const object = {
-        medecin: "OPTHA2 Pierre (Ophtalmologiste2)",
-        patient: 'Fezeu Ghomsi Eugene Clotaire',
+        medecin: event?._def?.extendedProps?.name,
+        patient: event?._def?.extendedProps?.patient?.name,
         centre_name: "Centre Ophtalmologique",
-        serveur_info: "Enregistrer par serveur. le lundi 24 juillet 2023"
+        serveur_info: `Enregistrer par ${event?._def?.extendedProps?.provenance}. le lundi 24 juillet 2023`
+    }
+    const patient = {
+        ...eventData?.patient
     }
     const { register, handleSubmit } = useForm();
     const handleChange = (newPhone) => {
@@ -71,8 +80,14 @@ function DisplayForm( { next = ()=>{} }){
     useEffect(()=>{
       getMotifs()
     },[]);
+    const loadMotifsByProfession = async ()=>{
+       const prof = await motifsByProfession(eventData.resourceId)
+    }
+    useEffect(()=>{
+        loadMotifsByProfession()
+    },[event])
 
-    
+
     return (
       <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
       
@@ -104,23 +119,23 @@ function DisplayForm( { next = ()=>{} }){
                             <BasicFormControl  label='Status du DRV'  Input={SelectWithOption} props={{ name: 'name' , placeholder: 'Nom' }} />
                         </Grid>
                         <Grid item xs={6}>
-                            <BasicFormControl  label='Motif'  Input={SelectWithOption} props={{ name: 'name' , placeholder: 'Nom' }} />
+                            <BasicFormControl  label='Motif'  Input={SelectWithOption} props={{ name: 'motif', options: (motifsList && motifsList.data||[]).flatMap(motif.toListItem)  , placeholder: 'Nom' }} />
                             <br/>
                             <Box mt={1}>
                                 <Button variant="contained" size="medium">Plus de Motifs</Button>
                             </Box>
                         </Grid>    
                         <Grid item xs={3}>
-                            <BasicFormControl  label='Date'  Input={StyledInput} props={{ name: 'name' , placeholder: 'Nom' }} />
+                            <BasicFormControl  label='Date'  Input={CustomDateInput} props={{ name: 'date', disabled: true, value: dayjs(eventData.date), placeholder: 'date' }} />
                         </Grid>
                         <Grid item xs={3}>
-                            <BasicFormControl  label='Heure Patient'  Input={StyledInput} props={{ name: 'name' , placeholder: 'Nom' }} />
+                            <BasicFormControl  label='Heure Patient'  Input={CustomTimeInput} props={{ name: 'startTime', value: dayjs(`2022-04-17T${eventData.timeStart}`),views: ['hours','minutes'], disabled: true, placeholder: 'Nom' }} />
                         </Grid>
                         <Grid item xs={3}>
-                            <BasicFormControl  label='Heure Reelle'  Input={StyledInput} props={{ name: 'name' , placeholder: 'Nom' }} />
+                            <BasicFormControl  label='Heure Reelle'  Input={CustomTimeInput} props={{ name: 'endTime', value: dayjs(`2022-04-17T${eventData.timeStart}`), disabled: true, views: ['hours','minutes'], disable: true , placeholder: 'Nom' }} />
                         </Grid>
                         <Grid item xs={3}>
-                            <BasicFormControl  label='Duree (en min.) '  Input={StyledInput} props={{ name: 'name' , placeholder: 'Nom' }} />
+                            <BasicFormControl  label='Duree (en min.) '  Input={StyledInput} props={{ name: 'duration', value: eventData.duration, disabled: true , placeholder: 'Nom', type: NUMBER }} />
                         </Grid>
                         <Grid item xs={12}>
                             <Divider orientation="horizontal"/>
@@ -128,7 +143,7 @@ function DisplayForm( { next = ()=>{} }){
                         <Grid item xs={12}>
 
                             <Typography variant="h5"  gutterBottom>
-                                Patient: {event.extendedProps.civ}  {event.title} <Button text> voire la fiche patient</Button>
+                                Patient: {event?.extendedProps?.civ}  {event.title} <Button text> voire la fiche patient</Button>
                             </Typography>
                             <Typography variant="h6"  gutterBottom>
                                 IPP: 
@@ -136,22 +151,27 @@ function DisplayForm( { next = ()=>{} }){
                           
                         </Grid>
                         <Grid item xs={6}>
-                            <BasicFormControl  label='Telephone portable'  Input={PhoneInput} props={{ name: 'name' , placeholder: '', label: '' }} />
+                            <BasicFormControl  label='Telephone portable'  Input={PhoneInput} props={{ value: patient.telephone, name: 'telephone' , placeholder: '', label: '' }} />
                         </Grid>
                         <Grid item xs={6}>
-                            <BasicFormControl  label='Telephone fixe '  Input={PhoneInput} props={{ name: 'name' , placeholder: '', label: '' }} />
+                            <BasicFormControl  label='Telephone fixe '  Input={PhoneInput} props={{ name: 'fixe' , placeholder: '', label: '' }} />
                         </Grid>
                         <Grid item xs={6}>
-                            <BasicFormControl  label='Email '  Input={StyledInput} props={{ name: 'name' , placeholder: 'Nom' }} />
+                            <BasicFormControl  label='Email '  Input={StyledInput} props={{ name: 'email', value: patient.email, disabled: true , placeholder: 'email' }} />
                         </Grid>
-                        <Grid item xs={6}>
-                            <BasicFormControl  label='Date de naissance '  Input={StyledInput} props={{ name: 'name' , type: DATE, placeholder: 'Nom' }} />
+                        <Grid item xs={4}>
+                            <BasicFormControl  label='Date de naissance '  Input={CustomDateInput} props={{ name: 'birthdate', disabled: true, value: dayjs(patient.birthdate), type: DATE, placeholder: 'Birthdate' }} /> 
+                        </Grid>
+                        <Grid item xs={2} >
+                            <Typography style={{ 'paddingTop': "40px"}}>{` ${dayjs().year() - dayjs(patient.birthdate).year()  } ans`}</Typography>
+                             
+                        </Grid>
+                        
+                        <Grid item xs={12}>
+                            <BasicFormControl  label='Medecin Traitant '  Input={StyledInput} props={{ name: 'name', disabled: true, value: eventData.name , placeholder: 'Nom' }} />
                         </Grid>
                         <Grid item xs={12}>
-                            <BasicFormControl  label='Medecin Traitant '  Input={StyledInput} props={{ name: 'name' , placeholder: 'Nom' }} />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <BasicFormControl  label='Commentaire '  Input={StyledInput} props={{ name: 'name', multiline: true , rows: 3, placeholder: 'Nom' }} />
+                            <BasicFormControl  label='Commentaire '  Input={StyledInput} props={{ name: 'commentaire', multiline: true , rows: 3, placeholder: 'Nom' }} />
                         </Grid>
 
                             <Grid item xs={3}>                

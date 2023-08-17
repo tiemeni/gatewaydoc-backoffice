@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, TextField } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import { styles } from "./style";
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
 import { Colors } from "../../Constants/colors";
@@ -18,6 +18,7 @@ import { getPraticiensByJob } from "../../services/praticiens";
 import { saveEventsPractionner } from "../../REDUX/calendar/actions";
 import { savePraticiens } from "../../REDUX/praticiens/actions";
 import { savePraticiensPerJob } from "../../REDUX/praticiens/actions";
+import dayjs from "dayjs";
 
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
@@ -25,7 +26,8 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 const FackContainer = () => {
     const dispatch = useDispatch()
-    const showRDV = useSelector(state => state.Common.showPRDV)
+    const showRDV = useSelector(state => state.Common.showPRDV);
+    const event = useSelector(state => state.Common.event)
     const showFRDV = useSelector(state => state.Common.showPFRDV);
     const [events, setEvents] = useState(null)
 
@@ -102,7 +104,9 @@ const FackContainer = () => {
                     />}
                 {showFRDV &&
                     <ModalComponent
-                        title={"Fiche de Rendez-vous de M. Attaiech131 Pat1231, ne(e) le 00/00/0000, 13 ans, IPP:"}
+                        title={`Fiche de Rendez-vous de ${event?._def?.extendedProps?.civility
+                        } ${event?._def?.extendedProps?.patient?.name} Ne le ${dayjs(event?._def?.extendedProps?.patient?.birthdate).format('DD/MM/YYYY')
+                        } ${dayjs().year() - dayjs(event?._def?.extendedProps?.patient?.birthdate).year()  } ans`}
                         contentComponent={<FichePriseRdvComponent />}
                         onClose={() => dispatch(showPFRDV(false))}
                     />}

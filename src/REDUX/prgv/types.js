@@ -1,0 +1,4 @@
+export const SAVE_STEP = "SAVE_STEP";
+export const SAVE_DATA = "SAVE_DATA";
+export const SAVE_ERROR = "SAVE_ERROR";
+export const SAVE_EVENT_PRACTIONNER_FILTER = "SAVE_EVENT_PRACTIONNER_FILTER";
