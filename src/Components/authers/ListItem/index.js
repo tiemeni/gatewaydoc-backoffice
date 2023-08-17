@@ -29,6 +29,15 @@ function NestedCheckboxes({ data, boxChange }) {
     fetchData()
   }, [checkedItems]);
 
+  const waitReloadEvent = ()=>{
+    setCheckedItems([...checkedItems]);
+  }
+  useEffect(()=>{
+    window.addEventListener('ReloadEvent',waitReloadEvent)
+    return ()=>{
+      window.removeEventListener('ReloadEvent',waitReloadEvent)
+    }
+  },[])
   const handleParentCheckboxChange = (event, parentName) => {
     const { checked } = event.target;
     let newCheckedItems = [...checkedItems];
