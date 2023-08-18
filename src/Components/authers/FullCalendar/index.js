@@ -56,6 +56,7 @@ const DemoApp = ({ filterEvents }) => {
         dispatch(praticiensActions.loading());
         try {
           const data = await getPraticiens()
+          console.log(data)
           dispatch(praticiensActions.save(data));
         } catch (e) {
           dispatch(praticiensActions.loadingError(e));

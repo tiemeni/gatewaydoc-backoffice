@@ -96,12 +96,6 @@ const FackContainer = () => {
     return (
         <Box overflowY={"hidden"}>
                 <Box style={{...styles.container, display: 'flex', flexDirection: 'row'}} >
-                {showRDV &&
-                    <ModalComponent
-                        title={"Prise de Rendez-vous"}
-                        contentComponent={<PriseRdvComponent />}
-                        onClose={() => dispatch(showPRDV(false))}
-                    />}
                 {showFRDV &&
                     <ModalComponent
                         title={`Fiche de Rendez-vous de ${event?._def?.extendedProps?.civility

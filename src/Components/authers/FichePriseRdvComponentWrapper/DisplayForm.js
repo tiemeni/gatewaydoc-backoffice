@@ -32,6 +32,10 @@ import dayjs from "dayjs";
 import CustomTimeInput from "./FormsComponents/CustomTimeInput";
 import motif from "../../../Utils/transformers/motif";
 import { Chip } from '@mui/material';
+import { deleteRDV } from '../../../services/rdv';
+import { showPFRDV } from "../../../REDUX/commons/actions";
+
+
 function DisplayForm( { next = ()=>{} }){
     const [phone, setPhone] = React.useState('');
     const event = useSelector(state => state.Common.event);
@@ -52,6 +56,7 @@ function DisplayForm( { next = ()=>{} }){
     const handleChange = (newPhone) => {
       setPhone(newPhone)
     }
+
     const fetchMoreData = ()=>{
 
     }
@@ -61,6 +66,19 @@ function DisplayForm( { next = ()=>{} }){
     }
     
     const dispatch = useDispatch();
+    const deleteEvent = ()=>{
+        deleteRDV(eventData["_id"]).then(()=>{
+            const event = new Event("ReloadEvent");
+            window.dispatchEvent(event);
+            dispatch(showPFRDV(false));
+        }).catch(()=>{
+
+        });
+        
+    }
+    const close = ()=>{
+        dispatch(showPFRDV(false));
+    }
     const motifsList = useSelector((state) => state.Motifs.data);
     
     const getMotifs = async () => {
@@ -177,27 +195,27 @@ function DisplayForm( { next = ()=>{} }){
                         </Grid>
 
                             <Grid item xs={3}>                
-                                <Button variant="contained"  disableElevation>
+                                <Button variant="contained" color="secondary"  disableElevation>
                                 Historique de RDV
                                 </Button>
                             </Grid>
                             <Grid item xs={3}>
-                                <Button variant="contained" disableElevation>
+                                <Button variant="contained"  disableElevation>
                                 Modifier le RDV
                                 </Button>
                             </Grid>
                             <Grid item xs={2}>    
-                                <Button variant="contained" disableElevation>
+                                <Button variant="contained" color="warning" disableElevation>
                                     Deplacer
                                 </Button>
                             </Grid>
                             <Grid item xs={2}>    
-                                <Button variant="contained" disableElevation>
+                                <Button variant="contained" color="error" onClick={deleteEvent} disableElevation>
                                     Supprimer
                                 </Button>
                             </Grid> 
                             <Grid item xs={2}>   
-                                <Button variant="contained" disableElevation>
+                                <Button variant="contained" color="secondary" onClick={close} disableElevation>
                                     Fermer
                                 </Button>
                             </Grid>

@@ -7,9 +7,9 @@ import Box from "@mui/material/Box";
 import { saveEventsPractionner } from "../../../REDUX/calendar/actions";
 import { saveEvents } from "../../../REDUX/calendar/actions";
 import { getEventsByPractionner } from "../../../services/calendars";
+import { Divider } from "@mui/material";
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import { Colors } from "../../../Constants/colors";
-import { Divider, Typography } from "@mui/material";
+import { Colors } from "../../../Constants/colors"
 
 
 function NestedCheckboxes({ data, boxChange }) {
@@ -59,11 +59,8 @@ function NestedCheckboxes({ data, boxChange }) {
       }
     }
   }
-
-
-
   }, [checkedItems]);
-
+  
   const waitReloadEvent = ()=>{
     setCheckedItems([...checkedItems]);
   }
@@ -73,6 +70,8 @@ function NestedCheckboxes({ data, boxChange }) {
       window.removeEventListener('ReloadEvent',waitReloadEvent)
     }
   },[])
+
+
   const handleParentCheckboxChange = (event, parentName) => {
     const { checked } = event.target;
     let newCheckedItems = [...checkedItems];
@@ -119,8 +118,7 @@ function NestedCheckboxes({ data, boxChange }) {
     if (checked) {
       newCheckedItems.push(name);
       console.log('voici newCheckedItems: '+ name.toString())
-
-      console.log([newCheckedItems])
+      console.log(newCheckedItems)
 
 
       const parentName = Object.keys(data).find((key) =>
@@ -170,11 +168,11 @@ function NestedCheckboxes({ data, boxChange }) {
                 }
                 defaultChecked
                 onChange={(e) => handleParentCheckboxChange(e, parentName)}
-                name={<Typography variant="h5" noWrap title={`${parentName}`}>{`${parentName}`}</Typography>}
+                name={parentName}
                 sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}
               />
             }
-            label={<Typography variant="h5" noWrap title={`${parentName}`}>{`${parentName}`}</Typography>}
+            label={parentName}
             sx={{}} // ajout de la propriété sx pour la taille de police
           />
           <AddOutlinedIcon style={{ height: "20px", width: "20px", mb: 2, color: Colors.primary, cursor: "pointer" }} />
@@ -197,7 +195,7 @@ function NestedCheckboxes({ data, boxChange }) {
                     sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}
                   />
                 }
-                label={<Typography noWrap title={`${child.name} ${child.surname}`}>{`${child.name} ${child.surname}`}</Typography>}
+                label={`${child.name} ${child.surname}`}
                 sx={{ fontSize: "14px" }} // ajout de la propriété sx pour la taille de police
               />
               <AddOutlinedIcon style={{ height: "17px", width: "17px", cursor: "pointer", color: Colors.primary }} />

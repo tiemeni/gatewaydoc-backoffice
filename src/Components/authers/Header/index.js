@@ -11,18 +11,26 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import MenuListComposition from '../Menue';
 import { Link } from 'react-router-dom';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { showPRDV, showPFRDV } from '../../../REDUX/commons/actions';
+import ModalComponent from '../ModalComponent';
+import PriseRdvComponent from '../PriseRdvComponentWrapper';
 
 function Header() {
     const dispatch = useDispatch()
-
+    const showRDV = useSelector(state => state.Common.showPRDV);
     return (
         <Box
             style={{
                 ...styles.container,
                 backgroundColor: Colors.black
             }}>
+                {showRDV &&
+                    <ModalComponent
+                        title={"Prise de Rendez-vous"}
+                        contentComponent={<PriseRdvComponent />}
+                        onClose={() => dispatch(showPRDV(false))}
+                    />}
             <Box style={{ ...styles.menu1, alignItems: "center" }}>
                 <Box style={{ width: "30%", display: "flex", justifyContent: "center", fontWeight: 'bold' }}>
                     <Box style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
