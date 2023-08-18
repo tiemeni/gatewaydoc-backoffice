@@ -119,9 +119,11 @@ export default function HorizontalLinearAlternativeLabelStepper() {
           //patientId = rep.data._id;
           //setData({ ...data, [1]: { ...data[1], patientId }})
           dispatch(showPRDV(false));
-          dispatch(saveStep(0, {  }))
-          dispatch(saveStep(1, { }))
-          
+          dispatch(saveStep(0, {  }));
+          dispatch(saveStep(1, { }));
+          const event = new Event("ReloadEvent");
+          window.dispatchEvent(event);
+          //dispatch(showPRDV(false));
         }else{
           dispatch(saveError(rep.data));
         }
@@ -140,7 +142,7 @@ export default function HorizontalLinearAlternativeLabelStepper() {
     if(step === 1 && data[1] && data[1]['name'] && data[1]['email']){
       navigation['submit'] = true;
     }
-    setVisibles(navigation)
+    setVisibles(navigation);
   },[step]);
  
   return (
