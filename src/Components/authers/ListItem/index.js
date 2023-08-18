@@ -19,17 +19,14 @@ function NestedCheckboxes({ data, boxChange }) {
   const defaultPracti = 1
 
   const splitChaine= localStorage.getItem('defaultPraticien').split(",")
-  console.log(splitChaine)
 
   const [checkedItems, setCheckedItems] = useState(localStorage.getItem('defaultPraticien')? splitChaine:[]);
-  console.log(checkedItems)
 
   const idPracti = useSelector((state) => state.Calendar.eventsPractionerId)
 
 
   useEffect(() => {
     dispatch(saveEventsPractionner(checkedItems))
-  console.log(checkedItems)
 
     if (typeof defaultPracti !== "undefined"){
 
@@ -47,20 +44,25 @@ function NestedCheckboxes({ data, boxChange }) {
       fetchData()
 
     if (checkedItems.length === 0 &&  data ) {
+      alert('tab vide')
       // Si aucun élément n'est cochée et que 'data' est défini
       const firstParentName = Object.keys(data)[0]; // Récupérer le nom du premier parent
+      // console.log(firstParentName)
+
 
       if (data[firstParentName] && data[firstParentName].length > 0) {
         const firstChildId = data[firstParentName][0]?._id;
-        setCheckedItems(firstChildId.toString());
+        console.log([firstChildId])
+        setCheckedItems([firstChildId]);
+        // console.log(firstChildId)
 
-        localStorage.setItem('defaultPraticien', firstChildId)
+        // localStorage.setItem('defaultPraticien', [firstChildId.replace(',','')] )
 
       }
     }
   }
   }, [checkedItems]);
-  
+
   const waitReloadEvent = ()=>{
     setCheckedItems([...checkedItems]);
   }
@@ -116,9 +118,9 @@ function NestedCheckboxes({ data, boxChange }) {
     let newCheckedItems = [...checkedItems];
 
     if (checked) {
-      newCheckedItems.push(name);
-      console.log('voici newCheckedItems: '+ name.toString())
-      console.log(newCheckedItems)
+      newCheckedItems.push(name.replace(',',''));
+      // console.log('voici newCheckedItems: '+ name.toString())
+      // console.log(newCheckedItems)
 
 
       const parentName = Object.keys(data).find((key) =>
@@ -130,9 +132,6 @@ function NestedCheckboxes({ data, boxChange }) {
 
     } else {
       newCheckedItems = newCheckedItems.filter((item) => item !== name);
-      alert('not checked'+ name)
-
-
       const parentName = Object.keys(data).find((key) =>
         data[key].some((item) => item._id === name)
       );
@@ -142,9 +141,9 @@ function NestedCheckboxes({ data, boxChange }) {
           // if (!newCheckedItems.includes(checkedItems)){
           // if(!newCheckedItems.some(element => element.includes(checkedItems))){
             // alert('found')
-            setCheckedItems(newCheckedItems);
+          setCheckedItems(newCheckedItems);
           // }
-          console.log(newCheckedItems)
+          // console.log(newCheckedItems)
 
           localStorage.setItem('defaultPraticien', newCheckedItems)
 
