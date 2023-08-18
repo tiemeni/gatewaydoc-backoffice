@@ -71,15 +71,15 @@ const DemoApp = ({ filterEvents }) => {
       if(loading){
         return '';
       }
-      if(eventsPractionerId.length === 0){
+      if( ! eventsPractionerId || eventsPractionerId?.length === 0){
         return "Tous les praticiens";
       }
    
       if(!praticiens){
         return "Inconnue";
       }
-      return eventsPractionerId.flatMap((id)=>{
-        let p = praticiens.filter((p)=>p._id == id)[0];
+      return eventsPractionerId?.flatMap((id)=>{
+        let p = praticiens?.filter((p)=>p._id == id)[0];
         if(!p) return 'Inconnue';
         return p.name;
       }).join(", ")

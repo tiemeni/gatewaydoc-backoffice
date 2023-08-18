@@ -103,7 +103,7 @@ export const DataTable = ({ object, loading, dataField, dataInfo, rowsPerPage= 5
                 Gestion des {object ?? "Objet" + "(s)"}
             </Typography>
         </Box>  
-        <Skeleton variant="rounded" width={"100%"} height={"40vh"}>
+        <Skeleton variant="rounded" style={{ marginTop: "5px" }} width={"100%"} height={"60vh"}>
         </Skeleton>    
       </TableContainer>
     }

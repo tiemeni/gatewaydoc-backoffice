@@ -33,6 +33,7 @@ function PageGestionPatients() {
             searchForm={<SearchPraticienFormComponent />}
             title={"Gestion des patients"}
             object={"patient"}
+            loading={isLoading}
             dataField={DATA_TABLE_PATIENT_COLONNE}
             dataInfo={patients}
         />
