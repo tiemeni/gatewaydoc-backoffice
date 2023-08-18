@@ -31,7 +31,7 @@ import CustomDateInput from "./FormsComponents/CustomDateInput";
 import dayjs from "dayjs";
 import CustomTimeInput from "./FormsComponents/CustomTimeInput";
 import motif from "../../../Utils/transformers/motif";
-
+import { Chip } from '@mui/material';
 function DisplayForm( { next = ()=>{} }){
     const [phone, setPhone] = React.useState('');
     const event = useSelector(state => state.Common.event);
@@ -116,10 +116,12 @@ function DisplayForm( { next = ()=>{} }){
                         </Grid>
 
                         <Grid item xs={6}>
-                            <BasicFormControl  label='Status du DRV'  Input={SelectWithOption} props={{ name: 'name' , placeholder: 'Nom' }} />
+                            <BasicFormControl  label='Status'  Input={StyledInput} props={{ name: 'status', disabled: true, value: eventData.status, placeholder: 'status' }} />
+                            {/*<BasicFormControl  label='Status du DRV'  Input={SelectWithOption} props={{ name: 'name' , placeholder: 'Nom' }} />*/}
                         </Grid>
                         <Grid item xs={6}>
-                            <BasicFormControl  label='Motif'  Input={SelectWithOption} props={{ name: 'motif', options: (motifsList && motifsList.data||[]).flatMap(motif.toListItem)  , placeholder: 'Nom' }} />
+                            <BasicFormControl  label='Motif'  Input={StyledInput} props={{ name: 'motif', disabled: true, value: eventData.motif, placeholder: 'status' }} />
+                            {/*<BasicFormControl  label='Motif'  Input={SelectWithOption} props={{ name: 'motif', options: (motifsList && motifsList.data||[]).flatMap(motif.toListItem)  , placeholder: 'Nom' }} />*/}
                             <br/>
                             <Box mt={1}>
                                 <Button variant="contained" size="medium">Plus de Motifs</Button>
@@ -151,10 +153,10 @@ function DisplayForm( { next = ()=>{} }){
                           
                         </Grid>
                         <Grid item xs={6}>
-                            <BasicFormControl  label='Telephone portable'  Input={PhoneInput} props={{ value: patient.telephone, name: 'telephone' , placeholder: '', label: '' }} />
+                            <BasicFormControl  label='Telephone portable'  Input={PhoneInput} props={{ value: patient.telephone, disabled: true, name: 'telephone' , placeholder: '', label: '' }} />
                         </Grid>
                         <Grid item xs={6}>
-                            <BasicFormControl  label='Telephone fixe '  Input={PhoneInput} props={{ name: 'fixe' , placeholder: '', label: '' }} />
+                            <BasicFormControl  label='Telephone fixe '  Input={PhoneInput} props={{ name: 'fixe', disabled: true , placeholder: '', label: '' }} />
                         </Grid>
                         <Grid item xs={6}>
                             <BasicFormControl  label='Email '  Input={StyledInput} props={{ name: 'email', value: patient.email, disabled: true , placeholder: 'email' }} />

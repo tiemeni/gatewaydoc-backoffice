@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -6,7 +6,7 @@ import resourceTimeGridPlugin from '@fullcalendar/resource-timegrid';
 import { connect, useDispatch, useSelector } from "react-redux";
 import interactionPlugin from '@fullcalendar/interaction';
 import frlocale from '@fullcalendar/core/locales/fr'
-import { Box, Tooltip, tooltipClasses, Typography } from '@mui/material';
+import { Box, Skeleton, Tooltip, tooltipClasses, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import styles from './style'
 import Pikaday from 'pikaday'
@@ -21,6 +21,7 @@ import { showPFRDV, showPRDV } from '../../../REDUX/commons/actions';
 import { getAllPraticiens } from '../../../services/praticiens';
 import { save } from '../../../REDUX/praticiens/actions';
 
+import praticiensActions from "../../../REDUX/praticiens/actions";
 
 const LightTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -39,6 +40,7 @@ const DemoApp = ({ filterEvents }) => {
     const dispatch = useDispatch();
    
     const praticiens = useSelector((state) => state.Praticiens.praticiens)
+    const loading = useSelector((state) => state.Praticiens.loading)
 
     // localStorage.setItem('idP', praticiens[0]?._id)
 
@@ -46,7 +48,39 @@ const DemoApp = ({ filterEvents }) => {
     //     return { ...item, id: item._id, title: item.name };
     //   });
 
+    const eventsPractionerId = useSelector((state) => state.Calendar.eventsPractionerId);
 
+    const getAllPraticiens = async () => {
+      if (!(praticiens && praticiens.length > 0) && !loading) {
+  
+        dispatch(praticiensActions.loading());
+        try {
+          const data = await getPraticiens()
+          dispatch(praticiensActions.save(data));
+        } catch (e) {
+          dispatch(praticiensActions.loadingError(e));
+        }
+      }
+    }
+    useEffect(()=>{
+      getAllPraticiens()
+    },[])
+    const names =  useMemo(()=>{
+      if(loading){
+        return '';
+      }
+      if(eventsPractionerId.length === 0){
+        return "Tous les praticiens";
+      }
+      if(!praticiens){
+        return "Inconnue";
+      }
+      return eventsPractionerId.flatMap((id)=>{
+        let p = praticiens.filter((p)=>p._id == id)[0];
+        if(!p) return 'Inconnue';
+        return p.name;
+      }).join(", ")
+    },[praticiens,eventsPractionerId]);
 
     useEffect(()=>{
         async function fetchData() {
@@ -115,7 +149,7 @@ const DemoApp = ({ filterEvents }) => {
                         }
                     </Box>
                 </Box > */}
-                <Box>
+                <Box onClick={()=>dispatch(showPFRDV(true,event))}>
                     <div
                     onContextMenu={(e) => {
                         e.preventDefault();
@@ -221,7 +255,7 @@ const DemoApp = ({ filterEvents }) => {
         onHideNeeded={hideContextenu}
         permissions={["copy", "cut", "move", "delete", "print", "receipt", "abort", "justify", "discuss", "profiling", "urgence"]}
       />
-      <Typography sx={styles.practitionerTile}>BERTRAND Guillaume</Typography>
+      <Typography sx={styles.practitionerTile} title={names} noWrap>{names}</Typography>
       <FullCalendar
         ref={calendarRef}
         plugins={[dayGridPlugin, resourceTimeGridPlugin, interactionPlugin]}
