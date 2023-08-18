@@ -39,7 +39,7 @@ const DemoApp = ({ filterEvents }) => {
     // const pickerRef = React.useRef(null)
     const dispatch = useDispatch();
    
-    const praticiens = useSelector((state) => state.Praticiens.praticiens)
+    const praticiens = useSelector((state) => state.Praticiens.praticiens||[])
     const loading = useSelector((state) => state.Praticiens.loading)
 
     // localStorage.setItem('idP', praticiens[0]?._id)
@@ -57,6 +57,7 @@ const DemoApp = ({ filterEvents }) => {
         try {
           const data = await getPraticiens()
           console.log(data)
+          if(data && data.data)
           dispatch(praticiensActions.save(data));
         } catch (e) {
           dispatch(praticiensActions.loadingError(e));
@@ -73,6 +74,7 @@ const DemoApp = ({ filterEvents }) => {
       if(eventsPractionerId.length === 0){
         return "Tous les praticiens";
       }
+   
       if(!praticiens){
         return "Inconnue";
       }
@@ -83,18 +85,7 @@ const DemoApp = ({ filterEvents }) => {
       }).join(", ")
     },[praticiens,eventsPractionerId]);
 
-    useEffect(()=>{
-        async function fetchData() {
-            const response = await getPraticiens();
-    
-            if (response.success !== true) {
-            return;
-            }
-
-            dispatch(save(response.data))
-        }
-        fetchData()
-    }, [])
+ 
 
     const events = useSelector((state) => state.Calendar.events)
 

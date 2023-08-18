@@ -11,22 +11,22 @@ function PageGestionPaiement() {
     const patients = useSelector((state) => state.Patients.patients)
     const dispatch = useDispatch();
 
-  React.useEffect(() => {
-    async function fetchData() {
-      setIsLoading(true);
-      const response = await getPatients();
+    React.useEffect(() => {
+      async function fetchData() {
+        setIsLoading(true);
+        const response = await getPatients();
 
-      if (response.success !== true) {
+        if (response.success !== true) {
+          setIsLoading(false);
+          return;
+        }
+
         setIsLoading(false);
-        return;
+        
+        dispatch(savePatients(response.data))
       }
-
-      setIsLoading(false);
-      
-      dispatch(savePatients(response.data))
-    }
-    fetchData();
-  }, [])
+      fetchData();
+    }, [])
 
     return (
         <GestionLayout

@@ -114,7 +114,7 @@ export const DataTable = ({ object, loading, dataField, dataInfo, rowsPerPage= 5
                     Gestion des {object ?? "Objet" + "(s)"}
                 </Typography>
             </Box>
-            <Paper sx={{ width: '100%' }}>
+            <Paper sx={{ width: '100%' }} style={{ overflow: "scroll"}}>
             {(dataField?.length > 0 && dataInfo.length > 0) &&
                 <Table stickyHeader sx={{ minWidth: 650, maxWidth: "100vw" }} aria-label="simple table">
                     <TableHead>
@@ -157,8 +157,9 @@ export const DataTable = ({ object, loading, dataField, dataInfo, rowsPerPage= 5
                         {
                           dataInfo.length > rowsPerPage   &&                        <TableRow>
                           <TablePagination
+                          
                           rowsPerPageOptions={rowsPerPageOptions}
-                          colSpan={dataField?.length}
+                          colSpan={4}
                           count={dataInfo.length}
                           rowsPerPage={rowsPerPage}
                           page={page}
