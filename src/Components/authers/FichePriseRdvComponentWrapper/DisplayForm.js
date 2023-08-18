@@ -195,27 +195,27 @@ function DisplayForm( { next = ()=>{} }){
                         </Grid>
 
                             <Grid item xs={3}>                
-                                <Button variant="contained"  disableElevation>
+                                <Button variant="contained" color="secondary"  disableElevation>
                                 Historique de RDV
                                 </Button>
                             </Grid>
                             <Grid item xs={3}>
-                                <Button variant="contained" disableElevation>
+                                <Button variant="contained"  disableElevation>
                                 Modifier le RDV
                                 </Button>
                             </Grid>
                             <Grid item xs={2}>    
-                                <Button variant="contained" disableElevation>
+                                <Button variant="contained" color="warning" disableElevation>
                                     Deplacer
                                 </Button>
                             </Grid>
                             <Grid item xs={2}>    
-                                <Button variant="contained" onClick={deleteEvent} disableElevation>
+                                <Button variant="contained" color="error" onClick={deleteEvent} disableElevation>
                                     Supprimer
                                 </Button>
                             </Grid> 
                             <Grid item xs={2}>   
-                                <Button variant="contained" onClick={close} disableElevation>
+                                <Button variant="contained" color="secondary" onClick={close} disableElevation>
                                     Fermer
                                 </Button>
                             </Grid>

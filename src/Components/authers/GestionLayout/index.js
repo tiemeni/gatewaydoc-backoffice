@@ -22,19 +22,26 @@ function GestionLayout({
     editeFonction,
     deleteFonction,
     searchForm = null,
-    searchFonction
+    searchFonction,
+    loading,
+    rowsPerPage= 5, 
+    page= 0, 
+    rowsPerPageOptions=[5, 10, 25, { label: 'Tous', value: -1 }],
+    onPageChange=()=>{}, 
+    onRowsPerChange=()=>{},
+    allowSearch = true
 }) {
     const [isLoading, setIsLoading] = useState(false);
 
     return (
         <UsersLayout
             title={title ?? "Gestion des Objects"}>
-            <Grid item xs={12} px={2}>
+            {allowSearch && <Grid item xs={12} px={2}>
                 <SearchAccordion
                     title={object ? "Rechercher un " + object : "Rechercher un Object"}>
                     {searchForm}
                 </SearchAccordion>
-            </Grid>
+            </Grid>}
             <Grid item xs={12} px={2} mt={3}>
                 <Typography
                     sx={styles.fs14}>
@@ -50,16 +57,22 @@ function GestionLayout({
                     </Button>
                 </Link>
                 <DataTable
+                    page={page}
+                    rowsPerPageOptions={rowsPerPageOptions}
+                    rowsPerPage={rowsPerPage}
+                    onPageChange={onPageChange}
+                    onRowsPerChange={onRowsPerChange}
+                    loading={loading}
                     dataInfo={dataInfo}
                     dataField={dataField}
                     object={object} />
-                {isLoading &&
-                    <Box sx={styles.loaderContainer}>
-                        <CircularProgress />
-                    </Box>}
+               
             </Grid>
         </UsersLayout>
     )
 }
-
+/** {isLoading &&
+                    <Box sx={styles.loaderContainer}>
+                        <CircularProgress />
+                    </Box>} */
 export default GestionLayout;
