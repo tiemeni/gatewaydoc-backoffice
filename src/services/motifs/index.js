@@ -54,9 +54,9 @@ export const motifsByProfession = async (profession)=>{
     const response = await  axios({
       method: "GET",
       url: BASE_URL + `/motif/profession/${profession}`,
-      params: {                  
-          idCentre: app.idCentre,
-      },
+      // params: {                  
+      //     idCentre: app.idCentre,
+      // },
       headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
