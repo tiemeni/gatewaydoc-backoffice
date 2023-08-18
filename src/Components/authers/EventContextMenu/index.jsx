@@ -1,6 +1,7 @@
 import React from "react";
 import './EventContextMenu.css';
 import { items } from "./items";
+
 const EventContextMenu = (props) => {
     const { calendarEvent, left, top, permissions, isVisible, onHideNeeded} = props;
 
