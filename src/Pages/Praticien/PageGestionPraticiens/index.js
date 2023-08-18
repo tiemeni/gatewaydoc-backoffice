@@ -13,7 +13,7 @@ function PageGestionPraticiens({ data, loading, error }) {
   const dispatch = useDispatch();
   const [ListPraticiens, setListPraticiens] = useState(data || []);
   const getAllPraticiens = async () => {
-    if (!(ListPraticiens && ListPraticiens.length > 0)) {
+    if (!(data && data.length > 0)) {
 
       dispatch(praticiens.loading());
       try {
@@ -46,7 +46,7 @@ function PageGestionPraticiens({ data, loading, error }) {
         title={"Gestion des praticiens"}
         object={"praticien"}
         dataField={DATA_TABLE_PRATICIEN_COLONNE}
-        dataInfo={ListPraticiens}
+        dataInfo={data}
       />
     </container>
   );
