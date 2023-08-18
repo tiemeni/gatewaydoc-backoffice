@@ -18,15 +18,19 @@ function NestedCheckboxes({ data, boxChange }) {
   // const defaultPracti = useSelector((state) => state.Praticiens.praticiens[0]?._id)
   const defaultPracti = 1
 
-  // const [checkedItems, setCheckedItems] = useState( defaultPracti ?? []);
-  const [checkedItems, setCheckedItems] = useState(localStorage.getItem('defaultPraticien')? localStorage.getItem('defaultPraticien'):[]);
+  const splitChaine= localStorage.getItem('defaultPraticien').split(",")
+  console.log(splitChaine)
+
+  const [checkedItems, setCheckedItems] = useState(localStorage.getItem('defaultPraticien')? splitChaine:[]);
+  console.log(checkedItems)
 
   const idPracti = useSelector((state) => state.Calendar.eventsPractionerId)
 
 
   useEffect(() => {
-    console.log(checkedItems)
     dispatch(saveEventsPractionner(checkedItems))
+  console.log(checkedItems)
+
     if (typeof defaultPracti !== "undefined"){
 
     async function fetchData() {
@@ -50,7 +54,7 @@ function NestedCheckboxes({ data, boxChange }) {
         const firstChildId = data[firstParentName][0]?._id;
         setCheckedItems(firstChildId.toString());
 
-        localStorage.setItem('defaultPraticien', firstChildId.toString())
+        localStorage.setItem('defaultPraticien', firstChildId)
 
       }
     }
@@ -66,19 +70,22 @@ function NestedCheckboxes({ data, boxChange }) {
         if(data){
 
             if (checked) {
-            newCheckedItems = newCheckedItems.concat(data[parentName].map((item) => item._id));
+              console.log(data, parentName)
+            newCheckedItems = data[parentName].map((item) => item._id);
+            console.log(newCheckedItems)
             } else {
-            newCheckedItems = newCheckedItems.filter((item) => !data[parentName].map((item) => item._id).includes(item));
+              console.log("---------------------------")
+              let datatest = []
+              datatest = newCheckedItems.filter((item) => !data[parentName].map((item) => item._id).includes(item));
+              newCheckedItems=datatest
 
             }
         }
 
-    setCheckedItems(newCheckedItems.toString());
+    setCheckedItems(newCheckedItems);
+    console.log(newCheckedItems)
 
     localStorage.setItem('defaultPraticien', newCheckedItems.toString())
-
-//   dispatch(saveEventsPractionner(checkedItems))
-
 
   };
 
@@ -87,8 +94,6 @@ function NestedCheckboxes({ data, boxChange }) {
  
         async function fetchData() {
 
-            // const finalId=  Object.values(checkedItems).join(",");
-            // console.log("voici final id"+checkedItems)
             const response = await getEventsByPractionner(checkedItems);
       
             if (response.success !== true) {
@@ -99,10 +104,15 @@ function NestedCheckboxes({ data, boxChange }) {
           fetchData()
 
     const { name, checked } = event.target; 
+    
     let newCheckedItems = [...checkedItems];
 
     if (checked) {
       newCheckedItems.push(name);
+      console.log('voici newCheckedItems: '+ name.toString())
+
+      console.log([newCheckedItems])
+
 
       const parentName = Object.keys(data).find((key) =>
         data[key].some((item) => item._id === name)
@@ -113,6 +123,8 @@ function NestedCheckboxes({ data, boxChange }) {
 
     } else {
       newCheckedItems = newCheckedItems.filter((item) => item !== name);
+      alert('not checked'+ name)
+
 
       const parentName = Object.keys(data).find((key) =>
         data[key].some((item) => item._id === name)
@@ -120,9 +132,14 @@ function NestedCheckboxes({ data, boxChange }) {
       newCheckedItems = newCheckedItems.filter((item) => item !== parentName);
     }
 
-          setCheckedItems(newCheckedItems);
+          // if (!newCheckedItems.includes(checkedItems)){
+          // if(!newCheckedItems.some(element => element.includes(checkedItems))){
+            // alert('found')
+            setCheckedItems(newCheckedItems);
+          // }
+          console.log(newCheckedItems)
 
-          localStorage.setItem('defaultPraticien', newCheckedItems.toString())
+          localStorage.setItem('defaultPraticien', newCheckedItems)
 
   };
 
@@ -165,7 +182,7 @@ function NestedCheckboxes({ data, boxChange }) {
                 style={{ height: "20px", minHeight: "20px" }}
                 control={
                   <Checkbox
-                    checked={checkedItems.includes(child._id)}
+                    checked={(localStorage.getItem('defaultPraticien').includes(child._id))}
                     onChange={handleChildCheckboxChange}
                     name={child._id}
                     sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}
