@@ -38,6 +38,7 @@ import { showPFRDV } from "../../../REDUX/commons/actions";
 
 function DisplayForm( { next = ()=>{} }){
     const [phone, setPhone] = React.useState('');
+    const [data, setData] = React.useState({});
     const event = useSelector(state => state.Common.event);
     const eventData = useSelector(state => (state.Calendar.events || []).filter((e)=>e._id == event._def.extendedProps._id)[0]);
    
@@ -52,7 +53,7 @@ function DisplayForm( { next = ()=>{} }){
     const patient = {
         ...eventData?.patient
     }
-    const { register, handleSubmit, getValues } = useForm();
+    const { register, handleSubmit, getValues, watch } = useForm();
     const handleChange = (newPhone) => {
       setPhone(newPhone)
     }
@@ -61,8 +62,8 @@ function DisplayForm( { next = ()=>{} }){
 
     }
     const onSubmit = (e)=>{
-      console.log(e)
-        updateRDV(eventData["_id"], e).then(()=>{
+        console.log(data)
+        updateRDV(eventData["_id"], JSON.stringify(data)).then(()=>{
             const event = new Event("ReloadEvent");
             window.dispatchEvent(event);
             dispatch(showPFRDV(false));
@@ -111,7 +112,18 @@ function DisplayForm( { next = ()=>{} }){
         loadMotifsByProfession()
     },[event])
 
-    
+    React.useEffect(() => {
+        
+        const subscription = watch(async(values, { name, type }) =>{
+                        
+            let v = { ...values};
+            console.log(v);
+            setData(v);
+            //setValue(name, values[name]);
+        
+        })
+    return () => subscription.unsubscribe();
+    }, [watch]);
     return (
       <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
       
