@@ -29,7 +29,7 @@ function NestedCheckboxes({ data, boxChange }) {
 
   useEffect(() => {
     dispatch(saveEventsPractionner(checkedItems))
-  console.log(checkedItems)
+
 
     if (typeof defaultPracti !== "undefined"){
 

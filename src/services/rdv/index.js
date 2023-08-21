@@ -11,3 +11,9 @@ export const deleteRDV = async (id) => {
     return data;
 
 }
+
+export const updateRDV = async (id, body)=>{
+    const res = await fetch(`${BASE_URL}/appointments/${id}/?idCentre=${app.idCentre}`,{ method: 'PUT',  body });
+    const data = await res.json()
+    return data;
+}

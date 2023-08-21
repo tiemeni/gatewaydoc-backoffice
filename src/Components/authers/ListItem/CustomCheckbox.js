@@ -5,6 +5,7 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Box from "@mui/material/Box";
 import { saveEventsPractionner } from "../../../REDUX/calendar/actions";
+import Typographie from "@mui/material/Typographie";
 
 function NestedCheckboxes({data }) {
   const dispatch = useDispatch();
@@ -90,7 +91,7 @@ function NestedCheckboxes({data }) {
                 />
               }
               label={`${child.name} ${child.surname}`}
-              sx={{ fontSize: "14px" }} // ajout de la propriété sx pour la taille de police
+              sx={{ fontSize: "5px", textOverflow: "ellipsis"}} // ajout de la propriété sx pour la taille de police
             />
           </Box>
         ))}

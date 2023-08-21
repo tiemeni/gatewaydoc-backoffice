@@ -32,7 +32,7 @@ import dayjs from "dayjs";
 import CustomTimeInput from "./FormsComponents/CustomTimeInput";
 import motif from "../../../Utils/transformers/motif";
 import { Chip } from '@mui/material';
-import { deleteRDV } from '../../../services/rdv';
+import { deleteRDV, updateRDV } from '../../../services/rdv';
 import { showPFRDV } from "../../../REDUX/commons/actions";
 
 
@@ -52,7 +52,7 @@ function DisplayForm( { next = ()=>{} }){
     const patient = {
         ...eventData?.patient
     }
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, getValues } = useForm();
     const handleChange = (newPhone) => {
       setPhone(newPhone)
     }
@@ -61,8 +61,14 @@ function DisplayForm( { next = ()=>{} }){
 
     }
     const onSubmit = (e)=>{
-      e.preventDefault();
-      next();
+      console.log(e)
+        updateRDV(eventData["_id"], e).then(()=>{
+            const event = new Event("ReloadEvent");
+            window.dispatchEvent(event);
+            dispatch(showPFRDV(false));
+        }).catch(()=>{
+
+        });
     }
     
     const dispatch = useDispatch();
@@ -105,7 +111,7 @@ function DisplayForm( { next = ()=>{} }){
         loadMotifsByProfession()
     },[event])
 
-
+    
     return (
       <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
       
@@ -134,11 +140,11 @@ function DisplayForm( { next = ()=>{} }){
                         </Grid>
 
                         <Grid item xs={6}>
-                            <BasicFormControl  label='Status'  Input={StyledInput} props={{ name: 'status', disabled: true, value: eventData.status, placeholder: 'status' }} />
+                            <BasicFormControl  label='Status'  Input={StyledInput} props={{ name: 'status', disabled: true, value: getValues('status') || eventData.status, placeholder: 'status' }} />
                             {/*<BasicFormControl  label='Status du DRV'  Input={SelectWithOption} props={{ name: 'name' , placeholder: 'Nom' }} />*/}
                         </Grid>
                         <Grid item xs={6}>
-                            <BasicFormControl  label='Motif'  Input={StyledInput} props={{ name: 'motif', disabled: true, value: eventData.motif, placeholder: 'status' }} />
+                            <BasicFormControl  label='Motif'  Input={StyledInput} props={{ name: 'motif', disabled: true, value: getValues('motif') ||eventData.motif, placeholder: 'status' }} />
                             {/*<BasicFormControl  label='Motif'  Input={SelectWithOption} props={{ name: 'motif', options: (motifsList && motifsList.data||[]).flatMap(motif.toListItem)  , placeholder: 'Nom' }} />*/}
                             <br/>
                             <Box mt={1}>
@@ -146,16 +152,16 @@ function DisplayForm( { next = ()=>{} }){
                             </Box>
                         </Grid>    
                         <Grid item xs={3}>
-                            <BasicFormControl  label='Date'  Input={CustomDateInput} props={{ name: 'date', disabled: true, value: dayjs(eventData.date), placeholder: 'date' }} />
+                            <BasicFormControl  label='Date'  Input={CustomDateInput} props={{ name: 'date', disabled: false, minDate: dayjs() , value:  dayjs( getValues('date') ||eventData.date), ...register('date'), placeholder: 'date' }} />
                         </Grid>
                         <Grid item xs={3}>
-                            <BasicFormControl  label='Heure Patient'  Input={CustomTimeInput} props={{ name: 'startTime', value: dayjs(`2022-04-17T${eventData.timeStart}`),views: ['hours','minutes'], disabled: true, placeholder: 'Nom' }} />
+                            <BasicFormControl  label='Heure Patient'  Input={CustomTimeInput} props={{ name: 'startTime', value: dayjs(`2022-04-17T${eventData.startTime}`),views: ['hours','minutes'], ...register('startTime'), disabled: false, placeholder: 'StartTime' }} />
                         </Grid>
                         <Grid item xs={3}>
-                            <BasicFormControl  label='Heure Reelle'  Input={CustomTimeInput} props={{ name: 'endTime', value: dayjs(`2022-04-17T${eventData.timeStart}`), disabled: true, views: ['hours','minutes'], disable: true , placeholder: 'Nom' }} />
+                            <BasicFormControl  label='Heure Reelle'  Input={CustomTimeInput} props={{ name: 'endTime', value: dayjs(`2022-04-17T${eventData.startTime}`), disabled: true, views: ['hours','minutes'], disable: true, placeholder: 'Nom' }} />
                         </Grid>
                         <Grid item xs={3}>
-                            <BasicFormControl  label='Duree (en min.) '  Input={StyledInput} props={{ name: 'duration', value: eventData.duration, disabled: true , placeholder: 'Nom', type: NUMBER }} />
+                            <BasicFormControl  label='Duree (en min.) '  Input={StyledInput} props={{ name: 'duration', value: eventData.duration, disabled: false , placeholder: 'Nom', ...register('duration') , type: NUMBER }} />
                         </Grid>
                         <Grid item xs={12}>
                             <Divider orientation="horizontal"/>
@@ -195,12 +201,12 @@ function DisplayForm( { next = ()=>{} }){
                         </Grid>
 
                             <Grid item xs={3}>                
-                                <Button variant="contained" color="secondary"  disableElevation>
-                                Historique de RDV
+                                <Button variant="contained"  color="secondary"  disableElevation>
+                                    Historique de RDV
                                 </Button>
                             </Grid>
                             <Grid item xs={3}>
-                                <Button variant="contained"  disableElevation>
+                                <Button variant="contained" type="submit"  disableElevation>
                                 Modifier le RDV
                                 </Button>
                             </Grid>
