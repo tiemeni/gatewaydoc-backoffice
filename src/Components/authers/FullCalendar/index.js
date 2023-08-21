@@ -41,14 +41,23 @@ const DemoApp = ({ filterEvents }) => {
    
     const praticiens = useSelector((state) => state.Praticiens.praticiens||[])
     const loading = useSelector((state) => state.Praticiens.loading)
-
+    const selectEventPractioner = (eventsPractionerId)=>{
+      
+      if( typeof eventsPractionerId == "string"){
+        return [eventsPractionerId];
+      }
+      if(Array.isArray(eventsPractionerId)){
+        return eventsPractionerId
+      }
+      return [];
+    }
     // localStorage.setItem('idP', praticiens[0]?._id)
 
     // const RessourcePraticiens = praticiens.map((item, index) => {
     //     return { ...item, id: item._id, title: item.name };
     //   });
-
-    const eventsPractionerId = useSelector((state) => state.Calendar.eventsPractionerId);
+  
+    const eventsPractionerId = useSelector((state) => selectEventPractioner(state.Calendar.eventsPractionerId));
 
     const getAllPraticiens = async () => {
       if (!(praticiens && praticiens.length > 0) && !loading) {
@@ -78,6 +87,7 @@ const DemoApp = ({ filterEvents }) => {
       if(!praticiens){
         return "Inconnue";
       }
+      console.log(eventsPractionerId)
       return eventsPractionerId?.flatMap((id)=>{
         let p = praticiens?.filter((p)=>p._id == id)[0];
         if(!p) return 'Inconnue';
