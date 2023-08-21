@@ -18,7 +18,7 @@ function NestedCheckboxes({ data, boxChange }) {
   // const defaultPracti = useSelector((state) => state.Praticiens.praticiens[0]?._id)
   const defaultPracti = 1
 
-  const splitChaine= localStorage.getItem('defaultPraticien').split(",")
+  const splitChaine= localStorage.getItem('defaultPraticien')?.split(",")
   console.log(splitChaine)
 
   const [checkedItems, setCheckedItems] = useState(localStorage.getItem('defaultPraticien')? splitChaine:[]);
@@ -189,7 +189,7 @@ function NestedCheckboxes({ data, boxChange }) {
                 style={{ height: "20px", minHeight: "20px" }}
                 control={
                   <Checkbox
-                    checked={(localStorage.getItem('defaultPraticien').includes(child._id))}
+                    checked={(localStorage.getItem('defaultPraticien')?.includes(child._id))}
                     onChange={handleChildCheckboxChange}
                     name={child._id}
                     sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}
