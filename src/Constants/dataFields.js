@@ -127,4 +127,14 @@ export const DATA_TABLE_PAIEMENT_COLONNE = [
     },
 ];
 
-export const DATA_TABLE_GROUPE_COLONNE = ["Nom du groupe", "Description", "Actions"]
+export const DATA_TABLE_GROUPE_COLONNE = [{
+    label: "Nom",
+    name: "title",
+},
+{
+    label: "Descriptions",
+    name: "description",
+},
+{
+    label: "Actions",
+}]

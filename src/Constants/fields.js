@@ -469,11 +469,11 @@ export const lieuxFields = {
         },
         {
             id: 7,
-            label: "Téléphone*",
-            name: "phone",
+            label: "geoCoordonnes",
+            name: "geoCoordonnes",
             type: fieldTypes.TEXT,
-            required: true,
-            placeholder: "Prenom"
+            required: false,
+            placeholder: "Geo Coordonnes"
         },
         {
             id: 8,

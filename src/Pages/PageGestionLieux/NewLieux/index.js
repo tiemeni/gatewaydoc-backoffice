@@ -9,7 +9,7 @@ import { getCivilities } from "../../../REDUX/commons/actions";
 import { useParams } from "react-router-dom";
 import generatePassword from "../../../helpers/passwordGenerator";
 import { createUser, updateUser } from "../../../services/users";
-
+import { getAllLieux, createLieu, updateLieu } from '../../../services/lieux'
 const NewLieux = () => {
   const { fields } = lieuxFields;
   const dispatch = useDispatch();
@@ -60,12 +60,12 @@ const NewLieux = () => {
   const onSubmit = async (data) => {
     if (!lieuId) {
       const payload = { ...data, password: generatePassword() };
-      const result = await createUser(payload);
+      const result = await createLieu(payload);
       if (result.success !== true) return;
       setRedirect("/content/lieux");
     } else {
       //update user
-      const result = await updateUser(data, lieuId);
+      const result = await updateLieu(data, lieuId);
       if (result.success !== true) return;
       setRedirect("/content/lieux");
     }
@@ -76,7 +76,7 @@ const NewLieux = () => {
       fields={lieuxFields}
       title={"Gestion des lieux"}
       dataId={lieuId}
-      type={"user"}
+      type={"lieu"}
       redirect={redirect}
       onSubmit={onSubmit}
     />

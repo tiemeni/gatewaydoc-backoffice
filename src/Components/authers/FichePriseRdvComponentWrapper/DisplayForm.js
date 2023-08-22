@@ -34,6 +34,7 @@ import motif from "../../../Utils/transformers/motif";
 import { Chip } from '@mui/material';
 import { deleteRDV, updateRDV } from '../../../services/rdv';
 import { showPFRDV } from "../../../REDUX/commons/actions";
+import { toast } from 'react-toastify';
 
 
 function DisplayForm( { next = ()=>{} }){
@@ -62,8 +63,17 @@ function DisplayForm( { next = ()=>{} }){
 
     }
     const onSubmit = (e)=>{
-        console.log(data)
-        updateRDV(eventData["_id"], JSON.stringify(data)).then(()=>{
+        console.log(data, e)
+        let values = {
+
+        }
+        if(e.date){
+            values['startDate'] =  e.date.format('DD/MM/YYYY');
+        }
+        if(e.startTime){
+            values['startTime'] =  e.date.format('HH:mm');
+        }
+        updateRDV(eventData["_id"], JSON.stringify(values)).then(()=>{
             const event = new Event("ReloadEvent");
             window.dispatchEvent(event);
             dispatch(showPFRDV(false));
@@ -78,8 +88,10 @@ function DisplayForm( { next = ()=>{} }){
             const event = new Event("ReloadEvent");
             window.dispatchEvent(event);
             dispatch(showPFRDV(false));
-        }).catch(()=>{
+            toast.success("Fiche supprimer");
 
+        }).catch(()=>{
+            toast.error("la suppression de la fiche patient n'as pas reussi");
         });
         
     }
@@ -117,16 +129,17 @@ function DisplayForm( { next = ()=>{} }){
         const subscription = watch(async(values, { name, type }) =>{
                         
             let v = { ...values};
-            console.log(v);
             setData(v);
             //setValue(name, values[name]);
         
         })
     return () => subscription.unsubscribe();
     }, [watch]);
+   
+    
     return (
       <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-      
+        
       <Grid container  style={{ padding: "12px" }}>
      
 
@@ -164,16 +177,16 @@ function DisplayForm( { next = ()=>{} }){
                             </Box>
                         </Grid>    
                         <Grid item xs={3}>
-                            <BasicFormControl  label='Date'  Input={CustomDateInput} props={{ name: 'date', disabled: false, minDate: dayjs() , value:  dayjs( getValues('date') ||eventData.date), ...register('date'), placeholder: 'date' }} />
+                            <BasicFormControl  label='Date'  Input={CustomDateInput} props={{ name: 'date', disabled: true, minDate: dayjs() , value:  dayjs( getValues('date') ||eventData.date), ...register('date'), placeholder: 'date' }} />
                         </Grid>
                         <Grid item xs={3}>
-                            <BasicFormControl  label='Heure Patient'  Input={CustomTimeInput} props={{ name: 'startTime', value: dayjs(`2022-04-17T${eventData.startTime}`),views: ['hours','minutes'], ...register('startTime'), disabled: false, placeholder: 'StartTime' }} />
+                            <BasicFormControl  label='Heure Patient'  Input={CustomTimeInput} props={{ name: 'startTime', value: dayjs(`2022-04-17T${eventData.timeStart}`),views: ['hours','minutes'], ...register('startTime'), disabled: true, placeholder: 'StartTime' }} />
                         </Grid>
                         <Grid item xs={3}>
-                            <BasicFormControl  label='Heure Reelle'  Input={CustomTimeInput} props={{ name: 'endTime', value: dayjs(`2022-04-17T${eventData.startTime}`), disabled: true, views: ['hours','minutes'], disable: true, placeholder: 'Nom' }} />
+                            <BasicFormControl  label='Heure Reelle'  Input={CustomTimeInput} props={{ name: 'endTime', value: dayjs(`2022-04-17T${eventData.timeEnd}`), disabled: true, views: ['hours','minutes'], disable: true, placeholder: 'Nom' }} />
                         </Grid>
                         <Grid item xs={3}>
-                            <BasicFormControl  label='Duree (en min.) '  Input={StyledInput} props={{ name: 'duration', value: eventData.duration, disabled: false , placeholder: 'Nom', ...register('duration') , type: NUMBER }} />
+                            <BasicFormControl  label='Duree (en min.) '  Input={StyledInput} props={{ name: 'duration', value: eventData.duration, disabled: true , placeholder: 'Nom', ...register('duration') , type: NUMBER }} />
                         </Grid>
                         <Grid item xs={12}>
                             <Divider orientation="horizontal"/>
@@ -209,7 +222,7 @@ function DisplayForm( { next = ()=>{} }){
                             <BasicFormControl  label='Medecin Traitant '  Input={StyledInput} props={{ name: 'name', disabled: true, value: eventData.name , placeholder: 'Nom' }} />
                         </Grid>
                         <Grid item xs={12}>
-                            <BasicFormControl  label='Commentaire '  Input={StyledInput} props={{ name: 'commentaire', multiline: true , rows: 3, placeholder: 'Nom' }} />
+                            <BasicFormControl  label='Commentaire '  Input={StyledInput} props={{ name: 'commentaire', multiline: true , rows: 3, placeholder: 'commentaire' }} />
                         </Grid>
 
                             <Grid item xs={3}>                

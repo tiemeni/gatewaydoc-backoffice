@@ -7,7 +7,7 @@ import { savePatients } from '../../REDUX/patients/actions';
 import { getPatients } from '../../services/patients';
 
 function PageGestionPatients() {
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
     const patients = useSelector((state) => state.Patients.patients)
     const dispatch = useDispatch();
 

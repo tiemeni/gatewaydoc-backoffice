@@ -9,3 +9,44 @@ export const getAllLieux = async () => {
     return data;
 
 }
+export const createLieu = async (payload) => {
+    // const keys = Object.keys(payload);
+    // const formData = new FormData();
+    // for (const key of keys) {
+    //   formData.append(key, payload[key]);
+    // }
+  
+    try {
+      const res = await fetch(`${BASE_URL}/lieu/register?idCentre=${app.idCentre}`, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      const data = await res.json();
+      return data
+    } catch (err) {
+      console.error(err)
+      return { status: false, error: err }
+    }
+  }
+ 
+
+  export const updateLieu = async (payload, id) => {
+    try {
+      const res = await fetch(BASE_URL + "/lieu/" + id, {
+        method: 'PUT',
+        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      const data = await res.json();
+      return data
+    } catch (err) {
+      console.error(err)
+      return { status: false, error: err }
+    }
+  }
+  

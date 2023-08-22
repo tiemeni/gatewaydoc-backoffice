@@ -14,6 +14,7 @@ import { showPRDV } from '../../../REDUX/commons/actions';
 import { saveError, saveStep } from '../../../REDUX/prgv/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
+import { ToastContainer, toast } from 'react-toastify';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const stepsLabels = [
@@ -103,7 +104,8 @@ export default function HorizontalLinearAlternativeLabelStepper() {
                 "patient": patientId,
                 "motif": steps[0]?.motif,
                 "startTime": steps[0]?.disponibility?.start,
-                "endTime": dayjs(`2022-04-17T${steps[0]?.disponibility?.start}`).add(p?.timeSlot,'m').format('HH:mm'),
+                "endTime": dayjs(`${steps[0]?.disponibility?.date}T${steps[0]?.disponibility?.start}`).add(p?.timeSlot,'m').format('HH:mm'),
+                "date_long": dayjs(`${steps[0]?.disponibility?.date}T${steps[0]?.disponibility?.start}`),
                 "provenance": app.platform,
                 "duration": p?.timeSlot,
               // "dayOfWeek": 1,
@@ -114,18 +116,19 @@ export default function HorizontalLinearAlternativeLabelStepper() {
                 Accept: "application/json",
                 "Content-Type": "application/json",
             },
-        });
+          });
         if(rep.data.success){
           //patientId = rep.data._id;
           //setData({ ...data, [1]: { ...data[1], patientId }})
           dispatch(showPRDV(false));
           dispatch(saveStep(0, {  }));
           dispatch(saveStep(1, { }));
-          const event = new Event("ReloadEvent");
-          window.dispatchEvent(event);
+          
+          toast.success('Le rendez vous a ete creer avec success');
           //dispatch(showPRDV(false));
         }else{
           dispatch(saveError(rep.data));
+
         }
         
       }

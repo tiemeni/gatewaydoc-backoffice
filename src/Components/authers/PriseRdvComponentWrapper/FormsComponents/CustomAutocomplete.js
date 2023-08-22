@@ -12,7 +12,7 @@ function CustomAutocomplete({ resolve= empty, value="", ...props }) {
   const [options, setOptions] = React.useState([]);
   const loading = open && options.length === 0;
 
-  console.log(term, props, value)
+  
   React.useEffect(() => {
     let active = true;
 
