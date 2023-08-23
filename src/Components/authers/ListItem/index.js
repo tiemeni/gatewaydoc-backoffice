@@ -17,10 +17,11 @@ function NestedCheckboxes({ data, boxChange }) {
   
   // const defaultPracti = useSelector((state) => state.Praticiens.praticiens[0]?._id)
   const defaultPracti = 1
+  const idc= localStorage.getItem('idc')
 
-  const splitChaine= localStorage.getItem('defaultPraticien').split(",")
+  const splitChaine= localStorage.getItem('defaultPraticien'+idc)?.split(",") ?? ''
 
-  const [checkedItems, setCheckedItems] = useState(localStorage.getItem('defaultPraticien')? splitChaine:[]);
+  const [checkedItems, setCheckedItems] = useState(localStorage.getItem('defaultPraticien'+idc)? splitChaine:[]);
 
   const idPracti = useSelector((state) => state.Calendar.eventsPractionerId)
 
@@ -44,24 +45,45 @@ function NestedCheckboxes({ data, boxChange }) {
       fetchData()
 
     if (checkedItems.length === 0 &&  data ) {
-      alert('tab vide')
+      // setCheckedItems([11])
+      // localStorage.setItem('defaultPraticien', [11])
+
       // Si aucun élément n'est cochée et que 'data' est défini
       const firstParentName = Object.keys(data)[0]; // Récupérer le nom du premier parent
-      // console.log(firstParentName)
+      
+      console.log(firstParentName)
 
 
-      if (data[firstParentName] && data[firstParentName].length > 0) {
+      if (data[firstParentName]) {
         const firstChildId = data[firstParentName][0]?._id;
-        console.log([firstChildId])
+        // console.log([firstChildId])
+        // alert(firstChildId)
+
         setCheckedItems([firstChildId]);
         // console.log(firstChildId)
 
-        // localStorage.setItem('defaultPraticien', [firstChildId.replace(',','')] )
+        localStorage.setItem('defaultPraticien'+idc, [firstChildId] )
 
       }
     }
   }
   }, [checkedItems]);
+
+  // useEffect(()=>{
+  //   const firstParentName = Object.keys(data)[0]; // Récupérer le nom du premier parent
+
+  //   if (data[firstParentName] && data[firstParentName].length > 0) {
+  //     const firstChildId = data[firstParentName][0]?._id;
+  //     console.log([firstChildId])
+  //     alert(firstChildId)
+
+  //     setCheckedItems(firstChildId);
+  //     // console.log(firstChildId)
+
+  //     // localStorage.setItem('defaultPraticien', [firstChildId.replace(',','')] )
+
+  //   }
+  // },[checkedItems])
 
   const waitReloadEvent = ()=>{
     setCheckedItems([...checkedItems]);
@@ -95,7 +117,7 @@ function NestedCheckboxes({ data, boxChange }) {
     setCheckedItems(newCheckedItems);
     console.log(newCheckedItems)
 
-    localStorage.setItem('defaultPraticien', newCheckedItems.toString())
+    localStorage.setItem('defaultPraticien'+idc, newCheckedItems.toString())
 
   };
 
@@ -145,10 +167,15 @@ function NestedCheckboxes({ data, boxChange }) {
           // }
           // console.log(newCheckedItems)
 
-          localStorage.setItem('defaultPraticien', newCheckedItems)
+          localStorage.setItem('defaultPraticien'+idc, newCheckedItems)
 
   };
+const handleselectOnly = (id) =>{
+  setCheckedItems([id]);
+  localStorage.setItem('defaultPraticien'+idc, [id])
 
+
+}
   const renderItems = () => {
     return Object.entries(data)?.map(([parentName, items]) => (
       <Box key={parentName} sx={{ ml: 2 }}>
@@ -163,40 +190,42 @@ function NestedCheckboxes({ data, boxChange }) {
             control={
               <Checkbox
                 checked={
-                  items.every((item) => checkedItems.includes(item._id))
+                  checkedItems && items.every((item) => checkedItems.includes(item._id))
                 }
                 defaultChecked
                 onChange={(e) => handleParentCheckboxChange(e, parentName)}
                 name={parentName}
-                sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}
+                sx={{ '& .MuiSvgIcon-root': { fontSize: 20, color: '#40a9ff', color: '#40a9ff'} }}
               />
             }
             label={parentName}
-            sx={{}} // ajout de la propriété sx pour la taille de police
+            // ajout de la propriété sx pour la taille de police
           />
           <AddOutlinedIcon style={{ height: "20px", width: "20px", mb: 2, color: Colors.primary, cursor: "pointer" }} />
         </Box>
         <Divider style={{ backgroundColor: Colors.primary }} />
         {items.map((child) => (
-          <Box key={child._id} sx={{ ml: 2, mt: "3px" }}>
+          <Box key={child._id} sx={{ ml: 2, mt: "3px", height: 'auto' }}>
             <Box style={{
               display: "flex",
               flexDirection: 'row',
+              // gap: 0
               alignItems: "center",
             }}>
               <FormControlLabel
                 style={{ height: "20px", minHeight: "20px" }}
                 control={
                   <Checkbox
-                    checked={(localStorage.getItem('defaultPraticien').includes(child._id))}
+                    checked={(localStorage.getItem('defaultPraticien'+idc)?.includes(child._id))}
                     onChange={handleChildCheckboxChange}
                     name={child._id}
-                    sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}
+                    sx={{ '& .MuiSvgIcon-root': { fontSize: 20 }, color: '#40a9ff' }}
                   />
                 }
-                label={`${child.name} ${child.surname}`}
-                sx={{ fontSize: "14px" }} // ajout de la propriété sx pour la taille de police
+                // label={`${child.name} ${child.surname}`}
+                sx={{ fontSize: "14px", flex: '6' }} // ajout de la propriété sx pour la taille de police
               />
+              <span style={{ cursor: 'pointer' }} onClick={()=>handleselectOnly(child._id)} >{`${child.name} ${child.surname}`}</span>
               <AddOutlinedIcon style={{ height: "17px", width: "17px", cursor: "pointer", color: Colors.primary }} />
             </Box>
           </Box>

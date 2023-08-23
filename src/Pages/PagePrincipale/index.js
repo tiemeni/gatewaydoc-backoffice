@@ -38,8 +38,8 @@ const FackContainer = () => {
     const FilterEvent = useSelector((state) => state.Calendar.events)
 
     const CustomEvents = FilterEvent.map((ev) => {
-        ev.start = ev.date.split("T")[0] + "T" + ev.timeStart
-        ev.end = ev.date.split("T")[0] + "T" + ev.timeEnd
+        ev.start = ev.date.split("T")[0] + "T" + ev.startTime
+        ev.end = ev.date.split("T")[0] + "T" + ev.endTime
 
         return ev;
     })
@@ -141,9 +141,8 @@ const FackContainer = () => {
                 </Box>
             </Box>
             <button style={{ position: "absolute", top: '150px', width: '40px', height:'40px',
-             borderRadius: '200px', color: 'white', left: '15px', backgroundColor: '#04b7c9', boxShadow: '1px 3px 4px #858282', border: 'none' }} className="btn-toggle" onClick={() => setIsFirstChildVisible(!isFirstChildVisible)}>
-            { isFirstChildVisible? <KeyboardArrowLeftIcon/> : <KeyboardArrowRightIcon/>  }
-
+                    borderRadius: '200px', color: 'white', left: '15px', backgroundColor: '#04b7c9', boxShadow: '1px 3px 4px #858282', border: 'none' }} className="btn-toggle" onClick={() => setIsFirstChildVisible(!isFirstChildVisible)}>
+            { isFirstChildVisible ? <KeyboardArrowLeftIcon sx={{ fontSize: '27px', display: 'flex', alignItems: 'center' }} /> : <KeyboardArrowRightIcon sx={{ fontSize: '27px', display: 'flex', alignItems: 'center' }} /> }
             </button>
         </Box>
     )

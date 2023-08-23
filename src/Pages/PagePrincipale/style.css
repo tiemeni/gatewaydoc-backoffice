@@ -25,3 +25,6 @@
     text-transform: uppercase;
     font-weight: bold;
   }
+  .css-3hx8qc-MuiButtonBase-root-MuiCheckbox-root.Mui-checked, .css-3hx8qc-MuiButtonBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate{
+  color: '#40a9ff' !important;
+}

@@ -56,8 +56,8 @@ const DemoApp = ({ filterEvents }) => {
         dispatch(praticiensActions.loading());
         try {
           const data = await getPraticiens()
-          console.log(data)
-          dispatch(praticiensActions.save(data));
+          // console.log(data)
+          dispatch(praticiensActions.save(data.data));
         } catch (e) {
           dispatch(praticiensActions.loadingError(e));
         }
@@ -76,7 +76,7 @@ const DemoApp = ({ filterEvents }) => {
       if(!praticiens){
         return "Inconnue";
       }
-      return eventsPractionerId.flatMap((id)=>{
+      return eventsPractionerId && eventsPractionerId.flatMap((id)=>{
         let p = praticiens.filter((p)=>p._id == id)[0];
         if(!p) return 'Inconnue';
         return p.name;
@@ -158,10 +158,10 @@ const DemoApp = ({ filterEvents }) => {
                         setChoosenEvent(event);
                         hideContextenu(false);
                     }}
-                    style={{ display:'flex', flexDirection: 'row', gap: '5px', height:'100%' }}
+                    style={{ display:'flex', flexDirection: 'row', gap: '5px', height:'100%', minHeight: '100px' }}
                     >
-                        <Typography>{event.extendedProps.timeStart}</Typography>
-                        <Typography fontWeight={'bold'}>{event.extendedProps.civility + " " + event.extendedProps.name}</Typography>
+                        <Typography>{event.extendedProps?.timeStart ?? ''}</Typography>
+                        <Typography fontWeight={'bold'}>{event.extendedProps?.civility + " " + event.extendedProps?.name}</Typography>
                         <Box>
                             { event.extendedProps.provenance==="backoffice"? <LanguageIcon />:
                                 event.extendedProps.wasMoved==true? <ReplyIcon/>:''
@@ -244,7 +244,6 @@ const DemoApp = ({ filterEvents }) => {
     ev.title = ev.motif
     return ev;
   })
-
 
   return (
     <Box>
