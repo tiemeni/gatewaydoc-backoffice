@@ -105,7 +105,7 @@ export default function HorizontalLinearAlternativeLabelStepper() {
                 "motif": steps[0]?.motif,
                 "startTime": steps[0]?.disponibility?.start,
                 "endTime": dayjs(`${steps[0]?.disponibility?.date}T${steps[0]?.disponibility?.start}`).add(p?.timeSlot,'m').format('HH:mm'),
-                "date_long": dayjs(`${steps[0]?.disponibility?.date}T${steps[0]?.disponibility?.start}`),
+                "date_long": steps[0]?.disponibility?.date_long,
                 "provenance": app.platform,
                 "duration": p?.timeSlot,
               // "dayOfWeek": 1,
