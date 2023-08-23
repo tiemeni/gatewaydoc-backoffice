@@ -34,6 +34,10 @@ import { getAllLieux } from "../../../services/lieux";
 import CustomDateInput from "./FormsComponents/CustomDateInput";
 import { saveData } from "../../../REDUX/prgv/actions";
 import Skeleton from '@mui/material/Skeleton';
+import generateTimeRange from "../../../helpers/generate";
+import { JOURS } from "../../../Constants/jours";
+import { PERIODES } from "../../../Constants/periodes";
+import { getAppointements } from "../../../services/appointments";
 
 const fieldsByLevel = {
     "profession": {
@@ -58,86 +62,16 @@ const fieldsByLevel = {
         level: 5
     }
 }
-const MAX = 1440 * 2;
-const generateTimeRange = (timeSlot =40 )=>{
-    let ranges = [];
-    let currentTime = 0;
-    let num_page = MAX / timeSlot;
-    let i = 0;
-    let startTime = dayjs().minute(0).hour(0);
-    let endTime = dayjs().minute(0).hour(0);
-    endTime = endTime.add(timeSlot,"minute");
-    for(let i =0; i < num_page; i ++){
-//        a.add(timeSlot,"minute")
-        ranges.push({
-            value: `${startTime.format("HH:mm")}-${endTime.format("HH:mm")}`,
-            label: `De ${startTime.format("HH:mm")} a ${endTime.format("HH:mm")}`,
-        })
-        i ++;
-        startTime = endTime;
-        endTime = endTime.add(timeSlot,"minute");
-    }
-    return ranges;
-}
 
 
-const JOURS = [
-    {
-        value: 1,
-        label: "Lundi",        
-    },
-    {
-        value: 2,
-        label: "Mardi",        
-    },
-    {
-        value: 3,
-        label: "Mercredi",        
-    },
-    {
-        value: 4,
-        label: "Jeudi",        
-    },
-    {
-        value: 5,
-        label: "Vendredi",        
-    },
-    {
-        value: 6,
-        label: "Samedi",        
-    },
-    {
-        value: 7,
-        label: "Dimanche",        
-    }
 
-]
 
-const PERIODES = [
-    {
-        value: 1,
-        label: "Jour",        
-    },
-    {
-        value: 7,
-        label: "Semaine",        
-    },
-    {
-        value: 31,
-        label: "Mois",        
-    },
-    {
-        value: 365,
-        label: "Annee",        
-    },
 
-]
 function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
     
     const data = useSelector((state)=>state.Prdv.steps[0]);
     const { results, praticienList, praticienListLoading, motifList, motifListLoading, disponibilityListLoading  } = useSelector((state)=>state.Prdv);
-    const [phone, setPhone] = React.useState('');
-  
+   
 
     const [filter, setFilter] = React.useState({});
 
@@ -304,22 +238,9 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
     React.useEffect(()=>{
         if(filter["idp"]){
             dispatch(saveData('disponibilityListLoading',true));
-            axios({
-                method: "GET",
-                url: BASE_URL + "/appointments/rechercher_dispo/",
-                params: {
-                 
-                    idCentre: app.idCentre,
-                    ...filter,
-                 
-                },
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-            })
-            .then((response) => {
-                let disponibilities = response.data.data;
+            
+            getAppointements(filter).then((response) => {
+                let disponibilities = response.data;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
                 //setDisponibilityList(disponibilities);
                 save({ ...data,  }); 
@@ -333,9 +254,7 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
             
         }
     },[filter]);
-    const handleChange = (newPhone) => {
-      setPhone(newPhone)
-    }
+ 
     const fetchMoreData = ()=>{
 
     }

@@ -11,6 +11,17 @@ export const getPatients = async () => {
   }
 };
 
+
+export const getPatient = async (id) => {
+  try {
+    const res = await fetch(BASE_URL + `/patients/${id}/?idCentre=${app.idCentre}`);
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    return err;
+  }
+};
+
 export const createPatient = async (payload) => {
   // const keys = Object.keys(payload);
   // const formData = new FormData();

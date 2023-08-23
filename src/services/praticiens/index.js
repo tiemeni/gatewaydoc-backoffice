@@ -38,7 +38,7 @@ export const getPraticienById = async (id_praticien) => {
           },
         });
    
-    const data = await response.json();
+    const data = response.data;
     return data
   } catch (err) {
     console.error(err)

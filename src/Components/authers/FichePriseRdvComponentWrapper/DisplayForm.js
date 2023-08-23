@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import BasicFormControl from "./FormsComponents/BasicFormControl";
 import StyledInput from "./FormsComponents/StyledInput";
 import {DATE, NUMBER} from '../../../Constants/fieldTypes';
+import PhoneInput from "react-phone-input-2";
+
 import SelectWithOption from "./FormsComponents/SelectWithOption";
 import SearchIcon from '@mui/icons-material/Search';
 import { Button, Grid } from "@mui/material";
@@ -22,7 +24,6 @@ import Typography from '@mui/material/Typography';
 import { Divider } from '@mui/material';
 import StyledSelect from "./FormsComponents/StyledSelect";
 import StyledTextarea from "./FormsComponents/StyledTextarea";
-import PhoneInput from "react-phone-input-2";
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Box from '@mui/material/Box';
 import 'react-phone-input-2/lib/bootstrap.css'
@@ -33,7 +34,7 @@ import CustomTimeInput from "./FormsComponents/CustomTimeInput";
 import motif from "../../../Utils/transformers/motif";
 import { Chip } from '@mui/material';
 import { deleteRDV, updateRDV } from '../../../services/rdv';
-import { showPFRDV } from "../../../REDUX/commons/actions";
+import { showDRDV, showPFRDV } from "../../../REDUX/commons/actions";
 import { toast } from 'react-toastify';
 
 
@@ -56,7 +57,7 @@ function DisplayForm( { next = ()=>{} }){
     }
     const { register, handleSubmit, getValues, watch } = useForm();
     const handleChange = (newPhone) => {
-      setPhone(newPhone)
+      setPhone(newPhone);
     }
 
     const fetchMoreData = ()=>{
@@ -95,6 +96,10 @@ function DisplayForm( { next = ()=>{} }){
         });
         
     }
+    const mouve = ()=>{
+        dispatch(showPFRDV(false));
+        dispatch(showDRDV(true,eventData));
+    }
     const close = ()=>{
         dispatch(showPFRDV(false));
     }
@@ -121,7 +126,7 @@ function DisplayForm( { next = ()=>{} }){
        const prof = await motifsByProfession(eventData.resourceId)
     }
     useEffect(()=>{
-        loadMotifsByProfession()
+        loadMotifsByProfession();
     },[event])
 
     React.useEffect(() => {
@@ -236,7 +241,7 @@ function DisplayForm( { next = ()=>{} }){
                                 </Button>
                             </Grid>
                             <Grid item xs={2}>    
-                                <Button variant="contained" color="warning" disableElevation>
+                                <Button variant="contained" onClick={()=>mouve()} color="warning" disableElevation>
                                     Deplacer
                                 </Button>
                             </Grid>

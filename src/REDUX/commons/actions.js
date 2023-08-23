@@ -14,6 +14,13 @@ export const showPFRDV = (data, event=null) => {
         event
     }
 }
+export const showDRDV = (data, rdv=null) => {
+    return {
+        type: types.SHOW_DRDV,
+        data,
+        rdv
+    }
+}
 
 export const setIsConnected = (payload) => ({
     type: types.VALID_TOKEN,
