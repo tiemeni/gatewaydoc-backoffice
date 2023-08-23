@@ -52,16 +52,20 @@ function Form(){
         let values = {
 
         }
-        if(e.date){
-            values['startDate'] =  e.date.format('DD/MM/YYYY');
+        let item = results.find((result)=>result.displayedDate === data['disponibility'])
+        if(item){
+            values = {
+                "startTime": item?.start,
+                "endTime": dayjs(`${item?.date_long}`).add(+praticein?.timeSlot,'m').format('HH:mm'),
+                "date_long": item?.date_long,
+            }
         }
-        if(e.startTime){
-            values['startTime'] =  e.date.format('HH:mm');
-        }
+
         updateRDV(eventData["_id"], JSON.stringify(values)).then(()=>{
             const event = new Event("ReloadEvent");
             window.dispatchEvent(event);
             dispatch(showDRDV(false));
+            toast.success("Rendez deplacer avec success")
         }).catch(()=>{
 
         });
@@ -78,7 +82,7 @@ function Form(){
 
     }  
     React.useEffect(()=>{
-        getPraticienById(eventData.resourceId).then(setPraticien)
+        getPraticienById(eventData.resourceId).then((rep)=>setPraticien(rep.data))
     },[eventData])
     
     
@@ -105,7 +109,6 @@ function Form(){
                               
             })
             .catch((error) => {
-                console.log(error)
                 toast.error(JSON.stringify(error))
             }).finally(()=>{
                 setLoading(false);
