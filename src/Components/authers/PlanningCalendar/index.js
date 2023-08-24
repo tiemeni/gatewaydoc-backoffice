@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -6,7 +6,7 @@ import resourceTimeGridPlugin from '@fullcalendar/resource-timegrid';
 import { connect, useDispatch, useSelector } from "react-redux";
 import interactionPlugin from '@fullcalendar/interaction';
 import frlocale from '@fullcalendar/core/locales/fr'
-import { Box, Skeleton, Tooltip, tooltipClasses, Typography } from '@mui/material';
+import { Box, Button, FormControlLabel, Grid, Skeleton, Stack, Switch, Tooltip, tooltipClasses, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import styles from './style'
 import Pikaday from 'pikaday'
@@ -17,11 +17,17 @@ import { getPraticiens } from '../../../services/praticiens';
 import LanguageIcon from '@mui/icons-material/Language';
 import ReplyIcon from '@mui/icons-material/Reply';
 import EventContextMenu from '../EventContextMenu';
-import { showPFRDV, showPRDV } from '../../../REDUX/commons/actions';
-import { getAllPraticiens } from '../../../services/praticiens';
+import { setShowPraticienPlanning, showPFRDV, showPRDV } from '../../../REDUX/commons/actions';
+import { getPraticienById } from '../../../services/praticiens';
 import { save } from '../../../REDUX/praticiens/actions';
 
 import praticiensActions from "../../../REDUX/praticiens/actions";
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import { CalendarMonth } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
+import ModalComponent from "../ModalComponent";
+import StepperForm from "./StepperForm"
 
 const LightTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -38,15 +44,31 @@ const PlanningCalendar = ({ praticien }) => {
     const calendarRef = React.useRef(null);
     // const pickerRef = React.useRef(null)
     const dispatch = useDispatch();
-   
-  
+    const [praticienData, setPraticienData] = useState({});
+    const [praticienLoading, setPraticienLoading] = useState(false);
+    const [praticienLoadingError, setPraticienLoadingError] = useState(false);
+
     // localStorage.setItem('idP', praticiens[0]?._id)
 
     // const RessourcePraticiens = praticiens.map((item, index) => {
     //     return { ...item, id: item._id, title: item.name };
     //   });
   
-  
+
+    const loadPraticien = async (id) =>{
+      setPraticienLoading(true);
+      try{
+        const { data } = await getPraticienById(id);
+        setPraticienData(data)
+      }catch(e){
+        setPraticienLoadingError(e);
+      }
+      
+      setPraticienLoading(false);
+    }
+    useEffect(()=>{
+      loadPraticien(praticien);
+    },[praticien])
 
  
 
@@ -55,6 +77,8 @@ const PlanningCalendar = ({ praticien }) => {
 
     const pickerRef = React.useRef(null);
     const [choosenEvent, setChoosenEvent] = React.useState(null);
+    const [modalOpen, setOpenModal] = React.useState(false);
+
     const [showContextMenu, setshowContextMenu] = React.useState(false);
     const [mouseXY, setMouseXY] = React.useState({x:0, y:0});
   
@@ -128,7 +152,9 @@ const PlanningCalendar = ({ praticien }) => {
     }
     // -- display contextMenu
     const hideContextenu = (value) => setshowContextMenu(!value);
-
+    const goToHomePage = ()=>{
+      dispatch(setShowPraticienPlanning(null))
+    }
     const handlePikadayDateChange = (date) => {
         if (date) {
             calendarRef.current.getApi().gotoDate(new Date(date));
@@ -193,9 +219,15 @@ const PlanningCalendar = ({ praticien }) => {
 
 
 
-
+  const closeModal = ()=>{
+    setOpenModal(false)
+  }
+  const openModal = ()=>{
+    setOpenModal(true);
+  }
   return (
     <Box>
+      <ModalComponent open={modalOpen} onClose={closeModal} contentComponent={<StepperForm></StepperForm>} ></ModalComponent>
       <EventContextMenu
         left={mouseXY.x}
         top={mouseXY.y}
@@ -204,7 +236,51 @@ const PlanningCalendar = ({ praticien }) => {
         onHideNeeded={hideContextenu}
         permissions={["copy", "cut", "move", "delete", "print", "receipt", "abort", "justify", "discuss", "profiling", "urgence"]}
       />
-      <Typography sx={styles.practitionerTile} title={"dmslm"} noWrap>{"dsmkl dls"}</Typography>
+      <Box style={{ backgroundColor: "#eaeaea", marginBottom: "15px", padding: " 5px 5px 10px 5px"}}>
+        <Box>
+          {
+            praticienLoading? <Skeleton  width={400} height={55}></Skeleton> :         <Typography variant='h4' component={'h1'}>
+            Planning Pour Dr {" "}
+            
+            <Typography variant='h4' component={"span"}  noWrap>{praticienData.name}</Typography>
+          </Typography>
+          }
+
+          
+      </Box>
+      <Grid container spacing={1}>
+        <Grid item xs={8}>
+
+          <Box sx={{ '& > :not(style)': {
+          ml: 1,
+        },}}>
+            <Button variant="contained" disableElevation onClick={openModal}> <AddCircleOutlineOutlinedIcon/> <Typography color="white"  fontSize={14} textTransform={"capitalize"}> {" "}Ajouter une tranche</Typography></Button>
+            <Button variant="contained" disableElevation color="error" > <DeleteOutlineOutlinedIcon/> <Typography fontSize={14} color="white" textTransform={"capitalize"}> {" "}Supprimer une tranche</Typography> </Button>
+            <Button variant="contained" disableElevation color="info"><Typography color="white" fontSize={14} textTransform={"capitalize"}> {" "}Creer une maquette</Typography></Button>
+            <Button variant="contained" disableElevation><Typography color="white" fontSize={14} textTransform={"capitalize"}> {" "}Voir les maquettes</Typography></Button>
+          </Box>
+          <Box sx={{
+            mt: 2
+          }}>
+            <IconButton>
+              <CalendarMonth></CalendarMonth>
+            </IconButton>
+            <Button variant="contained" disableElevation color="success"><Typography color="white" fontSize={14} textTransform={"capitalize"}> {" "}Copier la semaine</Typography></Button> 
+
+          </Box>
+        </Grid>
+        <Grid item xs={4} >
+          <Stack direction="column" alignItems="flex-end" justifyContent="end">
+           
+            <Typography>Planning {" "} {<Switch   defaultChecked onClick={goToHomePage} />}</Typography>
+            <Button variant="contained" disableElevation color="info">Auttorisation rdv force</Button>
+          </Stack>
+         
+         
+        </Grid>
+      </Grid>
+
+      </Box>  
       <FullCalendar
         ref={calendarRef}
         plugins={[dayGridPlugin, resourceTimeGridPlugin, interactionPlugin]}

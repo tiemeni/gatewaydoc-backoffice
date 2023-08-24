@@ -22,7 +22,7 @@ export const styles = {
     planning: {
         height: "100%",
         width: "80%",
-        marginTop: 70,
+        marginTop: 60,
         marginLeft:"21%",
         marginRight: 15,
         zIndex: 0,
@@ -30,7 +30,7 @@ export const styles = {
     planning1: {
         height: "100%",
         width: "75%",
-        marginTop: 70,
+        marginTop: 60,
         marginLeft:"26%",
         marginRight: 15,
         zIndex: 0,
