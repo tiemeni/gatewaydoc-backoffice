@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Box, TextField, Typography } from "@mui/material";
 import { styles } from "./style";
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
@@ -23,11 +23,13 @@ import dayjs from "dayjs";
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import PlanningCalendar from "../../Components/authers/PlanningCalendar";
 
 const FackContainer = () => {
     const dispatch = useDispatch()
     const showRDV = useSelector(state => state.Common.showPRDV);
-    const event = useSelector(state => state.Common.event)
+    const event = useSelector(state => state.Common.event);
+    const planningMode = useSelector(state => state.Common.planningMode);
     const showFRDV = useSelector(state => state.Common.showPFRDV);
     const [events, setEvents] = useState(null)
 
@@ -92,10 +94,16 @@ const FackContainer = () => {
         //     // setEvents(setEvents.filter((val) => val !== event.name));
         // }
     }
-    let planningStyle = (matches?styles.planning1:styles.planning)
-    if(!isFirstChildVisible){
-        planningStyle['marginLeft'] = "auto"
-    }
+    
+    
+    let planningStyle = useMemo(()=>{
+        let planningStyle= {...(matches?styles.planning1:styles.planning)}
+        if(!isFirstChildVisible || planningMode){
+            planningStyle['marginLeft'] = "auto";
+            planningStyle['width'] = "100%";
+        }
+        return planningStyle;
+    },[isFirstChildVisible,  matches, planningMode])
     return (
         <Box overflowY={"hidden"}>
                 <Box style={{...styles.container, display: 'flex', flexDirection: 'row'}} >
@@ -107,47 +115,49 @@ const FackContainer = () => {
                         contentComponent={<FichePriseRdvComponent />}
                         onClose={() => dispatch(showPFRDV(false))}
                     />}
-                <Box style={{ ...(matches?styles.aside1:styles.aside), position: "fixed", paddingRight: 20, display: isFirstChildVisible ? 'block' : 'none' }} className='aside'>
-                    <Box padding={2} marginBottom={3} marginTop={10} >
-                        <TextField
-                            className='text-field-input'
-                            InputProps={{
-                                sx: {
-                                    borderRadius: 1,
-                                    fontSize: 15,
-                                    height: 40,
-                                    backgroundColor: "white"
-                                }
-                            }}
-                            name='name'
-                            type='text'
-                            variant='outlined'
-                            placeholder='Rechercher'
-                            fullWidth
-                        // helperText={errors.nameError}
-                        />
-                    </Box>
-                    <Box backgroundColor={Colors.black} height={35} mb={2} >
-                        <Box style={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between", position: 'relative' }}>
-                            <ArrowDropDownOutlinedIcon style={{ width: 25, height: 25, marginLeft: 2, color: Colors.white }} />
+                {!planningMode &&<Box style={{ ...(matches?styles.aside1:styles.aside), position: "fixed", paddingRight: 20, display: isFirstChildVisible ? 'block' : 'none' }} className='aside'>
+                        <Box padding={2} marginBottom={3} marginTop={10} >
+                            <TextField
+                                className='text-field-input'
+                                InputProps={{
+                                    sx: {
+                                        borderRadius: 1,
+                                        fontSize: 15,
+                                        height: 40,
+                                        backgroundColor: "white"
+                                    }
+                                }}
+                                name='name'
+                                type='text'
+                                variant='outlined'
+                                placeholder='Rechercher'
+                                fullWidth
+                            // helperText={errors.nameError}
+                            />
+                        </Box>
+                        <Box backgroundColor={Colors.black} height={35} mb={2} >
+                            <Box style={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between", position: 'relative' }}>
+                                <ArrowDropDownOutlinedIcon style={{ width: 25, height: 25, marginLeft: 2, color: Colors.white }} />
+                            </Box>
+                        </Box>
+                        <Box>
+                            {
+                                <ListItem boxChange={handleCheckboxChange} data={praticiensList || []} />
+                            }
                         </Box>
                     </Box>
-                    <Box>
-                        {
-                            <ListItem boxChange={handleCheckboxChange} data={praticiensList || []} />
-                        }
-                    </Box>
-                </Box>
+                }
 
                 <Box style={{ ...planningStyle, marginRight: isFirstChildVisible ? "auto" : "auto", height: 700, overflowY: "scroll", paddingRight: 5 }}>
-                    <DemoApp filterEvents={CustomEvents}  eventChange={events}/>
+                    {planningMode ? <PlanningCalendar praticien={planningMode} /> :  <DemoApp filterEvents={CustomEvents}  eventChange={events}/>}
+                    
                 </Box>
             </Box>
-            <button style={{ position: "absolute", top: '150px', width: '40px', height:'40px',
+            {!planningMode && <button style={{ position: "absolute", top: '150px', width: '40px', height:'40px',
              borderRadius: '200px', color: 'white', left: '15px', backgroundColor: '#04b7c9', boxShadow: '1px 3px 4px #858282', border: 'none' }} className="btn-toggle" onClick={() => setIsFirstChildVisible(!isFirstChildVisible)}>
             { isFirstChildVisible? <KeyboardArrowLeftIcon/> : <KeyboardArrowRightIcon/>  }
 
-            </button>
+            </button>}
         </Box>
     )
 }
