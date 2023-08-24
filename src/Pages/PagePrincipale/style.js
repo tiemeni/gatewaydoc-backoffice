@@ -14,11 +14,24 @@ export const styles = {
         width: "20%",
         // position:'fixed'
     },
+    aside1: {
+        height: "100%",
+        width: "25%",
+        // position:'fixed'
+    },
     planning: {
         height: "100%",
         width: "80%",
         marginTop: 70,
-        marginLeft: 15,
+        marginLeft:"21%",
+        marginRight: 15,
+        zIndex: 0,
+    },
+    planning1: {
+        height: "100%",
+        width: "75%",
+        marginTop: 70,
+        marginLeft:"26%",
         marginRight: 15,
         zIndex: 0,
     }

@@ -10,8 +10,12 @@ import { getEventsByPractionner } from "../../../services/calendars";
 import { Divider } from "@mui/material";
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { Colors } from "../../../Constants/colors"
-
-
+import Typography from "@mui/material/Typography";
+import Popover from '@mui/material/Popover';
+import { IconButton } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Settings } from '@mui/icons-material';
+import MenuActions from "./MenuActions";
 function NestedCheckboxes({ data, boxChange }) {
   const dispatch = useDispatch();
   
@@ -25,7 +29,15 @@ function NestedCheckboxes({ data, boxChange }) {
   console.log(checkedItems)
 
   const idPracti = useSelector((state) => state.Calendar.eventsPractionerId)
+  const [openmenu, setOpenmenu] = useState("");
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
+  const handleClose = ()=>{
+    setOpenmenu("");    
+  }
 
   useEffect(() => {
     dispatch(saveEventsPractionner(checkedItems))
@@ -172,10 +184,12 @@ function NestedCheckboxes({ data, boxChange }) {
                 sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}
               />
             }
-            label={parentName}
+            label={<Typography noWrap>{parentName}</Typography>}
             sx={{}} // ajout de la propriété sx pour la taille de police
           />
+          
           <AddOutlinedIcon style={{ height: "20px", width: "20px", mb: 2, color: Colors.primary, cursor: "pointer" }} />
+          
         </Box>
         <Divider style={{ backgroundColor: Colors.primary }} />
         {items.map((child) => (
@@ -195,10 +209,25 @@ function NestedCheckboxes({ data, boxChange }) {
                     sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}
                   />
                 }
-                label={`${child.name} ${child.surname}`}
-                sx={{ fontSize: "14px" }} // ajout de la propriété sx pour la taille de police
+                label={<Typography noWrap>{`${child.name} ${child.surname}`}</Typography>}
+                sx={{ textOverflow: "ellipsis" }} // ajout de la propriété sx pour la taille de police
               />
               <AddOutlinedIcon style={{ height: "17px", width: "17px", cursor: "pointer", color: Colors.primary }} />
+              <IconButton onClick={(e)=>{setOpenmenu(child._id);handleClick(e)}} aria-describedby={child._id} aria-label="delete" size="small">
+                  <Settings style={{ fontSize: "14px"}} />
+              </IconButton>  
+              <Popover
+                        id={child._id}
+                        open={openmenu == child._id}
+                        anchorEl={anchorEl}
+                        onClose={handleClose}
+                        anchorOrigin={{
+                          vertical: 'bottom',
+                          horizontal: 'left',
+                        }}
+                  >
+                    <MenuActions praticien={child._id}></MenuActions>
+              </Popover>
             </Box>
           </Box>
         ))}
@@ -210,7 +239,7 @@ function NestedCheckboxes({ data, boxChange }) {
   if(data.length!==0 && typeof defaultPracti !== "undefined"){
 
     return (
-        <FormGroup>
+        <FormGroup >
           {renderItems()}
         </FormGroup>
       );

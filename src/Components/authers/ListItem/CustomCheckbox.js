@@ -5,14 +5,27 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Box from "@mui/material/Box";
 import { saveEventsPractionner } from "../../../REDUX/calendar/actions";
-import Typographie from "@mui/material/Typographie";
+
+import Typography from "@mui/material/Typography";
+import Popover from '@mui/material/Popover';
+import { IconButton } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 function NestedCheckboxes({data }) {
   const dispatch = useDispatch();
-
+  
   const [checkedItems, setCheckedItems] = useState([]);
   const idPracti = useSelector((state) => state.Calendar.eventsPractionerId)
+  const [openmenu, setOpenmenu] = useState("");
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
+  const handleClose = ()=>{
+    setOpenmenu("");    
+  }
   useEffect(() => {
 
     dispatch(saveEventsPractionner(checkedItems))
@@ -21,6 +34,7 @@ function NestedCheckboxes({data }) {
 
   }, [checkedItems]);
 
+ 
   const handleParentCheckboxChange = (event, parentName) => {
     const { checked } = event.target;
     let newCheckedItems = [...checkedItems];
@@ -64,6 +78,7 @@ function NestedCheckboxes({data }) {
 
   };
 
+  
   const renderItems = () => {
     return Object.entries(data).map(([parentName, items]) => (
       <Box key={parentName} sx={{ ml: 2 }}>
@@ -77,7 +92,7 @@ function NestedCheckboxes({data }) {
               name={parentName}
             />
           }
-          label={parentName}
+          label={<Typography variant="h4" component={"ul"}>{parentName}</Typography>}
           sx={{ fontSize: "14px" }} // ajout de la propriété sx pour la taille de police
         />
         {items.map((child) => (
@@ -90,9 +105,10 @@ function NestedCheckboxes({data }) {
                   name={child._id}
                 />
               }
-              label={`${child.name} ${child.surname}`}
+              label={<Typography component={"li"}  noWrap={false} >{`${child.name} ${child.surname}`} </Typography>}
               sx={{ fontSize: "5px", textOverflow: "ellipsis"}} // ajout de la propriété sx pour la taille de police
             />
+
           </Box>
         ))}
       </Box>

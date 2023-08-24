@@ -22,7 +22,7 @@ import dayjs from "dayjs";
 
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const FackContainer = () => {
     const dispatch = useDispatch()
@@ -44,7 +44,7 @@ const FackContainer = () => {
         return ev;
     })
 
-
+    const matches = useMediaQuery('(max-width:1200px)');
     React.useEffect(
         () => {
 
@@ -92,7 +92,10 @@ const FackContainer = () => {
         //     // setEvents(setEvents.filter((val) => val !== event.name));
         // }
     }
-
+    let planningStyle = (matches?styles.planning1:styles.planning)
+    if(!isFirstChildVisible){
+        planningStyle['marginLeft'] = "auto"
+    }
     return (
         <Box overflowY={"hidden"}>
                 <Box style={{...styles.container, display: 'flex', flexDirection: 'row'}} >
@@ -104,7 +107,7 @@ const FackContainer = () => {
                         contentComponent={<FichePriseRdvComponent />}
                         onClose={() => dispatch(showPFRDV(false))}
                     />}
-                <Box style={{ ...styles.aside, position: "fixed", paddingRight: 20, display: isFirstChildVisible ? 'block' : 'none' }} className='aside'>
+                <Box style={{ ...(matches?styles.aside1:styles.aside), position: "fixed", paddingRight: 20, display: isFirstChildVisible ? 'block' : 'none' }} className='aside'>
                     <Box padding={2} marginBottom={3} marginTop={10} >
                         <TextField
                             className='text-field-input'
@@ -136,7 +139,7 @@ const FackContainer = () => {
                     </Box>
                 </Box>
 
-                <Box style={{ ...styles.planning, marginLeft: isFirstChildVisible ? "22%" : "auto", marginRight: isFirstChildVisible ? "auto" : "auto", height: 700, overflowY: "scroll", paddingRight: 5 }}>
+                <Box style={{ ...planningStyle, marginRight: isFirstChildVisible ? "auto" : "auto", height: 700, overflowY: "scroll", paddingRight: 5 }}>
                     <DemoApp filterEvents={CustomEvents}  eventChange={events}/>
                 </Box>
             </Box>

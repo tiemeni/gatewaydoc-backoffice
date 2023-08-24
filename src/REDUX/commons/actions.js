@@ -27,6 +27,11 @@ export const setIsConnected = (payload) => ({
     payload
 });
 
+export const setShowPraticienPlanning = (payload) => ({
+    type: types.SHOW_PRATICIEN_PLANNING,
+    payload
+});
+
 export const getCivilities = payload => ({
     type: types.GET_CIVILITIES,
     payload
