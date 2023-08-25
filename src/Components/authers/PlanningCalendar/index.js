@@ -227,7 +227,7 @@ const PlanningCalendar = ({ praticien }) => {
   }
   return (
     <Box>
-      <ModalComponent open={modalOpen} onClose={closeModal} contentComponent={<StepperForm></StepperForm>} ></ModalComponent>
+      <ModalComponent open={modalOpen} onClose={closeModal} contentComponent={<StepperForm title={<Typography textAlign={'center'} variant='h4' component='h2' >{`Organisation du plannign pour le praticien ${praticienData.name}`}</Typography> } praticien={praticienData}></StepperForm>} ></ModalComponent>
       <EventContextMenu
         left={mouseXY.x}
         top={mouseXY.y}
@@ -253,6 +253,7 @@ const PlanningCalendar = ({ praticien }) => {
 
           <Box sx={{ '& > :not(style)': {
           ml: 1,
+          mt: 1
         },}}>
             <Button variant="contained" disableElevation onClick={openModal}> <AddCircleOutlineOutlinedIcon/> <Typography color="white"  fontSize={14} textTransform={"capitalize"}> {" "}Ajouter une tranche</Typography></Button>
             <Button variant="contained" disableElevation color="error" > <DeleteOutlineOutlinedIcon/> <Typography fontSize={14} color="white" textTransform={"capitalize"}> {" "}Supprimer une tranche</Typography> </Button>

@@ -11,7 +11,7 @@ export function styleTab({ theme }) { return ({
   },
   fontWeight: 800,
   marginRight: theme.spacing(1),
-  color: 'rgba(0, 0, 0, 0.85)',
+  color: '#6b8cd6',
   fontFamily: [
     '-apple-system',
     'BlinkMacSystemFont',

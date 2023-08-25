@@ -14,8 +14,8 @@ import StyledTab from './FormsComponents/StyledTab';
 import StyledTabs from './FormsComponents/StyledTabs';
 
 const steps = [
-  'RDV disponible',
-  'Informations Patient',
+  'Informations',
+  'Liste des tranches memorisees',
 ];
 
 const bySteps = {
@@ -34,7 +34,7 @@ const bySteps = {
     }
   }
 }
-export default function HorizontalLinearAlternativeLabelStepper() {
+export default function HorizontalLinearAlternativeLabelStepper({ title, praticien }) {
   const classes = styles();
   const [step, setStep] =  React.useState(0);
   const [visibles, setVisibles] =  React.useState({
@@ -56,13 +56,13 @@ export default function HorizontalLinearAlternativeLabelStepper() {
   },[step]);
   return (
     <Box  className={classes.stepper}>
-
+        {title}
       <StyledTabs value={0} onChange={console.log} aria-label="ant example">
           <StyledTab icon={<PersonIcon/>} iconPosition="start" label="Rendez-vous" />
           <StyledTab icon={<HistoryIcon/>} iconPosition="start" label="Historique de gestion" />
           
       </StyledTabs>
-      <Component  next={next} prev={prev} visible={visible} />     
+      <Component praticien={praticien} next={next} prev={prev} visible={visible} />     
       
       
     </Box>

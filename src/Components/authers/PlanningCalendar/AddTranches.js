@@ -36,6 +36,9 @@ import { Chip } from '@mui/material';
 import { deleteRDV, updateRDV } from '../../../services/rdv';
 import { showDRDV, showPFRDV } from "../../../REDUX/commons/actions";
 import { toast } from 'react-toastify';
+import { Editor } from 'react-draft-wysiwyg';
+import '../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
 
 
 export default function AddTranches ({ praticien ={} })
@@ -157,31 +160,17 @@ export default function AddTranches ({ praticien ={} })
                             <BasicFormControl  label='Commentaire '  Input={StyledInput} props={{ name: 'commentaire', multiline: true , rows: 3, placeholder: 'commentaire' }} />
                         </Grid>
 
-                            <Grid item xs={3}>                
-                                <Button variant="contained"  color="secondary"  disableElevation>
-                                    Historique de RDV
+                            <Grid item xs={4}>                
+                                <Button variant="contained"  color="info"  disableElevation>
+                                    Memoriser et appliquer
                                 </Button>
                             </Grid>
                             <Grid item xs={3}>
-                                <Button variant="contained" type="submit"  disableElevation>
-                                Modifier le RDV
+                                <Button variant="contained" color="inherit" type="submit"  disableElevation>
+                                    RAZ
                                 </Button>
                             </Grid>
-                            <Grid item xs={2}>    
-                                <Button variant="contained" onClick={()=>mouve()} color="warning" disableElevation>
-                                    Deplacer
-                                </Button>
-                            </Grid>
-                            <Grid item xs={2}>    
-                                <Button variant="contained" color="error" onClick={deleteEvent} disableElevation>
-                                    Supprimer
-                                </Button>
-                            </Grid> 
-                            <Grid item xs={2}>   
-                                <Button variant="contained" color="secondary" onClick={close} disableElevation>
-                                    Fermer
-                                </Button>
-                            </Grid>
+                         
                             
                         </Grid>
                   
