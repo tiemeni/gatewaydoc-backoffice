@@ -15,7 +15,6 @@ import { Colors } from "../../../Constants/colors"
 function NestedCheckboxes({ data, boxChange }) {
   const dispatch = useDispatch();
   
-  // const defaultPracti = useSelector((state) => state.Praticiens.praticiens[0]?._id)
   const defaultPracti = 1
   const idc= localStorage.getItem('idc')
 
@@ -38,17 +37,13 @@ function NestedCheckboxes({ data, boxChange }) {
       if (response.success !== true) {
         return;
       }
-      // setIsLoading(false);
       dispatch(saveEvents(response.data))
     }
 
       fetchData()
 
     if (checkedItems.length === 0 &&  data ) {
-      // setCheckedItems([11])
-      // localStorage.setItem('defaultPraticien', [11])
 
-      // Si aucun élément n'est cochée et que 'data' est défini
       const firstParentName = Object.keys(data)[0]; // Récupérer le nom du premier parent
       
       console.log(firstParentName)
@@ -210,7 +205,7 @@ const handleselectOnly = (id) =>{
               display: "flex",
               flexDirection: 'row',
               // gap: 0
-              alignItems: "center",
+              alignItems: "lft",
             }}>
               <FormControlLabel
                 style={{ height: "20px", minHeight: "20px" }}
