@@ -33,6 +33,7 @@ export default function MenuListComposition({ IconName, styles }) {
 
     const deconnexion = () =>{
         localStorage.setItem('defaultPraticien'+idc, '')
+        localStorage.setItem(idc, '')
     }
 
     function handleListKeyDown(event) {
