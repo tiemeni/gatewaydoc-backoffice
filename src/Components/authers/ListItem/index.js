@@ -22,11 +22,13 @@ function NestedCheckboxes({ data, boxChange }) {
   // const defaultPracti = useSelector((state) => state.Praticiens.praticiens[0]?._id)
   const defaultPracti = 1
 
-  const splitChaine= localStorage.getItem('defaultPraticien')?.split(",")
-  console.log(splitChaine)
+  
+  const idc= localStorage.getItem('idc')
 
-  const [checkedItems, setCheckedItems] = useState(localStorage.getItem('defaultPraticien')? splitChaine:[]);
-  console.log(checkedItems)
+  const splitChaine= localStorage.getItem('defaultPraticien'+idc)?.split(",") ?? ''
+
+  const [checkedItems, setCheckedItems] = useState(localStorage.getItem('defaultPraticien'+idc)? splitChaine:[]);
+
 
   const idPracti = useSelector((state) => state.Calendar.eventsPractionerId)
   const [openmenu, setOpenmenu] = useState("");
@@ -56,20 +58,30 @@ function NestedCheckboxes({ data, boxChange }) {
       dispatch(saveEvents(response.data))
     }
 
-      fetchData()
-
     if (checkedItems.length === 0 &&  data ) {
-      // Si aucun élément n'est cochée et que 'data' est défini
+
       const firstParentName = Object.keys(data)[0]; // Récupérer le nom du premier parent
+      
+      console.log(firstParentName)
 
-      if (data[firstParentName] && data[firstParentName].length > 0) {
+
+      if (data[firstParentName]) {
         const firstChildId = data[firstParentName][0]?._id;
-        setCheckedItems(firstChildId.toString());
+        // console.log([firstChildId])
+        // alert(firstChildId)
 
-        localStorage.setItem('defaultPraticien', firstChildId)
+        setCheckedItems([firstChildId]);
+        // console.log(firstChildId)
+
+        localStorage.setItem('defaultPraticien'+idc, [firstChildId] )
 
       }
     }
+
+
+  
+      fetchData()
+    
   }
   }, [checkedItems]);
   
@@ -83,9 +95,8 @@ function NestedCheckboxes({ data, boxChange }) {
     }
   },[])
 
-
-  const handleParentCheckboxChange = (event, parentName) => {
-    const { checked } = event.target;
+ const handleParentCheckboxChange = (event, parentName) => {
+    const { checked, name } = event.target;
     let newCheckedItems = [...checkedItems];
         if(data){
 
@@ -105,33 +116,71 @@ function NestedCheckboxes({ data, boxChange }) {
     setCheckedItems(newCheckedItems);
     console.log(newCheckedItems)
 
-    localStorage.setItem('defaultPraticien', newCheckedItems.toString())
-
-  };
-
-  const handleChildCheckboxChange = (event) => {
 
  
-        async function fetchData() {
+    async function fetchData() {
 
-            const response = await getEventsByPractionner(checkedItems);
-      
-            if (response.success !== true) {
-              return;
-            }
-            dispatch(saveEvents(response.data))
-          }
-          fetchData()
+        const response = await getEventsByPractionner(checkedItems);
+  
+        if (response.success !== true) {
+          return;
+        }
+        dispatch(saveEvents(response.data))
+      }
+      fetchData()
+
+     
+
+      if (checked) {
+        newCheckedItems.push(name.replace(',',''));
+
+        const parentName = Object.keys(data).find((key) =>
+          data[key].some((item) => item._id === name)
+        );
+        const allChildrenChecked = data[parentName].every((child) =>
+          newCheckedItems.includes(child._id)
+        );
+
+      } else {
+        newCheckedItems = newCheckedItems.filter((item) => item !== name);
+        const parentName = Object.keys(data).find((key) =>
+          data[key].some((item) => item._id === name)
+        );
+        newCheckedItems = newCheckedItems.filter((item) => item !== parentName);
+  }
+
+      setCheckedItems(newCheckedItems);
+
+      localStorage.setItem('defaultPraticien'+idc, newCheckedItems)
+
+};
+
+const handleselectOnly = (id) =>{
+  setCheckedItems([id]);
+  localStorage.setItem('defaultPraticien'+idc, [id])
+
+
+}
+const handleChildCheckboxChange = (event) => {
+
+ 
+  async function fetchData() {
+
+      const response = await getEventsByPractionner(checkedItems);
+
+      if (response.success !== true) {
+        return;
+      }
+      dispatch(saveEvents(response.data))
+    }
+    fetchData()
 
     const { name, checked } = event.target; 
-    
+
     let newCheckedItems = [...checkedItems];
 
     if (checked) {
-      newCheckedItems.push(name);
-      console.log('voici newCheckedItems: '+ name.toString())
-      console.log(newCheckedItems)
-
+      newCheckedItems.push(name.replace(',',''));
 
       const parentName = Object.keys(data).find((key) =>
         data[key].some((item) => item._id === name)
@@ -142,78 +191,71 @@ function NestedCheckboxes({ data, boxChange }) {
 
     } else {
       newCheckedItems = newCheckedItems.filter((item) => item !== name);
-      alert('not checked'+ name)
-
-
       const parentName = Object.keys(data).find((key) =>
         data[key].some((item) => item._id === name)
       );
       newCheckedItems = newCheckedItems.filter((item) => item !== parentName);
-    }
+}
 
-          // if (!newCheckedItems.includes(checkedItems)){
-          // if(!newCheckedItems.some(element => element.includes(checkedItems))){
-            // alert('found')
-            setCheckedItems(newCheckedItems);
-          // }
-          console.log(newCheckedItems)
+    setCheckedItems(newCheckedItems);
 
-          localStorage.setItem('defaultPraticien', newCheckedItems)
+    localStorage.setItem('defaultPraticien'+idc, newCheckedItems)
 
-  };
+};
 
-  const renderItems = () => {
-    return Object.entries(data)?.map(([parentName, items]) => (
-      <Box key={parentName} sx={{ ml: 2 }}>
-        <Box style={{
-          display: "flex",
-          flexDirection: 'row',
-          alignItems: "center",
-          justifyContent: "space-between"
-        }}>
-          <FormControlLabel
-            style={{ height: "20px", fontWeight: "bold", minHeight: "20px" }}
-            control={
-              <Checkbox
-                checked={
-                  items.every((item) => checkedItems.includes(item._id))
-                }
-                defaultChecked
-                onChange={(e) => handleParentCheckboxChange(e, parentName)}
-                name={parentName}
-                sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}
-              />
-            }
-            label={<Typography noWrap>{parentName}</Typography>}
-            sx={{}} // ajout de la propriété sx pour la taille de police
-          />
-          
-          <AddOutlinedIcon style={{ height: "20px", width: "20px", mb: 2, color: Colors.primary, cursor: "pointer" }} />
-          
-        </Box>
-        <Divider style={{ backgroundColor: Colors.primary }} />
-        {items.map((child) => (
-          <Box key={child._id} sx={{ ml: 2, mt: "3px" }}>
-            <Box style={{
-              display: "flex",
-              flexDirection: 'row',
-              alignItems: "center",
-            }}>
-              <FormControlLabel
-                style={{ height: "20px", minHeight: "20px" }}
-                control={
-                  <Checkbox
-                    checked={(localStorage.getItem('defaultPraticien')?.includes(child._id))}
-                    onChange={handleChildCheckboxChange}
-                    name={child._id}
-                    sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}
-                  />
-                }
-                label={<Typography noWrap>{`${child.name} ${child.surname}`}</Typography>}
-                sx={{ textOverflow: "ellipsis" }} // ajout de la propriété sx pour la taille de police
-              />
-              <AddOutlinedIcon style={{ height: "17px", width: "17px", cursor: "pointer", color: Colors.primary }} />
-              <IconButton onClick={(e)=>{setOpenmenu(child._id);handleClick(e)}} aria-describedby={child._id} aria-label="delete" size="small">
+
+const renderItems = () => {
+  return Object.entries(data)?.map(([parentName, items]) => (
+    <Box key={parentName} sx={{ ml: 2 }}>
+      <Box style={{
+        display: "flex",
+        flexDirection: 'row',
+        alignItems: "center",
+        justifyContent: "space-between"
+      }}>
+        <FormControlLabel
+          style={{ height: "20px", fontWeight: "bold", minHeight: "20px" }}
+          control={
+            <Checkbox
+              checked={
+                checkedItems && items.every((item) => checkedItems.includes(item._id))
+              }
+              defaultChecked
+              onChange={(e) => handleParentCheckboxChange(e, parentName)}
+              name={parentName}
+              sx={{ '& .MuiSvgIcon-root': { fontSize: 20, color: '#40a9ff', color: '#40a9ff'} }}
+            />
+          }
+          label={parentName}
+          // ajout de la propriété sx pour la taille de police
+        />
+        <AddOutlinedIcon style={{ height: "20px", width: "20px", mb: 2, color: Colors.primary, cursor: "pointer" }} />
+      </Box>
+      <Divider style={{ backgroundColor: Colors.primary }} />
+      {items.map((child) => (
+        <Box key={child._id} sx={{ ml: 2, mt: "3px", height: 'auto' }}>
+          <Box style={{
+            display: "flex",
+            flexDirection: 'row',
+            // gap: 0
+            alignItems: "lft",
+          }}>
+            <FormControlLabel
+              style={{ height: "20px", minHeight: "20px" }}
+              control={
+                <Checkbox
+                  checked={(localStorage.getItem('defaultPraticien'+idc)?.includes(child._id))}
+                  onChange={handleChildCheckboxChange}
+                  name={child._id}
+                  sx={{ '& .MuiSvgIcon-root': { fontSize: 20 }, color: '#40a9ff' }}
+                />
+              }
+              // label={`${child.name} ${child.surname}`}
+              sx={{ fontSize: "14px", flex: '6' }} // ajout de la propriété sx pour la taille de police
+            />
+            <span style={{ cursor: 'pointer' }} onClick={()=>handleselectOnly(child._id)} >{`${child.name} ${child.surname}`}</span>
+            <AddOutlinedIcon style={{ height: "17px", width: "17px", cursor: "pointer", color: Colors.primary }} />
+            <IconButton onClick={(e)=>{setOpenmenu(child._id);handleClick(e)}} aria-describedby={child._id} aria-label="delete" size="small">
                   <Settings style={{ fontSize: "14px"}} />
               </IconButton>  
               <Popover
@@ -228,26 +270,26 @@ function NestedCheckboxes({ data, boxChange }) {
                   >
                     <MenuActions praticien={child._id}></MenuActions>
               </Popover>
-            </Box>
           </Box>
-        ))}
-      </Box>
-    ));
-  };
+        </Box>
+      ))}
+    </Box>
+  ));
+};
 
 
-  if(data.length!==0 && typeof defaultPracti !== "undefined"){
+if(data.length!==0){
 
-    return (
-        <FormGroup >
-          {renderItems()}
-        </FormGroup>
-      );
-  }else return (
-    <div>
+  return (
+      <FormGroup>
+        {renderItems()}
+      </FormGroup>
+    );
+}else return (
+  <div>
 
-    </div>
-  )
+  </div>
+)
 
 }
 

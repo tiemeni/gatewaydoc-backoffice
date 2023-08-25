@@ -37,7 +37,6 @@ import { deleteRDV, updateRDV } from '../../../services/rdv';
 import { showDRDV, showPFRDV } from "../../../REDUX/commons/actions";
 import { toast } from 'react-toastify';
 import { Editor } from 'react-draft-wysiwyg';
-import '../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 
 
