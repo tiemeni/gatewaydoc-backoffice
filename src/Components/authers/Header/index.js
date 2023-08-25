@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { showPRDV, showPFRDV } from '../../../REDUX/commons/actions';
 import ModalComponent from '../ModalComponent';
 import PriseRdvComponent from '../PriseRdvComponentWrapper';
+import LogOut from '../LogOut'
 
 function Header() {
     const dispatch = useDispatch()
@@ -63,7 +64,8 @@ function Header() {
                 <Box style={{ display: "flex", flexDirection: 'row' }}>
                     <PersonOutlinedIcon titleAccess='comptes patients' style={styles.icon} />
                     <p style={{ color: Colors.white, fontSize: 17, marginLeft: 10, marginRight: 10, marginTop: 5 }}>Tiemeni hapi</p>
-                    <ArrowDropDownOutlinedIcon titleAccess='' style={styles.icon} />
+                    {/* <ArrowDropDownOutlinedIcon titleAccess='' style={styles.icon} /> */}
+                    <LogOut IconName={"arrow"} styles={styles.icon}/>
                 </Box>
             </Box>
         </Box>

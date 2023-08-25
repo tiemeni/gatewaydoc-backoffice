@@ -20,6 +20,9 @@ import { savePraticiens } from "../../REDUX/praticiens/actions";
 import { savePraticiensPerJob } from "../../REDUX/praticiens/actions";
 import dayjs from "dayjs";
 
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+
 
 const FackContainer = () => {
     const dispatch = useDispatch()
@@ -32,6 +35,8 @@ const FackContainer = () => {
     const idPracti = useSelector((state) => state.Calendar.eventsPractionerId)
     const FilterEvent = useSelector((state) => state.Calendar.events)
 
+    const [isFirstChildVisible, setIsFirstChildVisible] = useState(true);
+
     const CustomEvents = FilterEvent.map((ev) => {
         ev.start = ev.date.split("T")[0] + "T" + ev.timeStart
         ev.end = ev.date.split("T")[0] + "T" + ev.timeEnd
@@ -39,6 +44,7 @@ const FackContainer = () => {
         return ev;
     })
 
+    
 
     React.useEffect(
         () => {
@@ -89,7 +95,7 @@ const FackContainer = () => {
     }
 
     return (
-        <Box overflowY={"hidden"}>
+        <Box overflowY={"hidden"} style={{ position: 'relative' }}>
             <Box style={styles.container}>
                 
                 {showFRDV &&
@@ -100,7 +106,7 @@ const FackContainer = () => {
                         contentComponent={<FichePriseRdvComponent />}
                         onClose={() => dispatch(showPFRDV(false))}
                     />}
-                <Box style={{ ...styles.aside, position: "fixed", paddingRight: 20 }} className='aside'>
+                <Box style={{ ...styles.aside, position: "fixed", paddingRight: 20, display: isFirstChildVisible ? 'block' : 'none', minWidth:'200px' }} className='aside'>
                     <Box padding={2} marginBottom={3} marginTop={10} >
                         <TextField
                             className='text-field-input'
@@ -131,10 +137,15 @@ const FackContainer = () => {
                         }
                     </Box>
                 </Box>
-                <Box style={{ ...styles.planning, marginLeft: "22%", height: 700, overflowY: "scroll", paddingRight: 5 }}>
+                <Box style={{ ...styles.planning, marginLeft: isFirstChildVisible ? "22%" : "auto", marginRight: isFirstChildVisible ? "auto" : "auto", height: 700, overflowY: "scroll", paddingRight: 5 }}>
                     <DemoApp filterEvents={CustomEvents} eventChange={events} />
                 </Box>
+
             </Box>
+            <button style={{ position: "absolute", top: '150px', width: '40px', height:'40px',
+                    borderRadius: '200px', color: 'white', left: '15px', backgroundColor: '#04b7c9', boxShadow: '1px 3px 4px #858282', border: 'none' }} className="btn-toggle" onClick={() => setIsFirstChildVisible(!isFirstChildVisible)}>
+                { isFirstChildVisible ? <KeyboardArrowLeftIcon sx={{ fontSize: '27px', display: 'flex', alignItems: 'center' }} /> : <KeyboardArrowRightIcon sx={{ fontSize: '27px', display: 'flex', alignItems: 'center' }} /> }
+                </button>
         </Box>
     )
 }
