@@ -12,7 +12,6 @@ function App() {
     <Provider store={store}>
       <ThemeProvider theme={THEME}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          
           <Routeur />
         </LocalizationProvider>
       </ThemeProvider>
