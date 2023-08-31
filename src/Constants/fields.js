@@ -354,7 +354,7 @@ export const patientFields = {
             label: "Initiales",
             name: "initiales",
             type: fieldTypes.TEXT,
-            required: false,
+            required: true,
             placeholder: "Initiales"
         },
         {
@@ -440,7 +440,7 @@ export const lieuxFields = {
             label: "initiales",
             name: "initiales",
             type: fieldTypes.TEXT,
-            required: false,
+            required: true,
             placeholder: "initiales"
         },
         {

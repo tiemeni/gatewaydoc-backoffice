@@ -1,0 +1,7 @@
+.rdw-editor-wrapper {
+    min-height: 200px;
+    box-sizing: content-box;
+    color: rgba(0, 0, 0, 0.38);
+    border-radius: 5px;
+    border: solid 1px;
+}

@@ -9,7 +9,7 @@ import { getCivilities } from "../../REDUX/commons/actions";
 import { useParams } from "react-router-dom";
 import generatePassword from "../../helpers/passwordGenerator";
 import { createUser, updateUser } from "../../services/users";
-
+import CreateLayout from "../../Components/authers/CreateLayout";
 const NewUser = () => {
   const { fields } = userFields;
   const dispatch = useDispatch();
@@ -57,29 +57,16 @@ const NewUser = () => {
     if (field.name === "civility") field.data = civList;
   });
 
-  const onSubmit = async (data) => {
-    if (!userId) {
-      const payload = { ...data, password: generatePassword() };
-      const result = await createUser(payload);
-      if (result.success !== true) return;
-      setRedirect("/content/users");
-    } else {
-      //update user
-      const result = await updateUser(data, userId);
-      if (result.success !== true) return;
-      setRedirect("/content/users");
-    }
-  };
-
+  
   return (
-    <FormGenerator
-      fields={userFields}
-      title={"Gestion des utilisateurs"}
-      dataId={userId}
-      type={"user"}
-      redirect={redirect}
-      onSubmit={onSubmit}
-    />
+    
+    <CreateLayout       fields={userFields}
+    title={"Gestion des utilisateurs"}
+    objectId={userId}
+    type={"user"}
+    beForeSubmit={(data)=>({...data,password: generatePassword()})}
+    redirect={redirect}
+    submit={userId?createUser :updateUser}></CreateLayout>
   );
 };
 
