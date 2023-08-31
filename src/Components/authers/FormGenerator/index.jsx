@@ -12,22 +12,24 @@ import AutoComplete from "../AutoComplete";
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getValueFromReducer } from "../../../helpers/formGenerator";
+import { useMemo } from "react";
+import { useEffect, useState } from "react";
 
 const errorMsg = "Ce champ est obligatoire";
 
-const FormGenerator = ({ fields, initialising, title, back=()=>{}, dataId, type, loading, onSubmit }) => {
-  const store = useSelector((state) => state);
-  const toUpdate = getValueFromReducer(store, type, dataId);
+const FormGenerator = ({ fields, initialising, title, back=()=>{}, dataId, type, loading, onSubmit, data = {} }) => {
   const mySchema = {};
-  let defaultValues = {};
+   
 
+  const [defaultValues, setDefaultValues] = useState({})
+  
   // schema de validation et valeur par defaut
   fields.fields.forEach((field) => {
     const value =
-      toUpdate &&
+    data &&
       (field.type === fieldTypes.SELECT
-        ? toUpdate[field.name]?._id
-        : toUpdate[field.name]);
+        ? data[field.name]?._id
+        : data[field.name]);
     defaultValues[field.name] = value?.toString() || undefined;
 
     if (field.type === fieldTypes.AUTO_COMPLETE) return;
@@ -48,9 +50,15 @@ const FormGenerator = ({ fields, initialising, title, back=()=>{}, dataId, type,
     formState: { errors, isDirty },
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: { ...toUpdate },
+    defaultValues: { ...defaultValues },
   });
-    
+  
+  useEffect(()=>{
+    setDefaultValues(data||{})
+    fields.fields.forEach((field)=>{
+      setValue(field.name, defaultValues[field.name]) 
+    })
+  },[data])
   return (
     <UsersLayout title={title}>
       <Grid item xs={12} px={2} py={5}>

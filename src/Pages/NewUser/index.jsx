@@ -8,8 +8,9 @@ import { saveGroups } from "../../REDUX/groups/actions";
 import { getCivilities } from "../../REDUX/commons/actions";
 import { useParams } from "react-router-dom";
 import generatePassword from "../../helpers/passwordGenerator";
-import { createUser, updateUser } from "../../services/users";
+import { createUser, updateUser, getUser } from "../../services/users";
 import CreateLayout from "../../Components/authers/CreateLayout";
+
 const NewUser = () => {
   const { fields } = userFields;
   const dispatch = useDispatch();
@@ -57,16 +58,28 @@ const NewUser = () => {
     if (field.name === "civility") field.data = civList;
   });
 
+  const resolve = (userId) => new Promise(async (callback, reject)=>{
+    try{
+      const { data } = await getUser(userId);
+      callback(data);
+      
+    }catch(e){
+      reject({ message: "initialisation failled" })
+    }
+    
+  })
   
+
   return (
     
     <CreateLayout       fields={userFields}
     title={"Gestion des utilisateurs"}
-    objectId={userId}
+    objectId={userId||null}
     type={"user"}
     beForeSubmit={(data)=>({...data,password: generatePassword()})}
     redirect={redirect}
-    submit={userId?createUser :updateUser}></CreateLayout>
+    resolve={resolve}
+    submit={!userId?createUser :updateUser}></CreateLayout>
   );
 };
 
