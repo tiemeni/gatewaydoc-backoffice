@@ -138,3 +138,47 @@ export const DATA_TABLE_GROUPE_COLONNE = [{
 {
     label: "Actions",
 }]
+
+export const DATA_TABLE_STRUCTURE_COLONNE = [{
+    label: "Nom",
+    name: "nom",
+},
+{
+    label: "Descriptions",
+    name: "localisation",
+},
+{
+    label: "addresse",
+    name: "addresse",
+},
+{
+    label: "email",
+    name: "email",
+},
+{
+    label: "telephone",
+    name: "telephone",
+},
+{
+    label: "raisonSocial",
+    name: "raisonSocial",
+},
+{
+    label: "formeJuridque",
+    name: "formeJuridque",
+},
+{
+    label: "Actions",
+}]
+
+const data_tables = {
+    'user': DATA_TABLE_USERS_COLONNE,
+    'lieu': DATA_TABLE_LIEU_COLONNE,
+    'patient': DATA_TABLE_PATIENT_COLONNE,
+    'speciality': DATA_TABLE_SPECIALITE_COLONNE,
+    'motif': DATA_TABLE_MOTIF_COLONNE,
+    'groupe': DATA_TABLE_GROUPE_COLONNE,
+    'practitien': DATA_TABLE_PRATICIEN_COLONNE,
+    'structure': DATA_TABLE_STRUCTURE_COLONNE
+}
+export default data_tables; 

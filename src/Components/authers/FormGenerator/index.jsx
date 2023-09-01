@@ -17,14 +17,14 @@ import { useEffect, useState } from "react";
 
 const errorMsg = "Ce champ est obligatoire";
 
-const FormGenerator = ({ fields, initialising, title, back=()=>{}, dataId, type, loading, onSubmit, data = {} }) => {
+const FormGenerator = ({ fields=[], initialising, title, back=()=>{}, dataId, type, loading, onSubmit, data = {} }) => {
   const mySchema = {};
    
-
+  console.log(fields)
   const [defaultValues, setDefaultValues] = useState({})
   
   // schema de validation et valeur par defaut
-  fields.fields.forEach((field) => {
+  fields?.forEach((field) => {
     const value =
     data &&
       (field.type === fieldTypes.SELECT
@@ -54,7 +54,7 @@ const FormGenerator = ({ fields, initialising, title, back=()=>{}, dataId, type,
   
   useEffect(()=>{
     setDefaultValues(data||{})
-    fields.fields.forEach((field)=>{
+    fields.forEach((field)=>{
       setValue(field.name, defaultValues[field.name]) 
     })
   },[data])
@@ -74,7 +74,7 @@ const FormGenerator = ({ fields, initialising, title, back=()=>{}, dataId, type,
     <UsersLayout title={title}>
       <Grid item xs={12} px={2} py={5}>
         <form onSubmit={handleSubmit(submit)} style={styles.form}>
-          {fields.fields.map((field) => {
+          {fields.flatMap((field) => {
             if (
               field.type === fieldTypes.TEXT ||
               field.type === fieldTypes.EMAIL ||

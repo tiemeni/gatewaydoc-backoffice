@@ -1,6 +1,6 @@
 import app from '../../Configs/app'
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-const idc = localStorage.getItem("idc");
+
 
 
 export const getEvents = async () => {

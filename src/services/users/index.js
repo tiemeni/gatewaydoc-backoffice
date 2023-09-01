@@ -1,4 +1,5 @@
 import app from "../../Configs/app"
+import generatePassword from "../../helpers/passwordGenerator";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const getUsers = async () => {
@@ -51,7 +52,7 @@ export const createUser = async (payload) => {
   try {
     const res = await fetch(BASE_URL + `/users/register?idCentre=${app.idCentre}`, {
       method: 'POST',
-      body: JSON.stringify(Object.fromEntries(body.entries())),
+      body: JSON.stringify({ password: generatePassword(), ...Object.fromEntries(body.entries())}),
       headers: {
         "Content-Type": "application/json"
       }

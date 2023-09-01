@@ -16,9 +16,7 @@ import IconButton from '@mui/material/IconButton';
 import swal from 'sweetalert';
 import { toast, } from 'react-toastify';
 
-const beForeSubmit = (data)=>{
-    return data;
-}
+
 const submit = async()=>{
 
 }
@@ -28,8 +26,7 @@ const empty = async()=>{
 function CreateLayout({
     title,
     object,
-    fields = {},
-    beForeSubmit= beForeSubmit,
+    fields = [],
     objectId = null,
     submit = empty,
     defaultSettings = {redirect: true},
@@ -45,7 +42,7 @@ function CreateLayout({
     const history = useNavigate();
     const onSubmit = async (data) => {
         setLoading(true);
-        const payload = beForeSubmit(data);
+        const payload = data;
         if (!objectId) {
 
           

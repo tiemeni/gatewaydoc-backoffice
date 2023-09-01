@@ -134,7 +134,7 @@ export const DataTable = ({ object, loading, dataField, dataInfo, rowsPerPage= 5
                                             <>
                                                 {column?.label === "Actions" ?
                                                     <TableCell sx={styles.fs14} align='center'>
-                                                        <Link to={`add/${info._id}`}>
+                                                        <Link to={`modification/${info._id}`}>
                                                             <Create fontSize='large' />
                                                         </Link>
                                                         <Link href="#" style={{ marginLeft: 10 }} >

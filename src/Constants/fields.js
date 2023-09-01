@@ -485,3 +485,84 @@ export const lieuxFields = {
         },
     ]
 }
+
+export const structureFields = {
+    fields: [
+        {
+            id: 1,
+            label: "nom",
+            name: "nom",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: ""
+        },
+        {
+            id: 2,
+            label: "localisation",
+            name: "localisation",
+            type: fieldTypes.TEXT,
+            required: false,
+            placeholder: ""
+        },
+        {
+            id: 3,
+            label: "types de centres",
+            name: "typeCentre",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: "types de centres"
+        },
+        {
+            id: 4,
+            label: "Addresse",
+            name: "addresse",
+            type: fieldTypes.TEXT,
+            required: false,
+            placeholder: "label"
+        },
+        {
+            id: 5,
+            label: "email*",
+            name: "email",
+            type: fieldTypes.EMAIL,
+            required: true,
+            placeholder: "TEXT"
+        },
+        {
+            id: 6,
+            label: "raisonSocial*",
+            name: "raisonSocial",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: "region"
+        },
+        {
+            id: 7,
+            label: "url Site",
+            name: "urlSite",
+            type: fieldTypes.TEXT,
+            required: false,
+            placeholder: "Url Site"
+        },
+        {
+            id: 8,
+            label: "forme Juridque*",
+            name: "formeJuridque",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: "formeJuridque"
+        },
+    ]
+}
+
+const fieldsMap = {
+    'user': userFields,
+    'lieu': lieuxFields,
+    'patient': patientFields,
+    'speciality': specialityFields,
+    'motif': motifFields,
+    'groupe': groupe_droitFields,
+    'practitien': practitionerFields,
+    'structure': structureFields
+}
+export default fieldsMap;
