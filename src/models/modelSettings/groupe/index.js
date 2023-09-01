@@ -1,37 +1,25 @@
-import { saveGroups } from "../../../REDUX/groups/actions";
-import { getCivilities } from "../../../services/civilities";
-import { getAllCivilities } from "../../../services/commons";
-import { getAllGroup } from "../../../services/groups";
-import { createUser, getUser, updateUser } from "../../../services/users";
+import { createGroup, getAllGroup, getGroup, updateGroup,  } from "../../../services/groups";
+import action from '../../../REDUX/groups/actions'
 
-const getGroups = async (dispatch, state) => {
-    const groups = await getAllGroup();
-    if (groups.success !== true) return;
-    dispatch(saveGroups(groups.data));
-  };
-  
-  const getCiv = async (dispatch,state) => {
-    const civilities = await getAllCivilities();
-    if (civilities.success !== true) return;
-    dispatch(getCivilities(civilities.data));
-};
-const user = {
+const groupe = {
     related: {
-      loaders: [getGroups, getCiv],
-      selector: (state) => [state.Groups.groups,state.Common.civilities],
-      getRelatedValues: ([groupList, civList],fields=[]) => {
+      loaders: [],
+      selector: (state) => [],
+      getRelatedValues: ([],fields=[]) => {
         // Attribuer les valeurs récupérées
             let results = [...fields]
-            results.forEach((field) => {
-              if (field.name === "groups") field.data = groupList;
-              if (field.name === "civility") field.data = civList;
-            });
+            
 
           return results;
       }
     },
-    create: createUser,
-    fetch : getUser,
-    update: updateUser
-  }
-export default user;
+    gestion: {
+      selector: (state) => state.Groups.groups || []
+    },
+    loadAll: getAllGroup,
+    saveAll: (dispatch,datas)=>dispatch(action.save(datas)),
+    create: createGroup,
+    fetch : getGroup,
+    update: updateGroup  
+}
+export default groupe;
