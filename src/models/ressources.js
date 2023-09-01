@@ -58,6 +58,11 @@ const ressources = [
         label: "praticiens",
         model: "praticien",
         route: 'praticiens'
+    },
+    {
+        label: "Professions",
+        model: "profession",
+        route: "professions"
     }
 ]
 

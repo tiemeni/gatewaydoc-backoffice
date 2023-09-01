@@ -555,6 +555,31 @@ export const structureFields = {
     ]
 }
 
+
+export const professionFields = {
+    fields: [
+        {
+            id: 1,
+            label: "nom",
+            name: "name",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: ""
+        },
+    ]
+}
+export const civilityFields = {
+    fields: [
+        {
+            id: 1,
+            label: "label",
+            name: "label",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: ""
+        },
+    ]
+}
 const fieldsMap = {
     'user': userFields,
     'lieu': lieuxFields,
@@ -563,6 +588,8 @@ const fieldsMap = {
     'motif': motifFields,
     'groupe': groupe_droitFields,
     'practitien': practitionerFields,
-    'structure': structureFields
+    'structure': structureFields,
+    'profession': professionFields,
+    'civility': civilityFields
 }
 export default fieldsMap;

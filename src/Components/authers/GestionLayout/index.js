@@ -49,7 +49,7 @@ function GestionLayout({
                 </Typography>
             </Grid>
             <Grid item xs={12} px={2} mt={3}>
-                <Link to={'add'}>
+                <Link to={'creation'}>
                     <Button
                         variant='contained'
                         startIcon={<AddCircle sx={styles.expandDown} />}>

@@ -9,7 +9,8 @@ const ressourcesMap = {
     "typepatients": "typepatient",
     "groupes": "groupe",
     "motifs": "motif",
-    "praticiens": "praticien"
+    "praticiens": "praticien",
+    "professions": "profession"
 }
 
 export default ressourcesMap;

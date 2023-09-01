@@ -19,6 +19,15 @@ export const DATA_TABLE_SPECIALITE_COLONNE = [
         label: "Actions"
     }
 ]
+export const DATA_TABLE_PROFESSION_COLONNE = [
+    {
+        label: "nom",
+        name: "name"
+    },
+    {
+        label: "Actions"
+    }
+]
 export const DATA_TABLE_LIEU_COLONNE = 
 [ { label:"active", name:"active"}, { label:"codePostal", name:"codePostal"}, { label:"initiales", name:"initiales"}, { label:"label", name:"label"}, { label:"reference", name:"reference"}, { label:"region", name:"region"}, { label:"ville", name:"ville"}, { label:"Actions", name:"Actions"} ]
 export const DATA_TABLE_MOTIF_COLONNE = 
@@ -170,7 +179,13 @@ export const DATA_TABLE_STRUCTURE_COLONNE = [{
 {
     label: "Actions",
 }]
-
+const DATA_TABLE_CIVILITIES_COLONNE = [{
+    label: "Nom",
+    name: "label",
+},
+{
+    label: "Actions",
+}]
 const data_tables = {
     'user': DATA_TABLE_USERS_COLONNE,
     'lieu': DATA_TABLE_LIEU_COLONNE,
@@ -179,6 +194,8 @@ const data_tables = {
     'motif': DATA_TABLE_MOTIF_COLONNE,
     'groupe': DATA_TABLE_GROUPE_COLONNE,
     'practitien': DATA_TABLE_PRATICIEN_COLONNE,
-    'structure': DATA_TABLE_STRUCTURE_COLONNE
+    'structure': DATA_TABLE_STRUCTURE_COLONNE,
+    'profession': DATA_TABLE_PROFESSION_COLONNE,
+    'civility': DATA_TABLE_CIVILITIES_COLONNE,
 }
 export default data_tables; 

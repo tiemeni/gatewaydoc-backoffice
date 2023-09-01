@@ -7,6 +7,7 @@ import praticien from "./praticien";
 import profession from "./profession";
 import speciality from "./speciality";
 import patient from "./patient";
+import civility from "./civility";
 const modelSettings = {
     user,
     structure,
@@ -16,7 +17,8 @@ const modelSettings = {
     motif,
     praticien,
     speciality,
-    patient
+    patient,
+    civility
 }
 
 export default modelSettings;

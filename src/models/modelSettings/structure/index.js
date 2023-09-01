@@ -2,6 +2,7 @@ import { saveGroups } from "../../../REDUX/groups/actions";
 import { getCivilities } from "../../../services/civilities";
 import { getAllCivilities } from "../../../services/commons";
 import { getAllGroup } from "../../../services/groups";
+import { getAllProfessions } from "../../../services/professions";
 import { createStructure, getStructure, updateStructure } from "../../../services/structures";
 
 const getGroups = async (dispatch, state) => {
@@ -30,6 +31,11 @@ const structure = {
           return results;
       }
     },
+    gestion: {
+      selector: (state) => state.Professions.data ||[]
+    },
+    loadAll: getAllProfessions,
+    saveAll: (dispatch,datas)=>dispatch(savePre(datas)),
     create: createStructure,
     fetch : getStructure,
     update: updateStructure
