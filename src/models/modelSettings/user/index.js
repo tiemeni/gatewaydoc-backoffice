@@ -34,7 +34,7 @@ const user = {
       selector: (state) => state.Users.users
     },
     loadAll: getUsers,
-    saveAll: saveUsers,
+    saveAll: (dispatch, datas)=> dispatch(saveUsers(datas)),
     create: createUser,
     fetch : getUser,
     update: updateUser
