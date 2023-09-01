@@ -53,14 +53,18 @@ function CreateLayout({
           const result = await submit(payload);
           setLoading(false);
           if (result.success !== true){
-            toast.error(result.message)  
+            toast.error(result.message);  
             return;
           }
-          
-          swal("Creation reussi !", "You clicked the button!", "success");
           if(settings.redirect){
-            redirect(`/content/${object}s`);
+            toast.success("Creation reussie");
+            history(`/content/${object}s`);
+            
+          }else{
+            swal("Creation reussi!", "You clicked the button!", "success");
+            
           }
+          return true;
           
         } else {
           //update user
@@ -71,10 +75,9 @@ function CreateLayout({
             toast.error(result.message)
             return;
           }
-          swal("Creation reussi!", "You clicked the button!", "success");
-          if(settings.redirect){
-            redirect(`/content/${object}s`);
-          }
+          
+          toast.success("Mise a jour reussie");
+          history(`/content/${object}s`);
         }
         
     };

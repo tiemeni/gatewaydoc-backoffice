@@ -42,7 +42,6 @@ const FormGenerator = ({ fields, initialising, title, back=()=>{}, dataId, type,
 
   const {
     register,
-    reset,
     handleSubmit,
     control,
     setValue,
@@ -59,10 +58,22 @@ const FormGenerator = ({ fields, initialising, title, back=()=>{}, dataId, type,
       setValue(field.name, defaultValues[field.name]) 
     })
   },[data])
+
+  const reset = ()=>{
+    fields.fields.forEach((field)=>{
+      setValue(field.name, defaultValues[field.name]) 
+    })
+  }
+  const submit = async (data)=>{
+    const status = await onSubmit(data);
+    if(status){
+      reset();
+    }
+  }
   return (
     <UsersLayout title={title}>
       <Grid item xs={12} px={2} py={5}>
-        <form onSubmit={handleSubmit(onSubmit)} style={styles.form}>
+        <form onSubmit={handleSubmit(submit)} style={styles.form}>
           {fields.fields.map((field) => {
             if (
               field.type === fieldTypes.TEXT ||
@@ -122,6 +133,7 @@ const FormGenerator = ({ fields, initialising, title, back=()=>{}, dataId, type,
                   label={field.label}
                   register={{
                     ...register(field.name),
+                    value: defaultValues[field.name]
                   }}
                   initialising={initialising}
                   error={errors[field.name]}

@@ -76,6 +76,7 @@ const NewUser = () => {
     title={"Gestion des utilisateurs"}
     objectId={userId||null}
     type={"user"}
+    object={"user"}
     beForeSubmit={(data)=>({...data,password: generatePassword()})}
     redirect={redirect}
     resolve={resolve}
