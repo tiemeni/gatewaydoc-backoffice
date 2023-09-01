@@ -15,7 +15,7 @@ const getGroups = async (dispatch, state) => {
     if (civilities.success !== true) return;
     dispatch(getCivilities(civilities.data));
 };
-const user = {
+const motif = {
     related: {
       loaders: [getGroups, getCiv],
       selector: (state) => [state.Groups.groups,state.Common.civilities],
@@ -34,4 +34,4 @@ const user = {
     fetch : getUser,
     update: updateUser
   }
-export default user;
+export default motif;
