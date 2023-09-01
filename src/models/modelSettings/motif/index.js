@@ -2,7 +2,8 @@ import { saveGroups } from "../../../REDUX/groups/actions";
 import { getCivilities } from "../../../services/civilities";
 import { getAllCivilities } from "../../../services/commons";
 import { getAllGroup } from "../../../services/groups";
-import { createUser, getUser, updateUser } from "../../../services/users";
+import { createMotif, editMotif, getAllMotif, getMotif } from "../../../services/motifs";
+import action from "../../../REDUX/motifs/actions";
 
 const getGroups = async (dispatch, state) => {
     const groups = await getAllGroup();
@@ -30,8 +31,13 @@ const motif = {
           return results;
       }
     },
-    create: createUser,
-    fetch : getUser,
-    update: updateUser
+    gestion: {
+      selector: (state) => state.Motifs.data||[]    
+    },
+    loadAll: getAllMotif,
+    saveAll: (dispatch,datas)=>dispatch(action.save(datas)),
+    create: createMotif,
+    fetch : getMotif,
+    update: editMotif
   }
 export default motif;
