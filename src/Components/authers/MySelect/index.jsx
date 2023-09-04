@@ -4,22 +4,24 @@ import {
   FormHelperText,
   MenuItem,
   Select,
+  Skeleton,
   Typography,
 } from "@mui/material";
 import styles from "./style";
 
-const MySelect = ({ error, register, label, fieldData = [], value }) => {
+
+const MySelect = ({ error, register, label, fieldData = [], value, initialising= true }) => {
   const [val, setVal] = React.useState(value);
+  
   return (
     <Box sx={styles.inputContainer}>
       <Typography sx={styles.label}>{label}</Typography>
-      <Box sx={styles.input}>
+      {initialising? <Skeleton sx={styles.input} style={{ height: "auto", minHeight: "1.4375em", height: "60px" }} /> :<Box sx={styles.input}>
         <Select
           {...register}
+          defaultValue={value}
           error={error ? true : false}
           size="small"
-          value={val}
-          onChange={(e) => setVal(e.target.value)}
           fullWidth
         >
           {fieldData?.map((d) => (
@@ -29,7 +31,7 @@ const MySelect = ({ error, register, label, fieldData = [], value }) => {
           ))}
         </Select>
         <FormHelperText sx={styles.helperText}>{error?.message}</FormHelperText>
-      </Box>
+      </Box>}
     </Box>
   );
 };

@@ -33,7 +33,9 @@ export default function MenuListComposition({ IconName, styles }) {
 
     const deconnexion = () =>{
         localStorage.setItem('defaultPraticien'+idc, '')
-        localStorage.setItem(idc, '')
+        localStorage.setItem('idc', '')
+        localStorage.setItem('acces_bo_token', "")
+        window.location.replace("/");
     }
 
     function handleListKeyDown(event) {
@@ -129,9 +131,9 @@ export default function MenuListComposition({ IconName, styles }) {
                                             <Link to={{ pathname: 'patients' }}>
                                                 <MenuItem onClick={handleClose} style={style.menuItem}><span style={{fontSize: '12px'}}>A propos</span></MenuItem>
                                             </Link>
-                                            <Link to={{ pathname: '/' }}>
+                                            {/* <Link to={{ pathname: '#' }}> */}
                                                 <MenuItem onClick={deconnexion} style={style.menuItem}><span style={{color:'red', fontSize: '12px'}}>Deconnexion</span></MenuItem>
-                                            </Link>
+                                            {/* </Link> */}
                                             
                                         </MenuList>
                                     </Menu>

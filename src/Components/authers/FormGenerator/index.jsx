@@ -12,22 +12,24 @@ import AutoComplete from "../AutoComplete";
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getValueFromReducer } from "../../../helpers/formGenerator";
+import { useMemo } from "react";
+import { useEffect, useState } from "react";
 
 const errorMsg = "Ce champ est obligatoire";
 
-const FormGenerator = ({ fields, title, dataId, type, redirect, onSubmit }) => {
-  const store = useSelector((state) => state);
-  const toUpdate = getValueFromReducer(store, type, dataId);
+const FormGenerator = ({ fields=[], initialising, title, back=()=>{}, dataId, type, loading, onSubmit, data = {} }) => {
   const mySchema = {};
-  let defaultValues = {};
-
+   
+  console.log(fields)
+  const [defaultValues, setDefaultValues] = useState({})
+  
   // schema de validation et valeur par defaut
-  fields.fields.forEach((field) => {
+  fields?.forEach((field) => {
     const value =
-      toUpdate &&
+    data &&
       (field.type === fieldTypes.SELECT
-        ? toUpdate[field.name]?._id
-        : toUpdate[field.name]);
+        ? (data[field.name]?._id||data[field.name])
+        : data[field.name]);
     defaultValues[field.name] = value?.toString() || undefined;
 
     if (field.type === fieldTypes.AUTO_COMPLETE) return;
@@ -36,23 +38,43 @@ const FormGenerator = ({ fields, title, dataId, type, redirect, onSubmit }) => {
       : yup.string();
   });
   const schema = yup.object().shape({ ...mySchema });
+  
 
   const {
     register,
     handleSubmit,
     control,
     setValue,
-    formState: { errors },
+    getValues,
+    formState: { errors, isDirty },
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: { ...defaultValues },
   });
-
+  
+  useEffect(()=>{
+    setDefaultValues({...data}||{})
+    fields.forEach((field)=>{
+      setValue(field.name, data[field.name]); 
+    })
+  },[data])
+console.log(defaultValues)
+  const reset = ()=>{
+    fields.forEach((field)=>{
+      setValue(field.name, defaultValues[field.name]) 
+    })
+  }
+  const submit = async (data)=>{
+    const status = await onSubmit(data);
+    if(status){
+      reset();
+    }
+  }
   return (
     <UsersLayout title={title}>
       <Grid item xs={12} px={2} py={5}>
-        <form onSubmit={handleSubmit(onSubmit)} style={styles.form}>
-          {fields.fields.map((field) => {
+        <form onSubmit={handleSubmit(submit)} style={styles.form}>
+          {fields.flatMap((field) => {
             if (
               field.type === fieldTypes.TEXT ||
               field.type === fieldTypes.EMAIL ||
@@ -65,8 +87,10 @@ const FormGenerator = ({ fields, title, dataId, type, redirect, onSubmit }) => {
                   key={field.id}
                   label={field.label}
                   register={{
-                    ...register(field.name),
+                    ...register(field?.name),
+                    
                   }}
+                  initialising={initialising}
                   error={errors[field.name]}
                   type={field.type}
                   placeholder={field.placeholder}
@@ -82,7 +106,9 @@ const FormGenerator = ({ fields, title, dataId, type, redirect, onSubmit }) => {
                   label={field.label}
                   register={{
                     ...register(field.name),
+                    value: defaultValues[field.name]
                   }}
+                  initialising={initialising}
                   error={errors[field.name]}
                   fieldData={field.data}
                   value={defaultValues[field.name]}
@@ -96,6 +122,7 @@ const FormGenerator = ({ fields, title, dataId, type, redirect, onSubmit }) => {
                   control={control}
                   label={field.label}
                   name={field.name}
+                  initialising={initialising}
                   value={defaultValues[field.name]}
                 />
               );
@@ -107,7 +134,9 @@ const FormGenerator = ({ fields, title, dataId, type, redirect, onSubmit }) => {
                   label={field.label}
                   register={{
                     ...register(field.name),
+                    value: defaultValues[field.name]
                   }}
+                  initialising={initialising}
                   error={errors[field.name]}
                   onChange={(event, value) => setValue(field.name, value)}
                   value={defaultValues[field.name]}
@@ -117,12 +146,25 @@ const FormGenerator = ({ fields, title, dataId, type, redirect, onSubmit }) => {
           })}
           <Box sx={styles.inputContainer} mt={2}>
             <Box sx={{ width: 250, background: "red" }}></Box>
-            <Button type="submit" variant="contained">
-              Enregistrer
+            <Button color="error" type="button" disabled={loading} onClick={back} variant="contained">
+               Annuler
             </Button>
+            {
+              isDirty &&  <Button color="warning" disabled={loading}  onClick={()=>reset()} type="button" variant="contained">
+                Reinitialiser
+            </Button>
+            }
+
+            <Button type="submit" disabled={loading} variant="contained">
+               Enregistrer
+            </Button>
+
+
+
+            
           </Box>
         </form>
-        {redirect && <Navigate to={redirect} />}
+
       </Grid>
     </UsersLayout>
   );

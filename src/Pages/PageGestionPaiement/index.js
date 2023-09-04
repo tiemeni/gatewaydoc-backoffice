@@ -10,7 +10,7 @@ function PageGestionPaiement() {
     const [isLoading, setIsLoading] = useState(false)
     const patients = useSelector((state) => state.Patients.patients)
     const dispatch = useDispatch();
-
+  
     React.useEffect(() => {
       async function fetchData() {
         setIsLoading(true);

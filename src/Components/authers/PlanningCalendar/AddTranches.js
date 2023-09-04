@@ -37,6 +37,7 @@ import { deleteRDV, updateRDV } from '../../../services/rdv';
 import { showDRDV, showPFRDV } from "../../../REDUX/commons/actions";
 import { toast } from 'react-toastify';
 import { Editor } from 'react-draft-wysiwyg';
+import ControlledEditor from "./FormsComponents/Editor";
 
 
 
@@ -149,15 +150,31 @@ export default function AddTranches ({ praticien ={} })
                         <Grid item xs={3}>
                             <BasicFormControl  label='Duree (en min.) '  Input={StyledInput} props={{ name: 'duration', value: 20, disabled: true , placeholder: 'Nom', ...register('duration') , type: NUMBER }} />
                         </Grid>
-                        <Grid item xs={12}>
-                            <Divider orientation="horizontal"/>
-                        </Grid>
-
-
                         
+
                         <Grid item xs={12}>
-                            <BasicFormControl  label='Commentaire '  Input={StyledInput} props={{ name: 'commentaire', multiline: true , rows: 3, placeholder: 'commentaire' }} />
+                            <Divider/>
                         </Grid>
+                        <Grid item xs={6}>
+                            <BasicFormControl  label='Commentaire '  Input={ControlledEditor} props={{ name: 'commentaire', onChange: console.log, multiline: true , rows: 3, placeholder: 'commentaire' }} />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Grid container>
+                                <Grid item xs={6}>
+                                    <BasicFormControl  label='Commentaire '  Input={CustomDateInput} props={{ name: 'datedebut', onChange: console.log, multiline: true , rows: 3, placeholder: 'Date de debut' }} />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <BasicFormControl  label='Consigne '  Input={CustomDateInput} props={{ name: 'commentaire', onChange: console.log, multiline: true , rows: 3, placeholder: 'Date de fin' }} />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <BasicFormControl  label='Consigne '  Input={CustomDateInput} props={{ name: 'commentaire', onChange: console.log, multiline: true , rows: 3, placeholder: 'commentaire' }} />
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <BasicFormControl  label='Consigne '  Input={ControlledEditor} props={{ name: 'consigne', onChange: console.log, multiline: true , rows: 3, placeholder: 'consigne' }} />
+                        </Grid>
+                     
 
                             <Grid item xs={4}>                
                                 <Button variant="contained"  color="info"  disableElevation>

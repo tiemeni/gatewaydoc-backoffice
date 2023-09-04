@@ -12,6 +12,9 @@ const styles = createStyles({
     fontSize: 12,
     fontWeight: 600,
   },
+  input: {
+    width: "40%",
+  }
 });
 
 export default styles;

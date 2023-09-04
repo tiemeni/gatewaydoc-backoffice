@@ -15,13 +15,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { showPRDV, showPFRDV } from '../../../REDUX/commons/actions';
 import ModalComponent from '../ModalComponent';
 import PriseRdvComponent from '../PriseRdvComponentWrapper';
-import DeplacerRdvComponent from '../DeplacerRdvComponent';
 import LogOut from '../LogOut'
 
 function Header() {
     const dispatch = useDispatch()
     const showRDV = useSelector(state => state.Common.showPRDV);
-    const showDRDV = useSelector(state => state.Common.showDRDV);
     return (
         <Box
             style={{
@@ -33,12 +31,6 @@ function Header() {
                         title={"Prise de Rendez-vous"}
                         contentComponent={<PriseRdvComponent />}
                         onClose={() => dispatch(showPRDV(false))}
-                    />}
-                {showDRDV &&
-                    <ModalComponent
-                        header={false}
-                        contentComponent={<DeplacerRdvComponent />}
-                        
                     />}
             <Box style={{ ...styles.menu1, alignItems: "center" }}>
                 <Box style={{ width: "30%", display: "flex", justifyContent: "center", fontWeight: 'bold' }}>

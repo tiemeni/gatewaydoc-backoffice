@@ -10,11 +10,12 @@ import PraticiensReducer from "../praticiens/reducer";
 import ProfessionsReducer from "../professions/reducers";
 import CalendarReducer from "../calendar/reducers";
 import PrdvReducer from "../prgv/reducers";
-
+import CivilityReducer from "../civilities/reducers"
 
 const rootReducer = combineReducers({
     Common: CommonReducer,
     Users: UserReducers,
+    Civilities: CivilityReducer,
     Groups: GroupReducers,
     Specialities: specialitiesReducers,
     Patients: PatientReducers,
