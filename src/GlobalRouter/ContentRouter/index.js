@@ -46,8 +46,8 @@ const ContentRouter = () => {
                 <Route path="/ressources/:ressourceName" element={<PageGestionRessources />} />
                 <Route path="/ressources/:ressourceName/modification/:ressourceId" element={<RessourceCreateUpdate />} />
                 
-                <Route path="/specialites/*" element={<SpecialitiesRouter />} />
-                <Route path="/typepatients" element={<PageGestionTypePatients />} />
+
+
                 
                 <Route path="/advancedOptions" element={<PageGestionOptionsAvancees />} />
                 <Route path="/recappaiement" element={<PageGestionPaiement />} />

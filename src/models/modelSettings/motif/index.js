@@ -5,20 +5,10 @@ import { getAllGroup } from "../../../services/groups";
 import { createMotif, editMotif, getAllMotif, getMotif } from "../../../services/motifs";
 import action from "../../../REDUX/motifs/actions";
 
-const getGroups = async (dispatch, state) => {
-    const groups = await getAllGroup();
-    if (groups.success !== true) return;
-    dispatch(saveGroups(groups.data));
-  };
-  
-const getCiv = async (dispatch,state) => {
-    const civilities = await getAllCivilities();
-    if (civilities.success !== true) return;
-    dispatch(getCivilities(civilities.data));
-};
+
 const motif = {
     related: {
-      loaders: [getGroups, getCiv],
+      loaders: [],
       selector: (state) => [state.Groups.groups,state.Common.civilities],
       getRelatedValues: ([groupList, civList],fields=[]) => {
         // Attribuer les valeurs récupérées

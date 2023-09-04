@@ -5,20 +5,10 @@ import { getAllGroup } from "../../../services/groups";
 import { getAllProfessions } from "../../../services/professions";
 import { createStructure, getStructure, updateStructure } from "../../../services/structures";
 
-const getGroups = async (dispatch, state) => {
-    const groups = await getAllGroup();
-    if (groups.success !== true) return;
-    dispatch(saveGroups(groups.data));
-  };
-  
-  const getCiv = async (dispatch,state) => {
-    const civilities = await getAllCivilities();
-    if (civilities.success !== true) return;
-    dispatch(getCivilities(civilities.data));
-};
+
 const structure = {
     related: {
-      loaders: [getGroups, getCiv],
+      loaders: [],
       selector: (state) => [state.Groups.groups,state.Common.civilities],
       getRelatedValues: ([groupList, civList],fields=[]) => {
         // Attribuer les valeurs récupérées
@@ -35,7 +25,7 @@ const structure = {
       selector: (state) => state.Professions.data ||[]
     },
     loadAll: getAllProfessions,
-    saveAll: (dispatch,datas)=>dispatch(savePre(datas)),
+    saveAll: (dispatch,datas)=>dispatch(saveGroups(datas)),
     create: createStructure,
     fetch : getStructure,
     update: updateStructure

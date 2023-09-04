@@ -1,9 +1,11 @@
 import { saveGroups } from "../../../REDUX/groups/actions";
+import actions from "../../../REDUX/civilities/actions";
 import { getCivilities } from "../../../services/civilities";
 import { getAllCivilities } from "../../../services/commons";
 import { getAllGroup } from "../../../services/groups";
 import { createUser, getUser, updateUser, getUsers } from "../../../services/users";
 import { saveUsers } from "../../../REDUX/users/actions";
+
 const getGroups = async (dispatch, state) => {
     const groups = await getAllGroup();
     if (groups.success !== true) return;
@@ -13,7 +15,7 @@ const getGroups = async (dispatch, state) => {
   const getCiv = async (dispatch,state) => {
     const civilities = await getAllCivilities();
     if (civilities.success !== true) return;
-    dispatch(getCivilities(civilities.data));
+    dispatch(actions.save(civilities.data));
 };
 const user = {
     related: {

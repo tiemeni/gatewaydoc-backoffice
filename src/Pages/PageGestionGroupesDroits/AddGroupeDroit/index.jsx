@@ -2,10 +2,8 @@ import React from "react";
 import FormGenerator from "../../../Components/authers/FormGenerator";
 import { groupe_droitFields } from "../../../Constants/fields";
 import { getAllGroup } from "../../../services/groups";
-import { getAllCivilities } from "../../../services/commons";
 import { useDispatch, useSelector } from "react-redux";
 import { saveGroups } from "../../../REDUX/groups/actions";
-import { getCivilities } from "../../../REDUX/commons/actions";
 import { useParams } from "react-router-dom";
 import { createMotif, editMotif } from "../../../services/motifs";
 

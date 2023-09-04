@@ -1,6 +1,4 @@
-import { saveGroups } from "../../../REDUX/groups/actions";
-import { getCivilities } from "../../../services/civilities";
-import { getAllCivilities } from "../../../services/commons";
+
 import { getAllGroup } from "../../../services/groups";
 import { createProfession, getAllProfessions, getProfession, updateProfession, } from "../../../services/professions"
 import actions from "../../../REDUX/professions/actions";

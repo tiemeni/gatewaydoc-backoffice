@@ -4,7 +4,7 @@ import { getCivilities } from "../../../services/civilities";
 import { getAllCivilities } from "../../../services/commons";
 import { getAllGroup } from "../../../services/groups";
 import { createPatient, getPatient, updatePatient,getPatients } from "../../../services/patients"
-
+import actions from "../../../REDUX/civilities/actions";
 const getGroups = async (dispatch, state) => {
     const groups = await getAllGroup();
     if (groups.success !== true) return;
@@ -14,7 +14,7 @@ const getGroups = async (dispatch, state) => {
   const getCiv = async (dispatch,state) => {
     const civilities = await getAllCivilities();
     if (civilities.success !== true) return;
-    dispatch(getCivilities(civilities.data));
+    dispatch(actions.save(civilities.data));
 };
 const user = {
     related: {
