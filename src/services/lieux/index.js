@@ -42,7 +42,7 @@ export const createLieu = async (payload) => {
 
   export const updateLieu = async (payload, id) => {
     try {
-      const res = await fetch(BASE_URL + "/lieu/" + id, {
+      const res = await fetch(BASE_URL + `/lieu/${id}?idCentre=${app.idCentre}`, {
         method: 'PUT',
         body: JSON.stringify(payload),
         headers: {
