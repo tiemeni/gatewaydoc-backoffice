@@ -587,7 +587,7 @@ const fieldsMap = {
     'speciality': specialityFields,
     'motif': motifFields,
     'groupe': groupe_droitFields,
-    'practitien': practitionerFields,
+    'praticien': practitionerFields,
     'structure': structureFields,
     'profession': professionFields,
     'civility': civilityFields

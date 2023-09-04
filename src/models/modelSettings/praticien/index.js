@@ -3,6 +3,9 @@ import { getCivilities } from "../../../services/civilities";
 import { getAllCivilities } from "../../../services/commons";
 import { getAllGroup } from "../../../services/groups";
 import { createUser, getUser, updateUser } from "../../../services/users";
+import actions from "../../../REDUX/civilities/actions";
+import actionsPraticien from "../../../REDUX/praticiens/actions";
+import { createPraticien, editPraticien, getPraticien, getPraticiens } from "../../../services/praticiens";
 
 const getGroups = async (dispatch, state) => {
     const groups = await getAllGroup();
@@ -13,7 +16,7 @@ const getGroups = async (dispatch, state) => {
   const getCiv = async (dispatch,state) => {
     const civilities = await getAllCivilities();
     if (civilities.success !== true) return;
-    dispatch(getCivilities(civilities.data));
+    dispatch(actions.save(civilities.data));
 };
 const user = {
     related: {
@@ -30,8 +33,14 @@ const user = {
           return results;
       }
     },
-    create: createUser,
-    fetch : getUser,
-    update: updateUser
+    gestion: {
+      selector: (state) => state.Patients.patients
+    },
+    saveAll: (dispatch,datas)=> dispatch(actionsPraticien.save(datas)),
+    loadAll: getPraticiens,
+    
+    create: createPraticien,
+    fetch : getPraticien,
+    update: editPraticien
   }
 export default user;
