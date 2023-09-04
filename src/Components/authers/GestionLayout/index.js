@@ -45,7 +45,8 @@ function GestionLayout({
             <Grid item xs={12} px={2} mt={3}>
                 <Typography
                     sx={styles.fs14}>
-                    <b>{dataInfo.length} {object ?? " Objet"}(s)</b> correspondent à votre recherche
+                    <b>{dataInfo.length} {object ?? " Objet"}(s) </b> 
+                    {loading? "en cour de chargement..." : "correspondent à votre recherche"}
                 </Typography>
             </Grid>
             <Grid item xs={12} px={2} mt={3}>

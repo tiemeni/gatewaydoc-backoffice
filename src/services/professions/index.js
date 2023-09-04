@@ -53,3 +53,19 @@ export const updateProfession = async (payload, specId) => {
         return e
     }
 }
+
+export const deleteProfession = async (specId) => {
+    try {
+        const res = await fetch(BASE_URL + `/profession/${specId}/?idCentre=${app.idCentre}` , {
+            method: "DELETE",
+           
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const data = await res.json()
+        return data;
+    } catch (e) {
+        return e
+    }
+}

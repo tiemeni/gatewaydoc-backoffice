@@ -21,6 +21,7 @@ const profession = {
     saveAll: (dispatch,datas)=>dispatch(actions.save(datas)),
     create: createProfession,
     fetch : getProfession,
-    update: updateProfession
+    update: updateProfession,
+    delete: 
   }
 export default profession;
