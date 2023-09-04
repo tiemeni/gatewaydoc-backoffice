@@ -24,7 +24,10 @@ const RessourceCreateUpdate = () => {
     const fieldsList = modelSettings[ressource].related.getRelatedValues([...modelSettings[ressource].related.selector(state)],fieldsMap[ressource].fields);
     setFieldsList(fieldsList);
   }, [ressourceName, ressourceId]);
-
+  React.useLayoutEffect(()=>{
+    const fieldsList = modelSettings[ressource].related.getRelatedValues([...modelSettings[ressource].related.selector(state)],fieldsMap[ressource].fields);
+    setFieldsList(fieldsList);
+  },[state])
   
   
   const resolve = (ressourceId) => new Promise(async (callback, reject)=>{

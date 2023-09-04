@@ -20,7 +20,7 @@ const getGroups = async (dispatch, state) => {
 const user = {
     related: {
       loaders: [getGroups, getCiv],
-      selector: (state) => [state.Groups.groups,state.Common.civilities],
+      selector: (state) => [state.Groups.groups,state.Civilities.data],
       getRelatedValues: ([groupList, civList],fields=[]) => {
         // Attribuer les valeurs récupérées
             let results = [...fields]
