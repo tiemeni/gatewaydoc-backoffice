@@ -52,7 +52,7 @@ function GestionLayout({
                 <Link to={'creation'}>
                     <Button
                         variant='contained'
-                        startIcon={<AddCircle sx={styles.expandDown} />}>
+                        starticon={<AddCircle sx={styles.expandDown} />}>
                         Ajouter un {object ?? "Objet"}
                     </Button>
                 </Link>

@@ -119,16 +119,16 @@ export const DataTable = ({ object, loading, dataField, dataInfo, rowsPerPage= 5
                 <Table stickyHeader sx={{ minWidth: 650, maxWidth: "100vw" }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            {dataField?.map((column, i) => <TableCell key={i} sx={[styles.fs14, styles.tabHead]} align="center">{column?.label}</TableCell>)}
+                            {dataField?.flatMap((column, i) => <TableCell key={i} sx={[styles.fs14, styles.tabHead]} align="center">{column?.label}</TableCell>)}
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {(rowsPerPage > 0
                         ? dataInfo.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         : dataInfo
-                        )?.map((info, i) => {
+                        )?.flatMap((info, i) => {
                             return (
-                                <TableRow key={info._id}>
+                                <TableRow key={`${i}${info._id}`}>
                                     {dataField.map((column, index) => {
                                         return (
                                             <>

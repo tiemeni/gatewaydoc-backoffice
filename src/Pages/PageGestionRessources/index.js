@@ -21,7 +21,7 @@ function PageGestionRessources() {
 
     React.useEffect(() => {
       modelSettings[ressource].related.loaders.flatMap((callback)=>callback(dispatch,state))
-    }, []);
+    }, [ressourceName]);
     const datas = modelSettings[ressource].gestion.selector(state)
     async function fetchData() {
       setIsLoading(true);
@@ -37,7 +37,7 @@ function PageGestionRessources() {
     React.useEffect(() => {
     
       fetchData();
-    }, [])
+    }, [ressourceName])
 
     return (
         <GestionLayout
