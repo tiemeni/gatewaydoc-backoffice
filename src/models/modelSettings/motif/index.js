@@ -11,7 +11,7 @@ const getGroups = async (dispatch, state) => {
     dispatch(saveGroups(groups.data));
   };
   
-  const getCiv = async (dispatch,state) => {
+const getCiv = async (dispatch,state) => {
     const civilities = await getAllCivilities();
     if (civilities.success !== true) return;
     dispatch(getCivilities(civilities.data));

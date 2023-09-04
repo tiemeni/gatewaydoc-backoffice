@@ -8,8 +8,7 @@ const groupe = {
       getRelatedValues: ([],fields=[]) => {
         // Attribuer les valeurs récupérées
             let results = [...fields]
-            
-
+    
           return results;
       }
     },

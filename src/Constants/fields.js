@@ -306,7 +306,7 @@ export const specialityFields = {
         {
             id: 0,
             label: "Label de la spécialité*",
-            name: "title",
+            name: "label",
             type: fieldTypes.TEXT,
             required: true,
             placeholder: ""
@@ -331,7 +331,7 @@ export const specialityFields = {
             id: 3,
             label: "active*",
             name: "active",
-            type: fieldTypes.TEXT,
+            type: fieldTypes.RADIO,
             required: true,
             placeholder: ""
         },
