@@ -43,6 +43,7 @@ function CreateLayout({
     const onSubmit = async (data) => {
         setLoading(true);
         const payload = data;
+        const ressource = ressources.find((ressource)=>ressource.model == object)
         if (!objectId) {
 
           
@@ -53,7 +54,7 @@ function CreateLayout({
             toast.error(result.message);  
             return;
           }
-          const ressource = ressources.find((ressource)=>ressource.model == object)
+          
           if(settings.redirect){
             
             toast.success(`Creation de la ressource ${object} reussie`);
