@@ -1,66 +1,61 @@
 const ressources = [
     {
-        label: "utilisateurs",
+        label: "Gestion des Utilisateurs",
         model: "user",
         route: 'utilisateurs'
     },
     {
-        label: "structures",
+        label: "Gestion des Structures",
         model: "structure",
         route: 'structures'
     },
     {
-        label: "lieux",
+        label: "Gestion des Lieux",
         model: "lieu",
         route: 'lieux'
     },
     {
-        label: "specialites",
+        label: "Gestion des Specialites",
         model: "speciality",
         route: 'specialites'
     },
     {
-        label: "motifs",
+        label: "Gestion des Motifs",
         model: "motif",
         route: 'motifs'
     },
     {
-        label: "groupes",
+        label: "Gestion des Groupes",
         model: "groupe",
         route: 'groupes'
     },
     {
-        label: "motifs",
-        model: "motif",
-        route: 'motifs'
-    },
-    {
-        label: "patients",
+        label: " Gestion des Patients",
         model: "patient",
         route: 'patients'
     },
     {
-        label: "type patients",
+        label: " Gestion des types Patients",
         model: "typepatient",
         route: 'typepatients'
     },
     {
-        label: "paiement",
+        label: "Gestion des Paiements",
         model: "paiement",
         route: 'paiements'
     },
     {
-        label: "civiletes",
+        label: "Gestion des Civiletes",
         model: "civility",
         route: 'civiletes'
     },
     {
-        label: "praticiens",
+        label: "Gestion des Praticiens",
         model: "praticien",
         route: 'praticiens'
     },
     {
-        label: "Professions",
+        label: "Gestion des Professions",
         model: "profession",
         route: "professions"
     }

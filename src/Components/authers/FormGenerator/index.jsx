@@ -28,7 +28,7 @@ const FormGenerator = ({ fields=[], initialising, title, back=()=>{}, dataId, ty
     const value =
     data &&
       (field.type === fieldTypes.SELECT
-        ? data[field.name]?._id
+        ? (data[field.name]?._id||data[field.name])
         : data[field.name]);
     defaultValues[field.name] = value?.toString() || undefined;
 
@@ -53,12 +53,12 @@ const FormGenerator = ({ fields=[], initialising, title, back=()=>{}, dataId, ty
   });
   
   useEffect(()=>{
-    setDefaultValues(data||{})
+    setDefaultValues({...data}||{})
     fields.forEach((field)=>{
-      setValue(field.name, defaultValues[field.name]) 
+      setValue(field.name, data[field.name]); 
     })
   },[data])
-
+console.log(defaultValues)
   const reset = ()=>{
     fields.forEach((field)=>{
       setValue(field.name, defaultValues[field.name]) 
@@ -106,6 +106,7 @@ const FormGenerator = ({ fields=[], initialising, title, back=()=>{}, dataId, ty
                   label={field.label}
                   register={{
                     ...register(field.name),
+                    value: defaultValues[field.name]
                   }}
                   initialising={initialising}
                   error={errors[field.name]}
