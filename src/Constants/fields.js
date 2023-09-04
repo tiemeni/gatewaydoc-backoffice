@@ -306,7 +306,7 @@ export const specialityFields = {
         {
             id: 0,
             label: "Label de la spécialité*",
-            name: "title",
+            name: "label",
             type: fieldTypes.TEXT,
             required: true,
             placeholder: ""
@@ -331,7 +331,7 @@ export const specialityFields = {
             id: 3,
             label: "active*",
             name: "active",
-            type: fieldTypes.TEXT,
+            type: fieldTypes.RADIO,
             required: true,
             placeholder: ""
         },
@@ -354,7 +354,7 @@ export const patientFields = {
             label: "Initiales",
             name: "initiales",
             type: fieldTypes.TEXT,
-            required: false,
+            required: true,
             placeholder: "Initiales"
         },
         {
@@ -440,7 +440,7 @@ export const lieuxFields = {
             label: "initiales",
             name: "initiales",
             type: fieldTypes.TEXT,
-            required: false,
+            required: true,
             placeholder: "initiales"
         },
         {
@@ -485,3 +485,111 @@ export const lieuxFields = {
         },
     ]
 }
+
+export const structureFields = {
+    fields: [
+        {
+            id: 1,
+            label: "nom",
+            name: "nom",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: ""
+        },
+        {
+            id: 2,
+            label: "localisation",
+            name: "localisation",
+            type: fieldTypes.TEXT,
+            required: false,
+            placeholder: ""
+        },
+        {
+            id: 3,
+            label: "types de centres",
+            name: "typeCentre",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: "types de centres"
+        },
+        {
+            id: 4,
+            label: "Addresse",
+            name: "addresse",
+            type: fieldTypes.TEXT,
+            required: false,
+            placeholder: "label"
+        },
+        {
+            id: 5,
+            label: "email*",
+            name: "email",
+            type: fieldTypes.EMAIL,
+            required: true,
+            placeholder: "TEXT"
+        },
+        {
+            id: 6,
+            label: "raisonSocial*",
+            name: "raisonSocial",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: "region"
+        },
+        {
+            id: 7,
+            label: "url Site",
+            name: "urlSite",
+            type: fieldTypes.TEXT,
+            required: false,
+            placeholder: "Url Site"
+        },
+        {
+            id: 8,
+            label: "forme Juridque*",
+            name: "formeJuridque",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: "formeJuridque"
+        },
+    ]
+}
+
+
+export const professionFields = {
+    fields: [
+        {
+            id: 1,
+            label: "nom",
+            name: "name",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: ""
+        },
+    ]
+}
+export const civilityFields = {
+    fields: [
+        {
+            id: 1,
+            label: "label",
+            name: "label",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: ""
+        },
+    ]
+}
+const fieldsMap = {
+    'user': userFields,
+    'lieu': lieuxFields,
+    'patient': patientFields,
+    'speciality': specialityFields,
+    'motif': motifFields,
+    'groupe': groupe_droitFields,
+    'praticien': practitionerFields,
+    'structure': structureFields,
+    'profession': professionFields,
+    'civility': civilityFields
+}
+export default fieldsMap;

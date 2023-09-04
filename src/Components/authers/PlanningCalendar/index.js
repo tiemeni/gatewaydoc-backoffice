@@ -9,7 +9,7 @@ import frlocale from '@fullcalendar/core/locales/fr'
 import { Box, Button, FormControlLabel, Grid, Skeleton, Stack, Switch, Tooltip, tooltipClasses, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import styles from './style'
-import Pikaday from 'pikaday'
+import Pikaday from 'pikaday';
 import { getEvents } from '../../../services/calendars';
 import { saveEvents } from '../../../REDUX/calendar/actions';
 import { getEventsByPractionner } from "../../../services/calendars";

@@ -25,7 +25,7 @@ function StepTwo(){
     const [phone, setPhone] = React.useState('');
     const classes = styles();
     const handleChange = (newPhone) => {
-      setPhone(newPhone)
+      setPhone(newPhone);
     }
     const onSubmit = (e)=>{
       e.preventDefault();

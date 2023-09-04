@@ -59,9 +59,25 @@ export const getPraticiens = async () => {
           "Content-Type": "application/json",
       },
   });
+  console.log(res.data)
   return res.data;
 };
 
+export const getPraticien = async (id) => {
+  const res = await axios({
+      method: "GET",
+      url: BASE_URL + `/users/${id}`,
+      params: {
+          isPraticien: true,
+          idCentre: app.idCentre
+      },
+      headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+      },
+  });
+  return res.data;
+};
 export const getPraticiensByJob = async () => {
   try {
       const res = await fetch(BASE_URL + "/users/profession/?isPraticien=true&idCentre=" + app.idCentre );

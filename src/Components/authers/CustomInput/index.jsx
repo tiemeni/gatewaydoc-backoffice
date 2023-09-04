@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, Skeleton, TextField, Typography } from "@mui/material";
 import styles from "./style";
 
 const CustomInput = ({
@@ -10,12 +10,13 @@ const CustomInput = ({
   placeholder,
   value,
   onChange,
+  initialising = false
 }) => {
-  const [val, setVal] = React.useState(value);
+ 
   return (
     <Box sx={styles.inputContainer}>
       <Typography sx={styles.label}>{label}</Typography>
-      <TextField
+      {initialising? <Skeleton sx={styles.input} style={{ height: "auto", minHeight: "1.4375em", height: "60px" }} /> :<TextField
         type={type}
         {...register}
         error={error ? true : false}
@@ -23,12 +24,12 @@ const CustomInput = ({
         size="small"
         sx={styles.input}
         placeholder={placeholder}
-        value={val}
+        
         onChange={(e) => {
-          setVal(e.target.value);
-          onChange(e.target.value);
+          
+          register.onChange(e);
         }}
-      />
+      />}
     </Box>
   );
 };

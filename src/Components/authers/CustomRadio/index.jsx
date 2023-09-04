@@ -4,16 +4,18 @@ import {
   Radio,
   RadioGroup,
   Typography,
+  Skeleton
 } from "@mui/material";
 import { Controller } from "react-hook-form";
 import styles from "./style";
 
-const CustomRadio = ({ control, label, name, value = false }) => {
+const CustomRadio = ({ control, label, name, value = false, initialising = false }) => {
   return (
     <Box sx={styles.inputContainer}>
       <Typography sx={styles.label}>{label}*</Typography>
+      {initialising? <Skeleton sx={styles.input} style={{ height: "auto", minHeight: "1.4375em", height: "60px" }} /> :
       <Controller
-        rules={{ required: true }}
+       
         control={control}
         name={name}
         defaultValue={value}
@@ -25,7 +27,7 @@ const CustomRadio = ({ control, label, name, value = false }) => {
             </RadioGroup>
           );
         }}
-      />
+      />}
     </Box>
   );
 };

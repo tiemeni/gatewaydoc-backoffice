@@ -1,4 +1,5 @@
 import app from "../../Configs/app"
+import generatePassword from "../../helpers/passwordGenerator";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const getUsers = async () => {
@@ -34,11 +35,24 @@ export const createUser = async (payload) => {
   // for (const key of keys) {
   //   formData.append(key, payload[key]);
   // }
+  let body = new FormData()
+  
+  const keys = Object.keys(payload)
+  for(let key of keys){
+    if( typeof payload[key] !== 'object' || ! payload[key] instanceof FileList ){
+      body.append(key,payload[key])
+    }else{
+      Array.from(payload[key]).forEach((file)=>{
+        body.append(key,file);
+      });
 
+    }
+    
+  }
   try {
-    const res = await fetch(BASE_URL + "/users/register", {
+    const res = await fetch(BASE_URL + `/users/register?idCentre=${app.idCentre}`, {
       method: 'POST',
-      body: JSON.stringify(payload),
+      body: JSON.stringify({ password: generatePassword(), ...Object.fromEntries(body.entries())}),
       headers: {
         "Content-Type": "application/json"
       }
@@ -69,9 +83,27 @@ export const isValidToken = async (token) => {
     return false
   }
 }
+
+
+export const getUser = async (id) => {
+  try {
+    const res = await fetch(BASE_URL + `/users/${id}?idCentre=${app.idCentre}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    const data = await res.json();
+    return data
+  } catch (err) {
+
+    return { status: false, error: err }
+  }
+}
+
 export const updateUser = async (payload, id) => {
   try {
-    const res = await fetch(BASE_URL + "/users/" + id, {
+    const res = await fetch(BASE_URL + `/users/${id}?idCentre=${app.idCentre}`, {
       method: 'PATCH',
       body: JSON.stringify(payload),
       headers: {

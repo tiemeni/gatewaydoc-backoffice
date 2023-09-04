@@ -10,6 +10,7 @@ import praticiens from "../../../REDUX/praticiens/actions";
 
 function PageGestionPraticiens({ data, loading, error }) {
   console.log(data)
+  
   const dispatch = useDispatch();
   const [ListPraticiens, setListPraticiens] = useState(data || []);
   const getAllPraticiens = async () => {

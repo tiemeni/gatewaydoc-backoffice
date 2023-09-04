@@ -4,7 +4,14 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const getAllMotif = async () => {
 
-  const res = await fetch( `${BASE_URL}/profession/?idCentre=${app.idCentre}` );
+  const res = await fetch( `${BASE_URL}/motif/?idCentre=${app.idCentre}` );
+  const data = await res.json()
+  return data;
+
+}
+export const getMotif = async (id) => {
+
+  const res = await fetch( `${BASE_URL}/motif/${id}?idCentre=${app.idCentre}` );
   const data = await res.json()
   return data;
 
