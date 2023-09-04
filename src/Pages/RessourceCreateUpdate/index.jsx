@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 
 import fieldsMap from "../../Constants/fields";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,20 +12,22 @@ import ressourcesMap from "../../models/ressourcesMap";
 const RessourceCreateUpdate = () => {
   const dispatch = useDispatch();
   const { ressourceName, ressourceId } = useParams();
-
+  const [fieldsList, setFieldsList] = useState([]);
   const [redirect, setRedirect] = React.useState(false);
 
   const ressource = useMemo(()=>ressourcesMap[ressourceName],[ressourceName])
 
   const state = useSelector((state)=>state);
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     modelSettings[ressource].related.loaders.flatMap((callback)=>callback(dispatch,state))
-  }, []);
+    const fieldsList = modelSettings[ressource].related.getRelatedValues([...modelSettings[ressource].related.selector(state)],fieldsMap[ressource].fields);
+    setFieldsList(fieldsList);
+  }, [ressourceName, ressourceId]);
 
   
-  const fieldsList = modelSettings[ressource].related.getRelatedValues([...modelSettings[ressource].related.selector(state)],fieldsMap[ressource].fields);
-    const resolve = (ressourceId) => new Promise(async (callback, reject)=>{
+  
+  const resolve = (ressourceId) => new Promise(async (callback, reject)=>{
     try{
       const { data } = await modelSettings[ressource].fetch(ressourceId);
       callback(data);
