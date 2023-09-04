@@ -16,6 +16,8 @@ import { IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Settings } from '@mui/icons-material';
 import MenuActions from "./MenuActions";
+
+
 function NestedCheckboxes({ data, boxChange }) {
   const dispatch = useDispatch();
   
@@ -95,8 +97,8 @@ function NestedCheckboxes({ data, boxChange }) {
     }
   },[])
 
- const handleParentCheckboxChange = (event, parentName) => {
-    const { checked, name } = event.target;
+  const handleParentCheckboxChange = (event, parentName) => {
+    const { checked } = event.target;
     let newCheckedItems = [...checkedItems];
         if(data){
 
@@ -116,44 +118,10 @@ function NestedCheckboxes({ data, boxChange }) {
     setCheckedItems(newCheckedItems);
     console.log(newCheckedItems)
 
+    localStorage.setItem('defaultPraticien'+idc, newCheckedItems.toString())
 
- 
-    async function fetchData() {
+  };
 
-        const response = await getEventsByPractionner(checkedItems);
-  
-        if (response.success !== true) {
-          return;
-        }
-        dispatch(saveEvents(response.data))
-      }
-      fetchData()
-
-     
-
-      if (checked) {
-        newCheckedItems.push(name.replace(',',''));
-
-        const parentName = Object.keys(data).find((key) =>
-          data[key].some((item) => item._id === name)
-        );
-        const allChildrenChecked = data[parentName].every((child) =>
-          newCheckedItems.includes(child._id)
-        );
-
-      } else {
-        newCheckedItems = newCheckedItems.filter((item) => item !== name);
-        const parentName = Object.keys(data).find((key) =>
-          data[key].some((item) => item._id === name)
-        );
-        newCheckedItems = newCheckedItems.filter((item) => item !== parentName);
-  }
-
-      setCheckedItems(newCheckedItems);
-
-      localStorage.setItem('defaultPraticien'+idc, newCheckedItems)
-
-};
 
 const handleselectOnly = (id) =>{
   setCheckedItems([id]);
