@@ -22,6 +22,6 @@ const profession = {
     create: createProfession,
     fetch : getProfession,
     update: updateProfession,
-    delete: 
+   
   }
 export default profession;
