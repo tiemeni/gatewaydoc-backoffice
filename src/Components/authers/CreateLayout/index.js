@@ -15,7 +15,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import IconButton from '@mui/material/IconButton';
 import swal from 'sweetalert';
 import { toast, } from 'react-toastify';
-
+import ressources from "../../../models/ressources"
 
 const submit = async()=>{
 
@@ -53,9 +53,12 @@ function CreateLayout({
             toast.error(result.message);  
             return;
           }
+          const ressource = ressources.find((ressource)=>ressource.model == object)
           if(settings.redirect){
-            toast.success("Creation reussie");
-            history(`/content/${object}s`);
+            
+            toast.success(`Creation de la ressource ${object} reussie`);
+
+            history(`/content/ressources/${ressource.route}`);
             
           }else{
             swal("Creation reussi!", "You clicked the button!", "success");
@@ -74,7 +77,7 @@ function CreateLayout({
           }
           
           toast.success("Mise a jour reussie");
-          history(`/content/${object}s`);
+          history(`/content/ressources/${ressource.route}`);
         }
         
     };
