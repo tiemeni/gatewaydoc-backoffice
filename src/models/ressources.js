@@ -26,7 +26,7 @@ const ressources = [
     },
     {
         label: "groupes",
-        model: "group",
+        model: "groupe",
         route: 'groupes'
     },
     {

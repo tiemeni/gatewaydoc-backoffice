@@ -20,6 +20,7 @@ const GroupReducers = (state = initalState, action) => {
                 return {
                     ...state,
                     data: action.payload,
+                    groups: action.payload,
                     loading: false,
                     error: null
                 }
