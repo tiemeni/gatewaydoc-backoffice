@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import * as fieldTypes from "../../../Constants/fieldTypes";
 import CustomInput from "../CustomInput";
+import CustomGeoInput from "../CustomGeoInput";
 import MySelect from "../MySelect";
 import styles from "./style";
 import CustomRadio from "../CustomRadio";
@@ -98,6 +99,19 @@ console.log(defaultValues, data)
                   onChange={(value) => setValue(field.name, value)}
                 />
               );
+            }
+            if(field.type === fieldTypes.GEO_LOCATION){
+              return <CustomGeoInput
+                key={field.id}
+                control={control}
+                label={field.label}
+                name={field.name}
+                initialising={initialising}
+                register={{
+                  ...register(field.name),
+                  value: defaultValues[field.name]
+                }}
+              />
             }
             if (field.type === fieldTypes.SELECT) {
               return (
