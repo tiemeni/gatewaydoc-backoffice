@@ -91,13 +91,21 @@ export const userFields = {
             placeholder: ""
         },
         {
-            id: 12,
+            id: 11,
             label: "Filtre sur les motifs",
             name: "motifFilter",
             type: fieldTypes.TEXT,
             required: false,
             placeholder: ""
         },
+        {
+            id: 12,
+            label: "Password*",
+            name: "password",
+            type: fieldTypes.PASSWORD,
+            required: false,
+            placeholder: ""
+        }
     ]
 }
 
