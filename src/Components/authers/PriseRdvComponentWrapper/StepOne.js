@@ -338,7 +338,7 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
                         {
                             level  >= 0 ? <>
                         {
-                            (level  >= 0 && !(professionList && professionList.loading) && (professionList && professionList.data.length === 0)) ? 
+                            (level  >= 0 && !(professionList && professionList.loading) && (professionList && professionList.data && professionList.data.length === 0)) ? 
                                 
                                 <p className={classes.alert}><Alert severity="error">Pas de profession trouver</Alert> </p>
                             : <Grid item xs={12}>
