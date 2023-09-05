@@ -25,7 +25,7 @@ const CustomGeoInput = ({
   
     }
   },[register])
-  console.log(register)
+
   useEffect(()=>{
     const payload = JSON.stringify({
       longitude,

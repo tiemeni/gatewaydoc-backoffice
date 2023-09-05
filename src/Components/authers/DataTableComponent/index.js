@@ -89,6 +89,8 @@ TablePaginationActions.propTypes = {
     rowsPerPage: PropTypes.number.isRequired,
   };
 export const DataTable = ({ object, loading, dataField, dataInfo, rowsPerPage= 5, rowsPerPageOptions=[5, 10, 25, { label: 'Tous', value: -1 }], page= 0, onPageChange=()=>{}, onRowsPerChange=()=>{} }) => {
+    
+    
     const handleChangePage = (event, newPage) => {
         onPageChange(newPage);
     };
