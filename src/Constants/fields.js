@@ -91,14 +91,6 @@ export const userFields = {
             placeholder: ""
         },
         {
-            id: 11,
-            label: "Lieu affecté",
-            name: "affectation",
-            type: fieldTypes.TEXT,
-            required: false,
-            placeholder: ""
-        },
-        {
             id: 12,
             label: "Filtre sur les motifs",
             name: "motifFilter",

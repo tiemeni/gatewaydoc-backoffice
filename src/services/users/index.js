@@ -52,7 +52,7 @@ export const createUser = async (payload) => {
   try {
     const res = await fetch(BASE_URL + `/users/register?idCentre=${app.idCentre}`, {
       method: 'POST',
-      body: JSON.stringify({ password: generatePassword(), ...Object.fromEntries(body.entries())}),
+      body: JSON.stringify({ isPraticien: false, password: generatePassword(), ...Object.fromEntries(body.entries())}),
       headers: {
         "Content-Type": "application/json"
       }

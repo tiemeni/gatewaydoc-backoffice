@@ -58,7 +58,7 @@ const FormGenerator = ({ fields=[], initialising, title, back=()=>{}, dataId, ty
       setValue(field.name, data[field.name]); 
     })
   },[data])
-console.log(defaultValues)
+console.log(defaultValues, data)
   const reset = ()=>{
     fields.forEach((field)=>{
       setValue(field.name, defaultValues[field.name]) 

@@ -11,7 +11,7 @@ import styles from "./style";
 
 
 const MySelect = ({ error, register, label, fieldData = [], value, initialising= true }) => {
-  const [val, setVal] = React.useState(value);
+
   
   return (
     <Box sx={styles.inputContainer}>

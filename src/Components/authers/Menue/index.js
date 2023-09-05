@@ -9,12 +9,13 @@ import Stack from '@mui/material/Stack';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { Menu } from '@mui/material';
 import { style } from "./style"
-import { Link } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import ressources from "../../../models/ressources"
 
 export default function MenuListComposition({ IconName, styles }) {
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
+    const { pathname } = useLocation()
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
     };
@@ -45,7 +46,7 @@ export default function MenuListComposition({ IconName, styles }) {
 
         prevOpen.current = open;
     }, [open]);
-
+    console.log(pathname)
     return (
         <Stack direction="row" spacing={2}>
             <div>
@@ -117,9 +118,9 @@ export default function MenuListComposition({ IconName, styles }) {
                                             onKeyDown={handleListKeyDown}
                                         >
                                             {
-                                                ressources.flatMap((ressource,index)=><Link key={index} to={{ pathname:  `ressources/${ressource.route}` }}>
-                                                <MenuItem onClick={handleClose} style={style.menuItem}>{ressource.label}</MenuItem>
-                                            </Link>)
+                                                ressources.flatMap((ressource,index)=><NavLink key={index}  className={[`ressources/${ressource.route}`, `ressources/${ressource.route}/`].includes(pathname)  ?'navlink active': ''}   to={{ pathname:  `ressources/${ressource.route}` }}>
+                                                <MenuItem  onClick={handleClose} style={style.menuItem}>{ressource.label}</MenuItem>
+                                            </NavLink>)
                                             }
                                             
                                             {/* <Link to={{ pathname: 'advancedOptions' }}>

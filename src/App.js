@@ -5,7 +5,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import THEME from "./Constants/theme";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-
+import "./App.css";
 function App() {
 
   return (
