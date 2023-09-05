@@ -16,25 +16,42 @@ import { IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Settings } from '@mui/icons-material';
 import MenuActions from "./MenuActions";
-
+import { saveEventsPractionnerStart } from "../../../REDUX/calendar/actions";
 
 function NestedCheckboxes({ data, boxChange }) {
   const dispatch = useDispatch();
   
-  // const defaultPracti = useSelector((state) => state.Praticiens.praticiens[0]?._id)
   const defaultPracti = 1
 
   
   const idc= localStorage.getItem('idc')
-
   const splitChaine= localStorage.getItem('defaultPraticien'+idc)?.split(",") ?? ''
 
   const [checkedItems, setCheckedItems] = useState(localStorage.getItem('defaultPraticien'+idc)? splitChaine:[]);
+
+  if (checkedItems.length === 0 &&  data ) {
+
+    const firstParentName = Object.keys(data)[0]; // Récupérer le nom du premier parent
+    
+    console.log(firstParentName)
+
+
+    if (data[firstParentName]) {
+      const firstChildId = data[firstParentName][0]?._id;
+
+      setCheckedItems([firstChildId]);
+
+      localStorage.setItem('defaultPraticien'+idc, [firstChildId] )
+
+    }
+  }
 
 
   const idPracti = useSelector((state) => state.Calendar.eventsPractionerId)
   const [openmenu, setOpenmenu] = useState("");
   const [anchorEl, setAnchorEl] = React.useState(null);
+
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -46,11 +63,11 @@ function NestedCheckboxes({ data, boxChange }) {
   useEffect(() => {
     dispatch(saveEventsPractionner(checkedItems))
 
-
     if (typeof defaultPracti !== "undefined"){
 
     async function fetchData() {
 
+      dispatch(saveEventsPractionnerStart())
       const response = await getEventsByPractionner(checkedItems);
 
       if (response.success !== true) {
@@ -69,19 +86,14 @@ function NestedCheckboxes({ data, boxChange }) {
 
       if (data[firstParentName]) {
         const firstChildId = data[firstParentName][0]?._id;
-        // console.log([firstChildId])
-        // alert(firstChildId)
 
         setCheckedItems([firstChildId]);
-        // console.log(firstChildId)
 
         localStorage.setItem('defaultPraticien'+idc, [firstChildId] )
 
       }
     }
 
-
-  
       fetchData()
     
   }
@@ -124,6 +136,8 @@ function NestedCheckboxes({ data, boxChange }) {
 
 
 const handleselectOnly = (id) =>{
+  dispatch(saveEventsPractionnerStart())
+
   setCheckedItems([id]);
   localStorage.setItem('defaultPraticien'+idc, [id])
 
@@ -134,6 +148,8 @@ const handleChildCheckboxChange = (event) => {
  
   async function fetchData() {
 
+    //mettre le loader a true
+    dispatch(saveEventsPractionnerStart())
       const response = await getEventsByPractionner(checkedItems);
 
       if (response.success !== true) {
