@@ -39,11 +39,19 @@ function PageGestionRessources() {
       fetchData();
     }, [ressourceName])
 
+    const onRowsPerChange = (a)=>{
+      console.log(a)
+    }
+    const onPageChange = (a)=>{
+      console.log(a)
+    }
     return (
         <GestionLayout
             searchForm={<SearchPraticienFormComponent />}
             title={`Gestion des ${ressourceName}`}
             object={ressource}
+            onPageChange={onPageChange} 
+            onRowsPerChange={onRowsPerChange}
             loading={isLoading}
             dataField={data_tables[ressource]}
             dataInfo={datas}
