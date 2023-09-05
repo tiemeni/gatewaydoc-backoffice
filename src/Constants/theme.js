@@ -5,7 +5,7 @@ import { MuiThemeProvider,  createTheme } from '@material-ui/core/styles';
 
 const THEME = createTheme({
     typography: {
-      "fontFamily": "\"MyCustomFont\"",
+      "fontFamily": "Open Sans, roboto, sans-serif",
       "fontSize": 20,
       "lineHeight": 1.5,
       "letterSpacing": 0.32,

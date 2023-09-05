@@ -92,20 +92,20 @@ export const userFields = {
         },
         {
             id: 11,
-            label: "Lieu affecté",
-            name: "affectation",
-            type: fieldTypes.TEXT,
-            required: false,
-            placeholder: ""
-        },
-        {
-            id: 12,
             label: "Filtre sur les motifs",
             name: "motifFilter",
             type: fieldTypes.TEXT,
             required: false,
             placeholder: ""
         },
+        {
+            id: 12,
+            label: "Password*",
+            name: "password",
+            type: fieldTypes.PASSWORD,
+            required: false,
+            placeholder: ""
+        }
     ]
 }
 
@@ -419,14 +419,7 @@ export const patientFields = {
 
 export const lieuxFields = {
     fields: [
-        {
-            id: 1,
-            label: "active",
-            name: "active",
-            type: fieldTypes.RADIO,
-            required: true,
-            placeholder: ""
-        },
+        
         {
             id: 2,
             label: "codePostal",
@@ -469,9 +462,9 @@ export const lieuxFields = {
         },
         {
             id: 7,
-            label: "geoCoordonnes",
-            name: "geoCoordonnes",
-            type: fieldTypes.TEXT,
+            label: "Localisation ",
+            name: "location",
+            type: fieldTypes.GEO_LOCATION,
             required: false,
             placeholder: "Geo Coordonnes"
         },
@@ -483,6 +476,14 @@ export const lieuxFields = {
             required: true,
             placeholder: "ville"
         },
+        {
+            id: 1,
+            label: "active",
+            name: "active",
+            type: fieldTypes.RADIO,
+            required: true,
+            placeholder: ""
+        }
     ]
 }
 
