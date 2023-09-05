@@ -1,11 +1,12 @@
-import { SAVE_EVENT, SAVE_EVENT_PRACTIONNER_FILTER } from "./types"
+import { SAVE_EVENT, SAVE_EVENT_PRACTIONNER_FILTER, LOADING_EVENT_PRACTIONNER_FILTER_START } from "./types"
 
 const initialState = {
     events: [],
     eventsPractionerId: [],
     selectedPractionerId: [],
     loading: false,
-    error: null
+    error: null,
+    loadingFilter: false
 };
 
 const CalendarReducer = (state = initialState, action) => {
@@ -15,16 +16,21 @@ const CalendarReducer = (state = initialState, action) => {
                 ...state,
                 events: action.payload,
                 loading: false,
+                loadingFilter: false,
                 error: null
             }
         case SAVE_EVENT_PRACTIONNER_FILTER:
             return {
                 ...state,
                 eventsPractionerId: action.payload,
-                loading: false,
+                loadingFilter: false,
                 error: null
             }
-        
+        case LOADING_EVENT_PRACTIONNER_FILTER_START:
+            return {
+                ...state,
+                loadingFilter: true,
+            }
         default:
             return state;
     }

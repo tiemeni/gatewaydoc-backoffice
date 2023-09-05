@@ -20,8 +20,9 @@ import EventContextMenu from '../EventContextMenu';
 import { showPFRDV, showPRDV } from '../../../REDUX/commons/actions';
 import { getAllPraticiens } from '../../../services/praticiens';
 import { save } from '../../../REDUX/praticiens/actions';
-
+import {CircularProgress} from '@mui/material';
 import praticiensActions from "../../../REDUX/praticiens/actions";
+import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 
 const LightTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -41,6 +42,8 @@ const DemoApp = ({ filterEvents }) => {
    
     const praticiens = useSelector((state) => state.Praticiens.praticiens||[])
     const loading = useSelector((state) => state.Praticiens.loading)
+    const loadingFilter = useSelector((state) => state.Calendar.loadingFilter)
+
     const selectEventPractioner = (eventsPractionerId)=>{
       
       if( typeof eventsPractionerId == "string"){
@@ -51,11 +54,6 @@ const DemoApp = ({ filterEvents }) => {
       }
       return [];
     }
-    // localStorage.setItem('idP', praticiens[0]?._id)
-
-    // const RessourcePraticiens = praticiens.map((item, index) => {
-    //     return { ...item, id: item._id, title: item.name };
-    //   });
   
     const eventsPractionerId = useSelector((state) => selectEventPractioner(state.Calendar.eventsPractionerId));
 
@@ -127,12 +125,12 @@ const DemoApp = ({ filterEvents }) => {
                                 <span style={{ color: 'black' }}>{event.extendedProps?.motif}</span>
                             </div>
                             <div>
-                                <span style={{ color: '#6e706f', fontWeight:"bold" }}>Telephone: </span>
-                                <span style={{ color: 'black' }}>{event.extendedProps?.patient.telephone}</span>
+                                <span style={{ color: '#6e706f', fontWeight:"bold" }}>Email: </span>
+                                <span style={{ color: 'black' }}>{event.extendedProps?.patient.email}</span>
                             </div>
                             <div>
                                 <span style={{ color: '#6e706f', fontWeight:"bold" }}>Praticien: </span>
-                                <span style={{ color: 'black' }}>{event.extendedProps?.name}</span>
+                                <span style={{ color: 'black' }}>{event.extendedProps?.name} {event.extendedProps?.surname}</span>
                             </div>
                             <div>
                                 <span style={{ color: '#6e706f', fontWeight:"bold" }}>Provenance: </span>
@@ -162,10 +160,10 @@ const DemoApp = ({ filterEvents }) => {
                     style={{ display:'flex', flexDirection: 'row', gap: '5px', height:'100%' }}
                     >
                         <Typography>{event.extendedProps.timeStart}</Typography>
-                        <Typography fontWeight={'bold'}>{event.extendedProps.civility + " " + event.extendedProps.name}</Typography>
+                        <Typography fontWeight={'bold'}>{event.extendedProps?.patient.surname + " " + event.extendedProps?.patient.name}</Typography>
                         <Box>
                             { event.extendedProps.provenance==="backoffice"? <LanguageIcon />:
-                                event.extendedProps.wasMoved==true? <ReplyIcon/>:''
+                                event.extendedProps.wasMoved==true? <ReplyIcon/>: <PhoneIphoneIcon />
                             }
                         </Box>
                     </div>
@@ -196,7 +194,6 @@ const DemoApp = ({ filterEvents }) => {
   React.useEffect(() => {
     if (localStorage.getItem('idP')) {
       async function fetchData() {
-        // const response = await getEvents();
         const response = await getEventsByPractionner(localStorage.getItem('idP'));
         if (response.success !== true) {
           return;
@@ -248,7 +245,7 @@ const DemoApp = ({ filterEvents }) => {
 
 
   return (
-    <Box>
+    <Box sx={{ position:'relative' }}>
       <EventContextMenu
         left={mouseXY.x}
         top={mouseXY.y}
@@ -292,6 +289,10 @@ const DemoApp = ({ filterEvents }) => {
           meridiem: "short",
         }}
       />
+      {
+        loadingFilter && <CircularProgress sx={{ position: 'fixed', zIndex:3, top:'45vh', left:'50%', backgroundColor: 'white',
+        height:'100px', width:'200px', borderRadius:'200px', boxShadow: ' 1px 1px 4px gray'  }} />
+      } 
     </Box>
   );
 }

@@ -1,4 +1,4 @@
-import { SAVE_EVENT, SAVE_EVENT_PRACTIONNER_FILTER } from "./types"
+import { SAVE_EVENT, SAVE_EVENT_PRACTIONNER_FILTER, LOADING_EVENT_PRACTIONNER_FILTER_START } from "./types"
 
 
 export const saveEvents = (payload) => {
@@ -14,4 +14,12 @@ export const saveEventsPractionner = (payload) => {
       payload
     }
   }
+
+export const saveEventsPractionnerStart = () => {
+  return {
+    type: LOADING_EVENT_PRACTIONNER_FILTER_START
+  }
+}
+
+  
 
