@@ -187,6 +187,16 @@ export default function HorizontalLinearAlternativeLabelStepper() {
     
 
   }
+  const clear = ()=>{
+    dispatch(saveStep(1, {}));
+    dispatch(saveStep(0, {}))
+  
+  }
+  React.useEffect(()=>{
+    return ()=>{
+      clear()
+    }
+  },[])
   React.useEffect(()=>{
     let navigation = {...bySteps[step].navigation};
     if(step === 1 && data[1] && data[1]['name'] && data[1]['email']){
@@ -208,7 +218,7 @@ export default function HorizontalLinearAlternativeLabelStepper() {
         error&& <Alert severity="error">{error?.message}</Alert>
       }
       
-      <Component data={steps[step] || {}} save={save} parentSubmit={childSubmit}  next={next} prev={prev} visible={visible} />     
+      <Component  data={steps[step] || {}} save={save} parentSubmit={childSubmit}  next={next} prev={prev} visible={visible} />     
       {
         visibles['prev'] ? <Button onClick={()=>prev()}>Etape precedente</Button> : []
       }    
