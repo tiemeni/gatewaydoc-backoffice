@@ -287,6 +287,7 @@ const PlanningCalendar = ({ praticien }) => {
         plugins={[dayGridPlugin, resourceTimeGridPlugin, interactionPlugin]}
         initialView="timeGridWeek"
         weekends={true}
+        
         dayCount={true}
         locale={frlocale}
         initialDate={new Date()}

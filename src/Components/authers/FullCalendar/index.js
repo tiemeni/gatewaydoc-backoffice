@@ -63,7 +63,7 @@ const DemoApp = ({ filterEvents }) => {
         dispatch(praticiensActions.loading());
         try {
           const data = await getPraticiens()
-          console.log(data)
+         
           if(data && data.data)
           dispatch(praticiensActions.save(data));
         } catch (e) {
@@ -184,7 +184,7 @@ const DemoApp = ({ filterEvents }) => {
 
   const customButtons = {
     miniCalendar: {
-      icon: 'btn-miniCalendar',
+      text: 'Selectionner un jour',
       click: function () {
         pickerRef.current.show();
       },

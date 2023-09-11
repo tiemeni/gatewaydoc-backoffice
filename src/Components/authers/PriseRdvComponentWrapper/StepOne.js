@@ -443,15 +443,23 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
                                     
                                     <Grid item xs={6} style={{ padding: "5px", "borderRadius": "10px", backgroundColor: "#cfeffd" }}>
                                         {
-                                           results.length !== 0?                                          <InfiniteScroll
+
+                                           results.length !== 0?                                          
+                                           <InfiniteScroll
                                            dataLength={results.length-1}
                                            next={fetchMoreData}           
                                            hasMore={false}
+                                           style={{
+                                            height: "100%"
+                                           }}
                                            loader={<CircularIndeterminate/>}
                                            >    
                                                <List sx={{ width: '100%', backgroundColor: "#cfeffd", borderRadius: "5px", maxHeight: "54vh", marginTop: "4vh" }}>    
                                                    {
-                                                       results.flatMap((item, index)=><ListItem style={{ "cursor": "pointer" }} onClick={()=>{ setValue("disponibility", item) }} key={index}>
+                                                       results.flatMap((item, index)=><ListItem selected={data['disponibility']&&data['disponibility'].date_long == item.date_long
+
+                                                    }
+                                                       style={{ "cursor": "pointer" }} onClick={()=>{ setValue("disponibility", item) }} key={index}>
                                                        <ListItemAvatar>
                                                        <Avatar>
                                                            <ImageIcon />

@@ -65,7 +65,7 @@ export default function MenuListComposition({ IconName, styles }) {
 
                         ref={anchorRef}
                         onClick={handleToggle}
-                        titleAccess='Messagerie'
+                        titleAccess='Gestions'
                         style={styles} />}
                 <Popper
                     open={open}

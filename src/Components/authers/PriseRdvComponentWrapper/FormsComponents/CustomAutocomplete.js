@@ -2,11 +2,12 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
+import { searchPatiens } from '../../../../services/patients';
 
 const  empty = async (...p) => {return []}
 
 
-function CustomAutocomplete({ resolve= empty, value="", ...props }) {
+function CustomAutocomplete({ resolve= empty, onSelect= empty, value="", ...props }) {
   const [open, setOpen] = React.useState(false);
   const [term, setTerm] = React.useState(value||"");
   const [options, setOptions] = React.useState([]);
@@ -23,6 +24,8 @@ function CustomAutocomplete({ resolve= empty, value="", ...props }) {
     (async () => {
 
       const options =  await resolve(term)
+
+
       if (active) {
         setOptions([...options]);
       }
@@ -52,7 +55,13 @@ function CustomAutocomplete({ resolve= empty, value="", ...props }) {
       }}
       clearOnBlur={false}
      
-      onChange={(e)=>{console.log(e)}}
+      onChange={(e,value, reason)=>{
+        if('selectOption' == reason){
+          onSelect(value)
+        }  
+
+      
+      }}
       inputValue={term|| value}
       onInputChange={(event, newInputValue) => {
         setTerm(newInputValue);
