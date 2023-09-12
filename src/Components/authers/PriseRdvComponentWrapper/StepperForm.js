@@ -66,6 +66,7 @@ export default function HorizontalLinearAlternativeLabelStepper() {
     dispatch(saveStep(step, stepData))
   }
   const prev = ()=>{
+    dispatch(saveError(null));
     setStep(Math.max(0,(step - 1) % stepsLabels.length) )
   }
   const visible = (obj)=>{
@@ -190,7 +191,7 @@ export default function HorizontalLinearAlternativeLabelStepper() {
   const clear = ()=>{
     dispatch(saveStep(1, {}));
     dispatch(saveStep(0, {}))
-  
+    dispatch(saveError(null));
   }
   React.useEffect(()=>{
     return ()=>{
