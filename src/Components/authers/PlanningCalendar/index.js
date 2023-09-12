@@ -225,6 +225,7 @@ const PlanningCalendar = ({ praticien }) => {
   const openModal = ()=>{
     setOpenModal(true);
   }
+
   return (
     <Box>
       <ModalComponent open={modalOpen} onClose={closeModal} contentComponent={<StepperForm title={<Typography textAlign={'center'} variant='h4' component='h2' >{`Organisation du plannign pour le praticien ${praticienData.name}`}</Typography> } praticien={praticienData}></StepperForm>} ></ModalComponent>
@@ -273,7 +274,7 @@ const PlanningCalendar = ({ praticien }) => {
         <Grid item xs={4} >
           <Stack direction="column" alignItems="flex-end" justifyContent="end">
            
-            <Typography>Planning {" "} {<Switch   defaultChecked onClick={goToHomePage} />}</Typography>
+            <Typography>Planning {" "} {<Switch    onClick={goToHomePage} />}</Typography>
             <Button variant="contained" disableElevation color="info">Auttorisation rdv force</Button>
           </Stack>
          

@@ -54,7 +54,7 @@ export default function MenuListComposition({ IconName, styles }) {
                     <SettingsOutlinedIcon
                         ref={anchorRef}
                         onClick={handleToggle}
-                        titleAccess='Messagerie'
+                        titleAccess='Gestions'
                         style={styles} />}
                 <Popper
                     open={open}

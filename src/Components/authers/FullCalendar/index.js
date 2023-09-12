@@ -6,7 +6,7 @@ import resourceTimeGridPlugin from '@fullcalendar/resource-timegrid';
 import { connect, useDispatch, useSelector } from "react-redux";
 import interactionPlugin from '@fullcalendar/interaction';
 import frlocale from '@fullcalendar/core/locales/fr'
-import { Box, Skeleton, Tooltip, tooltipClasses, Typography } from '@mui/material';
+import { Box, Skeleton, Switch, Tooltip, tooltipClasses, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import styles from './style'
 import Pikaday from 'pikaday'
@@ -17,7 +17,7 @@ import { getPraticiens } from '../../../services/praticiens';
 import LanguageIcon from '@mui/icons-material/Language';
 import ReplyIcon from '@mui/icons-material/Reply';
 import EventContextMenu from '../EventContextMenu';
-import { showPFRDV, showPRDV } from '../../../REDUX/commons/actions';
+import { setShowPraticienPlanning, showPFRDV, showPRDV } from '../../../REDUX/commons/actions';
 import { getAllPraticiens } from '../../../services/praticiens';
 import { save } from '../../../REDUX/praticiens/actions';
 import {CircularProgress} from '@mui/material';
@@ -85,7 +85,6 @@ const DemoApp = ({ filterEvents }) => {
       if(!praticiens){
         return "Inconnue";
       }
-      console.log(eventsPractionerId)
       return eventsPractionerId?.flatMap((id)=>{
         let p = praticiens?.filter((p)=>p._id == id)[0];
         if(!p) return 'Inconnue';
@@ -103,7 +102,7 @@ const DemoApp = ({ filterEvents }) => {
     const [choosenEvent, setChoosenEvent] = React.useState(null);
     const [showContextMenu, setshowContextMenu] = React.useState(false);
     const [mouseXY, setMouseXY] = React.useState({x:0, y:0});
-  
+    
     const renderEventContent = ({ event }) => {
 
         return (
@@ -242,7 +241,9 @@ const DemoApp = ({ filterEvents }) => {
     ev.title = ev.motif
     return ev;
   })
-
+  const goToPlanning = ()=>{
+    dispatch(setShowPraticienPlanning(eventsPractionerId[0]))
+  }
 
   return (
     <Box sx={{ position:'relative' }}>
@@ -255,6 +256,7 @@ const DemoApp = ({ filterEvents }) => {
         permissions={["copy", "cut", "move", "delete", "print", "receipt", "abort", "justify", "discuss", "profiling", "urgence"]}
       />
       <Typography sx={styles.practitionerTile} title={names} noWrap>{names}</Typography>
+      {eventsPractionerId.length == 1 && <Typography style={{ textAlignLast: "end" }}>Agenda {" "} {<Switch   onChange={goToPlanning} />}</Typography>}
       <FullCalendar
         ref={calendarRef}
         plugins={[dayGridPlugin, resourceTimeGridPlugin, interactionPlugin]}
