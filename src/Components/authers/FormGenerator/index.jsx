@@ -30,7 +30,7 @@ const FormGenerator = ({ fields=[], initialising, title, back=()=>{}, dataId, ty
       (field.type === fieldTypes.SELECT
         ? (data[field.name]?._id||data[field.name])
         : data[field.name]);
-    defaultValues[field.name] = value?.toString() || undefined;
+    defaultValues[field.name] = value || undefined;
 
     if (field.type === fieldTypes.AUTO_COMPLETE) return;
     mySchema[field.name] = field.required

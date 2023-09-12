@@ -11,6 +11,17 @@ export const getPatients = async () => {
   }
 };
 
+export const searchPatiens = async (term) =>{
+  
+  try {
+    const res = await fetch(BASE_URL + `/patients/search/${term}?idCentre=${app.idCentre}`);
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    return err;
+  }
+}
+
 
 export const getPatient = async (id) => {
   try {

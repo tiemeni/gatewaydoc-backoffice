@@ -18,13 +18,14 @@ const CustomGeoInput = ({
   const [latitude, setLatitude] = useState(0);
   useEffect(()=>{
     try{
-      let location = JSON.parse(value);
-      setLatitude(location.latitude);
-      setLongitude(location.longitude);
+      let location = typeof register.value == "object"? register.value : JSON.parse(register.value);
+      setLatitude(+location.latitude);
+      setLongitude(+location.longitude);
     }catch(e){
   
     }
-  },[])
+  },[register])
+
   useEffect(()=>{
     const payload = JSON.stringify({
       longitude,
@@ -51,6 +52,7 @@ const CustomGeoInput = ({
         inputProps={{
           step: 'any',
         }}
+        defaultValue={longitude}
         sx={styles.input}
         placeholder={"latitude"}
         
@@ -69,7 +71,7 @@ const CustomGeoInput = ({
       }}
       sx={styles.input}
       placeholder={"longitude"}
-      
+      defaultValue={latitude}      
       onChange={(e) => {
         
         setLatitude(e.target.value)

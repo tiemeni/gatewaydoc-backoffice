@@ -15,7 +15,8 @@ function PageGestionRessources() {
     const { ressourceName  } = useParams();
     const state = useSelector((state)=>state);
     const ressource = useMemo(()=>ressourcesMap[ressourceName],[ressourceName])
-
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5)
     
     const dispatch = useDispatch();
 
@@ -39,11 +40,21 @@ function PageGestionRessources() {
       fetchData();
     }, [ressourceName])
 
+    const onRowsPerChange = (a)=>{
+      setRowsPerPage(a)
+    }
+    const onPageChange = (a)=>{
+      setPage(a)
+    }
     return (
         <GestionLayout
             searchForm={<SearchPraticienFormComponent />}
             title={`Gestion des ${ressourceName}`}
             object={ressource}
+            page={page}
+            rowsPerPage={rowsPerPage}
+            onPageChange={onPageChange} 
+            onRowsPerChange={onRowsPerChange}
             loading={isLoading}
             dataField={data_tables[ressource]}
             dataInfo={datas}

@@ -32,7 +32,6 @@ function GestionLayout({
     allowSearch = true
 }) {
     const [isLoading, setIsLoading] = useState(false);
-
     return (
         <UsersLayout
             title={title ?? "Gestion des Objects"}>

@@ -71,6 +71,53 @@ export default function HorizontalLinearAlternativeLabelStepper() {
   const visible = (obj)=>{
     setVisibles(obj)
   }
+  const childSubmit =  async(patientId)=>{
+    dispatch(saveStep(1, { ...steps[1], patientId}));
+      try{
+        const p = (praticienList).filter((praticien)=>praticien._id === steps[0]?.praticien)[0];
+        const rep = await  axios({
+  
+          method: "POST",
+          url: BASE_URL + `/appointments/enregistrer_rdv/?idCentre=${app.idCentre}`,
+          data: {
+          
+              "centre": app.idCentre,
+              "practitioner": steps[0]?.praticien,
+              "patient": patientId,
+              "motif": steps[0]?.motif,
+              "startTime": steps[0]?.disponibility?.start,
+              "endTime": dayjs(`${steps[0]?.disponibility?.date}T${steps[0]?.disponibility?.start}`).add(p?.timeSlot,'m').format('HH:mm'),
+              "date_long": steps[0]?.disponibility?.date_long,
+              "provenance": app.platform,
+              "duration": p?.timeSlot,
+            // "dayOfWeek": 1,
+              "date": steps[0]?.disponibility?.date,
+          
+          },
+          headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+          },
+        });
+      if(rep.data.success){
+        //patientId = rep.data._id;
+        //setData({ ...data, [1]: { ...data[1], patientId }})
+        dispatch(showPRDV(false));
+        dispatch(saveStep(0, {  }));
+        dispatch(saveStep(1, { }));
+        
+        toast.success('Le rendez vous a ete creer avec success');
+        //dispatch(showPRDV(false));
+      }else{
+        toast.error(rep.data.message);
+        dispatch(saveError(rep.data));
+  
+      }
+      }catch(e){
+        dispatch(saveError(e));
+      }
+     
+  }
   const submit = async ()=>{
     try{
 
@@ -140,6 +187,16 @@ export default function HorizontalLinearAlternativeLabelStepper() {
     
 
   }
+  const clear = ()=>{
+    dispatch(saveStep(1, {}));
+    dispatch(saveStep(0, {}))
+  
+  }
+  React.useEffect(()=>{
+    return ()=>{
+      clear()
+    }
+  },[])
   React.useEffect(()=>{
     let navigation = {...bySteps[step].navigation};
     if(step === 1 && data[1] && data[1]['name'] && data[1]['email']){
@@ -161,7 +218,7 @@ export default function HorizontalLinearAlternativeLabelStepper() {
         error&& <Alert severity="error">{error?.message}</Alert>
       }
       
-      <Component data={steps[step] || {}} save={save}  next={next} prev={prev} visible={visible} />     
+      <Component  data={steps[step] || {}} save={save} parentSubmit={childSubmit}  next={next} prev={prev} visible={visible} />     
       {
         visibles['prev'] ? <Button onClick={()=>prev()}>Etape precedente</Button> : []
       }    
