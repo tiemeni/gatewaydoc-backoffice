@@ -21,7 +21,6 @@ const errorMsg = "Ce champ est obligatoire";
 const FormGenerator = ({ fields=[], initialising, title, back=()=>{}, dataId, type, loading, onSubmit, data = {} }) => {
   const mySchema = {};
    
-  console.log(fields)
   const [defaultValues, setDefaultValues] = useState({})
   
   // schema de validation et valeur par defaut
@@ -59,7 +58,7 @@ const FormGenerator = ({ fields=[], initialising, title, back=()=>{}, dataId, ty
       setValue(field.name, data[field.name]); 
     })
   },[data])
-console.log(defaultValues, data)
+// console.log(defaultValues, data)
   const reset = ()=>{
     fields.forEach((field)=>{
       setValue(field.name, defaultValues[field.name]) 

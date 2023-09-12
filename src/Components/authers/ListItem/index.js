@@ -50,6 +50,8 @@ function NestedCheckboxes({ data, boxChange }) {
   const idPracti = useSelector((state) => state.Calendar.eventsPractionerId)
   const [openmenu, setOpenmenu] = useState("");
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const loadingFilter = useSelector((state) => state.Calendar.loadingFilter)
+
 
 
   const handleClick = (event) => {
@@ -231,6 +233,7 @@ const renderItems = () => {
                   checked={(localStorage.getItem('defaultPraticien'+idc)?.includes(child._id))}
                   onChange={handleChildCheckboxChange}
                   name={child._id}
+                  disabled = { loadingFilter }
                   sx={{ '& .MuiSvgIcon-root': { fontSize: 20 }, color: '#40a9ff' }}
                 />
               }
