@@ -119,6 +119,7 @@ const DemoApp = ({ filterEvents }) => {
                             <div>
                                 <span style={{ color: '#6e706f', fontWeight:"bold" }}>Durée: </span>
                                 <span style={{ color: 'black' }}>{event.extendedProps?.duration}</span>
+                                {console.log(event.extendedProps?.duration)  }
                             </div>
                             <div>
                                 <span style={{ color: '#6e706f', fontWeight:"bold" }}>Motif: </span>
@@ -192,16 +193,16 @@ const DemoApp = ({ filterEvents }) => {
   };
 
   React.useEffect(() => {
-    if (localStorage.getItem('idP')) {
-      async function fetchData() {
-        const response = await getEventsByPractionner(localStorage.getItem('idP'));
-        if (response.success !== true) {
-          return;
-        }
-        dispatch(saveEvents(response.data))
-      }
-      fetchData();
-    }
+    // if (localStorage.getItem('idP')) {
+    //   async function fetchData() {
+    //     const response = await getEventsByPractionner(localStorage.getItem('idP'));
+    //     if (response.success !== true) {
+    //       return;
+    //     }
+    //     dispatch(saveEvents(response.data))
+    //   }
+    //   fetchData();
+    // }
     const picker = new Pikaday({
       field: document.querySelector(".fc-miniCalendar-button"),
       format: 'yy-mm-dd',

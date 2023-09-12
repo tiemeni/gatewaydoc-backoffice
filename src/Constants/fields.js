@@ -115,15 +115,15 @@ export const motifFields = {
         {
             id: 0,
             label: "Nom*",
-            name: "name",
+            name: "nom",
             type: fieldTypes.TEXT,
             required: true,
-            placeholder: "NOM"
+            placeholder: "Nom"
         },
         {
             id: 1,
             label: "Couleur*",
-            name: "color",
+            name: "couleur",
             type: fieldTypes.TEXT,
             required: false,
             placeholder: "Couleur"

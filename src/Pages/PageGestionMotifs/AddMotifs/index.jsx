@@ -17,7 +17,7 @@ const AddMotif = () => {
   const { motifId } = useParams();
 
   const [redirect, setRedirect] = React.useState(false);
-
+  console.log(motifFields)
   const getGroups = async () => {
     const groups = await getAllGroup();
     if (groups.success !== true) return;
@@ -64,6 +64,7 @@ const AddMotif = () => {
       setRedirect("/content/motifs");
     } else {
       //update motif
+      console.log('edit mode')
       const result = await editMotif(data,motifId);
       if (result.success !== true) return;
       setRedirect("/content/motifs");
