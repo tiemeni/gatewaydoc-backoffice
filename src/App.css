@@ -4,3 +4,68 @@ a.active li{
 body{
     font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
+.css-1cgx7kx-MuiTabs-scroller{
+    width: 200px;
+}
+.css-fvq675-MuiButtonBase-root-MuiTab-root{
+    text-align: left;
+    /* color: rgb(4, 183, 201); */
+    /* color: #04b9c9; */
+    color: #04b9c96c;
+}
+.card-stat1{
+    background-color: #04b9c917;
+    width: auto;
+    border-radius: 6px;
+    padding: 20px;
+    box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.144);
+    width: 20vw;
+    min-width: 200px;
+}
+.redErasedColor{
+    background-color: #ff81421e;
+}
+.cart-stat-patient{
+    background-color: #04b9c917;
+    width: auto;
+    border-radius: 6px;
+    padding: 20px;
+    box-shadow: 1px 2px 2px #00000025;
+    width: 20vw;
+    min-width: 200px;
+    height: 130px;
+    transition:  all ease-in-out 0.3s;
+}
+.cart-stat-patient p{
+    font-size: 12px;
+    margin-bottom: 2px;
+}
+.cart-stat-patient:hover{
+    background: rgb(3,118,128);
+    background: linear-gradient(37deg, rgba(3,118,128,1) 0%, rgba(4,185,201,1) 44%, rgba(0,212,255,1) 100%);
+    cursor: pointer;
+    color: white;
+    transition:  all ease-in-out 0.3s;
+}
+.violet-gradient{
+    background: rgb(142,44,142);
+    background: linear-gradient(37deg, rgba(142,44,142,1) 0%, rgba(238,130,238,1) 56%, rgba(238,130,238,1) 100%);
+    cursor: pointer;
+}
+.blue-gradient{
+    background: rgb(3,118,128);
+    background: linear-gradient(37deg, rgba(3,118,128,1) 0%, rgba(4,185,201,1) 44%, rgba(0,212,255,1) 100%);
+    cursor: pointer;
+}
+.orange-gradient{
+    background: rgb(189,91,4);
+    background: linear-gradient(37deg, rgba(189,91,4,1) 0%, rgba(255,120,0,1) 44%, rgba(254,119,0,1) 100%);
+}
+.blue-doctor{
+    background: rgb(6,175,162);
+    background: linear-gradient(37deg, rgba(6,175,162,1) 0%, rgba(0,254,234,1) 42%, rgba(0,254,234,1) 100%);
+}
+.medecin-hover:hover{
+    background-color: red;
+    border-radius: 4px;
+}
