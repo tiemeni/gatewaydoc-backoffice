@@ -6,7 +6,7 @@ const styles = makeStyles({
         maxHeight: '66vh',
         overflow: 'scroll',
         marginBottom: '2px',
-        height: '66vh'
+        height: '64vh'
     },
     search:{
         borderRadius: "30px",

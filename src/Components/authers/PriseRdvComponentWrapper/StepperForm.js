@@ -6,7 +6,7 @@ import StepLabel from '@mui/material/StepLabel';
 import StepOne from './StepOne';
 import StepTwo from './StepTwo';
 import styles from './styles';
-import { Alert, Button } from '@mui/material';
+import { Alert, Button, LinearProgress } from '@mui/material';
 import app from '../../../Configs/app';
 import axios from "axios";
 import { createPatient } from '../../../services/patients';
@@ -44,6 +44,7 @@ export default function HorizontalLinearAlternativeLabelStepper() {
   const classes = styles();
   const { steps, error, praticienList } = useSelector((state)=>state.Prdv);
   const [step, setStep] = React.useState(0);
+  const [loading, setLoading] = React.useState(false);
   const [data, setData] =  React.useState({});
   const [visibles, setVisibles] =  React.useState({
     'prev': false,
@@ -91,6 +92,7 @@ export default function HorizontalLinearAlternativeLabelStepper() {
               "date_long": steps[0]?.disponibility?.date_long,
               "provenance": app.platform,
               "duration": p?.timeSlot,
+               "lieu": steps[0]['lieu'],
             // "dayOfWeek": 1,
               "date": steps[0]?.disponibility?.date,
           
@@ -123,6 +125,7 @@ export default function HorizontalLinearAlternativeLabelStepper() {
     try{
 
       dispatch(saveError(null));
+      setLoading(true)
       let error = false;
       let patientId = steps[1]['patientId'];
       if(!patientId){
@@ -180,9 +183,9 @@ export default function HorizontalLinearAlternativeLabelStepper() {
         }
         
       }
-
+      setLoading(true)
     }catch(e){
-      
+      setLoading(false)
       dispatch(saveError(e));
     }
     
@@ -191,6 +194,9 @@ export default function HorizontalLinearAlternativeLabelStepper() {
   const clear = ()=>{
     dispatch(saveStep(1, {}));
     dispatch(saveStep(0, {}))
+    dispatch(saveError(null));
+  }
+  const clearError = ()=>{
     dispatch(saveError(null));
   }
   React.useEffect(()=>{
@@ -216,10 +222,13 @@ export default function HorizontalLinearAlternativeLabelStepper() {
         ))}
       </Stepper>
       {
-        error&& <Alert severity="error">{error?.message}</Alert>
+        error&& <Alert severity="error" onClose={clearError}>{error?.message}</Alert>
+      }
+      {
+        loading&&<LinearProgress  />
       }
       
-      <Component  data={steps[step] || {}} save={save} parentSubmit={childSubmit}  next={next} prev={prev} visible={visible} />     
+      <Component loading={loading}  data={steps[step] || {}} save={save} parentSubmit={childSubmit}  next={next} prev={prev} visible={visible} />     
       {
         visibles['prev'] ? <Button onClick={()=>prev()}>Etape precedente</Button> : []
       }    

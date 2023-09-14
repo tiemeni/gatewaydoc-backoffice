@@ -284,7 +284,7 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
     const dispatch = useDispatch();
     
     const professionList = useSelector((state) => state.Professions.data);
-    const lieuList = useSelector((state) => state.Lieux.data);
+    const lieuList = useSelector((state) => state.Lieux);
     const getRessources = async () => {
     
       if (!(professionList && professionList.data && professionList.data.length > 0)){
@@ -302,7 +302,8 @@ function StepOne( { next = ()=>{}, save =()=>{}, visible= ()=>{},    }){
         dispatch(lieux.loading());
         try{
             const data = await getAllLieux();
-            dispatch(lieux.save(data));
+            console.log(data)
+            dispatch(lieux.save(data.data));
         }catch(e){
             dispatch(lieux.loadingError(e));
         }
