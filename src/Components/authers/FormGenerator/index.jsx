@@ -86,8 +86,9 @@ const FormGenerator = ({ fields=[], initialising, title, back=()=>{}, dataId, ty
                 <CustomInput
                   key={field.id}
                   label={field.label}
+                  required={field.required}
                   register={{
-                    ...register(field?.name),
+                    ...register(field?.name, { required: field.required }),
                     
                   }}
                   initialising={initialising}
@@ -105,9 +106,10 @@ const FormGenerator = ({ fields=[], initialising, title, back=()=>{}, dataId, ty
                 control={control}
                 label={field.label}
                 name={field.name}
+                required={field.required}
                 initialising={initialising}
                 register={{
-                  ...register(field.name),
+                  ...register(field.name, { required: field.required}),
                   value: defaultValues[field.name]
                 }}
               />
@@ -117,8 +119,9 @@ const FormGenerator = ({ fields=[], initialising, title, back=()=>{}, dataId, ty
                 <MySelect
                   key={field.id}
                   label={field.label}
+                  required={field.required}
                   register={{
-                    ...register(field.name),
+                    ...register(field.name, {required: field.required}),
                     value: defaultValues[field.name]
                   }}
                   initialising={initialising}
@@ -132,11 +135,13 @@ const FormGenerator = ({ fields=[], initialising, title, back=()=>{}, dataId, ty
               return (
                 <CustomRadio
                   key={field.id}
+                  required={field.required}
                   control={control}
                   label={field.label}
                   name={field.name}
                   initialising={initialising}
                   value={defaultValues[field.name]}
+                  {...register(field.name, { required: field.required })}
                 />
               );
             }
@@ -144,9 +149,10 @@ const FormGenerator = ({ fields=[], initialising, title, back=()=>{}, dataId, ty
               return (
                 <AutoComplete
                   key={field.id}
+                  required={field.required}
                   label={field.label}
                   register={{
-                    ...register(field.name),
+                    ...register(field.name,{ required: field.required }),
                     value: defaultValues[field.name]
                   }}
                   initialising={initialising}

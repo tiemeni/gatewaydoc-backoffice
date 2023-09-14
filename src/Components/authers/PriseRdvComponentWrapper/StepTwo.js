@@ -19,19 +19,38 @@ import "./style.css";
 import BasicFormControl from './FormsComponents/BasicFormControl';
 import StyledInput from './FormsComponents/StyledInput';
 
+
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import SelectWithOption from './FormsComponents/SelectWithOption';
 import StyledTextarea from './FormsComponents/StyledTextarea';
 import CustomPhoneInput from './FormsComponents/CustomPhoneInput';
 import professions, { save } from "../../../REDUX/professions/actions";
 import { getAllProfessions } from '../../../services/professions';
+import { getPatient } from '../../../services/patients';
 import profession from '../../../Utils/transformers/profession';
 import CustomAutocomplete from './FormsComponents/CustomAutocomplete';
 import civility from '../../../Utils/transformers/civility';
 import patient from '../../../Utils/transformers/patient';
 import { searchPatiens } from '../../../services/patients';
+const bull = (
+  <Box
+    component="span"
+    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
+  >
+    •
+  </Box>
+);
+
 
 function StepTwo({ data= {}, save = ()=>{}, parentSubmit = ()=>{}, visible= ()=>{}, ...props }){
-    const [phone, setPhone] = React.useState('');
+    const [user, setUser] = React.useState('');
+    const [loading, setLoading] = React.useState('');
+    const [userData, setUserData] = React.useState('');
     const [values, setValues] = React.useState({...data});
     const classes = styles();
     const { register, handleSubmit, watch, control, formState, getValues, setValue  } = useForm({
@@ -49,7 +68,11 @@ function StepTwo({ data= {}, save = ()=>{}, parentSubmit = ()=>{}, visible= ()=>
     const professionList = useSelector((state) => state.Professions.data);
    
     const userSelect = ({ value})=>{
-      parentSubmit(value)
+      setUser(value);
+     
+    }
+    const confirm = ()=>{
+      parentSubmit(user);
     }
     const getCiv = async () => {
       const civilities = await getAllCivilities();
@@ -105,6 +128,62 @@ function StepTwo({ data= {}, save = ()=>{}, parentSubmit = ()=>{}, visible= ()=>
       }
     },[values])
 
+    useEffect(()=>{
+      if(user){
+        visible({
+          next: false,
+          prev: false,
+          submit: false
+         })
+         setLoading(true)
+         getPatient(user).then(({ data })=>{
+          setUserData(data)
+         }).finally(()=>{
+          setLoading(false)
+         })
+      }else{
+        visible({
+          next: false,
+          prev: true,
+          submit: true
+         })
+      }
+
+    },[user])
+    
+    const annuler = ()=>{
+      setUser(null)
+    }
+
+    if(user){
+      const card = (
+        <React.Fragment>
+          <CardContent>
+            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+              {userData.name}
+            </Typography>
+            <Typography variant="h5" component="div">
+              {userData.email}
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            {userData.telephone}
+            </Typography>
+
+          </CardContent>
+          <CardActions>
+            <Button onClick={()=>{
+          confirm()
+        }} size="small">Confirmer</Button>
+        <Button onClick={()=>{
+          annuler()
+        }} size="small" variant='text' color='error'>Annuler</Button>
+          </CardActions>
+        </React.Fragment>
+      );
+      return   <Box sx={{ minWidth: 275 }}>
+      <Card variant="outlined">{card}</Card>
+    </Box>;
+    }
     return (
       <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={2} style={{ padding: "12px" }}>

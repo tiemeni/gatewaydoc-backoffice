@@ -9,3 +9,6 @@
 -moz-box-shadow: 4px 1px 7px -3px rgba(97,87,87,0.78);
 color: '#40a9ff' !important;
 }
+.infinite-scroll-component__outerdiv{
+  height: 100%;
+}
