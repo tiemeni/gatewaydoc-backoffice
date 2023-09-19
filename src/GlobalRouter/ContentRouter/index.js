@@ -26,6 +26,7 @@ import AddGroupeDroit from "../../Pages/PageGestionGroupesDroits/AddGroupeDroit"
 import PageGestionPaiement from "../../Pages/PageGestionPaiement";
 import RessourceCreateUpdate from "../../Pages/RessourceCreateUpdate";
 import PageGestionRessources from "../../Pages/PageGestionRessources";
+import Dashboard from "../../Pages/Dashboard";
 
 const ContentRouter = () => {
     return (
@@ -49,6 +50,7 @@ const ContentRouter = () => {
 
 
                 
+                <Route path="/ressources/dashboard" element={<Dashboard />} />
                 <Route path="/advancedOptions" element={<PageGestionOptionsAvancees />} />
                 <Route path="/recappaiement" element={<PageGestionPaiement />} />
             </Routes>

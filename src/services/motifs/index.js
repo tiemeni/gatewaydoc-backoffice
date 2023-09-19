@@ -24,7 +24,7 @@ export const createMotif = async (payload) => {
   // }
 
   try {
-    const res = await fetch(BASE_URL + `/motifs?idCentre=${app.idCentre}`, {
+    const res = await fetch(BASE_URL + `/motif/register/?idCentre=${app.idCentre}`, {
       method: 'POST',
       body: JSON.stringify(payload),
       headers: {
@@ -41,7 +41,7 @@ export const createMotif = async (payload) => {
 
 export const editMotif = async (payload, id) => {
   try {
-    const res = await fetch(BASE_URL + `/motifs/${id}/?idCentre=${app.idCentre}` , {
+    const res = await fetch(BASE_URL + `/motif/${id}/?idCentre=${app.idCentre}` , {
       method: 'PUT',
       body: JSON.stringify(payload),
       headers: {
