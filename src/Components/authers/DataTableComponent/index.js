@@ -96,8 +96,8 @@ export const DataTable = ({ object, loading, dataField, dataInfo, rowsPerPage= 5
     };
     
     const handleChangeRowsPerPage = (event) => {
-        onRowsPerChange(parseInt(event.target.value, 10));
-        onPageChange(0);
+      onRowsPerChange(parseInt(event.target.value, 10));
+      
     };   
     const deleteRessource = (id)=>{
       swal({

@@ -25,7 +25,7 @@ const MySelect = ({ error, register, label, fieldData = [], value, initialising=
           fullWidth
         >
           {fieldData?.map((d) => (
-            <MenuItem key={d._id} value={d._id}>
+            <MenuItem key={d._id} value={d.value|| d._id}>
               {d.title || d.label}
             </MenuItem>
           ))}

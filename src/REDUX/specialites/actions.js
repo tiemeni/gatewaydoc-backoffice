@@ -6,3 +6,8 @@ export const saveSpecialities = (payload) => {
         payload
     }
 }
+
+
+export default {
+    save: saveSpecialities
+}

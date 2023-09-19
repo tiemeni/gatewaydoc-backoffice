@@ -1,5 +1,5 @@
 export function toListItem (profession){
- return { value: profession._id , label: profession.name }
+ return { value: profession._id, label: profession.name }
 } 
 
 

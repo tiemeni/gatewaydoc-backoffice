@@ -59,7 +59,7 @@ export const getPraticiens = async () => {
           "Content-Type": "application/json",
       },
   });
-  console.log(res.data)
+
   return res.data;
 };
 

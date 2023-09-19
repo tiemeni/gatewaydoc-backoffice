@@ -10,6 +10,7 @@ export const userFields = {
             required: true,
             placeholder: ""
         },
+        
         {
             id: 1,
             label: "Profession",
@@ -31,7 +32,7 @@ export const userFields = {
             label: "Initiales",
             name: "initiales",
             type: fieldTypes.TEXT,
-            required: false,
+            required: true,
             placeholder: "Initiales"
         },
         {
@@ -172,7 +173,7 @@ export const practitionerFields = {
     fields: [
         {
             id: 1,
-            label: "Civilite*",
+            label: "Civilite",
             name: "civility",
             type: fieldTypes.SELECT,
             required: true,
@@ -245,7 +246,7 @@ export const practitionerFields = {
         {
             id: 10,
             label: "Le groupe*",
-            name: "group",
+            name: "groups",
             type: fieldTypes.SELECT,
             required: true,
             placeholder: ""
@@ -262,7 +263,7 @@ export const practitionerFields = {
             id: 12,
             label: "Date de fin d'activité",
             name: "practitionerFilter",
-            type: fieldTypes.TEXT,
+            type: fieldTypes.DATE,
             required: false,
             placeholder: ""
         },
@@ -294,7 +295,7 @@ export const practitionerFields = {
             id: 16,
             label: "Prix défaut",
             name: "defaultPrice",
-            type: fieldTypes.TEXT,
+            type: fieldTypes.NUMBER,
             required: false,
             placeholder: ""
         },
