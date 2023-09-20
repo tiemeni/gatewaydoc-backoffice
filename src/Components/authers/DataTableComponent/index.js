@@ -144,7 +144,7 @@ export const DataTable = ({ object, loading, dataField, dataInfo, rowsPerPage= 5
                             {dataField?.flatMap((column, i) => <TableCell key={i} sx={[styles.fs14, styles.tabHead]} align="center">{column?.label}</TableCell>)}
                         </TableRow>
                     </TableHead>
-                    <TableBody>
+                    <TableBody >
                         {(rowsPerPage > 0
                         ? dataInfo.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         : dataInfo
