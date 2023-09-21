@@ -10,7 +10,7 @@ export const styles = {
         alignItem: "center",
         width: "100%",
         position: "fixed",
-        zIndex: 1,
+        zIndex: 1000,
         height: HEADER_SIZE,
     },
     menu1: {

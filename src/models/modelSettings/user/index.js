@@ -43,9 +43,9 @@ const user = {
               if (field.name === "groups") field.data = groupList;
               if (field.name === "civility") field.data = civList;
               if (field.name === "fonction") field.data = fonctions;
-              if(field.name === "job") field.data = jobs.flatMap(transfromer.toListItem) || [];
+              if(field.name === "job") field.data = jobs? jobs.flatMap(transfromer.toListItem) :null;
             });
-            console.log(results)
+          
           return results;
       }
     },

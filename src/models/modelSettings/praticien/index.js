@@ -5,10 +5,12 @@ import { getAllGroup } from "../../../services/groups";
 import { createUser, getUser, updateUser } from "../../../services/users";
 import actions from "../../../REDUX/civilities/actions";
 import actionsPraticien from "../../../REDUX/praticiens/actions";
-import professsionActions from "../../../REDUX/professions/actions"
+
+import professsionActions from "../../../REDUX/professions/actions";
+import specialtiesActions from "../../../REDUX/specialites/actions";
 import { getAllProfessions } from "../../../services/professions";
 import transfromer from "../../../Utils/transformers/profession"
-import specialtiesActions from "../../../REDUX/specialites/actions"
+
 import { getSpecialities } from "../../../services/specialities";
 import { createPraticien, editPraticien, getPraticien, getPraticiens } from "../../../services/praticiens";
 
@@ -44,7 +46,7 @@ const user = {
               if (field.name === "groups") field.data = groupList;
               if (field.name === "civility") field.data = civList;
               if (field.name === "fonction") field.data = fonctions;
-              if(field.name === "job") field.data = jobs.flatMap(transfromer.toListItem) || [];
+              if(field.name === "job") field.data = jobs? jobs.flatMap(transfromer.toListItem) :null;
             });
        
           return results;

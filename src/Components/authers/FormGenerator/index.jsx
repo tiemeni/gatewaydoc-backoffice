@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { getValueFromReducer } from "../../../helpers/formGenerator";
 import { useMemo } from "react";
 import { useEffect, useState } from "react";
+import InputColorLabel from "../InputColor";
 
 const errorMsg = "Ce champ est obligatoire";
 
@@ -80,7 +81,8 @@ const FormGenerator = ({ fields=[], initialising, title, back=()=>{}, dataId, ty
               field.type === fieldTypes.EMAIL ||
               field.type === fieldTypes.FILE ||
               field.type === fieldTypes.DATE ||
-              field.type === fieldTypes.PASSWORD
+              field.type === fieldTypes.PASSWORD ||
+              field.type === fieldTypes.NUMBER
             ) {
               return (
                 <CustomInput
@@ -114,15 +116,31 @@ const FormGenerator = ({ fields=[], initialising, title, back=()=>{}, dataId, ty
                 }}
               />
             }
+            if(field.type === fieldTypes.COLOR){
+              return <InputColorLabel                   key={field.id}
+              label={field.label}
+              required={field.required}
+              register={{
+                ...register(field.name, {required: field.required}),
+                value: defaultValues[field.name]
+              }}
+              initialising={initialising}
+              error={errors[field.name]}
+              
+              value={defaultValues[field.name]}
+              />
+            }
             if (field.type === fieldTypes.SELECT) {
               return (
                 <MySelect
                   key={field.id}
                   label={field.label}
                   required={field.required}
+                  mul
                   register={{
                     ...register(field.name, {required: field.required}),
-                    value: defaultValues[field.name]
+                    value: defaultValues[field.name],
+                    multiple: field.multiple
                   }}
                   initialising={initialising}
                   error={errors[field.name]}

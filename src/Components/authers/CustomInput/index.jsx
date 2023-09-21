@@ -16,7 +16,7 @@ const CustomInput = ({
  
   return (
     <Box sx={styles.inputContainer}>
-      <Typography sx={styles.label}>{label}{ required || register.required ? "*": ""}</Typography>
+      <Typography sx={styles.label}>{label} <Typography component={"span"} color="red">{ required || register.required ? "*": ""}</Typography> </Typography>
       {initialising? <Skeleton sx={styles.input} style={{ height: "auto", minHeight: "1.4375em", height: "60px" }} /> :<TextField
         type={type}
         {...register}
