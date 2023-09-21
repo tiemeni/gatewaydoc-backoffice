@@ -35,7 +35,7 @@ export const createMotif = async (payload) => {
     return { success: true, ...data };
   } catch (err) {
     console.error(err)
-    return { success: false, error: err }
+    return { success: false, ...err, error: err }
   }
 }
 
@@ -49,10 +49,10 @@ export const editMotif = async (payload, id) => {
       },
     })
     const data = await res.json();
-    return { status: true, data }
+    return { status: true, data, ...data }
   } catch (err) {
     console.error(err)
-    return { status: false, error: err }
+    return { status: false,...err, error: err }
   }
 }
 
@@ -70,9 +70,9 @@ export const motifsByProfession = async (profession)=>{
       },
   })
     const data = response.data;
-    return { status: true, data }
+    return { status: true, data, ...data }
   }catch(e){
-    return { status: false, error: e }
+    return { status: false, error: e, ...e }
   }
   
 }

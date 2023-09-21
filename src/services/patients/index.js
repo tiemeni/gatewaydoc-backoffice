@@ -52,7 +52,7 @@ export const createPatient = async (payload) => {
     return data
   } catch (err) {
     console.error(err)
-    return { status: false, error: err }
+    return { success: false, error: err }
   }
 }
 
@@ -69,6 +69,6 @@ export const updatePatient = async (payload, id) => {
     return data
   } catch (err) {
     console.error(err)
-    return { status: false, error: err }
+    return { success: false, ...err, error: err }
   }
 }
