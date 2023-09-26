@@ -274,7 +274,7 @@ const PlanningCalendar = ({ praticien }) => {
         <Grid item xs={4} >
           <Stack direction="column" alignItems="flex-end" justifyContent="end">
            
-            <Typography>Planning {" "} {<Switch    onClick={goToHomePage} />}</Typography>
+            <Typography>Planning {" "} {<Switch  defaultChecked   onClick={goToHomePage} />}</Typography>
             <Button variant="contained" disableElevation color="info">Auttorisation rdv force</Button>
           </Stack>
          

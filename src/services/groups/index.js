@@ -37,7 +37,7 @@ export const getGroup = async (id) => {
         return data
       } catch (err) {
         console.error(err)
-        return { status: false, error: err }
+        return { status: false, error: err, ...err }
       }
     }
    
