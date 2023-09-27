@@ -1,3 +1,5 @@
+import PasswordActions from "../Components/authers/PasswordActions"
+
 export const DATA_TABLE_SPECIALITE_COLONNE = [
     {
         label: "Label de la spécialité",
@@ -66,8 +68,9 @@ export const DATA_TABLE_USERS_COLONNE = [
         name: 'affectations'
     },
     {
-        label: "Mot de Passe",
-        name: 'password'
+        label: "Actions sur le Mot de Passe",
+        name: 'password',
+        render: PasswordActions
     },
     {
         label: "Actif",

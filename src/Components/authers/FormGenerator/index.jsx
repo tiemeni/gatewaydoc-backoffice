@@ -19,7 +19,7 @@ import InputColorLabel from "../InputColor";
 
 const errorMsg = "Ce champ est obligatoire";
 
-const FormGenerator = ({ fields=[], initialising, title, back=()=>{}, dataId, type, loading, onSubmit, data = {} }) => {
+const FormGenerator = ({ fields=[], hideTitle= false, initialising, title="", back=()=>{}, dataId, type, loading, onSubmit, data = {} }) => {
   const mySchema = {};
    
   const [defaultValues, setDefaultValues] = useState({})
@@ -72,7 +72,7 @@ const FormGenerator = ({ fields=[], initialising, title, back=()=>{}, dataId, ty
     }
   }
   return (
-    <UsersLayout title={title}>
+    <UsersLayout hideTitle={hideTitle} title={title}>
       <Grid item xs={12} px={2} py={5}>
         <form onSubmit={handleSubmit(submit)} style={styles.form}>
           {fields.flatMap((field) => {

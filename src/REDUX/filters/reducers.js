@@ -11,8 +11,7 @@ const CivilitiesReducer = (state = initialState, action) => {
                 [action.model]: action.payload,
             }
 
-        default:
-            return state;
+        default: return state;
     }
 }
 
