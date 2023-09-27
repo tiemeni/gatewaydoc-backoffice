@@ -34,7 +34,7 @@ import CustomTimeInput from "./FormsComponents/CustomTimeInput";
 import motif from "../../../Utils/transformers/motif";
 import { Chip } from '@mui/material';
 import { deleteRDV, updateRDV } from '../../../services/rdv';
-import { showDRDV, showPFRDV } from "../../../REDUX/commons/actions";
+import { showDRDV, showMFP, showPFRDV } from "../../../REDUX/commons/actions";
 import { toast } from 'react-toastify';
 
 
@@ -102,6 +102,10 @@ function DisplayForm( { next = ()=>{} }){
     }
     const close = ()=>{
         dispatch(showPFRDV(false));
+    }
+    const showPatient = ()=>{
+        close();
+        dispatch(showMFP(true, event?._def?.extendedProps?.patient));
     }
     const motifsList = useSelector((state) => state.Motifs.data);
     
@@ -199,7 +203,7 @@ function DisplayForm( { next = ()=>{} }){
                         <Grid item xs={12}>
 
                             <Typography variant="h5"  gutterBottom>
-                                Patient: {event?.extendedProps?.civ}  {event.title} <Button text> voire la fiche patient</Button>
+                                Patient: {event?.extendedProps?.civ}  {event.title} <Button onClick={showPatient} text> voire la fiche patient</Button>
                             </Typography>
                             <Typography variant="h6"  gutterBottom>
                                 IPP: 

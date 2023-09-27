@@ -28,7 +28,7 @@ const CommonReducer = (state = initialState, action) => {
                 showEDP: action.data,
                 passwordUser: action.passwordUser                
             }
-        case types.SHOW_MEDP:
+        case types.SHOW_MFP:
             return {
                 ...state,
                 showFP: action.data,

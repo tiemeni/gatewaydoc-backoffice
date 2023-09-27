@@ -36,7 +36,7 @@ const bySteps = {
 }
 export default function HorizontalLinearAlternativeLabelStepper() {
   const classes = styles();
-  const [step, setStep] =  React.useState(0);
+  const [step, setStep] =  React.useState(1);
   const [visibles, setVisibles] =  React.useState({
     'prev': false,
     'next': true
