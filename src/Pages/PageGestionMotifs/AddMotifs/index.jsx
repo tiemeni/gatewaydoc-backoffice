@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import FormGenerator from "../../../Components/authers/FormGenerator";
 import { motifFields } from "../../../Constants/fields";
 import { getAllGroup } from "../../../services/groups";
@@ -8,12 +8,15 @@ import { saveGroups } from "../../../REDUX/groups/actions";
 import { getCivilities } from "../../../REDUX/commons/actions";
 import { useParams } from "react-router-dom";
 import { createMotif, editMotif } from "../../../services/motifs";
+import { getSpecialities } from "../../../services/specialities";
 
 const AddMotif = () => {
   const { fields } = motifFields;
   const dispatch = useDispatch();
   const groupList = useSelector((state) => state.Groups.groups);
   const civList = useSelector((state) => state.Common.civilities);
+  const specilte= useSelector((state)=>state)
+  const dataReducer = useSelector((state) => state);
   const { motifId } = useParams();
 
   const [redirect, setRedirect] = React.useState(false);
@@ -54,7 +57,10 @@ const AddMotif = () => {
   motifFields.fields.forEach((field) => {
     if (field.name === "groups") field.data = groupList;
     if (field.name === "civility") field.data = civList;
+    if (field.name === "idSpeciality") field.data = civList;
+    
   });
+
 
   const onSubmit = async (data) => {
     if (!motifId) {

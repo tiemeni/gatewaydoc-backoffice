@@ -1,0 +1,2 @@
+export const SAVE_STRUCTURES = "SAVE_STRUCTURES";
+export const GET_STRUCTURES = "GET_STRUCTURES";

@@ -4,7 +4,8 @@ import { getAllCivilities } from "../../../services/commons";
 import { getAllGroup } from "../../../services/groups";
 import { getAllProfessions } from "../../../services/professions";
 import { createStructure, getStructure, updateStructure } from "../../../services/structures";
-
+import { getStructures } from '../../../services/structures'
+import { saveStructures } from "../../../REDUX/structures/actions";
 
 const structure = {
     related: {
@@ -22,10 +23,10 @@ const structure = {
       }
     },
     gestion: {
-      selector: (state) => state.Professions.data ||[]
+      selector: (state) => state.Structure.structutres ||[]
     },
-    loadAll: getAllProfessions,
-    saveAll: (dispatch,datas)=>dispatch(saveGroups(datas)),
+    loadAll: getStructures,
+    saveAll: (dispatch,datas)=>dispatch(saveStructures(datas)),
     create: createStructure,
     fetch : getStructure,
     update: updateStructure

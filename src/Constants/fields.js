@@ -130,6 +130,30 @@ export const motifFields = {
         },
         {
             id: 2,
+            label: "Spécialité*",
+            name: "idSpeciality",
+            type: fieldTypes.SELECT,
+            required: false,
+            placeholder: "Couleur"
+        },
+        {
+            id: 3,
+            label: "Profession*",
+            name: "idProfession",
+            type: fieldTypes.TEXT,
+            required: false,
+            placeholder: "Couleur"
+        },
+        {
+            id: 4,
+            label: "Temps par défaut*",
+            name: "default_time",
+            type: fieldTypes.NUMBER,
+            required: false,
+            placeholder: "Couleur"
+        },
+        {
+            id: 5,
             label: "Actif*",
             name: "active",
             type: fieldTypes.RADIO,
@@ -539,6 +563,14 @@ export const structureFields = {
         },
         {
             id: 7,
+            label: "Telephone*",
+            name: "telephone",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: "telephone"
+        },
+        {
+            id: 8,
             label: "url Site",
             name: "urlSite",
             type: fieldTypes.TEXT,
@@ -546,7 +578,7 @@ export const structureFields = {
             placeholder: "Url Site"
         },
         {
-            id: 8,
+            id: 9,
             label: "forme Juridque*",
             name: "formeJuridque",
             type: fieldTypes.TEXT,

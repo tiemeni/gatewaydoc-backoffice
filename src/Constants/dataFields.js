@@ -1,7 +1,7 @@
 export const DATA_TABLE_SPECIALITE_COLONNE = [
     {
         label: "Label de la spécialité",
-        name: "title"
+        name: "label"
     },
     {
         label: "Alertes web",

@@ -44,8 +44,8 @@ export const getGroup = async (id) => {
   
     export const updateGroup = async (payload, id) => {
       try {
-        const res = await fetch(BASE_URL + "/groupes/" + id, {
-          method: 'PUT',
+        const res = await fetch(BASE_URL + `/groupes/` + id+ `?idCentre=${app.idCentre}`, {
+          method: 'PATCH',
           body: JSON.stringify(payload),
           headers: {
             "Content-Type": "application/json"
