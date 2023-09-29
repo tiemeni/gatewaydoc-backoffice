@@ -3,11 +3,13 @@ import actions from "../../../REDUX/civilities/actions";
 import { getCivilities } from "../../../services/civilities";
 import { getAllCivilities } from "../../../services/commons";
 import { getAllGroup } from "../../../services/groups";
+import { getSpecialities } from "../../../services/specialities";
 import { createUser, getUser, updateUser, getUsers } from "../../../services/users";
 import { saveUsers } from "../../../REDUX/users/actions";
-import { save } from "../../../REDUX/professions/actions"
-import { getAllProfessions } from "../../../services/professions"
-
+import professsionActions from "../../../REDUX/professions/actions"
+import { getAllProfessions } from "../../../services/professions";
+import transfromer from "../../../Utils/transformers/profession"
+import specialtiesActions from "../../../REDUX/specialites/actions"
 const getGroups = async (dispatch, state) => {
     const groups = await getAllGroup();
     if (groups.success !== true) return;
@@ -20,26 +22,30 @@ const getGroups = async (dispatch, state) => {
     dispatch(actions.save(civilities.data));
 };
 
-const getProf = async (dispatch, state) => {
-
-  const profession = await getAllProfessions();
-  if (profession.success !== true) return;
-  dispatch(save(profession.data));
+const getProfessions = async (dispatch,state) => {
+  const response = await getAllProfessions();
+  if (response.success !== true) return;
+  dispatch(professsionActions.save(response.data));
 };
-
+const getAllSpecialities = async (dispatch,state) => {
+  const response = await getSpecialities();
+  if (response.success !== true) return;
+  dispatch(specialtiesActions.save(response.data));
+};
 const user = {
     related: {
-      loaders: [getGroups, getCiv, getProf],
-      selector: (state) => [state.Groups.groups,state.Civilities.data,state.Professions.data],
-      getRelatedValues: ([groupList, civList, getProfList],fields=[]) => {
+      loaders: [getGroups, getCiv, getProfessions, getAllSpecialities],
+      selector: (state) => [state.Groups.groups, state.Civilities.data, state.Professions.data, state.Specialities.specialites],
+      getRelatedValues: ([groupList, civList, jobs, fonctions],fields=[]) => {
         // Attribuer les valeurs récupérées
             let results = [...fields]
             results.forEach((field) => {
               if (field.name === "groups") field.data = groupList;
               if (field.name === "civility") field.data = civList;
-              if (field.name === "job") field.data = getProfList;
+              if (field.name === "fonction") field.data = fonctions;
+              if(field.name === "job") field.data = jobs? jobs.flatMap(transfromer.toListItem) :null;
             });
-
+          
           return results;
       }
     },

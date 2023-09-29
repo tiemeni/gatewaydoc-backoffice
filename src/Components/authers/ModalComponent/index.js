@@ -2,7 +2,7 @@ import { Box, Modal } from '@mui/material'
 import React from 'react'
 import ModalHeader from './ModalHeader';
 
-function ModalComponent({ title, contentComponent = null, header=true, onClose = null, open=true }) {
+function ModalComponent({ title, contentComponent = null, header=true, onClose = null, open=true, custumStyle={} }) {
 
     const style = {
         position: 'absolute',
@@ -17,7 +17,8 @@ function ModalComponent({ title, contentComponent = null, header=true, onClose =
         outline: "none"
         // border: '1px solid #000',
         // boxShadow: 24,
-        // p: 4,
+        // p: 4,,
+        ,...custumStyle
     };
     return (
         <Modal

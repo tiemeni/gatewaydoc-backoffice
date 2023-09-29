@@ -10,14 +10,19 @@ import { savePatients } from '../../REDUX/patients/actions';
 import { getPatients } from '../../services/patients';
 import data_tables from '../../Constants/dataFields';
 
+import filtersActions from "../../REDUX/filters/actions";
+import pagintionsActions from "../../REDUX/paginations/actions"
+
 function PageGestionRessources() {
     const [isLoading, setIsLoading] = useState(false);
     const { ressourceName  } = useParams();
     const state = useSelector((state)=>state);
     const ressource = useMemo(()=>ressourcesMap[ressourceName],[ressourceName])
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5)
     
+    const filter = useSelector((state)=>state.Filters[ressource]||{});
+    const { page, rowsPerPage } = useSelector((state)=>state.Paginations[ressource]||{
+      page: 0, rowsPerPage: 10
+    });
     const dispatch = useDispatch();
 
     React.useEffect(() => {
@@ -41,20 +46,31 @@ function PageGestionRessources() {
     }, [ressourceName])
 
     const onRowsPerChange = (a)=>{
-      setRowsPerPage(a)
+ 
+      dispatch(pagintionsActions.update(ressource,{
+        page: 0,
+        rowsPerPage:  a
+      }))
+      
     }
     const onPageChange = (a)=>{
-      setPage(a)
+      dispatch(pagintionsActions.update(ressource,{
+        page: a,
+        rowsPerPage
+      }))
     }
+
+
     return (
         <GestionLayout
             searchForm={<SearchPraticienFormComponent />}
             title={`Gestion des ${ressourceName}`}
             object={ressource}
+            filter={filter}
             page={page}
             rowsPerPage={rowsPerPage}
-            onPageChange={onPageChange} 
-            onRowsPerChange={onRowsPerChange}
+            onPageChange={(a)=>onPageChange(a)} 
+            onRowsPerChange={(a)=>onRowsPerChange(a)}
             loading={isLoading}
             dataField={data_tables[ressource]}
             dataInfo={datas}

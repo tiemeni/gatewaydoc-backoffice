@@ -5,3 +5,5 @@ export const VALID_TOKEN = "VALID_TOKEN"
 export const GET_CIVILITIES = "GET_CIVILITIES";
 export const SHOW_DRDV = "SHOW_DRDV";
 export const SHOW_PRATICIEN_PLANNING = "SHOW_PRATICIEN_PLANNING";
+export const SHOW_MEDP = "SHOW_MEDP";
+export const SHOW_MFP = "SHOW_MFP";

@@ -14,7 +14,7 @@ import {
 
 export const loading = () => ({ type: FETCH_PRATICIENS_REQUEST });
 export const loadingError = (error) => ({ type: FETCH_PRATICIENS_FAILURE, payload: error });
-export const save = (data) => ({ type: FETCH_PRATICIENS_SUCCESS, payload: data?.data });
+export const save = (data) => ({ type: FETCH_PRATICIENS_SUCCESS, payload: data });
 export const savePraticiensPerJob = (payload) => {
   return {
     type: SAVE_PRATICIENS_PER_JOB,

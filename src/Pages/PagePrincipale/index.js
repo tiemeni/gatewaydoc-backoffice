@@ -10,7 +10,7 @@ import ModalComponent from "../../Components/authers/ModalComponent";
 import PriseRdvComponent from "../../Components/authers/PriseRdvComponentWrapper";
 import FichePriseRdvComponent from "../../Components/authers/FichePriseRdvComponentWrapper";
 import { useDispatch, useSelector } from "react-redux";
-import { showPFRDV, showPRDV } from "../../REDUX/commons/actions";
+import { showPFRDV, showPRDV, showMEDP } from "../../REDUX/commons/actions";
 import { getEventsByPractionner } from '../../services/calendars'
 import { getEvents } from "../../services/calendars";
 import { saveEvents } from "../../REDUX/calendar/actions";
@@ -24,11 +24,13 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import PlanningCalendar from "../../Components/authers/PlanningCalendar";
+import PassordEditComponent from "../../Components/authers/PassordEditComponent";
 
 const FackContainer = () => {
     const dispatch = useDispatch()
     const showRDV = useSelector(state => state.Common.showPRDV);
     const event = useSelector(state => state.Common.event);
+    const userEdit = useSelector(state => state.Common.userEdit);
     const planningMode = useSelector(state => state.Common.planningMode);
     const showFRDV = useSelector(state => state.Common.showPFRDV);
     const [events, setEvents] = useState(null)
@@ -116,6 +118,7 @@ const FackContainer = () => {
                         contentComponent={<FichePriseRdvComponent />}
                         onClose={() => dispatch(showPFRDV(false))}
                     />}
+             
                 {!planningMode &&<Box style={{ ...(matches?styles.aside1:styles.aside), position: "fixed", paddingRight: 20, display: isFirstChildVisible ? 'block' : 'none' }} className='aside'>
                         <Box padding={2} marginBottom={3} marginTop={10} >
                             <TextField

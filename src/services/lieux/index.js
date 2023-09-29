@@ -35,7 +35,7 @@ export const createLieu = async (payload) => {
       return data
     } catch (err) {
       console.error(err)
-      return { status: false, error: err }
+      return { status: false, error: err, ...err }
     }
   }
  
@@ -53,7 +53,7 @@ export const createLieu = async (payload) => {
       return data
     } catch (err) {
       console.error(err)
-      return { status: false, error: err }
+      return { status: false, error: err, ...err }
     }
   }
   

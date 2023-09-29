@@ -4,7 +4,7 @@ import {
     Grid,
     Typography
 } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import styles from './style'
 import UsersLayout from '../../../layout/usersLayout'
 import SearchAccordion from '../../../Components/authers/SearchAccordion'
@@ -25,17 +25,21 @@ function GestionLayout({
     searchFonction,
     loading,
     rowsPerPage= 5, 
-    page= 0, 
-    rowsPerPageOptions=[5, 10, 25, { label: 'Tous', value: -1 }],
+    page= 0,
+    filter={},
+    rowsPerPageOptions=[5,10, 20, 30, { label: 'Tous', value: -1 }],
     onPageChange=()=>{}, 
     onRowsPerChange=()=>{},
     allowSearch = true
 }) {
-    const [isLoading, setIsLoading] = useState(false);
+
+    const isEmptyFilter = useMemo(()=>{
+        return Object.keys(filter).length == 0
+    },[filter])
     return (
         <UsersLayout
             title={title ?? "Gestion des Objects"}>
-            {allowSearch && <Grid item xs={12} px={2}>
+            {allowSearch && dataInfo.length > 0 && <Grid item xs={12} px={2}>
                 <SearchAccordion
                     title={object ? "Rechercher un " + object : "Rechercher un Object"}>
                     {searchForm}
@@ -45,7 +49,7 @@ function GestionLayout({
                 <Typography
                     sx={styles.fs14}>
                     <b>{dataInfo.length} {object ?? " Objet"}(s) </b> 
-                    {loading? "en cour de chargement..." : "correspondent à votre recherche"}
+                    {loading? "en cour de chargement..." : (isEmptyFilter? "enregitrees" : "correspondent à votre recherche")}
                 </Typography>
             </Grid>
             <Grid item xs={12} px={2} mt={3}>
@@ -60,8 +64,8 @@ function GestionLayout({
                     page={page}
                     rowsPerPageOptions={rowsPerPageOptions}
                     rowsPerPage={rowsPerPage}
-                    onPageChange={onPageChange}
-                    onRowsPerChange={onRowsPerChange}
+                    onPageChange={(a)=>onPageChange(a)}
+                    onRowsPerChange={(a)=>onRowsPerChange(a)}
                     loading={loading}
                     dataInfo={dataInfo}
                     dataField={dataField}

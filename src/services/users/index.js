@@ -22,10 +22,10 @@ export const signUserIn = async (payload) => {
       }
     });
     const data = await res.json()
-    return { status: true, data: data };
+    return { status: true, data: data, ...data };
   } catch (err) {
     console.error(err);
-    return { status: false, error: err };
+    return { status: false, error: err, ...err };
   }
 };
 
@@ -61,7 +61,7 @@ export const createUser = async (payload) => {
     return data
   } catch (err) {
     console.error(err)
-    return { status: false, error: err }
+    return { status: false, error: err, ...err }
   }
 }
 
@@ -97,7 +97,7 @@ export const getUser = async (id) => {
     return data
   } catch (err) {
 
-    return { status: false, error: err }
+    return { status: false, error: err, ...err }
   }
 }
 
@@ -114,6 +114,6 @@ export const updateUser = async (payload, id) => {
     return data
   } catch (err) {
     console.error(err)
-    return { status: false, error: err }
+    return { status: false, error: err, ...err }
   }
 }

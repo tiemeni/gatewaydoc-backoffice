@@ -15,8 +15,16 @@ const groupe = {
     gestion: {
       selector: (state) => state.Groups.groups || []
     },
+    filters: {
+      selector: (state)=> state.Groups.filters || {}
+    },
+    paginnations: {
+      selector: (state)=> state.Groups.paginations || {}
+    },
     loadAll: getAllGroup,
     saveAll: (dispatch,datas)=>dispatch(action.save(datas)),
+    updateFilters: (dispatch,datas)=>dispatch(action.saveFilters(datas)),
+    updatePaginations: (dispatch,datas)=>dispatch(action.savePaginations(datas)),
     create: createGroup,
     fetch : getGroup,
     update: updateGroup  

@@ -19,7 +19,7 @@ function PageGestionPraticiens({ data, loading, error }) {
       dispatch(praticiens.loading());
       try {
         const data = await getPraticiens()
-        dispatch(praticiens.save(data));
+        dispatch(praticiens.save(data.data));
       } catch (e) {
         dispatch(praticiens.loadingError(e));
       }

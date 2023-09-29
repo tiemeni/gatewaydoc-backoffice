@@ -4,12 +4,13 @@ export const userFields = {
     fields: [
         {
             id: 0,
-            label: "Civilite*",
+            label: "Civilite",
             name: "civility",
             type: fieldTypes.SELECT,
             required: true,
             placeholder: ""
         },
+        
         {
             id: 1,
             label: "Profession",
@@ -31,12 +32,12 @@ export const userFields = {
             label: "Initiales",
             name: "initiales",
             type: fieldTypes.TEXT,
-            required: false,
+            required: true,
             placeholder: "Initiales"
         },
         {
             id: 4,
-            label: "Nom*",
+            label: "Nom",
             name: "name",
             type: fieldTypes.TEXT,
             required: true,
@@ -44,7 +45,7 @@ export const userFields = {
         },
         {
             id: 5,
-            label: "Prenom*",
+            label: "Prenom",
             name: "surname",
             type: fieldTypes.TEXT,
             required: true,
@@ -52,7 +53,7 @@ export const userFields = {
         },
         {
             id: 6,
-            label: "Email*",
+            label: "Email",
             name: "email",
             type: fieldTypes.EMAIL,
             required: true,
@@ -68,7 +69,7 @@ export const userFields = {
         },
         {
             id: 8,
-            label: "Le groupe*",
+            label: "Le groupe",
             name: "groups",
             type: fieldTypes.SELECT,
             required: true,
@@ -76,7 +77,7 @@ export const userFields = {
         },
         {
             id: 9,
-            label: "Actif*",
+            label: "Actif",
             name: "active",
             type: fieldTypes.RADIO,
             required: true,
@@ -100,7 +101,7 @@ export const userFields = {
         },
         {
             id: 12,
-            label: "Password*",
+            label: "Password",
             name: "password",
             type: fieldTypes.PASSWORD,
             required: false,
@@ -113,8 +114,16 @@ export const motifFields = {
     fields: [
         
         {
+            id: 3,
+            label: "Label",
+            name: "label",
+            type: fieldTypes.TEXT,
+            required: true,
+            placeholder: "label"
+        },
+        {
             id: 0,
-            label: "Nom*",
+            label: "Nom",
             name: "nom",
             type: fieldTypes.TEXT,
             required: true,
@@ -122,11 +131,35 @@ export const motifFields = {
         },
         {
             id: 1,
-            label: "Couleur*",
+            label: "Couleur",
             name: "couleur",
-            type: fieldTypes.TEXT,
+            type: fieldTypes.COLOR,
             required: false,
             placeholder: "Couleur"
+        },
+        {
+            id: 5,
+            label: "Profession",
+            name: "idProfession",
+            type: fieldTypes.SELECT,
+            required: true,
+            placeholder: ""
+        },
+        {
+            id: 6,
+            label: "Speciality",
+            name: "idSpeciality",
+            type: fieldTypes.SELECT,
+            required: true,
+            placeholder: ""
+        },
+        {
+            id: 8,
+            label: "Temps Par defaut",
+            name: "default_time",
+            type: fieldTypes.NUMBER,
+            required: true,
+            placeholder: ""
         },
         {
             id: 2,
@@ -167,7 +200,7 @@ export const groupe_droitFields = {
         
         {
             id: 0,
-            label: "Titre*",
+            label: "Titre",
             name: "title",
             type: fieldTypes.TEXT,
             required: true,
@@ -175,7 +208,7 @@ export const groupe_droitFields = {
         },
         {
             id: 1,
-            label: "Description*",
+            label: "Description",
             name: "description",
             type: fieldTypes.TEXT,
             required: false,
@@ -183,7 +216,7 @@ export const groupe_droitFields = {
         },
         {
             id: 2,
-            label: "Actif*",
+            label: "Actif",
             name: "active",
             type: fieldTypes.RADIO,
             required: true,
@@ -196,7 +229,7 @@ export const practitionerFields = {
     fields: [
         {
             id: 1,
-            label: "Civilite*",
+            label: "Civilite",
             name: "civility",
             type: fieldTypes.SELECT,
             required: true,
@@ -228,7 +261,7 @@ export const practitionerFields = {
         },
         {
             id: 5,
-            label: "Nom*",
+            label: "Nom",
             name: "name",
             type: fieldTypes.TEXT,
             required: true,
@@ -236,7 +269,7 @@ export const practitionerFields = {
         },
         {
             id: 6,
-            label: "Prenom*",
+            label: "Prenom",
             name: "surname",
             type: fieldTypes.TEXT,
             required: true,
@@ -244,7 +277,7 @@ export const practitionerFields = {
         },
         {
             id: 7,
-            label: "Téléphone*",
+            label: "Téléphone",
             name: "phone",
             type: fieldTypes.TEXT,
             required: true,
@@ -252,7 +285,7 @@ export const practitionerFields = {
         },
         {
             id: 8,
-            label: "Email*",
+            label: "Email",
             name: "email",
             type: fieldTypes.EMAIL,
             required: true,
@@ -269,14 +302,14 @@ export const practitionerFields = {
         {
             id: 10,
             label: "Le groupe*",
-            name: "group",
+            name: "groups",
             type: fieldTypes.SELECT,
             required: true,
             placeholder: ""
         },
         {
             id: 11,
-            label: "Actif*",
+            label: "Actif",
             name: "active",
             type: fieldTypes.RADIO,
             required: true,
@@ -286,13 +319,13 @@ export const practitionerFields = {
             id: 12,
             label: "Date de fin d'activité",
             name: "practitionerFilter",
-            type: fieldTypes.TEXT,
+            type: fieldTypes.DATE,
             required: false,
             placeholder: ""
         },
         {
             id: 13,
-            label: "Est chirurgien*",
+            label: "Est chirurgien",
             name: "chirurgien",
             type: fieldTypes.RADIO,
             required: true,
@@ -318,7 +351,7 @@ export const practitionerFields = {
             id: 16,
             label: "Prix défaut",
             name: "defaultPrice",
-            type: fieldTypes.TEXT,
+            type: fieldTypes.NUMBER,
             required: false,
             placeholder: ""
         },
@@ -329,7 +362,7 @@ export const specialityFields = {
     fields: [
         {
             id: 0,
-            label: "Label de la spécialité*",
+            label: "Label de la spécialité",
             name: "label",
             type: fieldTypes.TEXT,
             required: true,
@@ -337,7 +370,7 @@ export const specialityFields = {
         },
         {
             id: 1,
-            label: "Alertes web*",
+            label: "Alertes web",
             name: "webAlert",
             type: fieldTypes.TEXT,
             required: true,
@@ -345,7 +378,7 @@ export const specialityFields = {
         },
         {
             id: 2,
-            label: "Alertes secretaire*",
+            label: "Alertes secretaire",
             name: "secretaryAlert",
             type: fieldTypes.TEXT,
             required: true,
@@ -353,7 +386,7 @@ export const specialityFields = {
         },
         {
             id: 3,
-            label: "active*",
+            label: "active",
             name: "active",
             type: fieldTypes.RADIO,
             required: true,
@@ -367,7 +400,7 @@ export const patientFields = {
     fields: [
         {
             id: 0,
-            label: "Civilite*",
+            label: "Civilite",
             name: "civility",
             type: fieldTypes.SELECT,
             required: true,
@@ -383,7 +416,7 @@ export const patientFields = {
         },
         {
             id: 4,
-            label: "Nom*",
+            label: "Nom",
             name: "name",
             type: fieldTypes.TEXT,
             required: true,
@@ -391,7 +424,7 @@ export const patientFields = {
         },
         {
             id: 5,
-            label: "Prenom*",
+            label: "Prenom",
             name: "surname",
             type: fieldTypes.TEXT,
             required: true,
@@ -399,7 +432,7 @@ export const patientFields = {
         },
         {
             id: 6,
-            label: "Email*",
+            label: "Email",
             name: "email",
             type: fieldTypes.EMAIL,
             required: true,
@@ -407,7 +440,7 @@ export const patientFields = {
         },
         {
             id: 9,
-            label: "Actif*",
+            label: "Actif",
             name: "active",
             type: fieldTypes.RADIO,
             required: true,
@@ -416,7 +449,7 @@ export const patientFields = {
         
         {
             id: 10,
-            label: "Telephone*",
+            label: "Telephone",
             name: "telephone",
             type: fieldTypes.TEXT,
             required: true,
@@ -424,7 +457,7 @@ export const patientFields = {
         },
         {
             id: 11,
-            label: "Birthdate*",
+            label: "Birthdate",
             name: "birthdate",
             type: fieldTypes.DATE,
             required: true,
@@ -432,7 +465,7 @@ export const patientFields = {
         },
         {
             id: 12,
-            label: "Password*",
+            label: "Password",
             name: "password",
             type: fieldTypes.PASSWORD,
             required: true,
@@ -470,7 +503,7 @@ export const lieuxFields = {
         },
         {
             id: 5,
-            label: "reference*",
+            label: "reference",
             name: "reference",
             type: fieldTypes.TEXT,
             required: true,
@@ -478,7 +511,7 @@ export const lieuxFields = {
         },
         {
             id: 6,
-            label: "region*",
+            label: "region",
             name: "region",
             type: fieldTypes.TEXT,
             required: true,
@@ -494,7 +527,7 @@ export const lieuxFields = {
         },
         {
             id: 8,
-            label: "ville*",
+            label: "ville",
             name: "ville",
             type: fieldTypes.TEXT,
             required: true,
@@ -547,7 +580,7 @@ export const structureFields = {
         },
         {
             id: 5,
-            label: "email*",
+            label: "email",
             name: "email",
             type: fieldTypes.EMAIL,
             required: true,
@@ -555,7 +588,7 @@ export const structureFields = {
         },
         {
             id: 6,
-            label: "raisonSocial*",
+            label: "raisonSocial",
             name: "raisonSocial",
             type: fieldTypes.TEXT,
             required: true,

@@ -96,8 +96,8 @@ export const DataTable = ({ object, loading, dataField, dataInfo, rowsPerPage= 5
     };
     
     const handleChangeRowsPerPage = (event) => {
-        onRowsPerChange(parseInt(event.target.value, 10));
-        onPageChange(0);
+      onRowsPerChange(parseInt(event.target.value, 10));
+      
     };   
     const deleteRessource = (id)=>{
       swal({
@@ -136,7 +136,7 @@ export const DataTable = ({ object, loading, dataField, dataInfo, rowsPerPage= 5
                     Gestion des {object ?? "Objet" + "(s)"}
                 </Typography>
             </Box>
-            <Paper sx={{ width: '100%' }} style={{ overflow: "scroll"}}>
+            <Paper sx={{ width: '100%', 'margin-bottom': "15px" }} style={{ overflow: "scroll"}}>
             {(dataField?.length > 0 && dataInfo.length > 0) &&
                 <Table stickyHeader sx={{ minWidth: 650, maxWidth: "100vw" }} aria-label="simple table">
                     <TableHead>
@@ -144,7 +144,7 @@ export const DataTable = ({ object, loading, dataField, dataInfo, rowsPerPage= 5
                             {dataField?.flatMap((column, i) => <TableCell key={i} sx={[styles.fs14, styles.tabHead]} align="center">{column?.label}</TableCell>)}
                         </TableRow>
                     </TableHead>
-                    <TableBody>
+                    <TableBody >
                         {(rowsPerPage > 0
                         ? dataInfo.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         : dataInfo
@@ -152,6 +152,12 @@ export const DataTable = ({ object, loading, dataField, dataInfo, rowsPerPage= 5
                             return (
                                 <TableRow key={`${i}${info._id}`}>
                                     {dataField.map((column, index) => {
+
+                                        if(column?.render){
+                                          return <TableCell sx={styles.fs14} align='center'>
+                                              <column.render row={info} ></column.render>
+                                            </TableCell>
+                                        }
                                         return (
                                             <>
                                                 {column?.label === "Actions" ?

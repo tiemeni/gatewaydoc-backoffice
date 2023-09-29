@@ -11,6 +11,7 @@ const CustomGeoInput = ({
   placeholder,
   value,
   onChange,
+  required = false,
   initialising = false
 }) => {
   const [localvalue, setLocalValue] = useState("{}");
@@ -41,7 +42,7 @@ const CustomGeoInput = ({
   },[longitude,latitude])
   return (
     <Box sx={styles.inputContainer}>
-      <Typography sx={styles.label}>{label}</Typography>
+      <Typography sx={styles.label}>{label} { required || register.required ? "*": ""}</Typography>
       {initialising? <Skeleton sx={styles.input} style={{ height: "auto", minHeight: "1.4375em", height: "60px" }} /> :<Box> <input type="text" {...register} hidden value={localvalue} />
       <TextField
         type={'number'}

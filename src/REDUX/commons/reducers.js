@@ -22,6 +22,18 @@ const CommonReducer = (state = initialState, action) => {
                 showPFRDV: action.data,
                 event: action.event
             }
+        case types.SHOW_MEDP:
+            return {
+                ...state,
+                showEDP: action.data,
+                passwordUser: action.passwordUser                
+            }
+        case types.SHOW_MFP:
+            return {
+                ...state,
+                showFP: action.data,
+                patient: action.patient                
+            }
         case types.SHOW_DRDV:
             return {
                 ...state,

@@ -3,6 +3,7 @@ import { Colors } from "../../../Constants/colors";
 export const styles = {
     fs14: {
         fontSize: 15,
+        fontWeight: 400,
         textAlign: "center",
     },
     sectionTitle: {

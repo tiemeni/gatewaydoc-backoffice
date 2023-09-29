@@ -9,6 +9,8 @@ import action from "../../../REDUX/motifs/actions";
 import { getSpecialities } from "../../../services/specialities";
 import { getAllProfessions } from "../../../services/professions"
 import { save  } from "../../../REDUX/professions/actions"
+import {getProfessions, getAllSpecialities, getLieux } from '../../loaders';
+import transfromer from "../../../Utils/transformers/profession";
 
 const getSpe = async (dispatch, state) => {
 
@@ -28,16 +30,16 @@ const getProf = async (dispatch, state) => {
 
 const motif = {
     related: {
-      loaders: [getSpe, getProf],
-      selector: (state) => [state.Groups.groups,state.Common.civilities,state.Specialities.specialites, state.Professions.data],
-      getRelatedValues: ([groupList, civList, specList, getProfList],fields=[]) => {
+      loaders: [getProfessions, getAllSpecialities, getLieux],
+      selector: (state) => [state.Professions.data, state.Specialities.specialites, state.Lieux.data],
+      getRelatedValues: ([ jobs, fonctions, lieux],fields=[]) => {
         // Attribuer les valeurs récupérées
             let results = [...fields]
             results.forEach((field) => {
-              if (field.name === "groups") field.data = groupList;
-              if (field.name === "civility") field.data = civList;
-              if (field.name === "idSpeciality") field.data = specList;
-              if (field.name === "idProfession") field.data = getProfList;
+             
+              if(field.name === "idProfession") field.data = jobs? jobs.flatMap(transfromer.toListItem) :null;
+              if (field.name === "idSpeciality") field.data = fonctions;
+              if (field.name === "idCentre") field.data = lieux;
             });
 
           return results;

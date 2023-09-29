@@ -12,6 +12,8 @@ import CalendarReducer from "../calendar/reducers";
 import PrdvReducer from "../prgv/reducers";
 import CivilityReducer from "../civilities/reducers"
 import StructutresReducers from "../structures/reducers";
+import FiltersReducer from "../filters/reducers";
+import PaginationsReducer from "../paginations/reducers";
 
 const rootReducer = combineReducers({
     Common: CommonReducer,
@@ -26,7 +28,9 @@ const rootReducer = combineReducers({
     Professions: ProfessionsReducer,
     Calendar: CalendarReducer,
     Prdv: PrdvReducer,
-    Structure: StructutresReducers
+    Structure: StructutresReducers,
+    Filters: FiltersReducer,
+    Paginations: PaginationsReducer,
 })
 
 export default rootReducer;

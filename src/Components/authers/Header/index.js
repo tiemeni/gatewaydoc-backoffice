@@ -12,14 +12,22 @@ import MenuListComposition from '../Menue';
 import { Link } from 'react-router-dom';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { useDispatch, useSelector } from 'react-redux';
-import { showPRDV, showPFRDV } from '../../../REDUX/commons/actions';
+import { showPRDV, showPFRDV, showMEDP, showMFP } from '../../../REDUX/commons/actions';
 import ModalComponent from '../ModalComponent';
 import PriseRdvComponent from '../PriseRdvComponentWrapper';
 import LogOut from '../LogOut'
+import PassordEditComponent from '../PassordEditComponent';
+import dayjs from "dayjs";
+import FichePatientComponentWrapper from '../FichePatientComponentWrapper';
 
 function Header() {
     const dispatch = useDispatch()
     const showRDV = useSelector(state => state.Common.showPRDV);
+    const showEDP = useSelector(state => state.Common.showEDP);
+    const passwordUser = useSelector(state => state.Common.passwordUser);
+    const showFP = useSelector(state => state.Common.showFP);
+    const patient = useSelector(state => state.Common.patient);
+   
     return (
         <Box
             style={{
@@ -31,6 +39,21 @@ function Header() {
                         title={"Prise de Rendez-vous"}
                         contentComponent={<PriseRdvComponent />}
                         onClose={() => dispatch(showPRDV(false))}
+                    />}
+                {showFP &&
+                    <ModalComponent
+                        title={`Fiche du patient: ${patient?.civility
+                        } ${patient?.name} Ne le ${dayjs(patient?.birthdate).format('DD/MM/YYYY')
+                        } ${dayjs().year() - dayjs(patient?.birthdate).year()  } ans`}
+                        contentComponent={<FichePatientComponentWrapper />}
+                        onClose={() => dispatch(showMFP(false))}
+                    />}
+                {showEDP &&
+                    <ModalComponent
+                        custumStyle={{ height: 'auto' }}
+                        title={`Modification du password de ${passwordUser?.surname                        }`}
+                        contentComponent={<PassordEditComponent />}
+                        onClose={() => dispatch(showMEDP(false))}
                     />}
             <Box style={{ ...styles.menu1, alignItems: "center" }}>
                 <Box style={{ width: "30%", display: "flex", justifyContent: "center", fontWeight: 'bold' }}>

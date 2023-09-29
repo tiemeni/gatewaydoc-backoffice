@@ -48,12 +48,22 @@ function CreateLayout({
 
           
           // { ...data, password: generatePassword() };
-          const result = await submit(payload);
-          setLoading(false);
-          if (result.success !== true){
-            toast.error(result.message);  
-            return;
+          try{
+            const result = await submit(payload);
+            if (result.success !== true){
+              toast.error(result.message);  
+              setLoading(false);
+              return;
+            }
+            
+          }catch(e){
+            toast.error(e?.message);
+            setError(e)
+            setLoading(false);
+            return
           }
+          
+
           
           if(settings.redirect){
             
@@ -69,14 +79,18 @@ function CreateLayout({
           
         } else {
           //update user
-          const result = await submit(payload, objectId);
-          setLoading(false);
-          
-          if (result.success !== true) { 
-            toast.error(result.message)
-            return;
+
+          try{
+            const result = await submit(payload, objectId);
+            if (result.success !== true){
+              toast.error(result.message);  
+              setLoading(false);
+              return;
+            }
+            
+          }catch(e){
+            setError(e)
           }
-          
           toast.success("Mise a jour reussie");
           history(`/content/ressources/${ressource.route}`);
         }

@@ -26,16 +26,16 @@ export const createMotif = async (payload) => {
   try {
     const res = await fetch(BASE_URL + `/motif/register/?idCentre=${app.idCentre}`, {
       method: 'POST',
-      body: JSON.stringify(payload),
+      body: JSON.stringify({...payload, idCentre: app.idCentre}),
       headers: {
         "Content-Type": "application/json"
       }
     })
     const data = await res.json();
-    return { status: true, data };
+    return { success: true, ...data };
   } catch (err) {
     console.error(err)
-    return { status: false, error: err }
+    return { success: false, ...err, error: err }
   }
 }
 
@@ -49,10 +49,10 @@ export const editMotif = async (payload, id) => {
       },
     })
     const data = await res.json();
-    return { status: true, data }
+    return { status: true, data, ...data }
   } catch (err) {
     console.error(err)
-    return { status: false, error: err }
+    return { status: false,...err, error: err }
   }
 }
 
@@ -70,9 +70,9 @@ export const motifsByProfession = async (profession)=>{
       },
   })
     const data = response.data;
-    return { status: true, data }
+    return { status: true, data, ...data }
   }catch(e){
-    return { status: false, error: e }
+    return { status: false, error: e, ...e }
   }
   
 }

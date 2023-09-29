@@ -14,6 +14,23 @@ export const showPFRDV = (data, event=null) => {
         event
     }
 }
+export const showMEDP = (data, passwordUser=null) => {
+  
+    return {
+        type: types.SHOW_MEDP,
+        data,
+        passwordUser
+    }
+}
+
+export const showMFP = (data, patient=null) => {
+  
+    return {
+        type: types.SHOW_MFP,
+        data,
+        patient
+    }
+}
 export const showDRDV = (data, rdv=null) => {
     return {
         type: types.SHOW_DRDV,
