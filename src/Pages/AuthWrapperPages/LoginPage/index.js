@@ -28,10 +28,10 @@ const LoginPage = ({ idc }) => {
         setError('')
         setLoading(true)
         const result = await signUserIn({ email: login, password: mdp, idc })
-        if (result.data?.success) {
+        if (result?.success) {
             setLoading(false)
-            dispatch(setUser({ ...result.data.data.user }))
-            localStorage.setItem("acces_bo_token", result.data.data.access_token)
+            dispatch(setUser({ ...result?.data.user }))
+            localStorage.setItem("acces_bo_token", result?.data.access_token)
             window.location = "/content"
         } else {
             setLoading(false)
